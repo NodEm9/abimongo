@@ -1,0 +1,57 @@
+[**@abimongo/core v1.4.14**](../README.md)
+
+***
+
+[@abimongo/core](../README.md) / createModel
+
+# Function: createModel()
+
+> **createModel**\<`T`\>(`params`): [`AbimongoModel`](../classes/AbimongoModel.md)\<`T`\>
+
+Defined in: [src/utils/builders/createModel.ts:44](https://github.com/NodEm9/abimongo_core/blob/98b677ee8a9ea1c6d597cffd0eb0b14c8bf66ab5/src/utils/builders/createModel.ts#L44)
+
+Creates a new model for a MongoDB collection.
+In Multi-Tenancy mode, the model will be created for the specified tenant.
+If no tenant ID is provided, the model will be created for the default tenant. 
+Note: Once a the applyMultiTenancy() middleware is applied to a connection to register tenant/s, the tenantId will be automatically set for all models created after that.
+This allows you to create models for different tenants without having to specify the tenantId each time. Then a tenantId or db instance or client instance is required to create a model.
+
+## Type Parameters
+
+### T
+
+`T` *extends* [`Document`](../type-aliases/Document.md) = `any`
+
+The type of the document in the collection.
+
+## Parameters
+
+### params
+
+`CreateModelParams`\<`T`\>
+
+The parameters for creating the model.
+
+## Returns
+
+[`AbimongoModel`](../classes/AbimongoModel.md)\<`T`\>
+
+The created model.
+
+## Example
+
+```ts
+const userSchema = createSchema({
+  name: { type: String, required: true },
+  age: { type: Number, required: true },
+  email: { type: String, required: true },
+});
+
+const userModel = createModel({
+  name: 'users',
+  schema: userSchema,
+  tenantId: 'tenant1', // Optional tenant ID for multi-tenancy
+  db: dbInstance, // Your MongoDB Db instance
+  client: mongoClient, // Your MongoDB Client instance
+});
+```

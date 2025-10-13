@@ -1,0 +1,13 @@
+{
+  "entryPoints": ["./src/index.ts"],
+  "out": "website/api",
+  "tsconfig": "./tsconfig.json",
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "includeVersion": true,
+  "theme": "default",
+	"readme": "none",
+  "plugin": ["typedoc-plugin-markdown"],
+  "hideGenerator": true,
+  "exclude": ["**/node_modules/**", "**/website/**", "**/tests/**", "**/*.spec.ts"]
+}

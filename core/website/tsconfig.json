@@ -1,0 +1,28 @@
+{
+  // This file is not used in compilation. It is here just for a nice editor experience.
+  "extends": "@docusaurus/tsconfig",
+  "compilerOptions": {
+        "target": "ES2020",
+    "lib": ["DOM", "DOM.Iterable", "ES2020"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".", 
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "@site/*": ["./*"],
+      "@theme/*": ["./theme/*"],        // if you use swizzling
+      "@docusaurus/*": ["./node_modules/@docusaurus/*"]
+    }
+  },
+  "exclude": [".docusaurus", "build"],
+}
+
+

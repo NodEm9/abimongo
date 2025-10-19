@@ -36,7 +36,7 @@ ObjectId.prototype.toJSON = function objectIdToJSON() {
 // if an object is an ObjectId
 ObjectId.prototype[objectIdSymbol] = true;
 
-export function isObjectId(id: any): id is ObjectId {
+export function isObjectId(id: ObjectId): id is ObjectId {
 	if (id == null) return false;
 	if (typeof id !== "object") return false;
 	if (id.constructor !== ObjectId) return false;
@@ -49,14 +49,19 @@ export function castId(inputId?: ObjectId): ObjectId {
 	if (typeof inputId === "string") {
 		const _id = inputId;
 
+		// Validate the string format if it's a string and
+		// equal length (24) to an ObjectId hex string and 
+		// convert to ObjectId
 		if (!isValidObjectId(_id)) {
 			throw new Error("Invalid ObjectId format in castId");
 		}
-		return  ObjectId.createFromHexString(_id);
+
+		if (!isObjectId(inputId as ObjectId)) {
+			throw new Error("Invalid ObjectId in castId");
+		}
+		return ObjectId.createFromHexString(_id);
 	}
-	if (!isObjectId(inputId) ) {
-		throw new Error("Invalid ObjectId in castId");
-	}
+
 	return inputId as ObjectId;
 }
 

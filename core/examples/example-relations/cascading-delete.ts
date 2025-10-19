@@ -1,9 +1,10 @@
 
 import { dbDriver } from "../dbConfig";
-import { castId, ObjectId } from "../../src/lib/helpers";
-import { AbimongoModel } from "../../src/lib/abimongoModel/AbimongoModel";
-import { AbimongoSchema } from "../../src/lib/schema/schema";
-import { Document, SchemaType } from "../../src/lib/types";
+import { castId, } from "../../src/utils";
+import { AbimongoModel, AbimongoSchema } from "../../src/lib-core";
+import { Document, SchemaType } from "../../src/types";
+import { ObjectId } from "mongodb";
+import { applyMTenant } from "../index";
 
 // Define the user interface
 interface UserDocument extends Document {
@@ -64,20 +65,34 @@ export async function main() {
 	const postCollection = db.getCollection<PostDocument>('posts');
 	const commentCollection = db.getCollection<CommentDocument>('comments');
 
+	// await applyMTenant(); // Initialize multi-tenancy
+
 	// Add relationship to the post schema
 	postSchema.addRelationship('comments', 'postId');
 
 	const tenantId = 'tenantId';
 
 	// Initialize models
-	const userModel = new AbimongoModel<UserDocument>(tenantId, `${userCollection}`, db.client, userSchema);
-	const postModel = new AbimongoModel<PostDocument>(tenantId, `${postCollection}`,db.client, postSchema);
-	const commentModel = new AbimongoModel<CommentDocument>(tenantId, `${commentCollection}`, db.client, commentSchema);
+	const userModel = new AbimongoModel<UserDocument>({
+		collectionName: `${userCollection.collectionName}`,
+		schema: userSchema,
+		// tenantId,
+	});
+	const postModel = new AbimongoModel<PostDocument>({
+		collectionName: `${postCollection.collectionName}`,
+		schema: postSchema,
+		// tenantId,
+	});
+	const commentModel = new AbimongoModel<CommentDocument>({
+		collectionName: `${commentCollection.collectionName}`,
+		schema: commentSchema,
+		// tenantId, 
+	});
 
 	// Create a user
 	const user = await userModel.create({ name: 'John Doe', posts: [], comments: [] });
 
-	const userId = castId(user._id);
+	const userId = castId(user._id!);
 
 	// Create a post
 	const post = await postModel.create({ authorId: userId, title: 'Hello World', content: 'This is my first post' });

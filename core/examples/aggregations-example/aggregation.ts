@@ -1,9 +1,7 @@
 import { dbConfig, dbDriver } from "../dbConfig";
 import {createModel, createSchema, castId } from "../../src/utils";
-import { AbimongoModel } from "../../src/core/AbimongoModelFactory";
-import { AbimongoSchema } from "../../src/core/AbimongoSchema";
+import { AbimongoClient, AbimongoModel, AbimongoSchema } from "../../src/lib-core";
 import { Document, SchemaType } from "../../src/types";
-import { AbimongoClient } from '../../src/core/AbimongoClient';
 import { ObjectId } from "mongodb";
 import { applyMultiTenancy } from "../../src/tanancy/applyMultiTenancy";
 import express from 'express';
@@ -11,7 +9,7 @@ import { applyMTenant } from "../index";
 
 
 const app = express();
-app.use(express.json());
+app.use(express.json() as express.Express);
 
 interface UserDocument extends Document {
 	_id?: ObjectId;
@@ -81,7 +79,8 @@ export async function main() {
 	if (!user._id) {
 		throw new Error("User ID is undefined");
 	}
-	const userId = castId(user._id);
+
+	const userId = castId(user._id!);
 	const order = await orderModel.create({ product: 'Laptop', amount: 750, userId: userId });
 	const order2 = await orderModel.create({ product: 'Phone', amount: 1500, userId: userId });
 

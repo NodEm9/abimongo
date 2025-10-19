@@ -1,12 +1,10 @@
 import 'dotenv/config';
-import { AbimongoModel } from "../../src/core/AbimongoModelFactory";
-import { AbimongoSchema } from "../../src/core/AbimongoSchema";
+import {AbimongoClient, AbimongoModel,AbimongoSchema } from "../../src/lib-core";
 import { dbDriver, dbConfig } from "../dbConfig";
 import { Document } from "../../src/types";
 import { createSchema } from "../../src/utils"
 import { createModel } from "../../src/utils";
 import { logger } from '../../src/config';
-import { AbimongoClient } from '../../src/core';
 import { gc } from '../index';
 import { GCSettings } from '../../src/decorators/gcSettings';
 
@@ -129,8 +127,7 @@ async function setup() {
     deletedAt: new Date(Date.now() + 1000 * 120), // 2 minutes ago
   });
 
-
-  console.log('[Test] Inserted expired soft-deleted user');
+  logger?.info('[Test] Inserted expired soft-deleted user');
 
   // Run GC
   // const result = await userModel.startAutoGC();

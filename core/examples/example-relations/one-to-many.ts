@@ -1,10 +1,8 @@
-import { AbimongoSchema } from "../../src/lib/schema/schema";
-import { castId, ObjectId } from "../../src/lib/helpers";
-import { AbimongoModel } from "../../src/lib/abimongoModel/AbimongoModel";
+import { AbimongoClient, AbimongoSchema, AbimongoModel } from "../../src/lib-core";
+import { castId } from "../../src/utils";
 import { dbDriver } from "../dbConfig";
-import { SchemaType } from "../../src/lib/types";
-import { Document } from "../../src/lib/helpers";
-import { AbimongoClient } from "../../src/lib/core/AbimongoClient";
+import { SchemaType, Document } from "../../src/types";
+import { ObjectId } from "mongodb";
 
 
 interface User extends Document {

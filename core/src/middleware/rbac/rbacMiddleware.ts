@@ -1,4 +1,4 @@
-import { redis } from '../../redis-manager/redisClient';
+import { redis } from '../../redis-manager';
 import { Role, Permission, rolePermissions } from './rbacTypes';
 
 declare module "express-serve-static-core" {

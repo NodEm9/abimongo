@@ -4,14 +4,14 @@ import express from 'express';
 // import cors from 'cors';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { AbimongoGraphQL } from "../../src/graphql/AbimongoGraphQL";
-import { AbimongoSchema } from "../../src/core/AbimongoSchema";
-import { AbimongoModel } from "../../src/core/AbimongoModelFactory";
+import { AbimongoSchema, AbimongoModel } from "../../src/lib-core";
 import { dbDriver } from "../../examples/dbConfig";
 import { createServer } from 'http';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 // import { logger } from "../example-1/router";
 // import { logger } from '../../src/core';
-// import { logger } from '../../src/config';
+import { logger } from '../../src/config';
+
 import { AbimongoGC } from '../../src/gc/AbimongoGC';
 
 
@@ -148,7 +148,7 @@ main().then(() => console.info('Run successful'))
 	.catch((error) => console.error(error))
 
 // new Promise<void>(resolve => httpServer.listen({ port: 4000 }, resolve));
-console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+logger.log(`🚀 Server ready at http://localhost:4000/graphql`);
 
 // // // server.assertStarted('expressMiddleware()');
 

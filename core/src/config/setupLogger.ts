@@ -1,10 +1,11 @@
-import { consoleTransport, Logger } from '@abimongo/logger';
+import { consoleTransport, Logger, setupLogger } from '@abimongo/logger';
 import {
   bufferedTransporter,
+  elasticTransport,
 } from '../utils';
 
 
-Logger.initialize({
+const logger = setupLogger({
   formatOptions: {
     colorize: true,
     json: false,
@@ -17,6 +18,7 @@ Logger.initialize({
     },
     consoleTransport(true),
     bufferedTransporter,
+    elasticTransport,
   ],
   enrichMetadata: () => ({
     timestamp: new Date().toISOString(),
@@ -33,26 +35,25 @@ Logger.initialize({
   hooks: {
     onLog: (entry) => {
       console.log(`[ALERT] ${entry.message}`);
-      // if (entry.level === 'error') {
-      //   console.log(`[ALERT] ${entry.message}`);
-      //   bufferedTransporter.stop();
-      // }
+      return entry;
     },
     onError: (err, context) => {
       console.error('Logging error occurred:', err, context);
       bufferedTransporter.stop();
+      return false;
     },
   },
   
 });
 
-const logger = Logger.instance;
+// const logger = Logger.instance;
 
 export { logger };
-// const debugMode = process.env.DEBUG === 'true' || false;
-// if (debugMode) {
-//   Logger.instance.debug('Debug mode is enabled.');
-//   Logger.instance.info('Debug mode is enabled. Log level set to debug.');
-// }
+  
+const debugMode = process.env.DEBUG === 'true' || false;
+if (debugMode) {
+  logger.debug('Debug mode is enabled.');
+  logger.info('Debug mode is enabled. Log level set to debug.');
+}
 
 

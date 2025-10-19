@@ -3,7 +3,8 @@ import {
 	createElasticTransport,
 	createLokiTransport,
 	createResilientTransporter,
-	createRotatingFileTransporter,   
+	createRotatingFileTransporter,  
+	FileTransporter,
 } from '@abimongo/logger'; 
 
 
@@ -14,6 +15,8 @@ import {
  * It includes a rotating file transporter, a buffered transporter, and resilient transporters for Elasticsearch and Loki.
  * It also includes a function to shutdown the logger gracefully.
  */
+
+const fileTransport = new FileTransporter('logs/abimongo.log');
 
 /**
  * Creates a rotating file transporter for logging.
@@ -33,7 +36,6 @@ const rotatingTransporter = createRotatingFileTransporter({
 	backupCount: 5,
 })
 
-// const fTransporter = createFileTransporter('logs/abimongo.log')
 
 /**
  * Creates a resilient transporter that retries failed log writes with exponential backoff.
@@ -44,8 +46,7 @@ const rotatingTransporter = createRotatingFileTransporter({
  * const resilientLogger = createResilientTransporter(rotatingTransporter);
  * 
  */
-export const bufferedTransporter = new BufferedTransporter(
-	rotatingTransporter, {
+export const bufferedTransporter = new BufferedTransporter(rotatingTransporter, {
 	flushInterval: 5000,
 	flushSize: 10,
 });

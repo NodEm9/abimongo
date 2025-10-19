@@ -16,7 +16,7 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import { applyMultiTenancy } from '../src/tanancy/applyMultiTenancy'
 import { getTenantModel } from '../src/tanancy/TenantModelResolver';
 // import { logger } from './example-1/router';
-// import { logger } from '../src/config';
+import { logger } from '../src/config';
 // import { consoleTransport } from '@abimongo/abimongo-logger'
 import { AbimongoGC } from '../src/gc/AbimongoGC';
 // import {createLogger} from '../src/loggers/createLogger';
@@ -74,7 +74,7 @@ export const applyMTenant = async () => {
 }
 
 applyMTenant().then((tenants) => {
-	console.log(`Multi-tenancy applied successfully! Tenants: ${Object.keys(dbConfig.tenantUri).join(', ')} `,);
+	logger?.info(`Multi-tenancy applied successfully! Tenants: ${Object.keys(dbConfig.tenantUri).join(', ')} `,);
 	return tenants;
 }).catch((err: any) => {
 	console.log(err);
@@ -131,7 +131,7 @@ app.post('/post', async (req, res) => {
 		schema: postSchema,
 		tenantId: dbConfig.tenantId['tenant-a']!,
 	});
-	console.log('Tenant model:', tenantModel.name);
+logger.info('Tenant model:', tenantModel.name);
 	if (!tenantModel) {
 		console.error('Tenant model not found');
 		res.status(500).json({ error: 'Tenant model not found' });

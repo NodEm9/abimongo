@@ -1,4 +1,4 @@
-import { Abimongo, abimongo, AbimongoClient } from "../src/core/AbimongoClient";
+import { Abimongo, abimongo, AbimongoClient } from "../src/lib-core";
 import "dotenv/config";
 // import { logger } from "./example-1/router";
 // import { logger } from "../src/config";

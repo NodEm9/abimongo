@@ -3,6 +3,7 @@ export const MAIN_TS_CONTENT = `import { AbimongoBootstrap, initializeMultiTenan
 import { createServer } from 'http'; // or Fastify, Hapi, etc.
 import { ApolloServer } from '@apollo/server'; // Optional
 
+// TODO: Move the bootstrap logic to the core/ folder and import it here
 
 async function start() {
   const app = new AbimongoBootstrap(); // Will look for abimongo.config.json by default

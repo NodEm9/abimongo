@@ -23,14 +23,17 @@ export class MetricsTracker {
 
   public trackLog(): void {
     this.totalLogs++;
+    // console.log('[metric] log incremented:', this.totalLogs);
   }
 
   public trackFlush(): void {
     this.flushedBuffers++;
+    // console.log('[metric] flush incremented:', this.flushedBuffers);
   }
 
   public trackRotation(): void {
     this.rotations++;
+    // console.log('[metric] rotation incremented:', this.rotations);
   }
 
   public start(interval = 60_000): void {

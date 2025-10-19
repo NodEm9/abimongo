@@ -27,20 +27,22 @@ export function setupLogger(
  * Logger.initialize(YourLoggerConfig);
  */
 export class Logger {
-  private static logger: ILogger;
-  static get instance(): ILogger {
-    if (!this.logger) {
-      throw new Error('Logger not initialized. Call Logger.initialize(config) first.');
+  // private static logger: ILogger;
+  static instance: ILogger;
+
+  constructor() {
+    // Prevent direct instantiation
+    if (Logger.instance) {
+      throw new Error('Use Logger.initialize(config) to get the logger instance.');
     }
-    return this.logger;
   }
-  constructor() {}
 
   // Additional methods can be added as needed
   static initialize(config: LoggerConfig) {
     if (process.env.NODE_ENV !== 'test') {
-      this.logger = setupLogger({ ...config });
+      this.instance = setupLogger({ ...config });
     }
-    return this.instance;
+    return this.instance 
   }
 };
+

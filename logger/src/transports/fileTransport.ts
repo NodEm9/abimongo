@@ -4,7 +4,9 @@ import { now } from '../utils';
 import { Transporter, LogLevel, LogEntry } from '../types';
 
 export class FileTransporter implements Transporter {
-  constructor(public stream: fs.WriteStream) { }
+  constructor(public stream: fs.WriteStream) { 
+    this.stream = stream;
+  }
   write(message: string): Promise<void> {
     const formattedLog = formatLogMsg({level: 'info', message, timestamp: now(), meta: []}); ;
     this.stream.write(formattedLog + '\n');

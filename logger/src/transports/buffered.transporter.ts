@@ -9,14 +9,13 @@ type BufferedLogEntry = {
   meta: any[];
 };
 
-
 export class BufferedTransporter implements Transporter {
   private buffer: BufferedLogEntry[] = [];
   private readonly flushInterval: number;
   private readonly flushSize: number;
   private readonly transporter: Transporter;
   private timer?: NodeJS.Timeout;
-  // private metrics = new MetricsTracker();
+  private metrics = new MetricsTracker();
 
   constructor(
     transporter: Transporter, options?: {
@@ -27,6 +26,10 @@ export class BufferedTransporter implements Transporter {
     this.flushInterval = options?.flushInterval || 5000;
     this.flushSize = options?.flushSize || 10;
     if (process.env.NODE_ENV !== 'test') {
+      if (this.metrics) {
+        this.metrics.start();
+        this.metrics.getSnapshot();
+      }
       // this.metrics.start(this.flushInterval);
       this.startAutoFlush();
     }
@@ -39,8 +42,10 @@ export class BufferedTransporter implements Transporter {
       level: level || 'info',
       meta: meta || [],
     });
-    // this.metrics.trackLog();
-    // this.metrics.trackRotation();
+    if (this.metrics) {
+      this.metrics.trackLog();
+      this.metrics.trackRotation();
+    }
 
     if (this.buffer.length >= this.flushSize) {
       this.flush();
@@ -68,7 +73,9 @@ export class BufferedTransporter implements Transporter {
     this.timer = registerInterval(setInterval(
       () => this.flush().catch(console.error),
       this.flushInterval));
-    // this.metrics.trackFlush();
+    if(this.metrics) {
+      this.metrics.trackFlush();
+    }
   }
 
   public async stop() {

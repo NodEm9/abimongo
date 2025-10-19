@@ -38,7 +38,6 @@ export function createLogger(config: LoggerConfig, abimongoConfig?: AbimongoConf
 			}
 		}
 	} else {
-		metrics.stop(); // Disable metrics tracking
 		config.enableMetrics.enabled = false;
 	}
 
@@ -142,10 +141,9 @@ export function createLogger(config: LoggerConfig, abimongoConfig?: AbimongoConf
 				return;
 			}
 
+			hooks?.onLog?.(metadata);
 
 			config.logger?.[levelKey as keyof ILogger]?.(output, ...meta, enriched, colorize);
-			writeToTransports(levelKey, output);
-			hooks?.onLog?.(metadata);
 			// Track metrics
 			if (!config.enableMetrics?.enabled) {
 				metrics.start(); // Ensure metrics tracking is active
@@ -153,15 +151,16 @@ export function createLogger(config: LoggerConfig, abimongoConfig?: AbimongoConf
 				metrics.trackFlush()
 				metrics.trackRotation();
 			} 
-			metrics.stop()
+
+			writeToTransports(levelKey, output);
 		};
 	};
 
-	process.on('exit', async () => {
-		await metrics.stop();
-		console.log('Metrics tracking stopped on exit.');
-		console.log('Logger closed and all transports flushed.');
-	});
+	// process.on('exit', async () => {
+	// 	await metrics.stop();
+	// 	console.log('Metrics tracking stopped on exit.');
+	// 	console.log('Logger closed and all transports flushed.');
+	// });
 
 	return {
 		debug: log('debug'),

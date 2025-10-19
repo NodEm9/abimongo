@@ -6,8 +6,6 @@ import { pipeline } from 'stream';
 import { setInterval, clearInterval } from 'timers';
 import { LogLevel } from '../types';
 import { clearAllTimers, MetricsTracker, registerInterval } from '../utils';
-import chalk from 'chalk';
-
 
 
 const gzip = promisify(zlib.gzip);
@@ -28,7 +26,7 @@ export class AdvancedRollingFileTransporter {
   private lastRolledAt: Date;
   private flushTimer?: NodeJS.Timeout;
   private buffer: string[] = [];
-  // private metrics = new MetricsTracker();
+  private metrics = new MetricsTracker();
 
   constructor(private options: RollingFileOptions) {
     this.options.maxSize = this.options.maxSize || 5 * 1024 * 1024;
@@ -40,7 +38,9 @@ export class AdvancedRollingFileTransporter {
     this.lastRolledAt = new Date();
     this.currentStream = this.createWriteStream();
     if (process.env.NODE_ENV !== 'test') {
-      // this.metrics.start();
+      // if(this.metrics.getSnapshot()) {
+      this.metrics.start();
+      // }
       this.startFlusher();
     }
   }
@@ -77,9 +77,9 @@ export class AdvancedRollingFileTransporter {
       const rotatedFile = `${filePath}.${suffix}`;
 
       fs.renameSync(filePath, rotatedFile);
-      // if (process.env.NODE_ENV !== 'test') {
-      //   this.metrics.trackRotation();
-      // }
+      if (process.env.NODE_ENV !== 'test') {
+        this.metrics.trackRotation();
+      }
 
       if (this.options.compress) {
         const compressed = `${rotatedFile}.gz`;
@@ -136,14 +136,15 @@ export class AdvancedRollingFileTransporter {
     if (this.flushTimer) clearInterval(this.flushTimer);
     this.flushTimer = registerInterval(setInterval(() => {
       this.flush();
+      this.metrics.trackFlush();
     }, this.options.flushInterval));
   }
 
   public async write(message: string, _level?: LogLevel): Promise<void> {
     this.buffer.push(message);
     this.currentSize += Buffer.byteLength(message);
-    // this.metrics.trackLog();
-    // this.metrics.trackRotation();
+    this.metrics.trackLog();
+    this.metrics.trackRotation();
 
     // Check if the total size of the buffer exceeds the maxSize limit
     // This is to ensure we don't exceed the maxSize limit before flushing
@@ -152,6 +153,8 @@ export class AdvancedRollingFileTransporter {
       console.warn('⚠️ Buffer size exceeded maxSize, flushing immediately');
       await this.flush(); // ✅ triggers flush counter
       // this.metrics.trackFlush();
+      // this.metrics.trackLog();
+      // this.metrics.trackRotation();
     };
   }
 
@@ -163,6 +166,8 @@ export class AdvancedRollingFileTransporter {
 
     if (process.env.NODE_ENV !== 'test') {
       await this.rotateIfNeeded();
+      this.metrics.trackLog();
+      this.metrics.trackRotation();
     }
 
     // if (this.currentStream.destroyed) {
@@ -170,35 +175,27 @@ export class AdvancedRollingFileTransporter {
     //   this.currentStream = this.createWriteStream();
     // }
 
-    if (this.options.compress === true) {
+    if (this.options.compress) {
       try {
         const compressed = await gzip(Buffer.from(raw + '\n'));
         this.currentStream.write(compressed);
         this.currentSize += compressed.length;
-        // this.metrics.trackLog();
-        // this.metrics.trackRotation();
-        // this.metrics.trackFlush();
-
-        // console.log('📦 Compressed and wrote log entry');
+        this.metrics.trackFlush();
+        console.log('📦 Compressed and wrote log entry');
       } catch (err: any) {
-        // this.metrics.trackLog();
-        // this.metrics.trackRotation();
-        // this.metrics.trackFlush();
+        this.metrics.trackFlush();
         console.warn('⚠️ Compression failed. Writing uncompressed:', err.message);
-        // this.currentStream.write(raw + '\n');
-        // this.currentSize += Buffer.byteLength(raw + '\n');
-
+        this.currentStream.write(raw + '\n');
+        this.currentSize += Buffer.byteLength(raw + '\n');
+        console.log('📦 Wrote log entry without compression');
       }
-    }
-    else {
+    } else {
       this.currentStream.write(raw + '\n');
       this.currentSize += Buffer.byteLength(raw + '\n');
-      // this.metrics.trackLog();
-      // this.metrics.trackRotation();
-      // this.metrics.trackFlush();
-      // console.log('📦 Wrote log entry without compression');
+      this.metrics.trackFlush();
+      console.log('📦 Wrote log entry without compression');
     }
-  };
+  }
 
   public ensureDirectoryExists(): void {
     const dir = path.dirname(this.options.filename);
@@ -215,7 +212,7 @@ export class AdvancedRollingFileTransporter {
     if (this.flushTimer) clearInterval(this.flushTimer);
     this.flush();
     this.currentStream.end();
-    // this.metrics.stop();
+    this.metrics.stop();
     await clearAllTimers();
   }
 }

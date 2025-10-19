@@ -1,7 +1,5 @@
-import { AbimongoModel } from "../core/AbimongoModelFactory";
+import { AbimongoModel, AbimongoSchema,AbimongoClient  } from "../lib-core";
 import { ClientSession, Collection, Db, MongoClient, ObjectId } from "mongodb";
-import { AbimongoSchema } from "../core/AbimongoSchema";
-import { AbimongoClient } from "../core/AbimongoClient";
 import EventEmitter from "events";
 import { bufferedTransporter } from "../utils";
 

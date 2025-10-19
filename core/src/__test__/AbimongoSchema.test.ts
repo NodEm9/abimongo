@@ -1,5 +1,5 @@
 import { Collection } from "mongodb";
-import { AbimongoSchema } from "../core/AbimongoSchema";
+import { AbimongoSchema } from "../lib-core";
 import { Document, Relationship, SchemaDefinition } from "../types";
 
 

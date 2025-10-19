@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { ErrorType } from "../utils/error/errorTypes";
-import { Abimongo, AbimongoClient } from "../core";
+import { Abimongo, AbimongoClient } from "../lib-core";
 import { AbiMongoError } from "../utils/error/abimongoError-handler";
 import { Collection } from "mongodb";
 import { bufferedTransporter } from "../utils";

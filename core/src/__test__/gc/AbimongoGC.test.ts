@@ -1,6 +1,6 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { MongoClient } from 'mongodb';
-import { AbimongoSchema, AbimongoModel } from '../../core';
+import { AbimongoSchema, AbimongoModel } from '../../lib-core';
 import { AbimongoGC } from '../../gc/AbimongoGC';
 import { Document } from '../../types';
 import { shutdownLogger } from '@abimongo/logger';

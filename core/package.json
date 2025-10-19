@@ -1,6 +1,6 @@
 {
   "name": "@abimongo/core",
-  "version": "1.4.14",
+  "version": "1.0.0",
   "description": "Abimongo core library ORM for MongoDB",
   "main": "dist/abimongo_core.node.js",
   "module": "dist/abimongo_core.node.mjs",
@@ -53,18 +53,10 @@
     "docs:build": "typedoc",
     "docs:clear": "rm -rf docs/api"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NodEm9/abimongo_core.git"
-  },
   "release": {
     "branches": [
       "main"
     ]
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
   },
   "keywords": [
     "mongodb",
@@ -76,17 +68,12 @@
   "author": "Emmanuel Nodolomwanyi",
   "maintainers": [
     {
-      "name": "Emmanuel Nodolomwanyi",
-      "email": "padave805@gmail.com"
+      "name": "Emmanuel Nodolomwanyi"
     }
   ],
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/NodEm9/abimongo_core/issues"
-  },
-  "homepage": "https://github.com/NodEm9/abimongo_core#readme",
   "dependencies": {
-    "@abimongo/abimongo-logger": "file:../abimongo_utils/logger/abimongo-abimongo-logger-2.0.1.tgz",
+    "@abimongo/logger": "file:../../abimongo_core_library/abimongo_utils/logger/abimongo-logger-2.0.1.tgz",
     "@apollo/server": "^5.0.0",
     "@babel/runtime": "^7.27.1",
     "dotenv": "^16.4.7",

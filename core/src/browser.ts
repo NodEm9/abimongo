@@ -1,5 +1,5 @@
-export * from './core';
-export * from './core/bootstrap';
+export * from './lib-core';
+export * from './lib-core/bootstrap';
 export * from './config';
 export * from './graphql';
 export * from './tanancy';

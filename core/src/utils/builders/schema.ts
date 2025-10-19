@@ -1,4 +1,4 @@
-import { AbimongoSchema } from "../../core/AbimongoSchema";
+import { AbimongoSchema } from "../../lib-core";
 import { Document, SchemaDefinition } from "../../types";
 
 /**

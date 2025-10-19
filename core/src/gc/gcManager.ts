@@ -1,4 +1,4 @@
-import { AbimongoModel } from '../core';
+import { AbimongoModel } from '../lib-core';
 import { createModel, getModelFilesFromPath } from '../utils';
 import path from 'path';
 import { AbimongoConfig, Document } from '../types';

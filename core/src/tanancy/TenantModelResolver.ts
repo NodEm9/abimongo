@@ -1,4 +1,4 @@
-import { AbimongoSchema } from '../core/AbimongoSchema';
+import { AbimongoSchema } from '../lib-core';
 import { MultiTenantManager } from './MultiTenantManager';
 import { TenantContext } from './TenantContext';
 import { createModel } from '../utils/builders/createModel';

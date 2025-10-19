@@ -1,6 +1,5 @@
 import { Db, MongoClient } from "mongodb";
-import { AbimongoModel } from "../../core/AbimongoModelFactory"
-import { AbimongoSchema } from "../../core/AbimongoSchema"
+import { AbimongoModel, AbimongoSchema } from "../../lib-core"
 import { Document } from "../../types"; // Ensure the correct path to the document module
 
 

@@ -1,5 +1,5 @@
 import { Collection, Db, MongoClient } from "mongodb";
-import { AbimongoSchema } from "../core";
+import { AbimongoSchema } from "../lib-core";
 import { Document } from "./document";
 
 /**

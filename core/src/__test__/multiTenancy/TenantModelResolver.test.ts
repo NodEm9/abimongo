@@ -4,7 +4,7 @@ import { MultiTenantManager } from '../../tanancy/MultiTenantManager';
 import { TenantContext } from '../../tanancy/TenantContext';
 import { createModel } from '../../utils/builders/createModel';
 import { ensureModelNameSafe } from '../../utils/ensureModelNameSafe';
-import { AbimongoSchema } from '../../core/AbimongoSchema';
+import { AbimongoSchema } from '../../lib-core';
 
 jest.mock('../../tanancy/MultiTenantManager');
 jest.mock('../../tanancy/TenantContext');

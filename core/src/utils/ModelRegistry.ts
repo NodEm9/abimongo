@@ -1,4 +1,4 @@
-import { AbimongoModel } from "../core";
+import { AbimongoModel } from "../lib-core";
 import { Document } from "../types";
 
 const modelRegistry = new Set<AbimongoModel<any>>();

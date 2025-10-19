@@ -1,4 +1,4 @@
-import { AbimongoClient, AbimongoSchema } from '../core';
+import { AbimongoClient, AbimongoSchema } from '../lib-core';
 import { Collection, Filter } from 'mongodb';
 import { LoggerConfig, setupLogger } from '@abimongo/logger';
 import { GCConfig, Document } from '../types';

@@ -39,8 +39,8 @@ export interface AbimongoConfig {
   logger?: AbimongoLoggerSettings;
   graphql?: {
     enabled?: boolean;
-    subscriptions?: boolean;
-    playground?: boolean;
+    subscriptions?: true;
+    playground?: false;
     schemaOutputPath?: string;
   };
   features?: {
@@ -59,7 +59,7 @@ export interface AbimongoConfig {
     garbageCollector?: {
       enabled?: boolean;
       retentionPeriod?: number | string; // Retain data for a specified number of days
-      logResults?: boolean; // Log results of garbage collection
+      logResults?: false; // Log results of garbage collection
     };
     gcCron?: string;
   };
@@ -92,8 +92,8 @@ export interface ProjectOptions {
   logger?: AbimongoLoggerSettings;
   graphql?: {
     enabled?: boolean;
-    subscriptions?: boolean;
-    playground?: boolean;
+    subscriptions?: true;
+    playground?: false;
     schemaOutputPath?: string;
   };
   features?: {
@@ -112,7 +112,7 @@ export interface ProjectOptions {
     garbageCollector?: {
       enabled?: boolean;
       retentionPeriod?: number; // Retain data for a specified number of days
-      logResults?: boolean; // Log results of garbage collection
+      logResults?: false; // Log results of garbage collection
     };
     gcCron?: string;
   };

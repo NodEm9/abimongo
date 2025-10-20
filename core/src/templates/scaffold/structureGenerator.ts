@@ -3,6 +3,7 @@ import path from 'path';
 import { AbimongoConfig, ProjectOptions } from '../../types';
 import { execSync } from 'child_process';
 import chalk from 'chalk';
+import { MAIN_TS_CONTENT } from '../core/main';
 
 export async function generateAppStructure(projectRoot: string, options: AbimongoConfig) {
   const srcDir = path.join(projectRoot, 'src');
@@ -17,17 +18,21 @@ export async function generateAppStructure(projectRoot: string, options: Abimong
   await fs.ensureDir(coreDir);
   await fs.ensureDir(utilsDir);
   await fs.ensureDir(typesDir);
+
+  const abimongoBootstrapFileContent = MAIN_TS_CONTENT;
+
   if (options.graphql?.enabled) {
     await fs.ensureDir(graphqlDir);
   }
 
   // Create placeholder files
-  await fs.writeFile(path.join(coreDir, 'AbimongoBootstrap.ts'), '// AbimongoBootstrap implementation');
+  await fs.writeFile(path.join(coreDir, 'AbimongoBootstrap.ts'), abimongoBootstrapFileContent);
   await fs.writeFile(path.join(utilsDir, 'loadAbimongoConfig.ts'), '// loadAbimongoConfig implementation');
   await fs.writeFile(path.join(typesDir, 'config.ts'), '// Config types');
+
   if (options.graphql?.enabled) {
-await fs.writeFile(path.join(graphqlDir, 'schema.gql'),
-`# GraphQL schema
+    await fs.writeFile(path.join(graphqlDir, 'schema.gql'),
+      `# GraphQL schema
 # This is a placeholder for your GraphQL schema.
 # You can define your types and queries here.
 
@@ -43,10 +48,10 @@ type Query {
   hello: String
 }
   `
-);
+    );
 
-await fs.writeFile(path.join(graphqlDir, 'resolvers.ts'),
-`// GraphQL resolvers implementation
+    await fs.writeFile(path.join(graphqlDir, 'resolvers.ts'),
+      `// GraphQL resolvers implementation
 
 /**
  *  This is a placeholder for your GraphQL resolvers.
@@ -120,12 +125,12 @@ export const resolvers = {
 
   await fs.writeJson(path.join(projectRoot, 'package.json'), packageJson, { spaces: 2 });
 
-  // execSync(`npm install @abimongo/core @abimongo/logger`, { cwd: projectRoot, stdio: 'inherit' });
+  execSync(`npm install @abimongo/core @abimongo/logger mongodb`, { cwd: projectRoot, stdio: 'inherit' });
   console.log(chalk.blueBright(`[Installing dependencies]: Installing dependencies...`));
 
   execSync(`npm install -D typescript ts-node @types/node`, { cwd: projectRoot, stdio: 'inherit' });
   console.log(chalk.blueBright(`[Installing dev dependencies]: Installing dev dependencies...`));
-  
+
   // Create .gitignore
   const gitignoreContent = `node_modules
 dist

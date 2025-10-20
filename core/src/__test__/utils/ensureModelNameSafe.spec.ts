@@ -1,5 +1,6 @@
 import { ensureModelNameSafe } from "../../utils/ensureModelNameSafe";
 
+
 describe('ensureModelNameSafe', () => {
   it('returns the trimmed model name if valid', () => {
     expect(ensureModelNameSafe('  Users  ')).toBe('Users');

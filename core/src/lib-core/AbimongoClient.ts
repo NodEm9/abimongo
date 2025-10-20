@@ -23,6 +23,7 @@ const abimongoSymbol = Symbol.for('abimongo:default');
 const abimongoClientSymbol = Symbol.for('abimongo:client');
 const defaultCollectionName = Symbol.for('abimongo:defaultCollectionName');
 
+
 /**
  * AbimongoClient is a MongoDB client wrapper that provides a simplified interface for connecting to and interacting with MongoDB databases.
  * It supports multi-tenancy, connection pooling, and error handling.
@@ -37,7 +38,7 @@ const defaultCollectionName = Symbol.for('abimongo:defaultCollectionName');
  */
 export class AbimongoClient implements AbimongoClientConfig {
 	private _uri: string;
-	private _client: MongoClient | null = null;
+	private _client!: MongoClient | null;
 	private _db?: Db | null = null;
 	private collectionName?: Collection<any>;
 	private _dbName?: string = process.env.DB_NAME;
@@ -55,13 +56,14 @@ export class AbimongoClient implements AbimongoClientConfig {
 		this._dbName = this._options?.dbName ? this._db?.databaseName : this._dbName || process.env.DB_NAME || 'abimongo_default_db';
 		this._options = _options || {};
 
+		// const MongoClient = (await import('mongodb')).MongoClient;
 		this.validateUri(this._uri);
 		this._client = this._options?.client || new MongoClient(this._uri, {
 			directConnection: true,
 			minPoolSize: 5,
 			maxPoolSize: 50,
 			serverSelectionTimeoutMS: 5000,
-		});
+		})
 
 		this._db = this._client?.db(this._dbName);
 		this._client?.db(this._dbName).collection(this._options?.collectionName || [defaultCollectionName] as unknown as string);
@@ -93,7 +95,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 		if (!_abimongo._client || _abimongo._uri !== uri) {
 			_abimongo._uri = uri;
 			_abimongo._options = options || _abimongo._options;
-			_abimongo._client = _abimongo._options?.client || new MongoClient(_abimongo.uri);
+			_abimongo._client = _abimongo._options?.client || new MongoClient(_abimongo.uri) as MongoClient;
 			_abimongo._db = _abimongo._client?.db(_abimongo._options?.dbName);
 		}
 
@@ -241,7 +243,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 */
 	async connect(): Promise<Db> {
 		if (!this._client) {
-			this._client = new MongoClient(this.uri, { monitorCommands: true });
+			this._client = new MongoClient(this.uri, { monitorCommands: true }) as MongoClient;
 			await this.client.connect();
 			this._db = this.client.db(this._options?.dbName);
 		}

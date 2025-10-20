@@ -2,40 +2,43 @@
   "name": "@abimongo/core",
   "version": "1.0.0",
   "description": "Abimongo core library ORM for MongoDB",
-  "main": "dist/abimongo_core.node.js",
-  "module": "dist/abimongo_core.node.mjs",
-  "browser": "dist/abimongo_core.browser.js",
-  "types": "dist/index.d.ts",
+  "main": "lib/abimongo_core.node.js",
+  "module": "lib/abimongo_core.node.mjs",
+  "types": "lib/index.d.ts",
   "bin": {
-    "abimongo-core": "dist/abimongo_core-cli.js"
+    "abimongo-core": "lib/abimongo_core-cli.js"
   },
   "exports": {
     ".": {
-      "import": "./dist/abimongo_core.esm.js",
-      "require": "./dist/abimongo_core.node.js",
-      "browser": "./dist/abimongo_core.browser.js",
-      "types": "./dist/index.d.ts"
+      "import": "./lib/abimongo_core.esm.js",
+      "require": "./lib/abimongo_core.node.js",
+      "types": "./lib/index.d.ts"
+    },
+    "./browser": {
+      "import": "./lib/abimongo_core.browser.mjs",
+      "require": "./lib/abimongo_core.browser.js",
+      "types": "./lib/index.d.ts"
     },
     "./bin/abimongo-scaffold.ts": {
-      "require": "./dist/abimongo_core-cli.js",
-      "import": "./dist/abimongo_core-cli.js",
-      "types": "./dist/bin/abimongo-scaffold.d.ts"
+      "require": "./lib/abimongo_core-cli.js",
+      "import": "./lib/abimongo_core-cli.js",
+      "types": "./lib/bin/abimongo-scaffold.d.ts"
     },
     "./package.json": "./package.json"
   },
   "sideEffects": false,
   "files": [
-    "dist",
-    "!dist/scripts"
+    "lib",
+    "!lib/scripts"
   ],
   "scripts": {
     "build:node": "webpack --config webpack.node.config.js",
     "build:web": "webpack --config webpack.web.config.js",
     "build:cli": "webpack --config webpack.cli.config.js",
-    "clean": "rimraf dist",
+    "clean": "rimraf lib",
     "build": "npm run build:node && npm run build:cli && npm run build:web",
     "lint": "eslint src --ext .ts",
-    "clean:all": "rimraf dist && rimraf docs",
+    "clean:all": "rimraf lib && rimraf docs",
     "prepare": "npm run build",
     "prepublishOnly": "npm run build",
     "semantic-release": "semantic-release",
@@ -51,7 +54,7 @@
     "docusaurus:start": "cd website && npm run docusaurus start",
     "docusaurus:deploy": "cd website && npm run docusaurus deploy",
     "docs:build": "typedoc",
-    "docs:clear": "rm -rf docs/api"
+    "docs:clear": "rm -rf ./docs/api"
   },
   "release": {
     "branches": [
@@ -79,7 +82,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-serve-static-core": "^0.1.1",
-    "mongodb": "6.14.2",
+    "mongodb": "^6.20.0",
     "node-cron": "4.2.0",
     "reflect-metadata": "0.2.2"
   },
@@ -115,6 +118,7 @@
     "@semantic-release/github": "^11.0.3",
     "@semantic-release/npm": "^12.0.1",
     "@semantic-release/release-notes-generator": "^14.0.3",
+    "@testing-library/jest-dom": "^6.9.1",
     "@types/express": "^5.0.1",
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29.5.14",

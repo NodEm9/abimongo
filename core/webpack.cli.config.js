@@ -2,34 +2,42 @@
 const webpack = require('webpack');
 const path = require('path');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
-
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
 	mode: 'production',
 	target: 'node',
 	entry: './bin/abimongo-scaffold.ts',
 	output: {
-		path: path.resolve(__dirname, 'dist'),
+		path: path.resolve(__dirname, 'lib'),
 		filename: 'abimongo_core-cli.js',
 	},
 	devtool: 'source-map', // Generate source maps for debugging
-	externals: {
+	externals: [
+		nodeExternals(),
+		{
 		// Exclude node_modules from the bundle
 		// This is important for CLI tools to avoid bundling unnecessary dependencies
-		mongodb: 'mongodb',
-		'@abimongo/abimongo-logger': {
-			'commonjs': '@abimongo/abimongo-logger',
-			'commonjs2': '@abimongo/abimongo-logger',
-			'amd': '@abimongo/abimongo-logger',
-			'root': '@abimongo/abimongo-logger',
+	
+		'mongodb': {
+			commonjs: 'mongodb',
+			commonjs2: 'mongodb',
+			amd: 'mongodb',
+			root: 'mongodb',
 		},
-		'abimongo_utils': {
-			'commonjs': 'abimongo_utils',
-			'commonjs2': 'abimongo_utils',
-			'amd': 'abimongo_utils',
-			'root': 'abimongo_utils',
+		'@abimongo/logger': {
+			'commonjs': '@abimongo/logger',
+			'commonjs2': '@abimongo/logger',
+			'amd': '@abimongo/logger',
+			'root': '@abimongo/logger',
 		},
-	},
+		'logger': {
+			'commonjs': 'logger',
+			'commonjs2': 'logger',
+			'amd': 'logger',
+			'root': 'logger',
+		},
+	}],
 	resolve: {
 		extensions: ['.ts', '.js'],
 		byDependency: {

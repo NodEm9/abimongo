@@ -2,6 +2,7 @@
 const path = require('path');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
 	mode: 'production',
@@ -9,7 +10,7 @@ module.exports = {
 	target: 'web',
 	output: {
 		filename: 'abimongo_core.browser.js',
-		path: path.resolve(__dirname, 'dist'),
+		path: path.resolve(__dirname, 'lib'),
 		library: {
 			type: 'umd', // Universal Module Definition for compatibility with CommonJS, AMD, and browser globals
 			umdNamedDefine: true, // Use named UMD definition
@@ -37,6 +38,7 @@ module.exports = {
 	},
 	externals: [
 		/^node_modules\/.+$/,
+		nodeExternals(),
 		{
 			mongodb: {
 				commonjs: 'mongodb',
@@ -127,6 +129,7 @@ module.exports = {
 			resourceRegExp: /node-cron/, // avoid bundling node-cron for browser
 			contextRegExp: /node_modules/,
 		}),
+		new webpack.IgnorePlugin({ resourceRegExp: /^redis(|\/.*)$/ }),
 		new webpack.IgnorePlugin({
 			resourceRegExp: /^fs$/,
 			contextRegExp: /node_modules/,

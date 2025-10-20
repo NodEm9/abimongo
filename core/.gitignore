@@ -1,6 +1,7 @@
 node_modules
 
 # webpack output
+lib
 dist
 
 package-lock.json 

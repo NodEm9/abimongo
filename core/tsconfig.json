@@ -1,30 +1,50 @@
 {
   "compilerOptions": {
-    "target": "es2022",
-    "lib": ["ES2022", "DOM.Iterable", "DOM"],  
+    "target": "es2021",
+    "lib": [
+      "ES2021", 
+      "ES2022.Error",
+      "ES2022.Object",
+      "esnext.disposable",
+      "DOM.Iterable", 
+      "DOM"
+      ],  
     "moduleDetection": "auto",                                                                                     
-    "module": "nodenext",                              
-    "moduleResolution": "nodenext",  
+    "module": "commonjs",                              
+    "moduleResolution": "node",  
     "rootDir": "./",
-    "outDir": "./dist",                                                        
+    "outDir": "./lib",
+    "types": [
+      "node"
+    ],
+    // "ignoreDeprecations": "6.0",                                                        
     "declaration": true, 
-    "declarationDir": "./dist",
+    // "declarationDir": "./lib",
     "declarationMap": true, 
-    "esModuleInterop": true, 
+    "esModuleInterop": true,
+    "isolatedModules": true, 
     "experimentalDecorators": true,
+    "importHelpers": false,
     "emitDecoratorMetadata": true,
-    "resolveJsonModule": true,                                                                                          
+    "noEmitOnError": true,
+    "resolveJsonModule": true, 
+    "inlineSourceMap": false,                                                                                        
     "sourceMap": true,                                                
     "noImplicitAny": false,                            
     "strict": true,                                                                  
     "skipLibCheck": true, 
     "jsx": "react-jsx"                              
   },
+  "ts-node": {
+    "transpileOnly": true,
+    "compiler": "typescript-cached-transpile"
+  },
   "include": [
     "index.ts",
     "src/**/*",
     "browser.ts", 
     "./bin/abimongo-scaffold.ts",
+    "setupTest.ts"
     // "docs-site/**/*"
   ],
   "exclude": [

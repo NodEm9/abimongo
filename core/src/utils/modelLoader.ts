@@ -18,6 +18,7 @@ export function getModelFilesFromPath(dirPath: string): string[] {
   return files;
 };
 
+type FileModule = { default: any };
 
 export async function loadModelsFromPath(dirPath: string): Promise<any[]> {
 	const modelFiles = getModelFilesFromPath(dirPath);
@@ -25,7 +26,7 @@ export async function loadModelsFromPath(dirPath: string): Promise<any[]> {
 
 	for (const file of modelFiles) {
 		try {
-			const modelModule = await import(file);
+			const modelModule: FileModule = await import(file);
 			if (modelModule.default) {
 				models.push(modelModule.default);
 			} else {

@@ -7,15 +7,21 @@ import {
   generateMainTS,
   generateGCManager,
   generateGCRunner,
-  generateAppStructure
+  generateAppStructure,
 } from '../templates';
+import { foldersAndFiles } from '../utils';
 import { AbimongoConfig, ProjectOptions } from '../types';
 
 
 export async function generateProject(options: AbimongoConfig) {
   const projectRoot = path.resolve(process.cwd(), options.projectName || 'abimongo-app');
+  // const allFoldersAndFiles = foldersAndFiles();
+  const { generatedFolders, generatedFiles } = foldersAndFiles();
 
-  console.log(chalk.blue(`[Scaffolding project]: \nGenerating project at - ${projectRoot}`));
+  setInterval(() => {
+    // Keep the process alive
+    console.log(chalk.blue(`[Preparing Process]: \nGenerating project at - ${projectRoot}`));
+  }, 1000);
   console.log(chalk.blue.bold('[Process Started]: This may take a few moments...'));
 
   await generateAppStructure(projectRoot, options);
@@ -29,14 +35,24 @@ export async function generateProject(options: AbimongoConfig) {
   // Create src directory if it doesn't exist
   setupGarbageCollector(options, projectRoot);
 
-  console.log(chalk.green(`✓ [Garbage Collector]: GC Manager and Runner scripts created.`));
+  // console.log(chalk.green(`✓ [Garbage Collector]: GC Manager and Runner scripts created.`));
 
   const mainTSPath = path.join(projectRoot, 'src', 'main.ts');
   const mainTSContent = generateMainTS(options);
   await fs.outputFile(mainTSPath, mainTSContent);
   console.log(chalk.green(`✓ [Entry point]: Entry point created - src/main.ts`));
 
-  console.log(chalk.green.bold('[Completed]: \nProject scaffolding complete.'));
+  const completedFilePath = path.join(projectRoot, 'PROJECT_GENERATION_COMPLETED.txt');
+  await fs.writeFile(completedFilePath, 'Project generation completed successfully.', 'utf8');
+
+  // Log generated folders and files
+  generatedFolders();
+  generatedFiles();
+
+  // allFoldersAndFiles.generatedFolders();
+  // allFoldersAndFiles.generatedFiles();
+
+  console.log(chalk.green.bold('[Completed]: \nProject generation completed successfully!'));
 }
 
 export async function generateProjectWithConfig(config: AbimongoConfig) {
@@ -71,6 +87,9 @@ function setupGarbageCollector(config: AbimongoConfig, projectRoot: string) {
     path.join(scriptsDir, 'runGC.ts'),
     generateGCRunner()
   );
-
-  console.log('🧹 Garbage Collector initialized.');
+  console.log(chalk.green(`✓ [Garbage Collector]: 🧹 GC Manager and Runner scripts created.`));
+  if (config.advanced?.garbageCollector.enabled) {
+    console.log(chalk.green(`✓ [Garbage Collector]: 🧹 GC is enabled.`));
+  }
 }
+

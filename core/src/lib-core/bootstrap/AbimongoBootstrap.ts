@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import { loadAbimongoConfig } from '../../config';
 import { AbimongoConfig, Document } from '../../types';
-import { setupLogger } from '@abimongo/logger';
+import { setupLogger, logger } from '@abimongo/logger';
 import { AbimongoClient } from '../AbimongoClient';
 import { AbimongoGraphQL, initializeGraphQL } from '../../graphql';
 import chalk from 'chalk';
@@ -14,6 +14,8 @@ import { AbimongoModel } from '../AbimongoModelFactory';
 import { AbimongoSchema, Schema } from '../AbimongoSchema';
 import { AbimongoGC } from '../../gc';
 
+
+const isNode = typeof process !== 'undefined' && process.versions?.node;
 
 
 type OnConnectHook = () => Promise<void> | void;
@@ -34,8 +36,9 @@ export class AbimongoBootstrap {
   private model?: AbimongoModel<Document>;
   private schema!: AbimongoSchema<Document>
   private graphql?: AbimongoGraphQL;
-  public logger!: ReturnType<typeof setupLogger>;
+  public logger!: ReturnType<typeof setupLogger> | typeof logger;
   private app?: Application = undefined;
+  private gc?: AbimongoGC;
 
   private onConnectHooks: OnConnectHook[] = [];
 
@@ -60,19 +63,14 @@ export class AbimongoBootstrap {
   public async initialize(configFilePath?: string): Promise<void> {
     this.config = await loadAbimongoConfig(configFilePath);
     if (this.config.logger?.enabled) {
-      setLogger(this.config.logger);  
+      setLogger(this.config.logger)
       console.info('📝 Logger initialized');
     }
 
-    const loggerConfig = this.config.logger ?? { enabled: false };
-    const logger = this.config.logger?.enabled ? setLogger(this.config.logger) :  this.logger = setupLogger(loggerConfig as any);
-
-    this.logger = logger as ReturnType<typeof setupLogger>;
-    console.info('📝 Logger initialized');
-    
     // const loggerConfig = this.config.logger ?? { enabled: false };
-    // this.logger = setupLogger(loggerConfig as any); // Cast to any to satisfy LoggerConfig type
-    // console.info('📝 Logger initialized');
+    const loggerConfg = this.config.logger?.enabled ? setLogger(this.config.logger) : logger;
+    this.logger = loggerConfg;
+    console.info('📝 Logger initialized');
 
     // Redis setup (if enabled)
     if (this.config.features?.useRedisCache && this.config.features.redisUri) {
@@ -120,8 +118,8 @@ export class AbimongoBootstrap {
 
     if (this.config.model) {
       // for (const modelConfig of [this.config.model]) {
-        this.model.registerModel(this.config.model);
-        console.info(chalk.green(`✅ Model registered: ${this.config.model.collectionName}`));
+      this.model.registerModel(this.config.model);
+      console.info(chalk.green(`✅ Model registered: ${this.config.model.collectionName}`));
       // }
     }
 
@@ -161,11 +159,17 @@ export class AbimongoBootstrap {
 
     if (this.config.advanced?.garbageCollector?.enabled) {
       const cronExpr = this.config.advanced?.gcCron || '0 * * * *'; // hourly default
-      if (typeof window === 'undefined') {
-        const { scheduleGarbageCollector } = require('../../gc');
+      if (isNode) {
+        // load node-only modules dynamically
+        const { scheduleGarbageCollector } = await import('../../gc');
         scheduleGarbageCollector(cronExpr);
-        // console.info(`[ABIMONGO] 🚮 Garbage Collector scheduled with "${cronExpr}"`);
       }
+
+      // if (typeof window === 'undefined') {
+      //   const { scheduleGarbageCollector } = require('../../gc');
+      //   scheduleGarbageCollector(cronExpr);
+      //   console.info(`[ABIMONGO] 🚮 Garbage Collector scheduled with "${cronExpr}"`);
+      // }
 
       const { gcCron } = this.config.advanced;
       if (!gcCron) {
@@ -173,7 +177,7 @@ export class AbimongoBootstrap {
       }
 
       // Initialize Garbage Collector
-      const gc = new AbimongoGC({
+      this.gc = new AbimongoGC({
         enabled: this.config.advanced?.garbageCollector?.enabled || true,
         retentionPeriod: 30, // Default to 30 days
         cron: this.config.advanced?.gcCron || '0 0 * * *', // Default to daily at midnight
@@ -184,7 +188,7 @@ export class AbimongoBootstrap {
       console.info('✅ Garbage Collector initialized');
 
       // Register GC files
-      gc.register(
+      this.gc.register(
         this.mongoClient.getCollection<Document>(this.config.model?.collectionName || 'default'),
         this.schema
       );
@@ -254,6 +258,10 @@ export class AbimongoBootstrap {
     return this.mongoClient;
   }
 
+  public getLogger(): ReturnType<typeof setupLogger> | typeof logger {
+    return this.logger;
+  };
+
   public getModel(): AbimongoModel<Document> | undefined {
     return this.model;
   }
@@ -263,6 +271,10 @@ export class AbimongoBootstrap {
 
   public getGraphQL(): AbimongoGraphQL | undefined {
     return this.graphql;
+  }
+
+  public getGCRunner(): AbimongoGC | undefined {
+    return this.gc;
   }
 
   public async shutdown(): Promise<void> {
@@ -280,3 +292,4 @@ export class AbimongoBootstrap {
     console.info('🧼 Shutdown complete');
   }
 };
+

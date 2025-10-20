@@ -3,7 +3,7 @@ const path = require('path');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const { VERSION } = require('ts-node');
 const ESLintPlugin = require('eslint-webpack-plugin');
-
+const nodeExternals = require('webpack-node-externals');
 
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
 	target: 'node',
 	output: {
 		filename: 'abimongo_core.node.js',
-		path: path.resolve(__dirname, 'dist'),
+		path: path.resolve(__dirname, 'lib'),
 		globalObject: 'this',
 		library: {
 			name: 'abimongo_core',
@@ -22,6 +22,7 @@ module.exports = {
 		clean: true
 	},
 	externals: [
+	nodeExternals(),
 		{
 			mongodb: {
 				commonjs: 'mongodb',

@@ -15,7 +15,6 @@ import { AbimongoConfig, ProjectOptions } from '../types';
 
 export async function generateProject(options: AbimongoConfig) {
   const projectRoot = path.resolve(process.cwd(), options.projectName || 'abimongo-app');
-  // const allFoldersAndFiles = foldersAndFiles();
   const { generatedFolders, generatedFiles } = foldersAndFiles();
 
   setInterval(() => {
@@ -49,9 +48,6 @@ export async function generateProject(options: AbimongoConfig) {
   // Log generated folders and files
   generatedFolders();
   generatedFiles();
-
-  // allFoldersAndFiles.generatedFolders();
-  // allFoldersAndFiles.generatedFiles();
 
   console.log(chalk.green.bold('[Completed]: \nProject generation completed successfully!'));
 }

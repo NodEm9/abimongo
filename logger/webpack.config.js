@@ -11,7 +11,7 @@ module.exports = {
 	devtool: "source-map",
 	output: {
 		filename: "abimongo_logger.js",
-		path: path.resolve(__dirname, "dist"),
+		path: path.resolve(__dirname, "lib"),
 		library: "abimongo_logger",
 		libraryTarget: "umd",
 		umdNamedDefine: true,

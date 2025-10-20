@@ -1,10 +1,10 @@
 {
   "name": "@abimongo/logger",
   "version": "1.0.0",
-  "main": "./dist/abimongo_logger.js",
-  "typings": "./dist/index.d.ts",
+  "main": "lib/abimongo_logger.js",
+  "typings": ".lib/index.d.ts",
   "files": [
-    "dist/"
+    "lib/"
   ],
   "publishConfig": {
     "access": "public"
@@ -18,8 +18,8 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/abimongo_logger.js",
-      "require": "./dist/abimongo_logger.js"
+      "import": "./lib/abimongo_logger.js",
+      "require": "./lib/abimongo_logger.js"
     },
     "./package.json": "./package.json"
   },
@@ -56,6 +56,7 @@
     "@babel/preset-env": "^7.27.2",
     "@babel/preset-typescript": "^7.27.1",
     "@changesets/cli": "^2.29.5",
+    "@testing-library/jest-dom": "^6.9.1",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.33",
     "@types/webpack": "^5.28.5",

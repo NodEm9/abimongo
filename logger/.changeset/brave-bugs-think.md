@@ -1,5 +1,5 @@
 ---
-"@abimongo_utils/logger": major
+"@abimongo/logger": major
 ---
 
 Rotating file transporter interface created to handle daily, hourly e.t.c Rotating logs, display metrics, and flush when maxSize limit is reached or exceeded

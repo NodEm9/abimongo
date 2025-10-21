@@ -47,9 +47,13 @@ class AbimongoLogger {
     this.options.format ||= 'text';
     this.options.colorize = this.options.colorize ?? true;
 
-    // if (process.env.NODE_ENV !== 'test') {
-    //   this.startTrackingMetrics()
-    // }
+    if (process.env.NODE_ENV !== 'test') {
+      if (!this.metrics) {
+        this.stopTrackingMetrics();
+      } else {
+        this.startTrackingMetrics()
+      }
+    }
   }
   /**
    * Logs a message with the specified level and metadata.
@@ -70,7 +74,7 @@ class AbimongoLogger {
         frequency: 'daily',
         maxSize: 5 * 1024 * 1024,
         backupCount: 5,
-        compress: true,
+        compress: false,
         flushInterval: this.options.flushInterval,
       });
 
@@ -91,42 +95,33 @@ class AbimongoLogger {
 
     // Write the log message to the transport
     await transport.write(coloredMessage, level);
-    // this.metrics.trackLog();
-    // this.metrics.trackRotation();
 
     const colorConsle = colorByLevel(level, `[${new Date().toISOString()}] [${level}] [${tenantId}] ${formatted}`);
     console.log(colorConsle);
 
     process.exitCode = 0; // Reset exit code to 0 on successful log
-
-    // if (level === 'fatal') {
-    //   console.error(`Fatal error logged: ${message}`);
-    //   if (process.env.NODE_ENV !== 'test') {
-    //     await this.flushAll();
-    //     process.exit(1);
-    //   }
-    // }
   }
 
   async flushAll() {
-    // if (process.env.NODE_ENV !== 'test') {
-      for (const t of this.transports.values()) {
-        await t.flush?.();
-        // this.metrics.trackFlush();
-      // }
+    for (const t of this.transports.values()) {
+      await t.flush?.();
     }
   }
 
-  // public startTrackingMetrics(interval: number = 60000) {
-  //   this.metrics.start(interval);
-  //   console.log(`Metrics tracking started with interval: ${interval}ms`);
-  //   return this.metrics;
-  // }
+  public startTrackingMetrics(interval: number = 60000) {
+    this.metrics.start(interval);
+    console.log(`Metrics tracking started with interval: ${interval}ms`);
+    return this.metrics;
+  }
+  public stopTrackingMetrics() {
+    this.metrics.stop();
+    console.log('Metrics tracking stopped.');
+  }
 
   async close() {
     await this.flushAll();
     for (const t of this.transports.values()) t.stop?.();
-    // this.metrics.stop();
+    this.metrics.stop();
     await clearAllTimers();
     console.log('Metrics tracking stopped on exit');
     console.log('Logger stopped all transports and flushed all logs.');
@@ -135,7 +130,7 @@ class AbimongoLogger {
   public async shutdown(): Promise<void> {
     await this.flushAll();
     for (const t of this.transports.values()) t.stop?.();
-    // this.metrics.stop();
+    this.metrics.stop();
     await clearAllTimers();
     console.log('Logger shutdown complete. All transports flushed and stopped.');
   }

@@ -13,6 +13,8 @@ export function setupLogger(
   if (config.logger) return config.logger;
   if (config?.circuitBreaker?.enabled) {
     console.warn('Circuit breaker is enabled, consider configuring logger accordingly.');
+  } else {
+    console.log('Circuit breaker is disabled.');
   }
   return createLogger({ ...config });
 }

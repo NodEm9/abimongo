@@ -24,27 +24,29 @@ export function createLogger(config: LoggerConfig, abimongoConfig?: AbimongoConf
 		formatOptions,
 		hooks,
 		circuitBreaker,
-		enableMetrics = { enabled: false, logInterval: 60000 }
+		enableMetrics = { enabled: false, logInterval: 60000 },
+		compressLogFiles = { enabled: false },
 	} = config
 
 	const metrics = new MetricsTracker();
-  // enableMetrics.enabled ? metrics.stop() : metrics.start();
+	// enableMetrics.enabled ? metrics.stop() : metrics.start();
 
 	// Track metrics
 	if (!config.enableMetrics?.enabled) {
 		if (process.env.NODE_ENV !== 'test') {
 			if (process.env.NODE_ENV === 'production') {
 				metrics.start(); // Default to 1 minute
+				enableMetrics.enabled = true;
 			}
 		}
 	} else {
-		config.enableMetrics.enabled = false;
+		metrics.stop();
 	}
 
 	const writeToTransports = (level: string, formatted: string) => {
 		transports.map((t) => {
 			try {
-				if ('write' in t){
+				if ('write' in t) {
 					t.write(formatted, "info", []) // If the transport has a write method, use it
 				}
 				// else ('log' in t) && t.log?.(level, formatted);
@@ -121,8 +123,8 @@ export function createLogger(config: LoggerConfig, abimongoConfig?: AbimongoConf
 				// Implement circuit breaker logic here
 				// This is a placeholder for actual circuit breaker implementation
 				let attempts = 0;
-				const maxAttempts = abimongoConfig.circuitBreaker.retryAttempts || 3;
-				const retryDelay = abimongoConfig.circuitBreaker.retryDelay || 1000;
+				const maxAttempts = circuitBreaker?.retryAttempts || 3;
+				const retryDelay = circuitBreaker?.retryDelay || 1000;
 
 				const attemptLog = async () => {
 					try {
@@ -144,23 +146,16 @@ export function createLogger(config: LoggerConfig, abimongoConfig?: AbimongoConf
 			hooks?.onLog?.(metadata);
 
 			config.logger?.[levelKey as keyof ILogger]?.(output, ...meta, enriched, colorize);
-			// Track metrics
-			if (!config.enableMetrics?.enabled) {
-				metrics.start(); // Ensure metrics tracking is active
-				metrics.trackLog()
-				metrics.trackFlush()
-				metrics.trackRotation();
-			} 
+
+
+			if (config.compressLogFiles?.enabled ) {
+				compressLogFiles.enabled = true;
+			}
 
 			writeToTransports(levelKey, output);
 		};
 	};
 
-	// process.on('exit', async () => {
-	// 	await metrics.stop();
-	// 	console.log('Metrics tracking stopped on exit.');
-	// 	console.log('Logger closed and all transports flushed.');
-	// });
 
 	return {
 		debug: log('debug'),

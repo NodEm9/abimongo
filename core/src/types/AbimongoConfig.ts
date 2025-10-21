@@ -1,4 +1,4 @@
-import type { LoggerConfig } from '@abimongo/abimongo-logger';
+import type { LoggerConfig } from '@abimongo/logger';
 import { InitMultiTenancyOptions } from '../tanancy/init/initMultiTenancy';
 import { AbimongoModelOptions } from './abimongo.mode.type';
 import { SchemaDefinition } from './schema.type';
@@ -17,8 +17,10 @@ export interface AbimongoLoggerSettings extends LoggerConfig {
   excludedSources?: LoggerConfig['excludedSources'];
   hooks?: LoggerConfig['hooks'];
   enrichMetadata?: LoggerConfig['enrichMetadata'];
+  enableMetrics?: LoggerConfig['enableMetrics']
   shouldLog?: LoggerConfig['shouldLog'];
-  circuitBreaker?: LoggerConfig['circuitBreaker']; 
+  circuitBreaker?: LoggerConfig['circuitBreaker'];
+  compressLogFiles?: LoggerConfig['compressLogFiles'];
 }
 
 
@@ -104,6 +106,13 @@ export interface ProjectOptions {
     schemas?: string;
     resolvers?: string;
   };
+  compressLogFiles?: {
+    enabled?: boolean;
+  },
+  enableMetrics?: {
+    enabled?: boolean;
+    logInterval?: number; // in milliseconds
+  },
   advanced?: {
     circuitBreaker?: {
       enabled?: boolean;

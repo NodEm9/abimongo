@@ -5,7 +5,7 @@ import {
 } from '../utils';
 
 
-const logger = setupLogger({
+Logger.initialize({
   formatOptions: {
     colorize: true,
     json: false,
@@ -43,17 +43,20 @@ const logger = setupLogger({
       return false;
     },
   },
-  
+  enableMetrics: {
+    enabled: process.env.ABIMONGO_LOGGER_METRICS === 'enabled' ? true : false,
+    logInterval: parseInt(process.env.ABIMONGO_LOGGER_METRICS_INTERVAL || '60000', 10) || 60000,
+  }
 });
 
-// const logger = Logger.instance;
+const logger = Logger.instance;
 
 export { logger };
   
-const debugMode = process.env.DEBUG === 'true' || false;
-if (debugMode) {
-  logger.debug('Debug mode is enabled.');
-  logger.info('Debug mode is enabled. Log level set to debug.');
-}
+// const debugMode = process.env.DEBUG === 'true' || false;
+// if (debugMode) {
+//   logger.debug('Debug mode is enabled.');
+//   logger.info('Debug mode is enabled. Log level set to debug.');
+// }
 
 

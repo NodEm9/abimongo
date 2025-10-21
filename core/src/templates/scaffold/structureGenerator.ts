@@ -4,6 +4,7 @@ import { AbimongoConfig, ProjectOptions } from '../../types';
 import { execSync } from 'child_process';
 import chalk from 'chalk';
 import { MAIN_TS_CONTENT } from '../core/main';
+import { AbimongoGraphQL } from '../../graphql';
 
 export async function generateAppStructure(projectRoot: string, options: AbimongoConfig) {
   const srcDir = path.join(projectRoot, 'src');
@@ -11,13 +12,14 @@ export async function generateAppStructure(projectRoot: string, options: Abimong
   const utilsDir = path.join(srcDir, 'utils');
   const graphqlDir = path.join(srcDir, 'graphql');
   const typesDir = path.join(srcDir, 'types');
-  const templatesDir = path.join(projectRoot, 'templates');
+  const modelsDir = path.join(srcDir, 'models');
 
   // Create directories
   await fs.ensureDir(srcDir);
   await fs.ensureDir(coreDir);
   await fs.ensureDir(utilsDir);
   await fs.ensureDir(typesDir);
+  await fs.ensureDir(modelsDir);
 
   const abimongoBootstrapFileContent = MAIN_TS_CONTENT;
 
@@ -27,7 +29,7 @@ export async function generateAppStructure(projectRoot: string, options: Abimong
 
   // Create placeholder files
   await fs.writeFile(path.join(coreDir, 'AbimongoBootstrap.ts'), abimongoBootstrapFileContent);
-  await fs.writeFile(path.join(utilsDir, 'loadAbimongoConfig.ts'), '// loadAbimongoConfig implementation');
+  await fs.writeFile(path.join(utilsDir, 'helper.ts'), '// helper functions implementation');
   await fs.writeFile(path.join(typesDir, 'config.ts'), '// Config types');
 
   if (options.graphql?.enabled) {
@@ -68,6 +70,24 @@ export const resolvers = {
  },
 };
 `)
+    fs.writeFileSync(path.join(graphqlDir, 'graphQL.ts'),
+      `import { bootstrap } from '../core/AbimongoBootstrap';
+// You can use AbimongoGraphQL to setup your GraphQL server
+// but here everthing is already made available in the bootstrap file.
+// For more information, visit: https://abimongo.com/docs/graphql , https://abimongo.com/docs/core/bootstrap
+import { AbimongoGraphQL } from '@abimongo/core';
+export const app =  (await (bootstrap())); // or new AbimongoGraphQL({useRedis: false});
+const graphql = app.getGraphQL();
+     graphql?.generateSchema();
+/**
+ *  Other GraphQL logic can go here.
+ * For example, setting up middleware, context, etc.
+ * This is just a placeholder file. Incase you like to separate your GraphQL setup.
+ * Otherwise, everything is already available in the bootstrap file.
+ * Also, this is to illustrate how you can use bootstrap accross your app. Import
+ * bootstrap from core/AbimongoBootstrap and use it to access your app components.
+ */
+    `);
   };
 
 
@@ -78,7 +98,7 @@ export const resolvers = {
     "private": true,
     "version": "1.0.0",
     "main": "src/main.ts",
-    "type": "module",
+    "type": "commonjs",
     "scripts": {
       "dev": "ts-node src/main.ts",
       "build": "tsc",
@@ -125,7 +145,8 @@ export const resolvers = {
 
   await fs.writeJson(path.join(projectRoot, 'package.json'), packageJson, { spaces: 2 });
 
-  execSync(`npm install @abimongo/core @abimongo/logger mongodb`, { cwd: projectRoot, stdio: 'inherit' });
+  // execSync(`npm install @abimongo/core @abimongo/logger mongodb, { cwd: projectRoot, stdio: 'inherit' });
+  execSync(`npm install express mongodb`, { cwd: projectRoot, stdio: 'inherit' });
   console.log(chalk.blueBright(`[Installing dependencies]: Installing dependencies...`));
 
   execSync(`npm install -D typescript ts-node @types/node`, { cwd: projectRoot, stdio: 'inherit' });
@@ -134,6 +155,8 @@ export const resolvers = {
   // Create .gitignore
   const gitignoreContent = `node_modules
 dist
+lib
+.store
 .env
 `;
   await fs.writeFile(path.join(projectRoot, '.gitignore'), gitignoreContent);

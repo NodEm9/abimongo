@@ -10,17 +10,15 @@ import { AbimongoConfig } from "../types";
  */
 export function setLogger(
   loggerConfig: AbimongoConfig['logger'] & AbimongoConfig['advanced'] = {},
-  // advancedConfig: AbimongoConfig['advanced'] = {}
 ) {
   const advancedOptions = {
     enableCircuitBreaker: {
       enabled:
-        loggerConfig?.circuitBreaker?.enabled ??
+        // loggerConfig?.circuitBreaker?.enabled ??
         loggerConfig?.circuitBreaker ??
         false,
       retryAttempts:
         loggerConfig?.circuitBreaker?.retryAttempts ??
-        // loggerConfig?.circuitBreaker?.retryAttempts ??
         3,
     },
     garbageCollector: loggerConfig?.garbageCollector ?? {
@@ -30,9 +28,15 @@ export function setLogger(
     },
     gcCron: "0 0 * * *", // Default to daily at midnight
   };
+  const compressLogs = {
+    compressLogFiles: {
+      enabled: loggerConfig?.compressLogFiles?.enabled || false,
+    },
+  };
 
  return Logger.initialize({
     ...loggerConfig || {},
-    ...advancedOptions,
+   ...advancedOptions,
+    ...compressLogs,
   });
 }

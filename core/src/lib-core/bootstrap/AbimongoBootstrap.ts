@@ -6,9 +6,9 @@ import { AbimongoClient } from '../AbimongoClient';
 import { AbimongoGraphQL, initializeGraphQL } from '../../graphql';
 import chalk from 'chalk';
 import { redis } from '../../redis-manager/redisClient';
-import { AbimongoModelRegistry, cacheWithRedis, createModel, setLogger } from '../../utils';
+import { cacheWithRedis, createModel, setLogger } from '../../utils';
 import { invalidateTenantCache } from '../../utils/invalidateTenantCache';
-import { applyMultiTenancy, initMultiTenancy, InitMultiTenancyOptions } from '../../tanancy';
+import { applyMultiTenancy, InitMultiTenancyOptions } from '../../tanancy';
 import { Application } from 'express';
 import { AbimongoModel } from '../AbimongoModelFactory';
 import { AbimongoSchema, Schema } from '../AbimongoSchema';
@@ -63,15 +63,11 @@ export class AbimongoBootstrap {
   public async initialize(configFilePath?: string): Promise<void> {
     this.config = await loadAbimongoConfig(configFilePath);
     if (this.config.logger?.enabled) {
-      setLogger(this.config.logger)
+      const loggerConfig = this.config.logger ?? { enabled: false }
+      const loggerConfg = loggerConfig.enabled ? setLogger(this.config.logger) : logger;
+      this.logger = loggerConfg;
       console.info('📝 Logger initialized');
     }
-
-    // const loggerConfig = this.config.logger ?? { enabled: false };
-    const loggerConfg = this.config.logger?.enabled ? setLogger(this.config.logger) : logger;
-    this.logger = loggerConfg;
-    console.info('📝 Logger initialized');
-
     // Redis setup (if enabled)
     if (this.config.features?.useRedisCache && this.config.features.redisUri) {
       await redis.get(this.config.features.redisUri);
@@ -134,12 +130,6 @@ export class AbimongoBootstrap {
       ).catch((error) => {
         console.error(chalk.red('❌ Error initializing multi-tenancy:', error));
       });
-      // await initMultiTenancy(
-      //   this.config.multiTenant.tenants ?? {},
-      //   this.config.multiTenant.initOptions
-      // );
-      // console.info(chalk.green('✅ Multi-tenancy initialized'));
-
     }
 
     // GraphQL setup (if enabled)

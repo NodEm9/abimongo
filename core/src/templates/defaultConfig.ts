@@ -1,6 +1,14 @@
 import 'dotenv/config';
 import { AbimongoConfig, ProjectOptions } from "../types";
 
+export interface LoggerFormatOptions {
+  timestamp?: boolean | (() => string); // true = ISO, function = custom
+  colorize?: boolean;
+  source?: string;
+  json?: boolean;
+  prefix?: string;
+}
+
 export function DEFAULT_CONFIG_CONTENT(options: AbimongoConfig): string {
   return JSON.stringify({
     projectName: options.projectName || 'abimongo-app',
@@ -18,7 +26,7 @@ export function DEFAULT_CONFIG_CONTENT(options: AbimongoConfig): string {
 
         // Optional: This configuration is basically to log tenant initialization
         // and can be customized based on your needs. It's not mandatory because it's exactly
-        // the same as logger config that's already enabled when you initialize the app.
+        // the same as logger config that's already enabled when you initialize the project.
         config: {
           enabled: true,
           // Other configuration options can be added here
@@ -29,6 +37,14 @@ export function DEFAULT_CONFIG_CONTENT(options: AbimongoConfig): string {
       enabled: options.logger || false,
       level: options.logger?.logLevel || "info",
       useColor: true,
+      colorize: true,
+      formatOptions: {
+        timestamp: true,
+        colorize: true,
+        prefix: "[Abimongo]",
+        source: "app",
+        json: false
+      },
       transports: [{
         console: true,
         file: {
@@ -38,7 +54,14 @@ export function DEFAULT_CONFIG_CONTENT(options: AbimongoConfig): string {
           maxSize: "10m",
           maxFiles: 5
         }
-      }]
+      }],
+      compressLogFiles: {
+        enabled: options.logger?.compressLogFiles?.enabled || false
+      },
+      enableMetrics: {
+        enabled: options.logger?.enableMetrics?.enabled || false,
+        logInterval: options.logger?.enableMetrics?.logInterval || 60000
+      },
     },
     graphql: {
       enabled: options.graphql?.enabled || false,

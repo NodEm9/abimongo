@@ -46,11 +46,11 @@ module.exports = {
 				amd: 'mongodb',
 				root: 'mongodb',
 			},
-			'@abimongo/abimongo-logger': {
-				'commonjs': '@abimongo/abimongo-logger',
-				'commonjs2': '@abimongo/abimongo-logger',
-				'amd': '@abimongo/abimongo-logger',
-				'root': '@abimongo/abimongo-logger',
+			'@abimongo/logger': {
+				'commonjs': '@abimongo/logger',
+				'commonjs2': '@abimongo/logger',
+				'amd': '@abimongo/logger',
+				'root': '@abimongo/logger',
 			},
 			graphql: {
 				commonjs: 'graphql',

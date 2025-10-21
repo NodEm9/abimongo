@@ -5,7 +5,6 @@ import {
 	Document,
 	Relationship
 } from "../types";
-// import { logger } from "../config";
 import { GCConfig } from "../types";
 
 

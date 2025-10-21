@@ -141,6 +141,9 @@
             }
           }
         },
+        "formatOptions": {
+          "type": "object"
+        },
         "excludedSources": {
           "type": "array",
           "items": {
@@ -150,6 +153,15 @@
         "circuitBreaker": {
           "enabled": true,
           "retryAttempts": 5
+        },
+        "enableMetrics": {
+          "type": "boolean",
+          "default": false,
+          "logIntervalMs": 60000
+        },
+        "compressLogFiles": {
+          "type": "boolean",
+          "default": false
         }
       }
     },
@@ -204,7 +216,7 @@
           "properties": {
             "enabled": {
               "type": "boolean",
-              "default": false,
+              "default": true,
               "description": "If true, enables the circuit breaker pattern to prevent cascading failures."
             },
             "retryAttempts": {
@@ -233,6 +245,10 @@
               "description": "If true, logs the results of garbage collection."
             }
           }
+        },
+        "compressLogFiles": {
+          "type": "boolean",
+          "default": false
         },
         "gcCron": {
           "type": "string",

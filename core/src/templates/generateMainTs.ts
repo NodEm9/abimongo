@@ -16,27 +16,12 @@ import { bootstrap } from './core/AbimongoBootstrap';
 
 async function main() {
 
-await bootstrap();
-  bootstrap.onConnect(() => {
+const run = await bootstrap();
+  run.onConnect(() => {
     console.log('✨ App is fully bootstrapped!');
   });
 
-  const db = await bootstrap.getMongoClient();
-  await db?.connect();
-
-  console.log('✅ MongoDB connected');
-
-  process.on('SIGINT', async () => {
-    console.log('\\nSIGINT received — shutting down...');
-    await bootstrap.shutdown();
-    process.exit(0);
-  });
-
-  process.on('SIGTERM', async () => {
-    console.log('\\nSIGTERM received — shutting down...');
-    await bootstrap.shutdown();
-    process.exit(0);
-  });
+  return run;
 }
 
 main().catch((err) => {

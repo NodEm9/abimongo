@@ -26,7 +26,8 @@ program
       multiTenant: options.multiTenant,
       advanced: {
         garbageCollector: options.withGarbageCollector,
-      }
+      },
+      mongoUri: options.uri,
     });
   });
 

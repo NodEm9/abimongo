@@ -59,7 +59,8 @@ export async function loadAbimongoConfig(configPath?: string): Promise<AbimongoC
   // Provide sensible defaults
   parsed.graphql ??= { enabled: false };
   parsed.features ??= { useRedisCache: false };
-  parsed.advanced ??= { garbageCollector: { enabled: true } };
+  parsed.advanced ??= { garbageCollector: { enabled: true }, circuitBreaker: { enabled: false } };
+  parsed.compressLogFiles ??= { enabled: false };
 
   return parsed;
 };

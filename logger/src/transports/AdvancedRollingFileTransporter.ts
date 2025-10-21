@@ -38,10 +38,12 @@ export class AdvancedRollingFileTransporter {
     this.lastRolledAt = new Date();
     this.currentStream = this.createWriteStream();
     if (process.env.NODE_ENV !== 'test') {
-      // if(this.metrics.getSnapshot()) {
-      this.metrics.start();
-      // }
-      this.startFlusher();
+      if(this.metrics.isTrackingMetrics()) {
+        this.metrics.start();
+        this.startFlusher();
+      } else {
+        this.metrics.stop();
+      }
     }
   }
 
@@ -89,7 +91,6 @@ export class AdvancedRollingFileTransporter {
           fs.createWriteStream(compressed)
         );
 
-        // this.metrics.trackRotation();
         fs.unlinkSync(rotatedFile);
       }
 
@@ -97,7 +98,6 @@ export class AdvancedRollingFileTransporter {
       this.currentStream = this.createWriteStream();
       this.lastRolledAt = now;;
       this.currentSize = 0;
-      // this.metrics.trackRotation();
     }
 
   }
@@ -152,9 +152,6 @@ export class AdvancedRollingFileTransporter {
     if (totalSize >= (this.options.maxSize || Infinity)) {
       console.warn('⚠️ Buffer size exceeded maxSize, flushing immediately');
       await this.flush(); // ✅ triggers flush counter
-      // this.metrics.trackFlush();
-      // this.metrics.trackLog();
-      // this.metrics.trackRotation();
     };
   }
 
@@ -170,30 +167,29 @@ export class AdvancedRollingFileTransporter {
       this.metrics.trackRotation();
     }
 
-    // if (this.currentStream.destroyed) {
-    //   console.warn('⚠️ Current stream is destroyed, creating a new one');
-    //   this.currentStream = this.createWriteStream();
-    // }
-
     if (this.options.compress) {
       try {
         const compressed = await gzip(Buffer.from(raw + '\n'));
         this.currentStream.write(compressed);
         this.currentSize += compressed.length;
         this.metrics.trackFlush();
-        console.log('📦 Compressed and wrote log entry');
       } catch (err: any) {
         this.metrics.trackFlush();
         console.warn('⚠️ Compression failed. Writing uncompressed:', err.message);
         this.currentStream.write(raw + '\n');
         this.currentSize += Buffer.byteLength(raw + '\n');
-        console.log('📦 Wrote log entry without compression');
       }
     } else {
       this.currentStream.write(raw + '\n');
       this.currentSize += Buffer.byteLength(raw + '\n');
       this.metrics.trackFlush();
-      console.log('📦 Wrote log entry without compression');
+      console.log('📦 Log entry compressed');
+    }
+
+
+    if (this.currentStream.destroyed) {
+      console.warn('⚠️ Current stream is destroyed, creating a new one');
+      this.currentStream = this.createWriteStream();
     }
   }
 

@@ -15,11 +15,11 @@ export type AbimongoConfig = {
 		retryAttempts?: number;
 		retryDelay?: number;
 	};
-	// garbageCollector?: {
-	// 	enabled?: boolean;
-	// 	retentionPeriod?: number; // in milliseconds
-	// 	logResults?: boolean;
-	// };
+	garbageCollector?: {
+		enabled?: boolean;
+		retentionPeriod?: number; // in milliseconds
+		logResults?: boolean;
+	};
 }
 
 export interface LoggerConfig {
@@ -34,11 +34,13 @@ export interface LoggerConfig {
 	enrichMetadata?: (meta: Record<string, any>) => Record<string, any>;
 	shouldLog?: (level: LogLevel, meta?: Record<string, any>) => boolean;
 	circuitBreaker?: AbimongoConfig['circuitBreaker'];
-	// garbageCollector?: AbimongoConfig['garbageCollector'];
+	garbageCollector?: AbimongoConfig['garbageCollector'];
 	enableMetrics?: {
 		enabled?: boolean;
 		logInterval?: number;
 	},
-	compressLogFiles?: boolean; // Whether to compress old log files
+	compressLogFiles?: {
+		enabled?: boolean;
+	}
 }
 

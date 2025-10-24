@@ -1,0 +1,47 @@
+name: Publish changed packages (dispatch reusable workflow)
+
+on:
+  push:
+    paths:
+      - 'packages/**'
+      - '.changeset/**'
+  workflow_dispatch:
+
+jobs:
+  detect-and-dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed packages
+        id: detect
+        run: |
+          # Determine git range
+          if [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ]; then
+            RANGE="${{ github.sha }}"
+          else
+            RANGE="${{ github.event.before }}..${{ github.sha }}"
+          fi
+          echo "Using range: $RANGE"
+          pkgs=$(git diff --name-only $RANGE | grep '^packages/' || true | cut -d/ -f2 | sort -u | tr '\n' ' ')
+          echo "changed_packages=$pkgs" >> $GITHUB_OUTPUT
+
+      - name: Dispatch reusable workflow per package
+        if: steps.detect.outputs.changed_packages != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          for pkg in ${{ steps.detect.outputs.changed_packages }}; do
+            pkg_path="packages/$pkg"
+            pkg_name=$(cat "$pkg_path/package.json" 2>/dev/null | jq -r .name 2>/dev/null || echo "$pkg")
+            echo "Dispatching reusable publish for $pkg_name ($pkg_path)"
+            curl -s -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer $GITHUB_TOKEN" \
+              https://api.github.com/repos/$REPO/actions/workflows/reusable-publish.yml/dispatches \
+              -d "{\"ref\": \"main\", \"inputs\": {\"package_path\": \"$pkg_path\", \"package_name\": \"$pkg_name\"}}"
+          done

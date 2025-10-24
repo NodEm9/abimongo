@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "lib": [
+      "ES2021", 
+      "ES2022.Error",
+      "ES2022.Object",
+      "esnext.disposable",
+      "DOM.Iterable", 
+      "DOM"
+      ],  
+    "moduleDetection": "auto",                                                                                     
+    "module": "NodeNext",                              
+    "moduleResolution": "NodeNext",  
+    "rootDir": "./",
+    "types": [
+      "node"
+    ],
+    "esModuleInterop": true,
+    "isolatedModules": true, 
+    "experimentalDecorators": true,
+    "importHelpers": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmitOnError": true,
+    "resolveJsonModule": true, 
+    "inlineSourceMap": false,                                                                                                                                    
+    "noImplicitAny": false,                            
+    "strict": true,                                                                  
+    "skipLibCheck": true, 
+    "jsx": "react-jsx"                              
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "compiler": "typescript-cached-transpile"
+  },
+  "include": [
+    "*/packages/**/*", 
+    "docs/**/*", 
+    ],
+  "exclude": ["node_modules", "dist"]
+}

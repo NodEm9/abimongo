@@ -1,0 +1,34 @@
+node_modules
+
+# webpack output
+lib
+dist
+
+package-lock.json 
+
+# Compiled doc
+docs/*.html
+docs/*functions/*.html
+docs/*classes/*.html
+docs/*variables/*.html
+docs/*.nojekyll
+
+# Jest coverage
+coverage/
+jest.config.js
+
+# Scripts
+
+request.http 
+lib_test 
+
+# Archives
+archives
+*.sh
+
+ 
+# Logs
+logs
+
+# Records
+records.json

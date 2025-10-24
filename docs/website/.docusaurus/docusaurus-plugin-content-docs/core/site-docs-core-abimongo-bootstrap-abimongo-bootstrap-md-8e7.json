@@ -1,0 +1,21 @@
+{
+  "id": "abimongo-bootstrap/AbimongoBootstrap",
+  "title": "AbimongoBootstrap (core)",
+  "description": "The core package exposes two cooperating bootstrapper classes located at packages/core/src/lib-core/bootstrap:",
+  "source": "@site/docs/core/abimongo-bootstrap/AbimongoBootstrap.md",
+  "sourceDirName": "abimongo-bootstrap",
+  "slug": "/abimongo-bootstrap/AbimongoBootstrap",
+  "permalink": "/abimongo/core/abimongo-bootstrap/AbimongoBootstrap",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "next": {
+    "title": "README",
+    "permalink": "/abimongo/core/api/"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "api/core/functions/applyMultiTenancy",
+  "title": "Function: applyMultiTenancy()",
+  "description": "applyMultiTenancy(app, tenants, options?): Promise\\",
+  "source": "@site/docs/core/api/core/functions/applyMultiTenancy.md",
+  "sourceDirName": "api/core/functions",
+  "slug": "/api/core/functions/applyMultiTenancy",
+  "permalink": "/abimongo/core/api/core/functions/applyMultiTenancy",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "Function: GCSettings()",
+    "permalink": "/abimongo/core/api/core/functions/GCSettings"
+  },
+  "next": {
+    "title": "Function: authorize()",
+    "permalink": "/abimongo/core/api/core/functions/authorize"
+  }
+}

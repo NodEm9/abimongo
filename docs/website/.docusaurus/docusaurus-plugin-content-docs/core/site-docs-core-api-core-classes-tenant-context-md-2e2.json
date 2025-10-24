@@ -1,0 +1,25 @@
+{
+  "id": "api/core/classes/TenantContext",
+  "title": "Class: TenantContext",
+  "description": "Defined in9",
+  "source": "@site/docs/core/api/core/classes/TenantContext.md",
+  "sourceDirName": "api/core/classes",
+  "slug": "/api/core/classes/TenantContext",
+  "permalink": "/abimongo/core/api/core/classes/TenantContext",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "Class: Schema",
+    "permalink": "/abimongo/core/api/core/classes/Schema"
+  },
+  "next": {
+    "title": "Enumeration: ErrorType",
+    "permalink": "/abimongo/core/api/core/enumerations/ErrorType"
+  }
+}

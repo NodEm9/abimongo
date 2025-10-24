@@ -27,7 +27,11 @@ jobs:
           fi
           echo "Using range: $RANGE"
           pkgs=$(git diff --name-only $RANGE | grep '^packages/' || true | cut -d/ -f2 | sort -u | tr '\n' ' ')
-          echo "changed_packages=$pkgs" >> $GITHUB_OUTPUT
+          # Use the proper GITHUB_OUTPUT multiline format to safely set outputs
+          # (avoid invalid-format errors when $pkgs contains newlines or special chars)
+          echo "changed_packages<<EOF" >> $GITHUB_OUTPUT
+          echo "$pkgs" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Dispatch reusable workflow per package
         if: steps.detect.outputs.changed_packages != ''

@@ -117,13 +117,13 @@ jobs:
         with:
           path: docs/website/build
 
-      # - name: Deploy to GitHub Pages
+
+      # - name: Deploy to GitHub Pages (alternative)
       #   uses: actions/deploy-pages@v4
-      
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/website/build
           publish_branch: gh-pages
-				

@@ -16,28 +16,40 @@ module.exports = {
 	externals: [
 		nodeExternals(),
 		{
-		// Exclude node_modules from the bundle
-		// This is important for CLI tools to avoid bundling unnecessary dependencies
-	
-		'mongodb': {
-			commonjs: 'mongodb',
-			commonjs2: 'mongodb',
-			amd: 'mongodb',
-			root: 'mongodb',
-		},
-		'@abimongo/logger': {
-			'commonjs': '@abimongo/logger',
-			'commonjs2': '@abimongo/logger',
-			'amd': '@abimongo/logger',
-			'root': '@abimongo/logger',
-		},
-		'logger': {
-			'commonjs': 'logger',
-			'commonjs2': 'logger',
-			'amd': 'logger',
-			'root': 'logger',
-		},
-	}],
+			// Exclude node_modules from the bundle
+			// This is important for CLI tools to avoid bundling unnecessary dependencies
+
+			'mongodb': {
+				commonjs: 'mongodb',
+				commonjs2: 'mongodb',
+				amd: 'mongodb',
+				root: 'mongodb',
+			},
+			'@abimongo/logger': {
+				'commonjs': '@abimongo/logger',
+				'commonjs2': '@abimongo/logger',
+				'amd': '@abimongo/logger',
+				'root': '@abimongo/logger',
+			},
+			graphql: {
+				commonjs: 'graphql',
+				commonjs2: 'graphql',
+				amd: 'graphql',
+				root: 'graphql',
+			},
+			"express": {
+				commonjs: 'express',
+				commonjs2: 'express',
+				amd: 'express',
+				root: 'express',
+			}
+			// 'logger': {
+			// 	'commonjs': 'logger',
+			// 	'commonjs2': 'logger',
+			// 	'amd': 'logger',
+			// 	'root': 'logger',
+			// },
+		}],
 	resolve: {
 		extensions: ['.ts', '.js'],
 		byDependency: {

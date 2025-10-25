@@ -28,9 +28,19 @@ if (typeof window !== 'undefined') {
 	window.Buffer = Buffer;
 }
 
+// const config: AbimongoConfig = {} 
 
-export * from './core';
-export * from './core/bootstrap';
+// if (!config.logger?.enableMetrics) {
+// 	const metricsTracker = new MetricsTracker()
+// 	metricsTracker.stop();
+// }
+
+
+
+
+
+export * from './lib-core';
+export * from './lib-core/bootstrap';
 export * from './config';
 export * from './redis-manager/redisClient';
 export * from './tanancy';
@@ -48,5 +58,3 @@ export * from './types';
 export { SchemaType } from './types/schema.type';
 export type { Document } from './types/document';
 export type { ErrorType } from './utils/error/errorTypes';
-
-

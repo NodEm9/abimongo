@@ -5,7 +5,7 @@ import {
 } from '../utils';
 
 
-const logger = setupLogger({
+Logger.initialize({
   formatOptions: {
     colorize: true,
     json: false,
@@ -49,14 +49,14 @@ const logger = setupLogger({
   }
 });
 
-// const logger = Logger.instance;
+const logger = Logger.instance;
 
 export { logger };
   
-const debugMode = process.env.DEBUG === 'true' || false;
-if (debugMode) {
-  logger.debug('Debug mode is enabled.');
-  logger.info('Debug mode is enabled. Log level set to debug.');
-}
+// const debugMode = process.env.DEBUG === 'true' || false;
+// if (debugMode) {
+//   logger.debug('Debug mode is enabled.');
+//   logger.info('Debug mode is enabled. Log level set to debug.');
+// }
 
 

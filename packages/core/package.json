@@ -1,23 +1,19 @@
 {
   "name": "@abimongo/core",
   "version": "1.0.0",
-  "description": "Abimongo core library ORM for MongoDB",
-  "main": "lib/abimongo_core.node.js",
-  "module": "lib/abimongo_core.node.mjs",
-  "types": "lib/index.d.ts",
+  "description": "Enterprise-grade MongoDB ORM built on the official MongoDB driver.",
+  "main": "dist/abimongo-core.node.js",
+  "module": "dist/abimongo-core.node.mjs",
+  "browser": "dist/abimongo-core.browser.js",
+  "types": "dist/index.d.ts",
   "bin": {
-    "abimongo-core": "lib/abimongo_core-cli.js"
+    "abimongo": "dist/abimongo-core-cli.js"
   },
   "exports": {
     ".": {
-      "import": "./lib/abimongo_core.esm.js",
-      "require": "./lib/abimongo_core.node.js",
-      "types": "./lib/index.d.ts"
-    },
-    "./browser": {
-      "import": "./lib/abimongo_core.browser.mjs",
-      "require": "./lib/abimongo_core.browser.js",
-      "types": "./lib/index.d.ts"
+      "import": "./dist/abimongo-core.esm.js",
+      "require": "./dist/abimongo-core.node.js",
+      "types": "./dist/index.d.ts"
     },
     "./browser": {
       "import": "./dist/abimongo-core.browser.mjs",
@@ -25,22 +21,16 @@
       "types": "./dist/browser.d.ts"
     },
     "./bin/abimongo-scaffold.ts": {
-<<<<<<< HEAD:packages/core/package.json
       "require": "./dist/abimongo-core-cli.js",
       "import": "./dist/abimongo-core-cli.js",
       "types": "./dist/bin/abimongo-core-cli.d.ts"
-=======
-      "require": "./lib/abimongo_core-cli.js",
-      "import": "./lib/abimongo_core-cli.js",
-      "types": "./lib/bin/abimongo-scaffold.d.ts"
->>>>>>> eaae3d6 (Fix bootstraping class webpack runtiime error and update tsconfig by setting types to node, also add new jest setupTest config file to ensure test are not causing errors due to type=node set in tsconfig):core/package.json
     },
     "./package.json": "./package.json"
   },
   "sideEffects": false,
   "files": [
-    "lib",
-    "!lib/scripts"
+    "dist",
+    "!dist/scripts"
   ],
   "scripts": {
     "build:node": "webpack --config webpack.node.config.js",
@@ -50,10 +40,6 @@
     "build": "npm run build:node && npm run build:cli && npm run build:web",
     "lint": "eslint src --ext .ts",
     "clean:all": "rimraf lib && rimraf docs",
-<<<<<<< HEAD:packages/core/package.json
-=======
-    "prepare": "npm run build",
->>>>>>> eaae3d6 (Fix bootstraping class webpack runtiime error and update tsconfig by setting types to node, also add new jest setupTest config file to ensure test are not causing errors due to type=node set in tsconfig):core/package.json
     "prepublishOnly": "npm run build",
     "semantic-release": "semantic-release",
     "prepack": "npm run build",
@@ -88,17 +74,12 @@
     }
   ],
   "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
-    "@abimongo/logger": "file:../logger/abimongo-logger-1.0.0.tgz",
-    "@apollo/server": "^5.0.0",
+    "@abimongo/logger": "file:../logger",
     "@babel/runtime": "^7.27.1",
-<<<<<<< HEAD:packages/core/package.json
-=======
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "express-serve-static-core": "^0.1.1",
-    "mongodb": "^6.20.0",
->>>>>>> eaae3d6 (Fix bootstraping class webpack runtiime error and update tsconfig by setting types to node, also add new jest setupTest config file to ensure test are not causing errors due to type=node set in tsconfig):core/package.json
     "node-cron": "4.2.0",
     "reflect-metadata": "0.2.2"
   },

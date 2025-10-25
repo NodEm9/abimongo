@@ -411,6 +411,3 @@ export class AbimongoGraphQL {
     });
   }
 };
-
-
-

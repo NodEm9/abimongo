@@ -1,7 +1,7 @@
 import { Abimongo, abimongo, AbimongoClient } from "../src/lib-core";
 import "dotenv/config";
 // import { logger } from "./example-1/router";
-// import { logger } from "../src/config";
+import { logger } from "../src/config";
 
 
 export const dbConfig = {

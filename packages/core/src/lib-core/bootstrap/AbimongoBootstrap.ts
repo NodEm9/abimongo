@@ -1,10 +1,6 @@
 import { loadAbimongoConfig } from '../../config';
 import { AbimongoConfig, Document } from '../../types';
-<<<<<<< HEAD:packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts
 // import { setupLogger, logger } from '@abimongo/logger';
-=======
-import { setupLogger, logger } from '@abimongo/logger';
->>>>>>> eaae3d6 (Fix bootstraping class webpack runtiime error and update tsconfig by setting types to node, also add new jest setupTest config file to ensure test are not causing errors due to type=node set in tsconfig):core/src/lib-core/bootstrap/AbimongoBootstrap.ts
 import { AbimongoClient } from '../AbimongoClient';
 import { AbimongoGraphQL, initializeGraphQL } from '../../graphql';
 import chalk from 'chalk';
@@ -103,17 +99,10 @@ export class AbimongoBootstrap {
   private mongoClient!: AbimongoClient;
   private model!: AbimongoModel<Document>;
   private schema!: AbimongoSchema<Document>
-<<<<<<< HEAD:packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts
   private graphql!: AbimongoGraphQL;
   // public logger!: ReturnType<typeof setupLogger> | typeof logger;
   private app?: Application = undefined;
   private gc!: AbimongoGC;
-=======
-  private graphql?: AbimongoGraphQL;
-  public logger!: ReturnType<typeof setupLogger> | typeof logger;
-  private app?: Application = undefined;
-  private gc?: AbimongoGC;
->>>>>>> eaae3d6 (Fix bootstraping class webpack runtiime error and update tsconfig by setting types to node, also add new jest setupTest config file to ensure test are not causing errors due to type=node set in tsconfig):core/src/lib-core/bootstrap/AbimongoBootstrap.ts
 
   private onConnectHooks: OnConnectHook[] = [];
 
@@ -137,25 +126,12 @@ export class AbimongoBootstrap {
    */
   public async initialize(configFilePath?: string): Promise<void> {
     this.config = await loadAbimongoConfig(configFilePath);
-<<<<<<< HEAD:packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts
     // if (this.config.logger?.enabled) {
     //   const loggerConfig = this.config.logger ?? { enabled: false }
     //   const loggerConfg = loggerConfig.enabled ? setLogger(this.config.logger) : logger;
     //   this.logger = loggerConfg;
     //   console.info('📝 Logger initialized');
     // }
-=======
-    if (this.config.logger?.enabled) {
-      setLogger(this.config.logger)
-      console.info('📝 Logger initialized');
-    }
-
-    // const loggerConfig = this.config.logger ?? { enabled: false };
-    const loggerConfg = this.config.logger?.enabled ? setLogger(this.config.logger) : logger;
-    this.logger = loggerConfg;
-    console.info('📝 Logger initialized');
-
->>>>>>> eaae3d6 (Fix bootstraping class webpack runtiime error and update tsconfig by setting types to node, also add new jest setupTest config file to ensure test are not causing errors due to type=node set in tsconfig):core/src/lib-core/bootstrap/AbimongoBootstrap.ts
     // Redis setup (if enabled)
     if (this.config.features?.useRedisCache && this.config.features.redisUri) {
       await redis.get(this.config.features.redisUri);
@@ -239,11 +215,7 @@ export class AbimongoBootstrap {
       const cronExpr = this.config.advanced?.gcCron || '0 * * * *'; // hourly default
       if (isNode) {
         // load node-only modules dynamically
-<<<<<<< HEAD:packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts
         // const { scheduleGarbageCollector } = await import('../../gc/').ts;
-=======
-        const { scheduleGarbageCollector } = await import('../../gc');
->>>>>>> eaae3d6 (Fix bootstraping class webpack runtiime error and update tsconfig by setting types to node, also add new jest setupTest config file to ensure test are not causing errors due to type=node set in tsconfig):core/src/lib-core/bootstrap/AbimongoBootstrap.ts
         scheduleGarbageCollector(cronExpr);
       }
 
@@ -340,15 +312,9 @@ export class AbimongoBootstrap {
     return this.mongoClient;
   }
 
-<<<<<<< HEAD:packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts
   // public getLogger(): ReturnType<typeof setupLogger> | typeof logger {
   //   return this.logger;
   // };
-=======
-  public getLogger(): ReturnType<typeof setupLogger> | typeof logger {
-    return this.logger;
-  };
->>>>>>> eaae3d6 (Fix bootstraping class webpack runtiime error and update tsconfig by setting types to node, also add new jest setupTest config file to ensure test are not causing errors due to type=node set in tsconfig):core/src/lib-core/bootstrap/AbimongoBootstrap.ts
 
   public getModel(): AbimongoModel<Document> | undefined {
     return this.model;
@@ -380,4 +346,3 @@ export class AbimongoBootstrap {
     console.info('🧼 Shutdown complete');
   }
 };
-

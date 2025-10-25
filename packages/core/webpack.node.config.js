@@ -5,15 +5,13 @@ const { VERSION } = require('ts-node');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 
-
 module.exports = {
 	mode: 'production',
 	entry: './index.ts',
 	target: 'node',
 	output: {
-		filename: 'abimongo_core.node.js',
-		path: path.resolve(__dirname, 'lib'),
-		globalObject: 'this',
+		filename: 'abimongo-core.node.js',
+		path: path.resolve(__dirname, 'dist'),
 		library: {
 			name: 'abimongo-core',
 			type: 'umd',
@@ -23,7 +21,7 @@ module.exports = {
 		clean: true
 	},
 	externals: [
-	nodeExternals(),
+		nodeExternals(),
 		{
 			'mongodb': {
 				umd: 'mongodb',

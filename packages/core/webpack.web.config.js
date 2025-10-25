@@ -4,13 +4,13 @@ const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 
-module.exports = {
+mmodule.exports = {
 	mode: 'production',
 	entry: './browser.ts',
 	target: 'web',
 	output: {
-		filename: 'abimongo_core.browser.js',
-		path: path.resolve(__dirname, 'lib'),
+		filename: 'abimongo-core.browser.js',
+		path: path.resolve(__dirname, 'dist'),
 		library: {
 			type: 'umd', // Universal Module Definition for compatibility with CommonJS, AMD, and browser globals
 			umdNamedDefine: true, // Use named UMD definition

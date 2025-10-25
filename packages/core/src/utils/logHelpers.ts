@@ -5,7 +5,7 @@ import {
 	createResilientTransporter,
 	createRotatingFileTransporter,  
 	FileTransporter,
-} from '@abimongo/logger'; 
+} from '@abimongo/logger';  
 
 
 
@@ -80,4 +80,3 @@ export const lokiTransport = createResilientTransporter(
 		instance: 'abimongo-instance',
 	})
 );
-

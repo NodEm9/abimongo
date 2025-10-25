@@ -1,4 +1,4 @@
-import type { LoggerConfig } from '@abimongo/abimongo-logger';
+import type { LoggerConfig } from '@abimongo/logger';
 import { InitMultiTenancyOptions } from '../tanancy/init/initMultiTenancy';
 import { AbimongoModelOptions } from './abimongo.mode.type';
 import { SchemaDefinition } from './schema.type';

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AbimongoBootstrap, AbimongoBootstrapFactory } from '../lib-core';
-// import { bufferedTransporter } from '../utils';
+import { bufferedTransporter } from '../utils';
 
 
 

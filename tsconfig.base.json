@@ -42,7 +42,7 @@
   // },
   "include": [
     "packages/*", 
-    "docs/**/*", 
+    "docs/*", 
     ],
   "exclude": ["node_modules", "dist"]
 }

@@ -53,7 +53,7 @@
     "docusaurus:start": "cd website && npm run docusaurus start",
     "docusaurus:deploy": "cd website && npm run docusaurus deploy",
     "docs:build": "typedoc",
-    "docs:clear": "rm -rf ./docs/api"
+    "docs:clear": "rm -rf docs/api"
   },
   "release": {
     "branches": [
@@ -74,11 +74,9 @@
     }
   ],
   "license": "ISC",
-  "publishConfig": {
-    "access": "public"
-  },
   "dependencies": {
-    "@abimongo/logger": "file:../logger",
+    "@abimongo/logger": "file:../../abimongo_core_library/abimongo_utils/logger/abimongo-logger-2.0.1.tgz",
+    "@apollo/server": "^5.0.0",
     "@babel/runtime": "^7.27.1",
     "node-cron": "4.2.0",
     "reflect-metadata": "0.2.2"

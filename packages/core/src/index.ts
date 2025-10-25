@@ -28,19 +28,9 @@ if (typeof window !== 'undefined') {
 	window.Buffer = Buffer;
 }
 
-// const config: AbimongoConfig = {} 
 
-// if (!config.logger?.enableMetrics) {
-// 	const metricsTracker = new MetricsTracker()
-// 	metricsTracker.stop();
-// }
-
-
-
-
-
-export * from './lib-core';
-export * from './lib-core/bootstrap';
+export * from './core';
+export * from './core/bootstrap';
 export * from './config';
 export * from './redis-manager/redisClient';
 export * from './tanancy';

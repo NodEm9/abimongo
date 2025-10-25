@@ -12,17 +12,13 @@
     "module": "CommonJS",
     "moduleResolution": "Node",
     "declaration": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "@abimongo/logger": ["packages/logger/src"],
       "@abimongo/core":   ["packages/core"],
       "@abimongo/cli":    ["packages/cli"]
     },
-    "references": [
-    { "path": "packages/logger" },
-    { "path": "packages/core" },
-    { "path": "packages/cli" }
-    ],
+    "declarationMap": true,
     "esModuleInterop": true,
     "isolatedModules": true, 
     "experimentalDecorators": true,

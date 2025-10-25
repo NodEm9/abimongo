@@ -1,7 +1,7 @@
 # AbimongoBootstrap (core)
 
 The core package exposes two cooperating bootstrapper classes located at `packages/core/src/lib-core/bootstrap`:
-
+ 
 - AbimongoBootstrap — runtime initializer that loads configuration, connects Redis and MongoDB, registers schemas and models, initializes GraphQL, optionally schedules garbage collection, and exposes runtime helpers.
 - AbimongoBootstrapFactory — a small factory with a static `create(config?)` method that constructs an `AbimongoBootstrap`, calls `initialize(config?)`, and returns the initialized instance.
 

@@ -23,7 +23,7 @@
     ".": {
       "import": "./dist/abimongo-logger.mjs",
       "require": "./dist/abimongo-logger.cjs",
-      "types":  "./dist/index.d.ts"
+      "types": "./dist/index.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -60,6 +60,9 @@
     "@babel/preset-env": "^7.27.2",
     "@babel/preset-typescript": "^7.27.1",
     "@changesets/cli": "^2.29.5",
+    "@docusaurus/core": "^3.9.2",
+    "@docusaurus/plugin-content-docs": "^3.9.2",
+    "@docusaurus/preset-classic": "^3.9.2",
     "@testing-library/jest-dom": "^6.9.1",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.33",

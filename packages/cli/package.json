@@ -14,7 +14,7 @@
     ".": {
       "require": "./dist/bin/abimongo_cli.js",
       "import": "./dist/bin/cli/init.d.ts",
-      "types":  "./dist/bin/abimongo_cli.d.ts"
+      "types": "./dist/bin/abimongo_cli.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -38,6 +38,9 @@
   "type": "commonjs",
   "description": "",
   "devDependencies": {
+    "@docusaurus/core": "^3.9.2",
+    "@docusaurus/plugin-content-docs": "^3.9.2",
+    "@docusaurus/preset-classic": "^3.9.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/figlet": "^1.7.0",

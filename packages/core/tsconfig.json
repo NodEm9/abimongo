@@ -1,15 +1,14 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-  "rootDir": ".",
+  "rootDir": "../",
   "outDir": "dist",
   "ignoreDeprecations": "6.0",
    "composite": true
   },
   "include": [
     "index.ts",
-    "src",
-    "./*", 
+    "src/**/*", 
     "browser.ts", 
     "bin/abimongo-core-cli.ts",
     "setupTest.ts"

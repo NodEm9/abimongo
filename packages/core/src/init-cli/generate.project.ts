@@ -15,12 +15,13 @@ import { AbimongoConfig, ProjectOptions } from '../types';
 
 export async function generateProject(options: AbimongoConfig) {
   const projectRoot = path.resolve(process.cwd(), options.projectName || 'abimongo-app');
+  // const allFoldersAndFiles = foldersAndFiles();
   const { generatedFolders, generatedFiles } = foldersAndFiles();
 
-  const interval = setInterval(() => {
+  setInterval(() => {
     // Keep the process alive
     console.log(chalk.blue(`[Preparing Process]: \nGenerating project at - ${projectRoot}`));
-  }, 300);
+  }, 1000);
   console.log(chalk.blue.bold('[Process Started]: This may take a few moments...'));
   clearInterval(interval);
 
@@ -35,6 +36,7 @@ export async function generateProject(options: AbimongoConfig) {
   // Create src directory if it doesn't exist
   setupGarbageCollector(options, projectRoot);
 
+  // console.log(chalk.green(`✓ [Garbage Collector]: GC Manager and Runner scripts created.`));
 
   const mainTSPath = path.join(projectRoot, 'src', 'main.ts');
   const mainTSContent = generateMainTS(options);
@@ -42,14 +44,16 @@ export async function generateProject(options: AbimongoConfig) {
   console.log(chalk.green(`✓ [Entry point]: Entry point created - src/main.ts`));
 
   const completedFilePath = path.join(projectRoot, 'PROJECT_GENERATION_COMPLETED.txt');
+  await fs.writeFile(completedFilePath, 'Project generation completed successfully.', 'utf8');
 
-    // Log generated folders and files
+  // Log generated folders and files
   generatedFolders();
   generatedFiles();
-  await fs.writeFile(completedFilePath, `${foldersAndFiles()}`, 'utf8');
+
+  // allFoldersAndFiles.generatedFolders();
+  // allFoldersAndFiles.generatedFiles();
 
   console.log(chalk.green.bold('[Completed]: \nProject generation completed successfully!'));
-  process.exit(0);
 }
 
 export async function generateProjectWithConfig(config: AbimongoConfig) {

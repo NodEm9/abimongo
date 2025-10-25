@@ -11,8 +11,9 @@ module.exports = {
 	entry: './index.ts',
 	target: 'node',
 	output: {
-		filename: 'abimongo-core.node.js',
-		path: path.resolve(__dirname, 'dist'),
+		filename: 'abimongo_core.node.js',
+		path: path.resolve(__dirname, 'lib'),
+		globalObject: 'this',
 		library: {
 			name: 'abimongo-core',
 			type: 'umd',
@@ -22,7 +23,7 @@ module.exports = {
 		clean: true
 	},
 	externals: [
-		nodeExternals(),
+	nodeExternals(),
 		{
 			'mongodb': {
 				umd: 'mongodb',

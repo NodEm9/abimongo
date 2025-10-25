@@ -39,7 +39,11 @@ const defaultCollectionName = Symbol.for('abimongo:defaultCollectionName');
  */
 export class AbimongoClient implements AbimongoClientConfig {
 	private _uri: string;
+<<<<<<< HEAD:packages/core/src/lib-core/AbimongoClient.ts
 	private _client: MongoClient | null;
+=======
+	private _client!: MongoClient | null;
+>>>>>>> eaae3d6 (Fix bootstraping class webpack runtiime error and update tsconfig by setting types to node, also add new jest setupTest config file to ensure test are not causing errors due to type=node set in tsconfig):core/src/lib-core/AbimongoClient.ts
 	private _db?: Db | null = null;
 	private collectionName?: Collection<any>;
 	private _dbName?: string;
@@ -58,14 +62,18 @@ export class AbimongoClient implements AbimongoClientConfig {
 		this._options = _options || {};
 		this._dbName = this._options?.dbName || process.env.DB_NAME || 'abimongo_default_db';
 
+<<<<<<< HEAD:packages/core/src/lib-core/AbimongoClient.ts
 		// Validate and create client
+=======
+		// const MongoClient = (await import('mongodb')).MongoClient;
+>>>>>>> eaae3d6 (Fix bootstraping class webpack runtiime error and update tsconfig by setting types to node, also add new jest setupTest config file to ensure test are not causing errors due to type=node set in tsconfig):core/src/lib-core/AbimongoClient.ts
 		this.validateUri(this._uri);
 		this._client = this._options?.client || new MongoClient(this._uri, {
 			directConnection: true,
 			minPoolSize: 5,
 			maxPoolSize: 50,
 			serverSelectionTimeoutMS: 5000,
-		});
+		})
 
 		this._db = this._client && typeof this._client.db === 'function' ? this._client.db(this._dbName) : null;
 		if (this._client && typeof this._client.db === 'function') {
@@ -115,10 +123,15 @@ export class AbimongoClient implements AbimongoClientConfig {
 		if (!_abimongo._client || _abimongo._uri !== resolvedUri) {
 			_abimongo._uri = resolvedUri;
 			_abimongo._options = options || _abimongo._options;
+<<<<<<< HEAD:packages/core/src/lib-core/AbimongoClient.ts
 			_abimongo._client = _abimongo._options?.client || new MongoClient(_abimongo._uri) as MongoClient;
 			_abimongo._db = _abimongo._client && typeof _abimongo._client.db === 'function'
 				? _abimongo._client.db(_abimongo._options?.dbName || _abimongo._dbName)
 				: null;
+=======
+			_abimongo._client = _abimongo._options?.client || new MongoClient(_abimongo.uri) as MongoClient;
+			_abimongo._db = _abimongo._client?.db(_abimongo._options?.dbName);
+>>>>>>> eaae3d6 (Fix bootstraping class webpack runtiime error and update tsconfig by setting types to node, also add new jest setupTest config file to ensure test are not causing errors due to type=node set in tsconfig):core/src/lib-core/AbimongoClient.ts
 		}
 
 		return _abimongo;
@@ -292,7 +305,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 */
 	async connect(): Promise<Db> {
 		if (!this._client) {
-			this._client = new MongoClient(this.uri, { monitorCommands: true });
+			this._client = new MongoClient(this.uri, { monitorCommands: true }) as MongoClient;
 			await this.client.connect();
 			this._db = this.client.db(this._options?.dbName);
 		}

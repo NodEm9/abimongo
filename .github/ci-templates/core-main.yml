@@ -79,7 +79,7 @@ jobs:
 
       - name: Verify Build Output
         run: |
-          if [ ! -f dist/abimongo_core.node.js ] && [ ! -f dist/abimongo_core-cli.js ]; then
+          if [ ! -f lib/abimongo_core.node.js ] && [ ! -f lib/abimongo_core-cli.js ]; then
             echo "Build failed: abimongo_core.node.js or abimongo_core-cli.js not found!"
             exit 1
           fi

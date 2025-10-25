@@ -9,8 +9,8 @@ module.exports = {
 	entry: './browser.ts',
 	target: 'web',
 	output: {
-		filename: 'abimongo-core.browser.js',
-		path: path.resolve(__dirname, 'dist'),
+		filename: 'abimongo_core.browser.js',
+		path: path.resolve(__dirname, 'lib'),
 		library: {
 			type: 'umd', // Universal Module Definition for compatibility with CommonJS, AMD, and browser globals
 			umdNamedDefine: true, // Use named UMD definition

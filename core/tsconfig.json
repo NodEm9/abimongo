@@ -1,0 +1,56 @@
+{
+  "compilerOptions": {
+    "target": "es2021",
+    "lib": [
+      "ES2021", 
+      "ES2022.Error",
+      "ES2022.Object",
+      "esnext.disposable",
+      "DOM.Iterable", 
+      "DOM"
+      ],  
+    "moduleDetection": "auto",                                                                                     
+    "module": "commonjs",                              
+    "moduleResolution": "node",  
+    "rootDir": "./",
+    "outDir": "./lib",
+    "types": [
+      "node"
+    ],
+    // "ignoreDeprecations": "6.0",                                                        
+    "declaration": true, 
+    // "declarationDir": "./lib",
+    "declarationMap": true, 
+    "esModuleInterop": true,
+    "isolatedModules": true, 
+    "experimentalDecorators": true,
+    "importHelpers": false,
+    "emitDecoratorMetadata": true,
+    "noEmitOnError": true,
+    "resolveJsonModule": true, 
+    "inlineSourceMap": false,                                                                                        
+    "sourceMap": true,                                                
+    "noImplicitAny": false,                            
+    "strict": true,                                                                  
+    "skipLibCheck": true, 
+    "jsx": "react-jsx"                              
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "compiler": "typescript-cached-transpile"
+  },
+  "include": [
+    "index.ts",
+    "src/**/*",
+    "browser.ts", 
+    "./bin/abimongo-scaffold.ts",
+    "setupTest.ts"
+    // "docs-site/**/*"
+  ],
+  "exclude": [
+    "./node_modules",
+    "./examples",
+    "**/__tests__/**"
+  ]
+  
+}

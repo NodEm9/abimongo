@@ -1,5 +1,4 @@
 import { Abimongo, abimongo, AbimongoClient } from "../src/lib-core";
-import { MultiTenantManager } from "../src/tanancy/MultiTenantManager";
 import "dotenv/config";
 // import { logger } from "./example-1/router";
 // import { logger } from "../src/config";

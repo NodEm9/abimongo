@@ -5,7 +5,7 @@ import {
 	createResilientTransporter,
 	createRotatingFileTransporter,  
 	FileTransporter,
-} from '@abimongo/logger';  
+} from '@abimongo/logger'; 
 
 
 
@@ -16,6 +16,7 @@ import {
  * It also includes a function to shutdown the logger gracefully.
  */
 
+const fileTransport = new FileTransporter('logs/abimongo.log');
 
 /**
  * Creates a rotating file transporter for logging.

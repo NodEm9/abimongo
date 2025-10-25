@@ -75,7 +75,7 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "@abimongo/logger": "file:../../abimongo_core_library/abimongo_utils/logger/abimongo-logger-2.0.1.tgz",
+    "@abimongo/logger": "file:../logger/abimongo-logger-1.0.0.tgz",
     "@apollo/server": "^5.0.0",
     "@babel/runtime": "^7.27.1",
     "node-cron": "4.2.0",

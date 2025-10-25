@@ -127,7 +127,7 @@ async function setup() {
     deletedAt: new Date(Date.now() + 1000 * 120), // 2 minutes ago
   });
 
-  console.log('[Test] Inserted expired soft-deleted user');
+  logger?.info('[Test] Inserted expired soft-deleted user');
 
   // Run GC
   // const result = await userModel.startAutoGC();

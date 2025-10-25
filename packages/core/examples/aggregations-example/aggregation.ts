@@ -1,5 +1,5 @@
 import { dbConfig, dbDriver } from "../dbConfig";
-import { createModel, createSchema, castId } from "../../src/utils";
+import {createModel, createSchema, castId } from "../../src/utils";
 import { AbimongoClient, AbimongoModel, AbimongoSchema } from "../../src/lib-core";
 import { Document, SchemaType } from "../../src/types";
 import { ObjectId } from "mongodb";

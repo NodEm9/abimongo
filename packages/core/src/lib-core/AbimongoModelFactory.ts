@@ -216,7 +216,7 @@ export class AbimongoModel<T extends Document> {
         throw new Error(`Field "${key}" is required but not provided.`);
       }
       if (field.type === ObjectId && key in doc) {
-        (doc as any)[key] = castId(doc[key]);
+         (doc as any)[key] = castId(doc[key]);
       }
       if (field.type === Array && key in doc) {
         doc[key] = doc[key].map(castId);

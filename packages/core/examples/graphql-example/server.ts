@@ -145,7 +145,8 @@ const main = async () => {
 main().then(() => console.info('Run successful'))
 	.catch((error) => console.error(error))
 
-console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+// new Promise<void>(resolve => httpServer.listen({ port: 4000 }, resolve));
+logger.log(`🚀 Server ready at http://localhost:4000/graphql`);
 
 // // // server.assertStarted('expressMiddleware()');
 

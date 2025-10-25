@@ -1,0 +1,916 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "core": {
+      "path": "/abimongo/core",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/abimongo/core",
+          "mainDocId": "abimongo-bootstrap/AbimongoBootstrap",
+          "docs": [
+            {
+              "id": "abimongo-bootstrap/AbimongoBootstrap",
+              "path": "/abimongo/core/abimongo-bootstrap/AbimongoBootstrap",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/classes/Abimongo",
+              "path": "/abimongo/core/api/core/classes/Abimongo",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/classes/AbimongoBootstrap",
+              "path": "/abimongo/core/api/core/classes/AbimongoBootstrap",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/classes/AbimongoBootstrapFactory",
+              "path": "/abimongo/core/api/core/classes/AbimongoBootstrapFactory",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/classes/AbimongoClient",
+              "path": "/abimongo/core/api/core/classes/AbimongoClient",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/classes/AbimongoGC",
+              "path": "/abimongo/core/api/core/classes/AbimongoGC",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/classes/AbimongoGraphQL",
+              "path": "/abimongo/core/api/core/classes/AbimongoGraphQL",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/classes/AbimongoModel",
+              "path": "/abimongo/core/api/core/classes/AbimongoModel",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/classes/AbimongoSchema",
+              "path": "/abimongo/core/api/core/classes/AbimongoSchema",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/classes/AuthService",
+              "path": "/abimongo/core/api/core/classes/AuthService",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/classes/MultiTenantManager",
+              "path": "/abimongo/core/api/core/classes/MultiTenantManager",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/classes/RedisService",
+              "path": "/abimongo/core/api/core/classes/RedisService",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/classes/Schema",
+              "path": "/abimongo/core/api/core/classes/Schema",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/classes/TenantContext",
+              "path": "/abimongo/core/api/core/classes/TenantContext",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/enumerations/ErrorType",
+              "path": "/abimongo/core/api/core/enumerations/ErrorType",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/AbiMongoError",
+              "path": "/abimongo/core/api/core/functions/AbiMongoError",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/applyMultiTenancy",
+              "path": "/abimongo/core/api/core/functions/applyMultiTenancy",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/authorize",
+              "path": "/abimongo/core/api/core/functions/authorize",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/cacheWithRedis",
+              "path": "/abimongo/core/api/core/functions/cacheWithRedis",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/castId",
+              "path": "/abimongo/core/api/core/functions/castId",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/checkPermission",
+              "path": "/abimongo/core/api/core/functions/checkPermission",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/connectRedis",
+              "path": "/abimongo/core/api/core/functions/connectRedis",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/createModel",
+              "path": "/abimongo/core/api/core/functions/createModel",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/createSchema",
+              "path": "/abimongo/core/api/core/functions/createSchema",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/describeEvent",
+              "path": "/abimongo/core/api/core/functions/describeEvent",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/enforceRBAC",
+              "path": "/abimongo/core/api/core/functions/enforceRBAC",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/ensureModelNameSafe",
+              "path": "/abimongo/core/api/core/functions/ensureModelNameSafe",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/foldersAndFiles",
+              "path": "/abimongo/core/api/core/functions/foldersAndFiles",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/formatDuration",
+              "path": "/abimongo/core/api/core/functions/formatDuration",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/GCSettings",
+              "path": "/abimongo/core/api/core/functions/GCSettings",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/generateProject",
+              "path": "/abimongo/core/api/core/functions/generateProject",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/generateProjectWithConfig",
+              "path": "/abimongo/core/api/core/functions/generateProjectWithConfig",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/getCachedData",
+              "path": "/abimongo/core/api/core/functions/getCachedData",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/getEventOptions",
+              "path": "/abimongo/core/api/core/functions/getEventOptions",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/getEventType",
+              "path": "/abimongo/core/api/core/functions/getEventType",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/getModelFilesFromPath",
+              "path": "/abimongo/core/api/core/functions/getModelFilesFromPath",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/getOriginalResolver",
+              "path": "/abimongo/core/api/core/functions/getOriginalResolver",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/getRBACAction",
+              "path": "/abimongo/core/api/core/functions/getRBACAction",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/getTenantDB",
+              "path": "/abimongo/core/api/core/functions/getTenantDB",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/getTenantModel",
+              "path": "/abimongo/core/api/core/functions/getTenantModel",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/initializeGraphQL",
+              "path": "/abimongo/core/api/core/functions/initializeGraphQL",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/initializeRedis",
+              "path": "/abimongo/core/api/core/functions/initializeRedis",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/initMultiTenancy",
+              "path": "/abimongo/core/api/core/functions/initMultiTenancy",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/invalidateTenantCache",
+              "path": "/abimongo/core/api/core/functions/invalidateTenantCache",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/isObjectId",
+              "path": "/abimongo/core/api/core/functions/isObjectId",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/isValidDuration",
+              "path": "/abimongo/core/api/core/functions/isValidDuration",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/isValidObjectId",
+              "path": "/abimongo/core/api/core/functions/isValidObjectId",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/loadAbimongoConfig",
+              "path": "/abimongo/core/api/core/functions/loadAbimongoConfig",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/loadModelsFromPath",
+              "path": "/abimongo/core/api/core/functions/loadModelsFromPath",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/logDefaultEvent",
+              "path": "/abimongo/core/api/core/functions/logDefaultEvent",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/logEvent",
+              "path": "/abimongo/core/api/core/functions/logEvent",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/parseDuration",
+              "path": "/abimongo/core/api/core/functions/parseDuration",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/functions/setCachedData",
+              "path": "/abimongo/core/api/core/functions/setCachedData",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/index",
+              "path": "/abimongo/core/api/core/",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/interfaces/AbimongoClientConfig",
+              "path": "/abimongo/core/api/core/interfaces/AbimongoClientConfig",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/interfaces/AbimongoClientOptions",
+              "path": "/abimongo/core/api/core/interfaces/AbimongoClientOptions",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/interfaces/AbimongoClientType",
+              "path": "/abimongo/core/api/core/interfaces/AbimongoClientType",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/interfaces/AbimongoConfig",
+              "path": "/abimongo/core/api/core/interfaces/AbimongoConfig",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/interfaces/AbimongoConfigFile",
+              "path": "/abimongo/core/api/core/interfaces/AbimongoConfigFile",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/interfaces/AbimongoGraphQLOptions",
+              "path": "/abimongo/core/api/core/interfaces/AbimongoGraphQLOptions",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/interfaces/AbimongoModelOptions",
+              "path": "/abimongo/core/api/core/interfaces/AbimongoModelOptions",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/interfaces/AbimongoPlugin",
+              "path": "/abimongo/core/api/core/interfaces/AbimongoPlugin",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/interfaces/ILogger",
+              "path": "/abimongo/core/api/core/interfaces/ILogger",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/interfaces/InitMultiTenancyOptions",
+              "path": "/abimongo/core/api/core/interfaces/InitMultiTenancyOptions",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/interfaces/NoOpLogger",
+              "path": "/abimongo/core/api/core/interfaces/NoOpLogger",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/interfaces/ProjectOptions",
+              "path": "/abimongo/core/api/core/interfaces/ProjectOptions",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/interfaces/Relationship",
+              "path": "/abimongo/core/api/core/interfaces/Relationship",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/type-aliases/Document",
+              "path": "/abimongo/core/api/core/type-aliases/Document",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/type-aliases/EventType",
+              "path": "/abimongo/core/api/core/type-aliases/EventType",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/type-aliases/GCConfig",
+              "path": "/abimongo/core/api/core/type-aliases/GCConfig",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/type-aliases/GetTanantModelParams",
+              "path": "/abimongo/core/api/core/type-aliases/GetTanantModelParams",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/type-aliases/HookFunction",
+              "path": "/abimongo/core/api/core/type-aliases/HookFunction",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/type-aliases/Permission",
+              "path": "/abimongo/core/api/core/type-aliases/Permission",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/type-aliases/Role",
+              "path": "/abimongo/core/api/core/type-aliases/Role",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/type-aliases/SchemaDefinition",
+              "path": "/abimongo/core/api/core/type-aliases/SchemaDefinition",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/type-aliases/User",
+              "path": "/abimongo/core/api/core/type-aliases/User",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/variables/abimongo",
+              "path": "/abimongo/core/api/core/variables/abimongo",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/variables/AbimongoModelRegistry",
+              "path": "/abimongo/core/api/core/variables/AbimongoModelRegistry",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/variables/abimongoSymbol",
+              "path": "/abimongo/core/api/core/variables/abimongoSymbol",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/variables/DB_CHANGE_EVENT",
+              "path": "/abimongo/core/api/core/variables/DB_CHANGE_EVENT",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/variables/DOCUMENT_DELETED_EVENT",
+              "path": "/abimongo/core/api/core/variables/DOCUMENT_DELETED_EVENT",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/variables/DOCUMENT_INSERTED_EVENT",
+              "path": "/abimongo/core/api/core/variables/DOCUMENT_INSERTED_EVENT",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/variables/DOCUMENT_UPDATED_EVENT",
+              "path": "/abimongo/core/api/core/variables/DOCUMENT_UPDATED_EVENT",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/variables/eventTypes",
+              "path": "/abimongo/core/api/core/variables/eventTypes",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/variables/now",
+              "path": "/abimongo/core/api/core/variables/now",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/variables/objectIdSymbol",
+              "path": "/abimongo/core/api/core/variables/objectIdSymbol",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/variables/redis",
+              "path": "/abimongo/core/api/core/variables/redis",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/variables/rolePermissions",
+              "path": "/abimongo/core/api/core/variables/rolePermissions",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/variables/SchemaType",
+              "path": "/abimongo/core/api/core/variables/SchemaType",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/core/variables/schemaTypeSymbol",
+              "path": "/abimongo/core/api/core/variables/schemaTypeSymbol",
+              "sidebar": "core"
+            },
+            {
+              "id": "api/README",
+              "path": "/abimongo/core/api/",
+              "sidebar": "core"
+            },
+            {
+              "id": "core-concepts/AbimongoClient",
+              "path": "/abimongo/core/core-concepts/AbimongoClient",
+              "sidebar": "core"
+            },
+            {
+              "id": "core-concepts/AbimongoModel",
+              "path": "/abimongo/core/core-concepts/AbimongoModel",
+              "sidebar": "core"
+            },
+            {
+              "id": "core-concepts/AbimongoSchema",
+              "path": "/abimongo/core/core-concepts/AbimongoSchema",
+              "sidebar": "core"
+            },
+            {
+              "id": "core-concepts/MultiTenancy",
+              "path": "/abimongo/core/core-concepts/MultiTenancy",
+              "sidebar": "core"
+            },
+            {
+              "id": "faq",
+              "path": "/abimongo/core/faq",
+              "sidebar": "core"
+            },
+            {
+              "id": "features/AbimongoGraphQL",
+              "path": "/abimongo/core/features/AbimongoGraphQL",
+              "sidebar": "core"
+            },
+            {
+              "id": "features/Caching",
+              "path": "/abimongo/core/features/Caching",
+              "sidebar": "core"
+            },
+            {
+              "id": "features/rbac",
+              "path": "/abimongo/core/features/rbac",
+              "sidebar": "core"
+            },
+            {
+              "id": "features/redis",
+              "path": "/abimongo/core/features/redis",
+              "sidebar": "core"
+            },
+            {
+              "id": "getting-started/gettting-started",
+              "path": "/abimongo/core/getting-started/gettting-started",
+              "sidebar": "core"
+            },
+            {
+              "id": "getting-started/installation",
+              "path": "/abimongo/core/getting-started/installation",
+              "sidebar": "core"
+            },
+            {
+              "id": "intro",
+              "path": "/abimongo/core/intro",
+              "sidebar": "core"
+            },
+            {
+              "id": "logChanges",
+              "path": "/abimongo/core/core/log-changes",
+              "sidebar": "core"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "core": {
+              "link": {
+                "path": "/abimongo/core/abimongo-bootstrap/AbimongoBootstrap",
+                "label": "abimongo-bootstrap/AbimongoBootstrap"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    },
+    "logger": {
+      "path": "/abimongo/logger",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/abimongo/logger",
+          "mainDocId": "api/README",
+          "docs": [
+            {
+              "id": "api/logger/classes/AdvancedRollingFileTransporter",
+              "path": "/abimongo/logger/api/logger/classes/AdvancedRollingFileTransporter",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/classes/AsyncBatchTransporter",
+              "path": "/abimongo/logger/api/logger/classes/AsyncBatchTransporter",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/classes/BufferedTransporter",
+              "path": "/abimongo/logger/api/logger/classes/BufferedTransporter",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/classes/FileTransporter",
+              "path": "/abimongo/logger/api/logger/classes/FileTransporter",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/classes/Logger",
+              "path": "/abimongo/logger/api/logger/classes/Logger",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/classes/MetricsTracker",
+              "path": "/abimongo/logger/api/logger/classes/MetricsTracker",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/classes/NoOpLogger",
+              "path": "/abimongo/logger/api/logger/classes/NoOpLogger",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/clearAllTimers",
+              "path": "/abimongo/logger/api/logger/functions/clearAllTimers",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/colorByLevel",
+              "path": "/abimongo/logger/api/logger/functions/colorByLevel",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/consoleTransport",
+              "path": "/abimongo/logger/api/logger/functions/consoleTransport",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/createCircuitBreaker",
+              "path": "/abimongo/logger/api/logger/functions/createCircuitBreaker",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/createElasticTransport",
+              "path": "/abimongo/logger/api/logger/functions/createElasticTransport",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/createFileTransporter",
+              "path": "/abimongo/logger/api/logger/functions/createFileTransporter",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/createHttpTransport",
+              "path": "/abimongo/logger/api/logger/functions/createHttpTransport",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/createLogger",
+              "path": "/abimongo/logger/api/logger/functions/createLogger",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/createLokiTransport",
+              "path": "/abimongo/logger/api/logger/functions/createLokiTransport",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/createResilientTransporter",
+              "path": "/abimongo/logger/api/logger/functions/createResilientTransporter",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/createRotatingFileTransporter",
+              "path": "/abimongo/logger/api/logger/functions/createRotatingFileTransporter",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/formatConsole",
+              "path": "/abimongo/logger/api/logger/functions/formatConsole",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/formatError",
+              "path": "/abimongo/logger/api/logger/functions/formatError",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/formatJSON",
+              "path": "/abimongo/logger/api/logger/functions/formatJSON",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/formatMsg",
+              "path": "/abimongo/logger/api/logger/functions/formatMsg",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/getLogLevel",
+              "path": "/abimongo/logger/api/logger/functions/getLogLevel",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/getLogLevelPriority",
+              "path": "/abimongo/logger/api/logger/functions/getLogLevelPriority",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/isLogLevel",
+              "path": "/abimongo/logger/api/logger/functions/isLogLevel",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/now",
+              "path": "/abimongo/logger/api/logger/functions/now",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/registerInterval",
+              "path": "/abimongo/logger/api/logger/functions/registerInterval",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/registerTimeout",
+              "path": "/abimongo/logger/api/logger/functions/registerTimeout",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/retryWithBackoff",
+              "path": "/abimongo/logger/api/logger/functions/retryWithBackoff",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/setupLogger",
+              "path": "/abimongo/logger/api/logger/functions/setupLogger",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/functions/shouldLog",
+              "path": "/abimongo/logger/api/logger/functions/shouldLog",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/index",
+              "path": "/abimongo/logger/api/logger/",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/interfaces/AsyncBatchTransporterOptions",
+              "path": "/abimongo/logger/api/logger/interfaces/AsyncBatchTransporterOptions",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/interfaces/FormatOptions",
+              "path": "/abimongo/logger/api/logger/interfaces/FormatOptions",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/interfaces/ILogger",
+              "path": "/abimongo/logger/api/logger/interfaces/ILogger",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/interfaces/LogEntry",
+              "path": "/abimongo/logger/api/logger/interfaces/LogEntry",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/interfaces/LoggerConfig",
+              "path": "/abimongo/logger/api/logger/interfaces/LoggerConfig",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/interfaces/LoggerFormatOptions",
+              "path": "/abimongo/logger/api/logger/interfaces/LoggerFormatOptions",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/interfaces/LoggerHooks",
+              "path": "/abimongo/logger/api/logger/interfaces/LoggerHooks",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/interfaces/LoggerTransporter",
+              "path": "/abimongo/logger/api/logger/interfaces/LoggerTransporter",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/interfaces/LogMeta",
+              "path": "/abimongo/logger/api/logger/interfaces/LogMeta",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/interfaces/LogTransport",
+              "path": "/abimongo/logger/api/logger/interfaces/LogTransport",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/interfaces/MetricsSnapshot",
+              "path": "/abimongo/logger/api/logger/interfaces/MetricsSnapshot",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/interfaces/RotatingFileTransporterOptions",
+              "path": "/abimongo/logger/api/logger/interfaces/RotatingFileTransporterOptions",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/interfaces/Transporter",
+              "path": "/abimongo/logger/api/logger/interfaces/Transporter",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/type-aliases/AbimongoConfig",
+              "path": "/abimongo/logger/api/logger/type-aliases/AbimongoConfig",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/type-aliases/LogLevel",
+              "path": "/abimongo/logger/api/logger/type-aliases/LogLevel",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/type-aliases/RemoteTransporter",
+              "path": "/abimongo/logger/api/logger/type-aliases/RemoteTransporter",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/variables/DefaultLogger",
+              "path": "/abimongo/logger/api/logger/variables/DefaultLogger",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/variables/LOG_LEVELS",
+              "path": "/abimongo/logger/api/logger/variables/LOG_LEVELS",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/logger/variables/logger",
+              "path": "/abimongo/logger/api/logger/variables/logger",
+              "sidebar": "logger"
+            },
+            {
+              "id": "api/README",
+              "path": "/abimongo/logger/api/",
+              "sidebar": "logger"
+            },
+            {
+              "id": "consumption",
+              "path": "/abimongo/logger/logger/consumption",
+              "sidebar": "logger"
+            },
+            {
+              "id": "faq",
+              "path": "/abimongo/logger/faq",
+              "sidebar": "logger"
+            },
+            {
+              "id": "guides/getting-started'",
+              "path": "/abimongo/logger/logger/getting-started",
+              "sidebar": "logger"
+            },
+            {
+              "id": "guides/logger-guides",
+              "path": "/abimongo/logger/logger/logger-guides",
+              "sidebar": "logger"
+            },
+            {
+              "id": "intro",
+              "path": "/abimongo/logger/intro",
+              "sidebar": "logger"
+            },
+            {
+              "id": "metrics-tracer",
+              "path": "/abimongo/logger/metrics-tracer",
+              "sidebar": "logger"
+            },
+            {
+              "id": "transports",
+              "path": "/abimongo/logger/logger/transports",
+              "sidebar": "logger"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "logger": {
+              "link": {
+                "path": "/abimongo/logger/api/",
+                "label": "README"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    },
+    "cli": {
+      "path": "/abimongo/cli",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/abimongo/cli",
+          "mainDocId": "Guides/advanced-usage",
+          "docs": [
+            {
+              "id": "getting-started",
+              "path": "/abimongo/cli/getting-started",
+              "sidebar": "cli"
+            },
+            {
+              "id": "Guides/advanced-usage",
+              "path": "/abimongo/cli/Guides/advanced-usage",
+              "sidebar": "cli"
+            },
+            {
+              "id": "Guides/commands",
+              "path": "/abimongo/cli/Guides/commands",
+              "sidebar": "cli"
+            },
+            {
+              "id": "Guides/configuration",
+              "path": "/abimongo/cli/Guides/configuration",
+              "sidebar": "cli"
+            },
+            {
+              "id": "intro",
+              "path": "/abimongo/cli/intro",
+              "sidebar": "cli"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "cli": {
+              "link": {
+                "path": "/abimongo/cli/Guides/advanced-usage",
+                "label": "Guides/advanced-usage"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

@@ -1,0 +1,34 @@
+name: "Test: Dispatch Reusable Publish"
+
+on:
+  workflow_dispatch:
+    inputs:
+      package_path:
+        description: 'Relative package path to publish'
+        required: false
+        type: string
+        default: 'packages/core'
+      package_name:
+        description: 'Package name for logging'
+        required: false
+        type: string
+        default: '@abimongo/core'
+      package_manager:
+        description: 'Package manager to use: npm or pnpm'
+        required: false
+        type: string
+        default: 'npm'
+      dry_run:
+        description: 'If true, do not actually publish'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  call-reusable:
+    uses: ./.github/workflows/reusable-publish.yml
+    with:
+      package_path: ${{ github.event.inputs.package_path }}
+      package_name: ${{ github.event.inputs.package_name }}
+      package_manager: ${{ github.event.inputs.package_manager }}
+      dry_run: ${{ github.event.inputs.dry_run }}

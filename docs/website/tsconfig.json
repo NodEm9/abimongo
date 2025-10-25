@@ -1,0 +1,31 @@
+{
+ "extends": "../../tsconfig.base.json", 
+ "compilerOptions": { 
+  "noEmit": true, 
+  "jsx": "react-jsx", 
+  "module": "ESNext", 
+  "moduleResolution": "Bundler", 
+  "types": ["node"],
+  "esModuleInterop": true,
+  "allowSyntheticDefaultImports": true,
+  "resolveJsonModule": true,
+  },
+  "include": ["src/**/*", "docusaurus.config.ts", "sidebars*.ts", "typedoc.config.ts"] 
+
+  // "extends": "../../tsconfig.base.json",
+  // "compilerOptions": {
+  //   "baseUrl": ".",
+  //   "jsx": "react",
+  //   "esModuleInterop": true,
+  //   "allowSyntheticDefaultImports": true,
+  //   "resolveJsonModule": true,
+  //   "types": ["node"],
+  //   "noEmit": true
+  // },
+  // "include": [
+  //   "src/**/*",
+  //   "docusaurus.config.ts",
+  //   "sidebars*.js",
+  //   "typedoc.config.ts"
+  // ]
+}

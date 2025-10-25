@@ -1,0 +1,25 @@
+{
+  "id": "getting-started",
+  "title": "getting-started",
+  "description": "",
+  "source": "@site/docs/cli/getting-started.md",
+  "sourceDirName": ".",
+  "slug": "/getting-started",
+  "permalink": "/abimongo/cli/getting-started",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "cli",
+  "previous": {
+    "title": "configuration",
+    "permalink": "/abimongo/cli/Guides/configuration"
+  },
+  "next": {
+    "title": "intro",
+    "permalink": "/abimongo/cli/intro"
+  }
+}

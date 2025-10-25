@@ -1,0 +1,25 @@
+{
+  "id": "api/logger/index",
+  "title": "@abimongo/logger",
+  "description": "Classes",
+  "source": "@site/docs/logger/api/logger/index.md",
+  "sourceDirName": "api/logger",
+  "slug": "/api/logger/",
+  "permalink": "/abimongo/logger/api/logger/",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "README",
+    "permalink": "/abimongo/logger/api/"
+  },
+  "next": {
+    "title": "Class: AdvancedRollingFileTransporter",
+    "permalink": "/abimongo/logger/api/logger/classes/AdvancedRollingFileTransporter"
+  }
+}

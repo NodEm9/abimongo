@@ -1,0 +1,25 @@
+{
+  "id": "api/core/functions/createModel",
+  "title": "Function: createModel()",
+  "description": "createModel\\(params): AbimongoModel\\",
+  "source": "@site/docs/core/api/core/functions/createModel.md",
+  "sourceDirName": "api/core/functions",
+  "slug": "/api/core/functions/createModel",
+  "permalink": "/abimongo/core/api/core/functions/createModel",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "Function: connectRedis()",
+    "permalink": "/abimongo/core/api/core/functions/connectRedis"
+  },
+  "next": {
+    "title": "Function: createSchema()",
+    "permalink": "/abimongo/core/api/core/functions/createSchema"
+  }
+}

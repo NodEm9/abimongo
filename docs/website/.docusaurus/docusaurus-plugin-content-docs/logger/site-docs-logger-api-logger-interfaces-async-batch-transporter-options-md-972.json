@@ -1,0 +1,25 @@
+{
+  "id": "api/logger/interfaces/AsyncBatchTransporterOptions",
+  "title": "Interface: AsyncBatchTransporterOptions",
+  "description": "Defined in48",
+  "source": "@site/docs/logger/api/logger/interfaces/AsyncBatchTransporterOptions.md",
+  "sourceDirName": "api/logger/interfaces",
+  "slug": "/api/logger/interfaces/AsyncBatchTransporterOptions",
+  "permalink": "/abimongo/logger/api/logger/interfaces/AsyncBatchTransporterOptions",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "Function: shouldLog()",
+    "permalink": "/abimongo/logger/api/logger/functions/shouldLog"
+  },
+  "next": {
+    "title": "Interface: FormatOptions",
+    "permalink": "/abimongo/logger/api/logger/interfaces/FormatOptions"
+  }
+}

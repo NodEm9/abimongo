@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "lib": [
+      "ES2021", 
+      "ES2022.Error",
+      "ES2022.Object",
+      "esnext.disposable",
+      "DOM.Iterable", 
+      "DOM"
+      ],  
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "declaration": true,
+    "baseUrl": ".",
+    "paths": {
+      "@abimongo/logger": ["packages/logger/src"],
+      "@abimongo/core":   ["packages/core"],
+      "@abimongo/cli":    ["packages/cli"]
+    },
+    "references": [
+    { "path": "packages/logger" },
+    { "path": "packages/core" },
+    { "path": "packages/cli" }
+    ],
+    "esModuleInterop": true,
+    "isolatedModules": true, 
+    "experimentalDecorators": true,
+    "importHelpers": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmitOnError": true,
+    "resolveJsonModule": true, 
+    "inlineSourceMap": false,                                                                                                                                    
+    "noImplicitAny": false,                            
+    "strict": true,                                                                  
+    "skipLibCheck": true, 
+    "jsx": "react-jsx"                              
+  },
+  // "ts-node": {
+  //   "transpileOnly": true,
+  //   "compiler": "typescript-cached-transpile"
+  // },
+  "include": [
+    "packages/*", 
+    "docs/**/*", 
+    ],
+  "exclude": ["node_modules", "dist"]
+}

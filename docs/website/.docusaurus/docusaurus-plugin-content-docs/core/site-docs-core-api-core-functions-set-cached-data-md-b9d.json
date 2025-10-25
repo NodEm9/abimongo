@@ -1,0 +1,25 @@
+{
+  "id": "api/core/functions/setCachedData",
+  "title": "Function: setCachedData()",
+  "description": "setCachedData(role, key, data, ttl): Promise\\",
+  "source": "@site/docs/core/api/core/functions/setCachedData.md",
+  "sourceDirName": "api/core/functions",
+  "slug": "/api/core/functions/setCachedData",
+  "permalink": "/abimongo/core/api/core/functions/setCachedData",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "Function: parseDuration()",
+    "permalink": "/abimongo/core/api/core/functions/parseDuration"
+  },
+  "next": {
+    "title": "Interface: AbimongoClientConfig",
+    "permalink": "/abimongo/core/api/core/interfaces/AbimongoClientConfig"
+  }
+}

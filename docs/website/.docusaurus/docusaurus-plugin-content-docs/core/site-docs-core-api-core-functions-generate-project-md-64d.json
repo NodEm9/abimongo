@@ -1,0 +1,25 @@
+{
+  "id": "api/core/functions/generateProject",
+  "title": "Function: generateProject()",
+  "description": "generateProject(options): Promise\\",
+  "source": "@site/docs/core/api/core/functions/generateProject.md",
+  "sourceDirName": "api/core/functions",
+  "slug": "/api/core/functions/generateProject",
+  "permalink": "/abimongo/core/api/core/functions/generateProject",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "Function: formatDuration()",
+    "permalink": "/abimongo/core/api/core/functions/formatDuration"
+  },
+  "next": {
+    "title": "Function: generateProjectWithConfig()",
+    "permalink": "/abimongo/core/api/core/functions/generateProjectWithConfig"
+  }
+}

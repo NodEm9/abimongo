@@ -1,0 +1,25 @@
+{
+  "id": "api/README",
+  "title": "README",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/README.md",
+  "sourceDirName": "api",
+  "slug": "/api/",
+  "permalink": "/abimongo/core/api/",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "AbimongoBootstrap (core)",
+    "permalink": "/abimongo/core/abimongo-bootstrap/AbimongoBootstrap"
+  },
+  "next": {
+    "title": "@abimongo/core",
+    "permalink": "/abimongo/core/api/core/"
+  }
+}

@@ -18,6 +18,6 @@ export const getTenantDB = async (tenantId: string): Promise<Db> => {
   }
   const db = await abimongo.useDatabase(tenantId);
   if (!db) throw new Error(`Database not found for tenant: ${tenantId}`);
-  dbCache.set(tenantId, db);
-  return db;
+  dbCache.set(tenantId, db.db);
+  return db.db;
 }

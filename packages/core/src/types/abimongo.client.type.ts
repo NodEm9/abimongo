@@ -126,6 +126,13 @@ export interface AbimongoClientType<T extends Document> {
 	getDatabase(tenantId: string, uri: string): Promise<{ db: Db; client: MongoClient }>;
 
 	/**
+	 * Switches to a different database by name.
+	 * @param {string} dbName - The name of the database to switch to.
+	 * @returns {Promise<{db: Db, client: MongoClient}>} A promise that resolves to the new database instance and its MongoClient.
+	 */
+	useDatabase(dbName: string): Promise<{ db: Db; client: MongoClient }>;
+
+	/**
 	 * Validates the MongoDB connection URI.
 	 * @param {string} uri - The MongoDB connection URI.
 	 */

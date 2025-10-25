@@ -13,6 +13,7 @@ module.exports = {
 		filename: 'abimongo-core-cli.js',
 	},
 	devtool: 'source-map', // Generate source maps for debugging
+	externalsType: 'umd',
 	externals: [
 		nodeExternals(),
 		{
@@ -20,6 +21,7 @@ module.exports = {
 			// This is important for CLI tools to avoid bundling unnecessary dependencies
 
 			'mongodb': {
+				umd: 'mongodb',
 				commonjs: 'mongodb',
 				commonjs2: 'mongodb',
 				amd: 'mongodb',
@@ -32,37 +34,36 @@ module.exports = {
 				'root': '@abimongo/logger',
 			},
 			'@apollo/server': {
+				umd: '@apollo/server',
 				commonjs: '@apollo/server',
 				commonjs2: '@apollo/server',
 				amd: '@apollo/server',
 				root: '@apollo/server',
 			},
 			'dotenv': {
+				umd: 'dotenv',
 				commonjs: 'dotenv',
 				commonjs2: 'dotenv',
 				amd: 'dotenv',
 				root: 'dotenv'
 			},
-			chalk: 'chalk',
+			// chalk: 'chalk',
 			graphql: {
+				umd: 'graphql',
 				commonjs: 'graphql',
 				commonjs2: 'graphql',
 				amd: 'graphql',
 				root: 'graphql',
 			},
 			'express': {
+				und: 'express',
 				commonjs: 'express',
 				commonjs2: 'express',
 				amd: 'express',
 				root: 'express',
 			},
-			'express-serve-static-core': {
-				commonjs: 'express-serve-static-core',
-				commonjs2: 'express-serve-static-core',
-				amd: 'express-serve-static-core',
-				root: 'express-serve-static-core',
-			},
-		}],
+		}
+	],
 	resolve: {
 		extensions: ['.ts', '.js'],
 		byDependency: {
@@ -73,19 +74,19 @@ module.exports = {
 				aliasFields: ['browser', 'module'],
 			},
 		},
-		fallback: {
-			// Provide fallbacks for Node.js core modules
-			fs: false,
-			kerberos: false,
-			"@mongodb-js/zstd": false,
-			'@aws-sdk/credential-providers': false,
-			'@aws-sdk/signature-v4-crt': false,
-			'gcp-metadata': false,
-			'snappy': false,
-			'socks': false,
-			'aws4': false,
-			'mongodb-client-encryption': false,
-		},
+		// fallback: {
+		// 	// Provide fallbacks for Node.js core modules
+		// 	fs: false,
+		// 	kerberos: false,
+		// 	"@mongodb-js/zstd": false,
+		// 	'@aws-sdk/credential-providers': false,
+		// 	'@aws-sdk/signature-v4-crt': false,
+		// 	'gcp-metadata': false,
+		// 	'snappy': false,
+		// 	'socks': false,
+		// 	'aws4': false,
+		// 	'mongodb-client-encryption': false,
+		// },
 		plugins: [
 			new TsconfigPathsPlugin({
 				configFile: path.resolve(__dirname, 'tsconfig.json'),

@@ -4,7 +4,7 @@ import { dbDriver, dbConfig } from "../dbConfig";
 import { Document } from "../../src/types";
 import { createSchema } from "../../src/utils"
 import { createModel } from "../../src/utils";
-import { logger } from '../../src/config';
+// import { logger } from '../../src/config';
 import { gc } from '../index';
 import { GCSettings } from '../../src/decorators/gcSettings';
 
@@ -127,14 +127,12 @@ async function setup() {
     deletedAt: new Date(Date.now() + 1000 * 120), // 2 minutes ago
   });
 
-  logger?.info('[Test] Inserted expired soft-deleted user');
+  console.log('[Test] Inserted expired soft-deleted user');
 
   // Run GC
   // const result = await userModel.startAutoGC();
   const result = await postModel.startAutoGC();
   console.log('[Test] GC Result:', result);
-
-  // console.log('[Test] GC result:', result);
 
   // const remaining = await userModel.find();
   const remaining = await postModel.find();
@@ -165,7 +163,7 @@ export async function main(data: User) {
     // console.log('Tenant DB:', tenantDb.databaseName);
 
 
-    const dbase = await AbimongoClient.getTenantDB('default');
+    // const dbase = await AbimongoClient.getTenantDB('default');
 
     // const PostModel = new AbimongoModel<PostDocument>({
     //   collectionName: dbase.collection<PostDocument>('posts').collectionName,
@@ -201,8 +199,8 @@ export async function main(data: User) {
         collectionName: userCollection.collectionName,
         schema: userSchema,
         tenantId: dbConfig.tenantId['tenant-a'],
-        db: tenantDb,
-        // client: db.client,
+        db: tenantDb.db,
+        client: db.client,
       });
     if (!UserModel) {
       return console.error('Model Error: User not created');
@@ -268,7 +266,7 @@ export const getUsers = async () => {
     name: userCollection.collectionName,
     schema: userSchema,
     tenantId: dbConfig.tenantId['tenant-a'],
-    db: tenantDb,
+    db: tenantDb.db,
   });
 
   const users = await UserModel.find({});

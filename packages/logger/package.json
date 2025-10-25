@@ -1,10 +1,13 @@
 {
   "name": "@abimongo/logger",
   "version": "1.0.0",
-  "main": "dist/abimongo_logger.js",
-  "typings": "dist/index.d.ts",
+  "main": "dist/abimongo-logger.js",
+  "module": "dist/abimongo-logger.mjs",
+  "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "publishConfig": {
     "access": "public"
@@ -18,8 +21,9 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/abimongo_logger.js",
-      "require": "./dist/abimongo_logger.js"
+      "import": "./dist/abimongo-logger.mjs",
+      "require": "./dist/abimongo-logger.cjs",
+      "types":  "./dist/index.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -86,6 +90,6 @@
   },
   "engines": {
     "node": ">=18.0.0",
-    "npm": ">=8.0.0"
+    "npm": ">=11.0.0"
   }
 }

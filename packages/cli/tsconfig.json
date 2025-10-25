@@ -1,29 +1,53 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2021",                                  
-    "lib": ["DOM", "DOM.AsyncIterable", "ESNext"],                                        
-    "jsx": "preserve",                                                                   
-    "moduleDetection": "auto",                        
-   "module": "NodeNext",                                
-    "moduleResolution": "NodeNext",   
-    "rootDir": "./",                                 
-    "outDir": "./dist",   
-    // "ignoreDeprecations": "6.0",
-    "allowJs": true,    
-    "declaration": true,   
-    "sourceMap": true,     
-    "esModuleInterop": true,    
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,   
-    "strict": true,              
-    "resolveJsonModule": true,                      
-    "skipLibCheck": true,                                
+  "rootDir": ".",
+  "outDir": "dist",
+  "ignoreDeprecations": "6.0",
+  "composite": true
   },
- "include": [
-    "./src/**/*.ts",
-    "bin/**/*.ts"
-  ],
+  "include": [
+    "src",
+    "bin"
+    ],
   "exclude": [
-    "node_modules",                                                                                                                               
-  ]
+    "node_modules"
+  ],
 }
+
+
+// {
+//   "compilerOptions": {
+//     "target": "ES2021",                                  
+//     "lib": ["DOM", "DOM.AsyncIterable", "ESNext"],                                        
+//     "jsx": "preserve",                                                                   
+//     "moduleDetection": "auto",                        
+//    "module": "NodeNext",                                
+//     "moduleResolution": "NodeNext", 
+//     "baseUrl": "./",  
+//     "rootDir": "./",                                 
+//     "outDir": "./dist",   
+//     // "ignoreDeprecations": "6.0",
+//     "paths": {
+//       "@abimongo/logger": ["packages/logger/src"],
+//       "@abimongo/core":   ["packages/core/src"],
+//       "@abimongo/cli":    ["packages/cli/src"]
+//     },
+//     "allowJs": true,    
+//     "declaration": true,   
+//     "sourceMap": true,     
+//     "esModuleInterop": true,    
+//     "allowSyntheticDefaultImports": true,
+//     "forceConsistentCasingInFileNames": true,   
+//     "strict": true,              
+//     "resolveJsonModule": true,                      
+//     "skipLibCheck": true,                                
+//   },
+//  "include": [
+//     "./src/**/*.ts",
+//     "bin/**/*.ts"
+//   ],
+//   "exclude": [
+//     "node_modules",                                                                                                                               
+//   ]
+// }

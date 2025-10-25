@@ -31,12 +31,12 @@ module.exports = {
 				amd: 'mongodb',
 				root: 'mongodb',
 			},
-			// '@abimongo/logger': {
-			// 	'commonjs': '@abimongo/logger',
-			// 	'commonjs2': '@abimongo/logger',
-			// 	'amd': '@abimongo/logger',
-			// 	'root': '@abimongo/logger',
-			// },
+			'@abimongo/logger': {
+				'commonjs': '@abimongo/logger',
+				'commonjs2': '@abimongo/logger',
+				'amd': '@abimongo/logger',
+				'root': '@abimongo/logger',
+			},
 			'@apollo/server': {
 				umd: '@apollo/server',
 				commonjs: '@apollo/server',

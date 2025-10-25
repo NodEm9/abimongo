@@ -13,7 +13,8 @@
   "exports": {
     ".": {
       "require": "./dist/bin/abimongo_cli.js",
-      "import": "./dist/bin/cli/init.d.ts"
+      "import": "./dist/bin/cli/init.d.ts",
+      "types":  "./dist/bin/abimongo_cli.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -50,7 +51,8 @@
     "webpack-cli": "^6.0.1"
   },
   "dependencies": {
-    "@abimongo/core": "^1.0.0",
+    "@abimongo/core": "file:../core",
+    "@abimongo/logger": "file:../logger",
     "chalk": "^5.4.1",
     "commander": "^13.1.0",
     "cors": "^2.8.5",

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import {
 	MongoClient,
 	Db,
@@ -38,7 +39,7 @@ const defaultCollectionName = Symbol.for('abimongo:defaultCollectionName');
  */
 export class AbimongoClient implements AbimongoClientConfig {
 	private _uri: string;
-	private _client!: MongoClient | null;
+	private _client: MongoClient | null;
 	private _db?: Db | null = null;
 	private collectionName?: Collection<any>;
 	private _dbName?: string;
@@ -52,22 +53,27 @@ export class AbimongoClient implements AbimongoClientConfig {
 		public uri: string = AbimongoClient.defaultUri,
 		public _options?: AbimongoClientOptions,
 	) {
-		this._uri = this.uri = AbimongoClient.defaultUri;
-		this._dbName = this._options?.dbName ? this._db?.databaseName : this._dbName || process.env.DB_NAME || 'abimongo_default_db';
+		// Use provided uri or fall back to default
+		this._uri = uri || AbimongoClient.defaultUri;
 		this._options = _options || {};
+		this._dbName = this._options?.dbName || process.env.DB_NAME || 'abimongo_default_db';
 
-		// const MongoClient = (await import('mongodb')).MongoClient;
+		// Validate and create client
 		this.validateUri(this._uri);
 		this._client = this._options?.client || new MongoClient(this._uri, {
 			directConnection: true,
 			minPoolSize: 5,
 			maxPoolSize: 50,
 			serverSelectionTimeoutMS: 5000,
-		})
+		});
 
-		this._db = this._client?.db(this._dbName);
-		this._client?.db(this._dbName).collection(this._options?.collectionName || [defaultCollectionName] as unknown as string);
-	};
+		this._db = this._client && typeof this._client.db === 'function' ? this._client.db(this._dbName) : null;
+		if (this._client && typeof this._client.db === 'function') {
+			this._client.db(this._dbName).collection(this._options?.collectionName || (defaultCollectionName as unknown as string));
+		}
+		// Ensure MongoDB dependency is available
+		this.ensureMongoDependency();
+	}
 
 	static init() {
 		if (this.instances.has(String(abimongoSymbol))) {
@@ -78,6 +84,20 @@ export class AbimongoClient implements AbimongoClientConfig {
 		return client._uri;
 	}
 
+	private ensureMongoDependency() {
+		try {
+			// Require only to ensure peer dependency is installed. Do not overwrite _client.
+			require('mongodb');
+		} catch (err) {
+			console.error(
+				'\n❌ Missing peer dependency: "mongodb".\n' +
+				'Please install it in your project before continuing:\n\n' +
+				'   npm i mongodb\n'
+			);
+			process.exit(1);
+		}
+	}
+
 	/**
 	 * Connects to the MongoDB database using the provided URI and options.
 	 * @param {string} uri - The MongoDB connection URI.
@@ -85,21 +105,23 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 * @returns {Promise<AbimongoClient>} A promise that resolves to the connected AbimongoClient instance.
 	 * @throws {Error} If the URI is not provided.
 	 */
-	async connectDb(uri: string, options?: AbimongoClientOptions): Promise<AbimongoClient> {
+	async connectDb(uri: string | undefined, options?: AbimongoClientOptions): Promise<AbimongoClient> {
 		const _abimongo = this instanceof AbimongoClient ? this : abimongo;
-		if (!uri) {
-			const message = 'MongoDB URI is required.';
-			throw new Error(message).stack;
+		const resolvedUri = uri || _abimongo._uri || AbimongoClient.defaultUri;
+		if (!resolvedUri) {
+			throw new Error('MongoDB URI is required.');
 		}
 
-		if (!_abimongo._client || _abimongo._uri !== uri) {
-			_abimongo._uri = uri;
+		if (!_abimongo._client || _abimongo._uri !== resolvedUri) {
+			_abimongo._uri = resolvedUri;
 			_abimongo._options = options || _abimongo._options;
-			_abimongo._client = _abimongo._options?.client || new MongoClient(_abimongo.uri) as MongoClient;
-			_abimongo._db = _abimongo._client?.db(_abimongo._options?.dbName);
+			_abimongo._client = _abimongo._options?.client || new MongoClient(_abimongo._uri) as MongoClient;
+			_abimongo._db = _abimongo._client && typeof _abimongo._client.db === 'function'
+				? _abimongo._client.db(_abimongo._options?.dbName || _abimongo._dbName)
+				: null;
 		}
 
-		return _abimongo
+		return _abimongo;
 	}
 
 	/**
@@ -270,7 +292,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 */
 	async connect(): Promise<Db> {
 		if (!this._client) {
-			this._client = new MongoClient(this.uri, { monitorCommands: true }) as MongoClient;
+			this._client = new MongoClient(this.uri, { monitorCommands: true });
 			await this.client.connect();
 			this._db = this.client.db(this._options?.dbName);
 		}
@@ -339,7 +361,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 * @returns {Promise<Db>} A promise that resolves to the new database instance.
 	 * @throws {Error} If the client is not initialized or the database name is not provided.
 	 */
-	async useDatabase(dbName: string): Promise<Db> {
+	async useDatabase(dbName: string): Promise<{ db: Db; client: MongoClient }> {
 		if (!this._client) {
 			throw new Error("Client not initialized. Call `connect()` first.");
 		}
@@ -348,9 +370,9 @@ export class AbimongoClient implements AbimongoClientConfig {
 			throw new Error(message).stack;
 		}
 
-		this._db = this.client.db(dbName);
+		this._db = this._client ? this._client.db(dbName) : dbName as unknown as Db;
 		this.collectionName = this.client.db(this._options?.dbName).collection(this._options?.collectionName as string);
-		return this._db;
+		return { db: this._db, client: this._client };
 	}
 
 	/**
@@ -438,11 +460,11 @@ export class AbimongoClient implements AbimongoClientConfig {
 		}
 
 		let isConnected;
-		const clientIsCOnnected = async () => {
+		const clientIsConnected = async () => {
 			try {
 				if (await this._client?.connect()) {
 					isConnected = await this._client?.connect()
-					console.log(`[info]: MongoDB client is connected: ${isConnected}`);
+					console.log(`[info]: MongoDB client is connected: ${this._client?.db(this._dbName)}`);
 				}
 				return isConnected;
 			} catch (error) {
@@ -450,7 +472,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 				return false;
 			}
 		}
-		clientIsCOnnected();
+		clientIsConnected();
 		return isConnected ? true : false;
 	}
 
@@ -505,10 +527,8 @@ export class Abimongo extends AbimongoClient {
 	 * @param {AbimongoClientConfig} [options] - Optional configuration options for the client.
 	 * @throws {Error} If the URI is not provided.
 	 */
-	constructor(uri: string, options?: AbimongoClientOptions) {
-		if (uri === undefined) {
-			throw new Error('MongoDB URI is required.');
-		}
+	constructor(uri?: string, options?: AbimongoClientOptions) {
+		// Allow constructing with no URI; parent constructor provides the default.
 		super(uri, { dbName: options?.dbName || '' });
 	}
 
@@ -535,8 +555,6 @@ export class Abimongo extends AbimongoClient {
 	}
 }
 
-export const abimongo = new Abimongo(`${{
-	[abimongoSymbol]: true
-}}`);
+export const abimongo = new Abimongo();
 
 

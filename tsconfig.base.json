@@ -9,12 +9,19 @@
       "DOM.Iterable", 
       "DOM"
       ],  
-    "moduleDetection": "auto",                                                                                     
-    "module": "NodeNext",                              
-    "moduleResolution": "NodeNext",  
-    "rootDir": "./",
-    "types": [
-      "node"
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "declaration": true,
+    "baseUrl": ".",
+    "paths": {
+      "@abimongo/logger": ["packages/logger/src"],
+      "@abimongo/core":   ["packages/core"],
+      "@abimongo/cli":    ["packages/cli"]
+    },
+    "references": [
+    { "path": "packages/logger" },
+    { "path": "packages/core" },
+    { "path": "packages/cli" }
     ],
     "esModuleInterop": true,
     "isolatedModules": true, 
@@ -29,12 +36,12 @@
     "skipLibCheck": true, 
     "jsx": "react-jsx"                              
   },
-  "ts-node": {
-    "transpileOnly": true,
-    "compiler": "typescript-cached-transpile"
-  },
+  // "ts-node": {
+  //   "transpileOnly": true,
+  //   "compiler": "typescript-cached-transpile"
+  // },
   "include": [
-    "*/packages/**/*", 
+    "packages/*", 
     "docs/**/*", 
     ],
   "exclude": ["node_modules", "dist"]

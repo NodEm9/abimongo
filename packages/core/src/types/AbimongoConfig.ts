@@ -1,27 +1,27 @@
-// import type { LoggerConfig } from '@abimongo/logger';
+import type { LoggerConfig } from '@abimongo/abimongo-logger';
 import { InitMultiTenancyOptions } from '../tanancy/init/initMultiTenancy';
 import { AbimongoModelOptions } from './abimongo.mode.type';
 import { SchemaDefinition } from './schema.type';
 import { Document } from './document';
 
 
-// export interface AbimongoLoggerSettings extends LoggerConfig {
-//   enabled?: boolean; // Used only in config.json
-//   logger?: LoggerConfig['logger']; // Used only in config.json
-//   logLevel?: LoggerConfig['level'];
-//   useColor?: boolean;
-//   colorize?: LoggerConfig['colorize'];
-//   transports?: LoggerConfig['transports'];
-//   json?: boolean;
-//   formatOptions?: LoggerConfig['formatOptions'];
-//   excludedSources?: LoggerConfig['excludedSources'];
-//   hooks?: LoggerConfig['hooks'];
-//   enrichMetadata?: LoggerConfig['enrichMetadata'];
-//   enableMetrics?: LoggerConfig['enableMetrics']
-//   shouldLog?: LoggerConfig['shouldLog'];
-//   circuitBreaker?: LoggerConfig['circuitBreaker'];
-//   compressLogFiles?: LoggerConfig['compressLogFiles'];
-// }
+export interface AbimongoLoggerSettings extends LoggerConfig {
+  enabled?: boolean; // Used only in config.json
+  logger?: LoggerConfig['logger']; // Used only in config.json
+  logLevel?: LoggerConfig['level'];
+  useColor?: boolean;
+  colorize?: LoggerConfig['colorize'];
+  transports?: LoggerConfig['transports'];
+  json?: boolean;
+  formatOptions?: LoggerConfig['formatOptions'];
+  excludedSources?: LoggerConfig['excludedSources'];
+  hooks?: LoggerConfig['hooks'];
+  enrichMetadata?: LoggerConfig['enrichMetadata'];
+  enableMetrics?: LoggerConfig['enableMetrics']
+  shouldLog?: LoggerConfig['shouldLog'];
+  circuitBreaker?: LoggerConfig['circuitBreaker'];
+  compressLogFiles?: LoggerConfig['compressLogFiles'];
+}
 
 
 export interface AbimongoConfig {
@@ -38,7 +38,7 @@ export interface AbimongoConfig {
     },
     initOptions?: InitMultiTenancyOptions
   };
-  // logger?: AbimongoLoggerSettings;
+  logger?: AbimongoLoggerSettings;
   graphql?: {
     enabled?: boolean;
     subscriptions?: true;

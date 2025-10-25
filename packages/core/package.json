@@ -2,27 +2,28 @@
   "name": "@abimongo/core",
   "version": "1.0.0",
   "description": "Enterprise-grade MongoDB ORM built on the official MongoDB driver.",
-  "main": "dist/abimongo_core.node.js",
-  "module": "dist/abimongo_core.node.mjs",
+  "main": "dist/abimongo-core.node.js",
+  "module": "dist/abimongo-core.node.mjs",
+  "browser": "dist/abimongo-core.browser.js",
   "types": "dist/index.d.ts",
   "bin": {
     "abimongo": "dist/abimongo-core-cli.js"
   },
   "exports": {
     ".": {
-      "import": "./dist/abimongo_core.esm.js",
-      "require": "./dist/abimongo_core.node.js",
+      "import": "./dist/abimongo-core.esm.js",
+      "require": "./dist/abimongo-core.node.js",
       "types": "./dist/index.d.ts"
     },
     "./browser": {
-      "import": "./dist/abimongo_core.browser.mjs",
-      "require": "./dist/abimongo_core.browser.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/abimongo-core.browser.mjs",
+      "require": "./dist/abimongo-core.browser.js",
+      "types": "./dist/browser.d.ts"
     },
     "./bin/abimongo-scaffold.ts": {
-      "require": "./dist/abimongo_core-cli.js",
-      "import": "./dist/abimongo_core-cli.js",
-      "types": "./dist/bin/abimongo-scaffold.d.ts"
+      "require": "./dist/abimongo-core-cli.js",
+      "import": "./dist/abimongo-core-cli.js",
+      "types": "./dist/bin/abimongo-core-cli.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -38,7 +39,7 @@
     "clean": "rimraf lib",
     "build": "npm run build:node && npm run build:cli && npm run build:web",
     "lint": "eslint src --ext .ts",
-    "clean:all": "rimraf lib && rimraf docs", 
+    "clean:all": "rimraf lib && rimraf docs",
     "prepublishOnly": "npm run build",
     "semantic-release": "semantic-release",
     "prepack": "npm run build",
@@ -73,25 +74,26 @@
     }
   ],
   "license": "ISC",
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
+    "@abimongo/logger": "file:../logger",
     "@babel/runtime": "^7.27.1",
     "node-cron": "4.2.0",
     "reflect-metadata": "0.2.2"
   },
   "peerDependencies": {
-    "@abimongo/logger": "^1.0.0",
     "@apollo/server": "^5.0.0",
-    "mongodb": "^6.20.0",
-    "express": "^4.21.2",
-    "express-serve-static-core": "^0.1.1",
-    "dotenv": "^16.4.7",
     "@graphql-tools/schema": "10.0.23",
     "ajv": "8.17.1",
     "ajv-formats": "3.0.1",
     "buffer": "6.0.3",
     "commander": "14.0.0",
     "console-browserify": "^1.2.0",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "express-serve-static-core": "^0.1.1",
     "fs-extra": "11.3.0",
     "graphql": "16.11.0",
     "graphql-http": "1.22.4",
@@ -100,8 +102,14 @@
     "graphql-tag": "2.12.6",
     "graphql-ws": "5.16.2",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "^5 || ^6",
     "redis": "4.7.1",
     "ws": "8.18.3"
+  },
+  "peerDependenciesMeta": {
+    "mongodb": {
+      "optional": false
+    }
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
@@ -126,6 +134,7 @@
     "@types/webpack": "5.28.5",
     "axios": "^1.9.0",
     "babel-loader": "^10.0.0",
+    "chalk": "^5.6.2",
     "clean-webpack-plugin": "^4.0.0",
     "conventional-changelog-cli": "^5.0.0",
     "crypto-browserify": "^3.12.1",
@@ -157,6 +166,6 @@
   },
   "engines": {
     "node": ">=18.0.0",
-    "npm": ">=8.0.0"
+    "npm": ">=10.0.0"
   }
 }

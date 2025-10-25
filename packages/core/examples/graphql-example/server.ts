@@ -10,7 +10,7 @@ import { createServer } from 'http';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 // import { logger } from "../example-1/router";
 // import { logger } from '../../src/core';
-import { logger } from '../../src/config';
+// import { logger } from '../../src/config';
 
 import { AbimongoGC } from '../../src/gc/AbimongoGC';
 
@@ -132,7 +132,7 @@ const main = async () => {
 			return {
 				user: {
 					role: 'admin',
-					tenantId: req.headers['x-tenant-id'] || process.env.TENANT_A_ID,
+					tenantId: req.headers['x-tenant-id'] || 'tenant-a',
 				},
 				collection: 'users',
 				tenantId: 'tenant-a',
@@ -140,15 +140,12 @@ const main = async () => {
 			};
 		}
 	})
-
-	// 	new Promise<void>(resolve => httpServer.listen({ port: 4000 }, resolve));
-	// console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+	return server;
 };
 main().then(() => console.info('Run successful'))
 	.catch((error) => console.error(error))
 
-// new Promise<void>(resolve => httpServer.listen({ port: 4000 }, resolve));
-logger.info(`🚀 Server ready at http://localhost:4000/graphql`);
+console.log(`🚀 Server ready at http://localhost:4000/graphql`);
 
 // // // server.assertStarted('expressMiddleware()');
 

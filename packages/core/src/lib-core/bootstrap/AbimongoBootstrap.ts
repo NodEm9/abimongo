@@ -96,13 +96,13 @@ type OnConnectHook = () => Promise<void> | void;
  */
 export class AbimongoBootstrap {
   private config!: AbimongoConfig;
-  private mongoClient?: AbimongoClient;
-  private model?: AbimongoModel<Document>;
+  private mongoClient!: AbimongoClient;
+  private model!: AbimongoModel<Document>;
   private schema!: AbimongoSchema<Document>
-  private graphql?: AbimongoGraphQL;
+  private graphql!: AbimongoGraphQL;
   // public logger!: ReturnType<typeof setupLogger> | typeof logger;
   private app?: Application = undefined;
-  private gc?: AbimongoGC;
+  private gc!: AbimongoGC;
 
   private onConnectHooks: OnConnectHook[] = [];
 

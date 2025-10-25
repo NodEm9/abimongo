@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
-// import cors from 'cors';
+import cors from 'cors';
 // import { main, Profile, User } from './example-relations/one-to-one';
 import { main, getUsers, userSchema, postSchema } from './example-1';
 import { dbDriver, dbConfig } from './dbConfig';
@@ -16,7 +16,7 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import { applyMultiTenancy } from '../src/tanancy/applyMultiTenancy'
 import { getTenantModel } from '../src/tanancy/TenantModelResolver';
 // import { logger } from './example-1/router';
-import { logger } from '../src/config';
+// import { logger } from '../src/config';
 // import { consoleTransport } from '@abimongo/abimongo-logger'
 import { AbimongoGC } from '../src/gc/AbimongoGC';
 // import {createLogger} from '../src/loggers/createLogger';
@@ -38,14 +38,15 @@ export type UserType = {
 
 // export const tenants = dbConfig.tenantUri;
 
-const app = express();
+const app = express() as express.Express;
 // const graphQLService = new AbimongoGraphQL();
 const PORT = 8000;
-const httpServer = createServer(app);
+// const httpServer = createServer(app);
 
 
-app.use(express.json() as express.Express)
-app.use(express.urlencoded({ extended: true }) as express.Express);
+app.use(express.json() as express.Express);
+// app.use(cors());
+app.use(express.urlencoded({ extended: false }) as express.Express);
 
 
 export const gc = new AbimongoGC({ interval: '30s' }); // run cleanup every 30 seconds
@@ -66,18 +67,18 @@ export const applyMTenant = async () => {
 		headerKey: 'x-tenant-id',
 		initOptions: {
 			lazy: true,  // Lazy initialization of tenants
-			config: {
-				enabled: true,
-			}
+			// config: {
+			// 	// enabled: true,
+			// }
 		},
 	})
 }
 
 applyMTenant().then((tenants) => {
-	logger?.info(`Multi-tenancy applied successfully! Tenants: ${Object.keys(dbConfig.tenantUri).join(', ')} `,);
+	console.log(`Multi-tenancy applied successfully! Tenants: ${Object.keys(dbConfig.tenantUri).join(', ')} `,);
 	return tenants;
 }).catch((err: any) => {
-	console.log(err);
+	console.log('Failed to register Tenants', err);
 	process.exit(1)
 })
 
@@ -131,7 +132,7 @@ app.post('/post', async (req, res) => {
 		schema: postSchema,
 		tenantId: dbConfig.tenantId['tenant-a']!,
 	});
-logger.info('Tenant model:', tenantModel.name);
+console.log('Tenant model:', tenantModel.name);
 	if (!tenantModel) {
 		console.error('Tenant model not found');
 		res.status(500).json({ error: 'Tenant model not found' });
@@ -147,10 +148,13 @@ logger.info('Tenant model:', tenantModel.name);
 	res.json(post);
 });
 
+app.listen(PORT, () => {
+	console.log(`Express server is running on http://localhost:${PORT}`);
+});
 
-httpServer.listen(PORT, () => {
-	console.log(`Server is running on http://localhost:${PORT}`);
-})
+// httpServer.listen(PORT, () => {
+// 	console.log(`Server is running on http://localhost:${PORT}`);
+// })
 
 
 

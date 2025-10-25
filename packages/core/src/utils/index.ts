@@ -8,9 +8,9 @@ export * from './error/abimongoError-handler';
 export * from './error/errorTypes';
 export * from './AuthUtils'
 export * from './events';
-// export * from './logHelpers';
+export * from './logHelpers';
 export * from './cacheWithRedis';
-// export * from './logger';
+export * from './logger';
 export * from './eventOptions';
 export * from './time';
 export * from './modelLoader';

@@ -363,7 +363,6 @@ describe('AbimongoClient', () => {
 
 	it('should throw error if connectDb is called without uri', async () => {
 		const client = new AbimongoClient(uri, { dbName });
-		// @ts-expect-error
 		await expect(client.connectDb(undefined)).rejects.toBeDefined();
 	});
 

@@ -3,7 +3,7 @@
   "changelog": [
     "@changesets/changelog-github",
     {
-      "repo": "https://github.com/NodEm9/abimongo"
+      "repo": "NodEm9/abimongo"
     }
   ],
   "commit": false,
@@ -16,6 +16,6 @@
   ],
   "access": "public",
   "baseBranch": "main",
-  "updateInternalDependencies": "always",
+  "updateInternalDependencies": "patch",
   "ignore": []
 }

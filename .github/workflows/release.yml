@@ -36,6 +36,19 @@ jobs:
           echo "Current npm version:";
           npm --version || true;
           npm i -g npm@9
+          
+      # Use npm ci if your package-lock.json was generated with npm>=7 and includes workspaces.
+      # If your lockfile is old/broken, temporarily use npm install (comment the other).
+      - name: Install (workspaces)
+        run: npm ci
+        # If this still errors, try:
+        # run: npm install
+     
+      - name: Build types (topological)
+        run: npx tsc -b
+
+      - name: Build bundles (all workspaces)
+        run: npm run build --workspaces
 
       - name: Install (workspaces)
         run: npm ci
@@ -56,6 +69,44 @@ jobs:
           path: |
             packages/**/dist
           retention-days: 7
+    
+    
+      - name: Print versions
+        run: |
+          node -v
+          npm -v     
+      
+      - name: Sanity ensure we're at repo root and workspaces exist
+        run: |
+          test -f package.json
+          test -d packages/core && test -d packages/logger
+          node -e "console.log('CWD=',process.cwd())"
+          npm pkg get workspaces
+          npm ls --workspaces || true
+
+      # Nuke any workspace filter/env that could force weird modes
+      - name: Clear workspace filters
+        run: |
+          echo "npm_config_workspaces=" >> $GITHUB_ENV
+          echo "npm_config_workspace="  >> $GITHUB_ENV
+          # Remove any project .npmrc workspace lines if they exist
+          if [ -f .npmrc ]; then
+            sed -i '/^workspace[s]*=/d' .npmrc || true
+          fi
+
+      # Use npm ci if your package-lock.json was generated with npm>=7 and includes workspaces.
+      # If your lockfile is old/broken, temporarily use npm install (comment the other).
+      - name: Install (workspaces)
+        run: npm ci
+        # If this still errors, try:
+        # run: npm install
+     
+      - name: Build types (topological)
+        run: npx tsc -b
+
+      - name: Build bundles (all workspaces)
+        run: npm run build --workspaces
+ 
 
   dry-run:
     name: Dry-run (validate changesets & package)

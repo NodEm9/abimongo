@@ -5,6 +5,8 @@ docs/website/build/
 # Ignore local package tarballs
 *.tgz
 
+node_modules/
+
 # Ignore generated package dist folders
 packages/*/dist/
 

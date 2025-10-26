@@ -43,54 +43,6 @@ export default [
     exact: true
   },
   {
-    path: '/abimongo/cli',
-    component: ComponentCreator('/abimongo/cli', '298'),
-    routes: [
-      {
-        path: '/abimongo/cli',
-        component: ComponentCreator('/abimongo/cli', '8d2'),
-        routes: [
-          {
-            path: '/abimongo/cli',
-            component: ComponentCreator('/abimongo/cli', '70e'),
-            routes: [
-              {
-                path: '/abimongo/cli/getting-started',
-                component: ComponentCreator('/abimongo/cli/getting-started', 'b56'),
-                exact: true,
-                sidebar: "cli"
-              },
-              {
-                path: '/abimongo/cli/Guides/advanced-usage',
-                component: ComponentCreator('/abimongo/cli/Guides/advanced-usage', '51a'),
-                exact: true,
-                sidebar: "cli"
-              },
-              {
-                path: '/abimongo/cli/Guides/commands',
-                component: ComponentCreator('/abimongo/cli/Guides/commands', 'a4b'),
-                exact: true,
-                sidebar: "cli"
-              },
-              {
-                path: '/abimongo/cli/Guides/configuration',
-                component: ComponentCreator('/abimongo/cli/Guides/configuration', '002'),
-                exact: true,
-                sidebar: "cli"
-              },
-              {
-                path: '/abimongo/cli/intro',
-                component: ComponentCreator('/abimongo/cli/intro', '526'),
-                exact: true,
-                sidebar: "cli"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
     path: '/abimongo/core',
     component: ComponentCreator('/abimongo/core', '4c9'),
     routes: [
@@ -725,6 +677,30 @@ export default [
                 component: ComponentCreator('/abimongo/core/intro', '8cc'),
                 exact: true,
                 sidebar: "core"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '/abimongo/create',
+    component: ComponentCreator('/abimongo/create', '03a'),
+    routes: [
+      {
+        path: '/abimongo/create',
+        component: ComponentCreator('/abimongo/create', 'f6f'),
+        routes: [
+          {
+            path: '/abimongo/create',
+            component: ComponentCreator('/abimongo/create', 'd31'),
+            routes: [
+              {
+                path: '/abimongo/create/intro',
+                component: ComponentCreator('/abimongo/create/intro', 'd5e'),
+                exact: true,
+                sidebar: "create"
               }
             ]
           }

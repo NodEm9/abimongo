@@ -16,7 +16,6 @@
     "paths": {
       "@abimongo/logger": ["./packages/logger"],
       "@abimongo/core":   ["./packages/core"],
-  // "@abimongo/cli":    ["./packages/cli"],
       "@abimongo/create": ["./packages/create"]
     },
     "declarationMap": true,

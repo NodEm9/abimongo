@@ -58,11 +58,11 @@ const config: Config = {
 			'@docusaurus/plugin-content-docs',
 			{
 				id: 'cli',
-				path: path.resolve(__dirname, './docs/cli'),
-				routeBasePath: 'cli',
+				path: path.resolve(__dirname, './docs/create'),
+				routeBasePath: 'create',
 				showLastUpdateAuthor: true,
 				showLastUpdateTime: true,
-				sidebarPath: path.resolve(__dirname, './sidebars.cli.ts'),
+				sidebarPath: path.resolve(__dirname, './sidebars.create.ts'),
 			},
 		],
 		// TypeDoc API: Core
@@ -90,17 +90,17 @@ const config: Config = {
 			},
 		],
 		// TypeDoc API: CLI (if you export a programmatic API)
-		// [
-		// 	'docusaurus-plugin-typedoc',
-		// 	{
-		// 		id: 'api-cli',
-		// 		entryPoints: ['packages/cli/bin/abimongo_cli.ts'],
-		// 		tsconfig: 'packages/cli/tsconfig.json',
-		// 		out: '/docs/cli/api/cli',
-		// 		sidebar: { autoConfiguration: 'API (CLI)', position: 30 },
-		// 		readme: 'none',
-		// 	},
-		// ],
+		[
+			'docusaurus-plugin-typedoc',
+			{
+				id: 'api-create',
+				entryPoints: ['packages/create/bin/abimongo-cli.ts'],
+				tsconfig: 'packages/create/tsconfig.json',
+				out: '/docs/create/api/create',
+				sidebar: { autoConfiguration: 'API (CLI)', position: 30 },
+				readme: 'none',
+			},
+		],
 	],
 
 	themeConfig: {
@@ -122,7 +122,7 @@ const config: Config = {
 			items: [
 				{ to: '/core/intro', label: 'Core', position: 'left' },
 				{ to: '/logger/intro', label: 'Logger', position: 'left' },
-				{ to: '/cli/intro', label: 'CLI', position: 'left' },
+				{ to: '/create/intro', label: 'Create New Project', position: 'left' },
 				// { to: '/core/api', label: 'API', position: 'right' },
 				{ href: 'https://github.com/NodEm9/abimongo', label: 'GitHub', position: 'right' },
 			],

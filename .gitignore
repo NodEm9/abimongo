@@ -1,4 +1,16 @@
-node_modules
+# Ignore generated Docusaurus build artifacts
+docs/website/.docusaurus/
+docs/website/build/
+
+# Ignore local package tarballs
+*.tgz
+
+# Ignore generated package dist folders
+packages/*/dist/
+
+# Misc
+rename-cli.patch
+.DS_Storenode_modules
 dist
 coverage
 .env

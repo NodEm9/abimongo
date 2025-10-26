@@ -49,39 +49,6 @@
     },
     "content": "content---abimongo-markdown-page-393-19c"
   },
-  "/abimongo/cli-298": {
-    "__comp": "__comp---theme-docs-root-5-e-9-0b6",
-    "__context": {
-      "plugin": "plugin---abimongo-cli-196-ffa"
-    }
-  },
-  "/abimongo/cli-8d2": {
-    "__comp": "__comp---theme-doc-version-roota-7-b-5de",
-    "__props": "__props---abimongo-clifb-2-f23"
-  },
-  "/abimongo/cli-70e": {
-    "__comp": "__comp---theme-doc-roota-94-67a"
-  },
-  "/abimongo/cli/getting-started-b56": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---abimongo-cli-getting-started-9-f-0-f48"
-  },
-  "/abimongo/cli/Guides/advanced-usage-51a": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---abimongo-cli-guides-advanced-usagebcc-7fc"
-  },
-  "/abimongo/cli/Guides/commands-a4b": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---abimongo-cli-guides-commandsd-95-e16"
-  },
-  "/abimongo/cli/Guides/configuration-002": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---abimongo-cli-guides-configuration-2-e-1-fdb"
-  },
-  "/abimongo/cli/intro-526": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---abimongo-cli-intro-08-c-521"
-  },
   "/abimongo/core-4c9": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
@@ -510,6 +477,23 @@
   "/abimongo/core/intro-8cc": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---abimongo-core-intro-372-44a"
+  },
+  "/abimongo/create-03a": {
+    "__comp": "__comp---theme-docs-root-5-e-9-0b6",
+    "__context": {
+      "plugin": "plugin---abimongo-cli-196-ffa"
+    }
+  },
+  "/abimongo/create-f6f": {
+    "__comp": "__comp---theme-doc-version-roota-7-b-5de",
+    "__props": "__props---abimongo-create-67-a-08c"
+  },
+  "/abimongo/create-d31": {
+    "__comp": "__comp---theme-doc-roota-94-67a"
+  },
+  "/abimongo/create/intro-d5e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-create-intro-105-4b1"
   },
   "/abimongo/logger-314": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",

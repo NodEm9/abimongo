@@ -864,47 +864,27 @@
       "breadcrumbs": true
     },
     "cli": {
-      "path": "/abimongo/cli",
+      "path": "/abimongo/create",
       "versions": [
         {
           "name": "current",
           "label": "Next",
           "isLast": true,
-          "path": "/abimongo/cli",
-          "mainDocId": "Guides/advanced-usage",
+          "path": "/abimongo/create",
+          "mainDocId": "intro",
           "docs": [
             {
-              "id": "getting-started",
-              "path": "/abimongo/cli/getting-started",
-              "sidebar": "cli"
-            },
-            {
-              "id": "Guides/advanced-usage",
-              "path": "/abimongo/cli/Guides/advanced-usage",
-              "sidebar": "cli"
-            },
-            {
-              "id": "Guides/commands",
-              "path": "/abimongo/cli/Guides/commands",
-              "sidebar": "cli"
-            },
-            {
-              "id": "Guides/configuration",
-              "path": "/abimongo/cli/Guides/configuration",
-              "sidebar": "cli"
-            },
-            {
               "id": "intro",
-              "path": "/abimongo/cli/intro",
-              "sidebar": "cli"
+              "path": "/abimongo/create/intro",
+              "sidebar": "create"
             }
           ],
           "draftIds": [],
           "sidebars": {
-            "cli": {
+            "create": {
               "link": {
-                "path": "/abimongo/cli/Guides/advanced-usage",
-                "label": "Guides/advanced-usage"
+                "path": "/abimongo/create/intro",
+                "label": "intro"
               }
             }
           }

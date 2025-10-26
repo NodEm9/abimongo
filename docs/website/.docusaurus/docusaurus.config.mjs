@@ -55,11 +55,11 @@ export default {
       "@docusaurus/plugin-content-docs",
       {
         "id": "cli",
-        "path": "C:\\Users\\User\\Documents\\GitHub\\abimongo\\docs\\website\\docs\\cli",
-        "routeBasePath": "cli",
+        "path": "C:\\Users\\User\\Documents\\GitHub\\abimongo\\docs\\website\\docs\\create",
+        "routeBasePath": "create",
         "showLastUpdateAuthor": true,
         "showLastUpdateTime": true,
-        "sidebarPath": "C:\\Users\\User\\Documents\\GitHub\\abimongo\\docs\\website\\sidebars.cli.ts"
+        "sidebarPath": "C:\\Users\\User\\Documents\\GitHub\\abimongo\\docs\\website\\sidebars.create.ts"
       }
     ],
     [
@@ -90,6 +90,22 @@ export default {
         "sidebar": {
           "autoConfiguration": "API (Logger)",
           "position": 20
+        },
+        "readme": "none"
+      }
+    ],
+    [
+      "docusaurus-plugin-typedoc",
+      {
+        "id": "api-create",
+        "entryPoints": [
+          "packages/create/bin/abimongo-cli.ts"
+        ],
+        "tsconfig": "packages/create/tsconfig.json",
+        "out": "/docs/create/api/create",
+        "sidebar": {
+          "autoConfiguration": "API (CLI)",
+          "position": 30
         },
         "readme": "none"
       }
@@ -124,8 +140,8 @@ export default {
           "position": "left"
         },
         {
-          "to": "/cli/intro",
-          "label": "CLI",
+          "to": "/create/intro",
+          "label": "Create New Project",
           "position": "left"
         },
         {

@@ -3,6 +3,6 @@
   "references": [
     { "path": "packages/logger" },
     { "path": "packages/core" },
-    { "path": "packages/cli" }
+    { "path": "packages/create" }
   ]
 }

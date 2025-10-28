@@ -4,7 +4,7 @@ import { dbDriver, dbConfig } from "../dbConfig";
 import { Document } from "../../src/types";
 import { createSchema } from "../../src/utils"
 import { createModel } from "../../src/utils";
-// import { logger } from '../../src/config';
+import { logger } from '../../src/config';
 import { gc } from '../index';
 import { GCSettings } from '../../src/decorators/gcSettings';
 
@@ -105,7 +105,7 @@ async function setup() {
     collectionName: 'posts',
     schema,
     db,
-    tenantId: dbConfig.tenantId['tenant-a'],
+    // tenantId: dbConfig.tenantId['tenant-a'],
   });
 }
 
@@ -127,7 +127,7 @@ async function setup() {
     deletedAt: new Date(Date.now() + 1000 * 120), // 2 minutes ago
   });
 
- console.info('[Test] Inserted expired soft-deleted user');
+  logger?.info('[Test] Inserted expired soft-deleted user');
 
   // Run GC
   // const result = await userModel.startAutoGC();

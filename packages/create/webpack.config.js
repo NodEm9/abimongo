@@ -5,11 +5,11 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
-  entry: './bin/abimongo-cli.ts',
+  entry: './src/index.ts',
   target: 'node',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'abimongo-create.cjs'
+    filename: 'abimongo-create.js'
   },
   resolve: {
     extensions: ['.ts', '.js']

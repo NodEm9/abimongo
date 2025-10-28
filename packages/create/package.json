@@ -1,33 +1,33 @@
 {
   "name": "@abimongo/create",
-  "version": "1.0.1",
-  "main": "dist/bin/abimongo-create.cjs",
-  "module": "dist/bin/abimongo-create.mjs",
-  "types": "dist/bin/abimongo-create.d.ts",
+  "version": "1.0.0",
+  "main": "dist/abimongo-create.js",
+  "module": "dist/abimongo-create.js",
+  "types": "dist/index.d.ts",
   "bin": {
-    "abimongo-create": "dist/bin/abimongo-create.cjs"
+    "abimongo-create": "dist/abimongo-create.js"
   },
   "files": [
     "dist"
   ],
   "exports": {
     ".": {
-      "require": "./dist/bin/abimongo-create.cjs",
-      "import": "./dist/bin/abimongo-create.mjs",
-      "types": "./dist/bin/abimongo-create.d.ts"
+      "require": "./dist/abimongo-create.js",
+      "import": "./dist/abimongo-create.js",
+      "types": "./dist/abimongo-create.d.ts"
     },
     "./package.json": "./package.json"
   },
   "scripts": {
     "build:types": "tsc -p .",
     "build:bundle": "webpack --config webpack.config.js",
-    "build": "npm run build:types && npm run build:bundle",
-    "lint": "eslint . --ext .ts",
-    "prepublishOnly": "npm run build",
-    "prepack": "npm run build",
-    "patch:version": "npm version patch",
-    "minor:version": "npm version minor",
-    "major:version": "npm version major"
+    "build": "pnpm build:types && pnpm build:bundle",
+    "lint": "eslint src",
+    "prepublishOnly": "pnpm run build",
+    "prepack": "pnpm build",
+    "patch:version": "pnpm version patch",
+    "minor:version": "pnpm version minor",
+    "major:version": "pnpm version major"
   },
   "keywords": [],
   "author": "Emmanuel Nodolomwanyi",
@@ -62,7 +62,7 @@
   },
   "engines": {
     "node": ">=20.11.0",
-    "npm": ">=9.2.0"
+    "npm": ">=10.8.2"
   },
   "description": ""
 }

@@ -1,82 +1,24 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-  "rootDir": "../",
-  "outDir": "dist",
-  "ignoreDeprecations": "6.0",
-   "composite": true
+  "rootDir": ".",
+  "outDir": "./dist",
+  "composite": true,
+  "declaration": true,
   },
+   "references": [
+    { "path": "../logger" } // Reference to other local packages
+  ],
   "include": [
-    "index.ts",
-    "src/**/*", 
-    "browser.ts", 
-    "bin/abimongo-core-cli.ts",
-    "setupTest.ts"
+    "src", 
+    "bin", 
+    "../setupTest.ts",
+    "../jest.config.ts",
+    "examples",
   ],  
-  "exclude": [
+  "exclude": [ 
     "./node_modules",
-    "./examples",
+    // "./examples",
     "**/__tests__/**"
   ] 
 }
-
-
-// {
-//   "compilerOptions": {
-//     "target": "ES2021",
-//     "lib": [
-//       "ES2021", 
-//       "ES2022.Error",
-//       "ES2022.Object",
-//       "esnext.disposable",
-//       "DOM.Iterable", 
-//       "DOM"
-//       ],  
-//     "moduleDetection": "auto",                                                                                     
-//     "module": "NodeNext",                              
-//     "moduleResolution": "NodeNext",  
-//     "rootDir": "./",
-//     "outDir": "./dist",
-//     "types": [
-//       "node"
-//     ],
-//     // "ignoreDeprecations": "6.0",                                                        
-//     "declaration": true, 
-//     "declarationMap": true, 
-//     "esModuleInterop": true,
-//     "isolatedModules": true, 
-//     "experimentalDecorators": true,
-//     "importHelpers": false,
-//     "emitDecoratorMetadata": true,
-//     "noEmitOnError": true,
-//     "resolveJsonModule": true, 
-//     "inlineSourceMap": false,                                                                                        
-//     "sourceMap": true,                                                
-//     "noImplicitAny": false,                            
-//     "strict": true,                                                                  
-//     "skipLibCheck": true, 
-//     "jsx": "react-jsx"                              
-//   },
-//   "paths": {
-//     "@abimongo/logger": ["packages/logger/src"],
-//     "@abimongo/core":   ["packages/core/src"],
-//     "@abimongo/cli":    ["packages/cli/src"]
-//     },
-//   // "ts-node": {
-//   //   "transpileOnly": true,
-//   //   "compiler": "typescript-cached-transpile"
-//   // },
-//   "include": [
-//     "index.ts",
-//     "src/**/*",
-//     "browser.ts", 
-//     "bin/abimongo-core-cli.ts",
-//     "setupTest.ts"
-//   ],
-//   "exclude": [
-//     "./node_modules",
-//     "./examples",
-//     "**/__tests__/**"
-//   ]
-  
-// }

@@ -1,8 +1,9 @@
-import type { LoggerConfig } from '@abimongo/logger';
+import { LoggerConfig } from '@abimongo/logger';
 import { InitMultiTenancyOptions } from '../tanancy/init/initMultiTenancy';
 import { AbimongoModelOptions } from './abimongo.mode.type';
 import { SchemaDefinition } from './schema.type';
 import { Document } from './document';
+
 
 
 export interface AbimongoLoggerSettings extends LoggerConfig {
@@ -13,11 +14,11 @@ export interface AbimongoLoggerSettings extends LoggerConfig {
   colorize?: LoggerConfig['colorize'];
   transports?: LoggerConfig['transports'];
   json?: boolean;
-  formatOptions?: LoggerConfig['formatOptions'];
+  formatOptions?:  LoggerConfig['formatOptions'];
   excludedSources?: LoggerConfig['excludedSources'];
   hooks?: LoggerConfig['hooks'];
   enrichMetadata?: LoggerConfig['enrichMetadata'];
-  enableMetrics?: LoggerConfig['enableMetrics']
+  enableMetrics?: LoggerConfig['enableMetrics'];
   shouldLog?: LoggerConfig['shouldLog'];
   circuitBreaker?: LoggerConfig['circuitBreaker'];
   compressLogFiles?: LoggerConfig['compressLogFiles'];
@@ -71,7 +72,7 @@ export interface AbimongoConfigFile {
   projectName?: string;
   mongoUri: string;
   multiTenant?: AbimongoConfig['multiTenant'];
-  // logger?: AbimongoLoggerSettings;
+  logger?: AbimongoLoggerSettings;
   graphql?: AbimongoConfig['graphql'];
   features?: AbimongoConfig['features'];
   advanced?: AbimongoConfig['advanced'];
@@ -91,7 +92,7 @@ export interface ProjectOptions {
     },
     initOptions?: InitMultiTenancyOptions
   };
-  // logger?: AbimongoLoggerSettings;
+  logger?: AbimongoLoggerSettings;
   graphql?: {
     enabled?: boolean;
     subscriptions?: true;

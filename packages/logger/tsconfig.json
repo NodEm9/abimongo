@@ -1,67 +1,16 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-  "rootDir": "./",
-  "outDir": "dist",
+  "rootDir": "./src",
+  "outDir": "./dist",
   "composite": true,
-  "ignoreDeprecations": "6.0"
+  "declaration": true,
   },
     "include": [
     "src",
-    "./",
-    "setupTest.ts"
+    "../setupTest.ts" 
     ],
   "exclude": [
     "node_modules"
-  ],
+  ], 
 }
-// {
-//   "compilerOptions": {
-//        "target": "ES2021",
-//     "lib": [
-//       "ES2021", 
-//       "ES2022.Error",
-//       "ES2022.Object",
-//       "esnext.disposable",
-//       "DOM.Iterable", 
-//       "DOM"
-//       ],
-//     "allowJs": true,                                  
-//     "moduleDetection": "auto",                       
-//     "module": "NodeNext",      
-//     "moduleResolution": "NodeNext",
-//     "rootDir": "./",
-//     "outDir": "./dist",
-//     // "typeRoots": [
-//     //   "./node_modules/@types",
-//     //   "./src/types"
-//     // ],
-//     "types": [
-//       "node"
-//     ],
-//     // "ignoreDeprecations": "6.0",
-//     "declaration": true,
-//     "declarationMap": true,
-//     "experimentalDecorators": true,
-//     "resolveJsonModule": true,
-//     "esModuleInterop": true,
-//     "importHelpers": false,                                         
-//     "allowSyntheticDefaultImports": true, 
-//     "noEmitOnError": true,
-//     "skipLibCheck": true,
-//     "forceConsistentCasingInFileNames": true,          
-//     "strict": true,                                      
-//     "noImplicitAny": true,                              
-//   },
-//     "ts-node": {
-//     "transpileOnly": true,
-//     "compiler": "typescript-cached-transpile"
-//   },
-//   "include": [
-//     "src/**/*",
-//     "setupTest.ts"
-//     ],
-//   "exclude": [
-//     "node_modules"
-//   ],
-// }

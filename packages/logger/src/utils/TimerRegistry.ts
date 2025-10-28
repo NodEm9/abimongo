@@ -43,4 +43,5 @@ export async function clearAllTimers() {
   } catch (error) {
     console.error('Error clearing timers:', error);
   }
-}
+};
+

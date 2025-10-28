@@ -3,26 +3,25 @@
   "version": "1.0.0",
   "description": "Enterprise-grade MongoDB ORM built on the official MongoDB driver.",
   "main": "dist/abimongo-core.node.js",
-  "module": "dist/abimongo-core.node.mjs",
-  "browser": "dist/abimongo-core.browser.js",
+  "module": "dist/abimongo-core.node.js",
   "types": "dist/index.d.ts",
   "bin": {
     "abimongo": "dist/abimongo-core-cli.js"
   },
   "exports": {
     ".": {
-      "import": "./dist/abimongo-core.esm.js",
+      "import": "./dist/abimongo-core.node.js",
       "require": "./dist/abimongo-core.node.js",
       "types": "./dist/index.d.ts"
     },
     "./browser": {
-      "import": "./dist/abimongo-core.browser.mjs",
+      "import": "./dist/abimongo-core.browser.js",
       "require": "./dist/abimongo-core.browser.js",
       "types": "./dist/browser.d.ts"
     },
     "./bin/abimongo-scaffold.ts": {
-      "require": "./dist/abimongo-core-cli.js",
       "import": "./dist/abimongo-core-cli.js",
+      "require": "./dist/abimongo-core-cli.js",
       "types": "./dist/bin/abimongo-core-cli.d.ts"
     },
     "./package.json": "./package.json"
@@ -36,24 +35,22 @@
     "build:node": "webpack --config webpack.node.config.js",
     "build:web": "webpack --config webpack.web.config.js",
     "build:cli": "webpack --config webpack.cli.config.js",
-    "clean": "rimraf lib",
-    "build": "npm run build:node && npm run build:cli && npm run build:web",
-    "lint": "eslint src --ext .ts",
-    "clean:all": "rimraf lib && rimraf docs",
-    "prepublishOnly": "npm run build",
+    "clean": "rimraf dist",
+    "build": "pnpm run build:node && pnpm run build:cli && pnpm run build:web",
+    "lint": "eslint src",
+    "clean:all": "rimraf dist && rimraf docs",
+    "prepublishOnly": "pnpm build",
     "semantic-release": "semantic-release",
-    "prepack": "npm run build",
-    "patch:version": "npm version patch",
-    "minor:version": "npm version minor",
-    "major:version": "npm version major",
+    "prepack": "pnpm run build",
+    "patch:version": "pnpm version patch",
+    "minor:version": "pnpm version minor",
+    "major:version": "pnpm version major",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "test:node": "node dist/abimongo_core.node.js",
     "test": "jest --detectOpenHandles --coverage",
-    "docusaurus:build": "cd website && npm run docusaurus build",
-    "docusaurus:start": "cd website && npm run docusaurus start",
-    "docusaurus:deploy": "cd website && npm run docusaurus deploy",
-    "docs:build": "typedoc",
-    "docs:clear": "rm -rf ./docs/api"
+    "docusaurus:build": "cd website && pnpm docusaurus build",
+    "docusaurus:start": "cd website && pnpm docusaurus start",
+    "docusaurus:deploy": "cd website && pnpm docusaurus deploy",
+    "docs:build": "typedoc"
   },
   "release": {
     "branches": [
@@ -80,6 +77,7 @@
   "dependencies": {
     "@abimongo/logger": "workspace:^1.0.0",
     "@babel/runtime": "^7.27.1",
+    "docusaurus": "^0.0.2",
     "node-cron": "4.2.0",
     "reflect-metadata": "0.2.2"
   },
@@ -139,10 +137,11 @@
     "babel-loader": "^10.0.0",
     "chalk": "^5.6.2",
     "clean-webpack-plugin": "^4.0.0",
-    "conventional-changelog-cli": "^5.0.0",
+    "conventional-changelog-cli": "^4.1.0",
     "crypto-browserify": "^3.12.1",
     "eslint": "^9.23.0",
     "eslint-webpack-plugin": "^5.0.1",
+    "figlet": "^1.9.3",
     "globals": "^16.0.0",
     "jest": "^29.7.0",
     "mongodb-memory-server": "^10.1.4",
@@ -156,9 +155,9 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "tsconfig-paths-webpack-plugin": "^4.2.0",
-    "tslib": "2.8.1",
+    "tslib": "^2.8.1",
     "tsx": "^4.20.2",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.3",
     "typescript-eslint": "8.30.1",
     "util": "^0.12.5",
     "webpack": "5.98.0",
@@ -169,6 +168,6 @@
   },
   "engines": {
     "node": ">=20.11.0",
-    "npm": ">=9.2.0"
+    "npm": ">=10.8.2"
   }
 }

@@ -7,7 +7,7 @@ import chalk from "chalk";
 try {
   const buildPath = path.resolve(__dirname, '../abimongo_core.node.js'); 
 
- async function resolvePath(p) {
+ async function resolvePath(p: string) {
 
     const abimongo = await import(buildPath);
 

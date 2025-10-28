@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
-import cors from 'cors';
+// import cors from 'cors';
 // import { main, Profile, User } from './example-relations/one-to-one';
 import { main, getUsers, userSchema, postSchema } from './example-1';
 import { dbDriver, dbConfig } from './dbConfig';
@@ -15,6 +15,7 @@ import { SubscribePayload, ExecutionResult } from 'graphql-ws';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import { applyMultiTenancy } from '../src/tanancy/applyMultiTenancy'
 import { getTenantModel } from '../src/tanancy/TenantModelResolver';
+import { MetricsTracker } from '@abimongo/logger';
 // import { logger } from './example-1/router';
 import { logger } from '../src/config';
 // import { consoleTransport } from '@abimongo/abimongo-logger'
@@ -36,6 +37,8 @@ export type UserType = {
 	// bio?: string;
 }
 
+
+const trackerMetric = new MetricsTracker()
 // export const tenants = dbConfig.tenantUri;
 
 const app = express() as express.Express;
@@ -52,6 +55,7 @@ app.use(express.urlencoded({ extended: false }) as express.Express);
 export const gc = new AbimongoGC({ interval: '30s' }); // run cleanup every 30 seconds
 gc.start();
 
+trackerMetric.start(60000); // Track metrics every 60 seconds
 
 
 //handle Multi-tenancy registration and initialization
@@ -67,15 +71,18 @@ export const applyMTenant = async () => {
 		headerKey: 'x-tenant-id',
 		initOptions: {
 			lazy: true,  // Lazy initialization of tenants
-			// config: {
-			// 	// enabled: true,
-			// }
+			config: {
+				enabled: true,
+				logger: logger,
+				logLevel: 'info', // Set the log level
+				useColor: true, // Enable colored logs
+			}
 		},
 	})
 }
 
 applyMTenant().then((tenants) => {
-	logger?.info(`Multi-tenancy applied successfully! Tenants: ${Object.keys(dbConfig.tenantUri).join(', ')} `,);
+	console.info(`Multi-tenancy applied successfully! Tenants: ${Object.keys(dbConfig.tenantUri).join(', ')} `,);
 	return tenants;
 }).catch((err: any) => {
 	console.log('Failed to register Tenants', err);
@@ -126,13 +133,14 @@ app.post('/user', async (req, res) => {
 });
 
 app.post('/post', async (req, res) => {
+	const tenanaId = req.headers['x-tenant-id'] as string;
 	const data = req.body;
 	const tenantModel = await getTenantModel({
 		modelName: 'posts',
 		schema: postSchema,
-		tenantId: dbConfig.tenantId['tenant-a']!,
+		tenantId: dbConfig.tenantId[tenanaId]!,
 	});
-logger.info('Tenant model:', tenantModel.name);
+	console.info('Tenant model:', tenantModel.name);
 	if (!tenantModel) {
 		console.error('Tenant model not found');
 		res.status(500).json({ error: 'Tenant model not found' });

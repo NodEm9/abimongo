@@ -10,7 +10,7 @@ type BufferedLogEntry = {
 };
 
 /**
- * BufferedTransporter
+ *@class BufferedTransporter
  *
  * A logging transporter that buffers log messages and flushes them to an underlying transporter
  * at specified intervals or when the buffer reaches a certain size. This helps to optimize performance by reducing
@@ -87,4 +87,6 @@ export class BufferedTransporter implements Transporter {
     this.transporter.close?.();
     await clearAllTimers();
   }
-}
+};
+
+

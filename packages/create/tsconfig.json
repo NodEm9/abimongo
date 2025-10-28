@@ -2,15 +2,19 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
   "rootDir": ".",
-  "outDir": "dist",
-  "composite": true
+  "outDir": "./dist",
+  "composite": true,
+   "declaration": true,
   }, 
-  "include": [
-    "index.ts",
+   "references": [
+    {"path": "../core"},
+    { "path": "../logger" } // Reference to other local packages
+  ],
+  "include": [ 
     "src",
-    "bin"
+    "bin" 
     ],
   "exclude": [
     "node_modules"
   ],
-}
+} 

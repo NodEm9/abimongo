@@ -40,9 +40,9 @@ jobs:
       # Use npm ci if your package-lock.json was generated with npm>=7 and includes workspaces.
       # If your lockfile is old/broken, temporarily use npm install (comment the other).
       - name: Install (workspaces)
-        run: npm ci
+        # run: npm ci
         # If this still errors, try:
-        # run: npm install
+        run: pnpm ci
      
       - name: Build types (topological)
         run: npx tsc -b
@@ -51,7 +51,7 @@ jobs:
         run: npm run build --workspaces
 
       - name: Install (workspaces)
-        run: npm ci
+        run: pnpm ci
 
       - name: Lint
         run: npm run lint

@@ -1,8 +1,5 @@
 import { LoggerFormatOptions, LogLevel } from '../types';
 import { now } from './timeUtils';
-// import { colorByLevel } from '../logger/colorizer';
-// import { FormatOptions } from '../types';
-// import { colorize } from '../logger';
 
 /** * 
  * Formats a log message based on the provided options.
@@ -50,14 +47,3 @@ export function formatError(error: Error): string {
   return `${error.name}: ${error.message}\n${error.stack}`;
 }
 
-// export function formatLog(message: string, level: LogLevel, opts: FormatOptions = {}): string {
-//   const timestamp = new Date().toISOString();
-
-//   const levelTag = opts.colorize ? colorize(level) : level;
-
-//   if (opts.format === 'json') {
-//     return JSON.stringify({ timestamp, level, message });
-//   }
-
-//   return `[${timestamp}] [${levelTag}] ${message}`;
-// }

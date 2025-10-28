@@ -77,4 +77,5 @@ export class MetricsTracker {
   isTrackingMetrics(): boolean {
     return this.intervalId !== undefined;
   }
-}
+};
+

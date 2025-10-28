@@ -10,7 +10,7 @@ interface RedisOptions {
 }
 const redisUrl = process.env.REDIS_URI as string
 
-export const redis = createClient({
+export const redis: RedisClientType = createClient({
   url: redisUrl,
   socket: {
     reconnectStrategy: retries => {

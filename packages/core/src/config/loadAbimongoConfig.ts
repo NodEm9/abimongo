@@ -2,7 +2,8 @@ import fs from 'fs-extra';
 import path from 'path';
 import Ajv, { ValidateFunction } from 'ajv';
 import { AbimongoConfig } from '../types';
-import configSchema from './abimongo.config.schema.json';
+// import configSchema from './abimongo.config.schema.json';
+const configSchema =  fs.readJSONSync(path.resolve(__dirname, 'abimongo.config.schema.json'), 'utf-8');
 
 const ajv = new Ajv({
   allErrors: true,

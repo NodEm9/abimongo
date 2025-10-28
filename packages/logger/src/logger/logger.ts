@@ -26,7 +26,7 @@ interface LogMeta {
  * AbimongoLogger is a custom logger that supports multiple tenants,
  * file-based logging with daily rotation, and metrics tracking.
  * It can log messages in both JSON and text formats.
- *  * @example
+ * @example
  * const logger = new AbimongoLogger({
  *  format: 'json', // or 'text'
  * baseLogPath: '/var/logs/abimongo',
@@ -49,13 +49,14 @@ class AbimongoLogger {
     this.options.colorize = this.options.colorize ?? true;
 
     if (process.env.NODE_ENV !== 'test') {
-      if (!this.config.enableMetrics?.enabled) {
-        this.stopTrackingMetrics();
+      if (!this.metrics) {
+        // this.stopTrackingMetrics();
         return
-      } else {
-        this.startTrackingMetrics()
-        console.log('Metrics tracking enabled from logger constructor');
       }
+      // else {
+      //   this.startTrackingMetrics()
+      //   console.log('Metrics tracking enabled from logger constructor');
+      // // }
     }
   }
   /**

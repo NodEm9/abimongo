@@ -2,7 +2,7 @@
 import { Command } from 'commander';
 import { generateProject } from '../src/init-cli/generate.project';
 
-const program = new Command();
+export const program = new Command();
 let appName!: string;
 
 program

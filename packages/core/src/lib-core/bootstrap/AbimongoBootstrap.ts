@@ -1,6 +1,6 @@
 import { loadAbimongoConfig } from '../../config';
 import { AbimongoConfig, Document } from '../../types';
-// import { setupLogger, logger } from '@abimongo/logger';
+import { setupLogger, logger } from '@abimongo/logger';
 import { AbimongoClient } from '../AbimongoClient';
 import { AbimongoGraphQL, initializeGraphQL } from '../../graphql';
 import chalk from 'chalk';
@@ -100,7 +100,7 @@ export class AbimongoBootstrap {
   private model!: AbimongoModel<Document>;
   private schema!: AbimongoSchema<Document>
   private graphql!: AbimongoGraphQL;
-  // public logger!: ReturnType<typeof setupLogger> | typeof logger;
+  public logger!: ReturnType<typeof setupLogger> | typeof logger;
   private app?: Application = undefined;
   private gc!: AbimongoGC;
 
@@ -126,12 +126,12 @@ export class AbimongoBootstrap {
    */
   public async initialize(configFilePath?: string): Promise<void> {
     this.config = await loadAbimongoConfig(configFilePath);
-    // if (this.config.logger?.enabled) {
-    //   const loggerConfig = this.config.logger ?? { enabled: false }
-    //   const loggerConfg = loggerConfig.enabled ? setLogger(this.config.logger) : logger;
-    //   this.logger = loggerConfg;
-    //   console.info('📝 Logger initialized');
-    // }
+    if (this.config.logger?.enabled) {
+      const loggerConfig = this.config.logger ?? { enabled: false }
+      const loggerConfg = loggerConfig.enabled ? setupLogger(this.config.logger) : logger;
+      this.logger = loggerConfg;
+      console.info('📝 Logger initialized');
+    }
     // Redis setup (if enabled)
     if (this.config.features?.useRedisCache && this.config.features.redisUri) {
       await redis.get(this.config.features.redisUri);

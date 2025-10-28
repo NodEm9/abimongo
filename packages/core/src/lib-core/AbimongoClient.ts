@@ -9,7 +9,7 @@ import {
 } from 'mongodb';
 import 'dotenv/config'
 import { AbimongoClientConfig, AbimongoClientOptions } from '../types';
-// import { AsyncBatchTransporter } from '@abimongo/logger';
+import { AsyncBatchTransporter } from '@abimongo/logger';
 import { GetTanantModelParams } from '../tanancy';
 import { AbimongoSchema } from '.';
 import {
@@ -490,29 +490,36 @@ export class AbimongoClient implements AbimongoClientConfig {
 		}
 	}
 
-	// static async handleLogBatch(
-	// 	batch: (TopologyOpeningEvent | TopologyClosedEvent)[],
-	// 	transporter?: AsyncBatchTransporter
-	// ): Promise<void> {
-	// 	if (!Array.isArray(batch) || batch.length === 0) {
-	// 		console.warn(`[warning]: Received an empty log batch or invalid format: ${batch}`);
-	// 		return;
-	// 	}
+	/***
+	 * Handles a batch of MongoDB topology events.
+	 * @param {(TopologyOpeningEvent | TopologyClosedEvent)[]} batch - The batch of topology events to handle.
+	 * @param {AsyncBatchTransporter} [transporter] - Optional transporter for logging events asynchronously.
+	 * @returns {Promise<void>} A promise that resolves when the batch is processed.
+	 * @see {@link AsyncBatchTransporter} for more details on the transporter interface.
+	 */
+	static async handleLogBatch(
+		batch: (TopologyOpeningEvent | TopologyClosedEvent)[],
+		transporter?: AsyncBatchTransporter
+	): Promise<void> {
+		if (!Array.isArray(batch) || batch.length === 0) {
+			console.warn(`[warning]: Received an empty log batch or invalid format: ${batch}`);
+			return;
+		}
 
-	// 	// Always handle the first event explicitly
-	// 	this.handleTopologyEvent(batch[0]);
+		// Always handle the first event explicitly
+		this.handleTopologyEvent(batch[0]);
 
-	// 	const remaining = batch.slice(1);
-	// 	if (remaining.length > 0) {
-	// 		if (transporter) {
-	// 			for (const event of remaining) {
-	// 				transporter.log('info', 'Topology event (batch)', [event]);
-	// 			}
-	// 		} else {
-	// 			console.warn(`[warning]: No transporter provided; remaining batch will not be processed: ${remaining}`);
-	// 		}
-	// 	}
-	// }
+		const remaining = batch.slice(1);
+		if (remaining.length > 0) {
+			if (transporter) {
+				for (const event of remaining) {
+					transporter.log('info', 'Topology event (batch)', [event]);
+				}
+			} else {
+				console.warn(`[warning]: No transporter provided; remaining batch will not be processed: ${remaining}`);
+			}
+		}
+	}
 
 }
 

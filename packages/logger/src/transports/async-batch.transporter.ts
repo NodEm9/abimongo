@@ -81,4 +81,6 @@ export class AsyncBatchTransporter {
     clearAllTimers();
     console.log('AsyncBatchTransporter stopped and flushed.');
   }
-}
+};
+
+

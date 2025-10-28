@@ -1,5 +1,5 @@
 {
-  "entryPoints": ["bin/abimongo-cli.ts"],
+  "entryPoints": ["src/index.ts"],
   "out": "../../docs/website/docs/create/api",
   "tsconfig": "./tsconfig.json",
   "excludePrivate": true,

@@ -7,7 +7,7 @@ const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
 	mode: 'production',
-	entry: './index.ts',
+	entry: './src/index.ts',
 	target: 'node',
 	output: {
 		filename: 'abimongo-core.node.js',

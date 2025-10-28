@@ -13,18 +13,18 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "declaration": true,
-    "paths": {
-      "@abimongo/logger": ["./packages/logger"],
-      "@abimongo/core":   ["./packages/core"],
-      "@abimongo/create": ["./packages/create"]
-    },
+    // "paths": {
+    //   "@abimongo/logger": ["./packages/logger/src/index.ts"],
+    //   "@abimongo/core":   ["./packages/core/src/index.ts"],
+    //   "@abimongo/create": ["./packages/create/src/index.ts"]
+    // },
     "declarationMap": true,
     "esModuleInterop": true,
     "isolatedModules": true, 
     "experimentalDecorators": true,
     "importHelpers": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmitOnError": true,
+    // "noEmitOnError": false,
     "resolvePackageJsonExports": true,
     "resolveJsonModule": true, 
     "inlineSourceMap": false,                                                                                                                                    
@@ -33,12 +33,12 @@
     "skipLibCheck": true, 
     "jsx": "react-jsx"                              
   },
-  // "ts-node": {
-  //   "transpileOnly": true,
-  //   "compiler": "typescript-cached-transpile"
-  // },
+  "ts-node": {
+    "transpileOnly": true,
+    "compiler": "typescript-cached-transpile"
+  },
   "include": [
-    "packages/**/src/**/*", 
+    "packages/*", 
     "docs/*", 
     ],
   "exclude": ["node_modules", "packages/core/examples", "packages/*/src/__test__/**"]

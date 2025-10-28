@@ -1,4 +1,6 @@
-import { consoleTransport, Logger, setupLogger } from '@abimongo/logger';
+import { consoleTransport, Logger } from '@abimongo/logger';
+
+
 import {
   bufferedTransporter,
   elasticTransport,
@@ -13,7 +15,7 @@ Logger.initialize({
   transports: [
     {
       write: async (message) => {
-        console.log(`[ABIMONGO] message received: ${message}`);
+        console.log(`[INFO] message received: ${message}`);
       }
     },
     consoleTransport(true),
@@ -52,7 +54,9 @@ Logger.initialize({
 const logger = Logger.instance;
 
 export { logger };
-  
+
+
+
 // const debugMode = process.env.DEBUG === 'true' || false;
 // if (debugMode) {
 //   logger.debug('Debug mode is enabled.');

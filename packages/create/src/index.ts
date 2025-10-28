@@ -1,40 +1,44 @@
-#!/usr/bin/env node
-import { Command } from 'commander';
-import { promptProjectOptions } from '../src/prompts/projectPrompts';
-import { generateProject } from '../src/generators/projectGenerator';
-import { showBanner } from '../src/utils/banner';
-// import { runGCCommand } from '../src/templates'; 
+import initProject from "../bin/abimongo-create";
+
+initProject();
+
+// #!/usr/bin/env node
+// import { Command } from 'commander';
+// import { promptProjectOptions } from '../src/prompts/projectPrompts';
+// import { generateProject } from '../src/generators/projectGenerator';
+// import { showBanner } from '../src/utils/banner';
+// // import { runGCCommand } from '../src/templates'; 
  
-showBanner();
+// showBanner();
 
-const program = new Command();
+// const program = new Command();
 
-function initProject() {
-  program
-    .name('abimongo-cli')
-    .description('CLI to generate and manage yout favorite framework projects')
-    .version('1.0.0');
+// function initProject() {
+//   program
+//     .name('abimongo-cli')
+//     .description('CLI to generate and manage yout favorite framework projects')
+//     .version('1.0.0');
 
-  program
-  .command('gc:run')
-  .description('Run Abimongo Garbage Collector')
-  // .action(runGCCommand);
+//   program
+//   .command('gc:run')
+//   .description('Run Abimongo Garbage Collector')
+//   // .action(runGCCommand);
 
-  program
-    .command('init')
-    .description('Initialize a new project')
-    .action(async () => {
-      const options = await promptProjectOptions();
-      await generateProject(options);
-    });
-  program.command('generate')
-    .description('Generate project files based on selected options')
-    .action(async () => {
-      const options = await promptProjectOptions();
-      await generateProject(options);
-    });
+//   program
+//     .command('init')
+//     .description('Initialize a new project')
+//     .action(async () => {
+//       const options = await promptProjectOptions();
+//       await generateProject(options);
+//     });
+//   program.command('generate')
+//     .description('Generate project files based on selected options')
+//     .action(async () => {
+//       const options = await promptProjectOptions();
+//       await generateProject(options);
+//     });
 
-  program.parse(process.argv);
-}
+//   program.parse(process.argv);
+// }
 
-export default initProject;
+// export default initProject;

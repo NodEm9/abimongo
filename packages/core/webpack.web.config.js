@@ -4,9 +4,10 @@ const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 
-mmodule.exports = {
+
+module.exports = {
 	mode: 'production',
-	entry: './browser.ts',
+	entry: './src/browser.ts',
 	target: 'web',
 	output: {
 		filename: 'abimongo-core.browser.js',
@@ -84,14 +85,15 @@ mmodule.exports = {
 				root: 'express-serve-static-core',
 			},
 			// Prevent bundling node_modules
-			buffer: 'commonjs buffer',
-			fs: 'commonjs fs',
-			path: 'commonjs path',
-			os: 'commonjs os',
-			http: 'commonjs http',
-			https: 'commonjs https',
-			net: 'commonjs net',
-			dns: 'commonjs dns',
+			buffer: 'buffer',
+			fs: 'fs',
+			path: 'path',
+			os: 'os',
+			http: 'http',
+			https: 'https',
+			net: 'net',
+			dns: 'dns',
+			"events": 'false'
 		}
 	],
 	optimization: {

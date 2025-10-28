@@ -4,7 +4,7 @@ import { MongoClient } from 'mongodb';
 
 export interface InitMultiTenancyOptions {
   lazy?: boolean; // Connect on-demand rather than eagerly
-  config?: AbimongoConfig['advanced'] // Optional logger
+  config?: AbimongoConfig['logger'] // Optional logger
 }
 
 /**
@@ -41,7 +41,7 @@ export const initMultiTenancy = async (
 
     const alreadyRegistered = MultiTenantManager.hasTenant(tenantId);
     if (alreadyRegistered) {
-      // config?.logger?.warn?.(`Tenant "${tenantId}" is already registered. Skipping.`);
+      config?.logger?.warn?.(`Tenant "${tenantId}" is already registered. Skipping.`);
       continue;
     }
 

@@ -23,10 +23,12 @@ import { AbimongoBootstrap } from "./AbimongoBootstrap";
  * @method create
  * @returns {Promise<AbimongoBootstrap>} - A promise that resolves to an instance of AbimongoBootstrap.
  */
-export class AbimongoBootstrapFactory {
+class AbimongoBootstrapFactory {
   static async create(config?: AbimongoConfig): Promise<AbimongoBootstrap> {
     const bootstrap = new AbimongoBootstrap();
     await bootstrap.initialize(config as string | undefined);
     return bootstrap;
   }
 }
+
+export { AbimongoBootstrapFactory as RunAbimongoBootstrap };

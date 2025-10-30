@@ -31,4 +31,4 @@ class AbimongoBootstrapFactory {
   }
 }
 
-export { AbimongoBootstrapFactory as RunAbimongoBootstrap };
+export { AbimongoBootstrapFactory as initAbimongo };

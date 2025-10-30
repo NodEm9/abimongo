@@ -1,6 +1,10 @@
 {
   "name": "@abimongo/logger",
   "version": "1.0.0",
+  "publishConfig": {
+    "registry": "http://localhost:4873",
+    "access": "public"
+  },
   "main": "dist/abimongo-logger.js",
   "module": "dist/abimongo-logger.js",
   "types": "dist/index.d.ts",
@@ -9,9 +13,6 @@
     "README.md",
     "LICENSE"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "sideEffects": false,
   "browser": {
     "async_hooks": false
@@ -33,12 +34,10 @@
     "build": "webpack --config webpack.config.js",
     "test": "jest --detectOpenHandles --coverage",
     "changeset": "changeset",
-    "release": "changeset version && pnpm install && pnpm build && changeset publish",
-    "docs": "typedoc",
+    "release": "pnpm changeset version && pnpm install && pnpm build && changeset publish",
+    "typedoc": "typedoc --options typedoc.json",
     "clean": "rimraf dist",
-    "patch:version": "pnpm version patch",
-    "minor:version": "pnpm version minor",
-    "major:version": "pnpm version major"
+    "publish": "pnpm -recursive publish --tag latest --no-git-checks"
   },
   "keywords": [
     "abimongo",
@@ -93,6 +92,6 @@
   },
   "engines": {
     "node": ">=20.11.0",
-    "npm": ">=10.8.2"
+    "npm": ">=10.19.0"
   }
 }

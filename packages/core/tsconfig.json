@@ -1,24 +1,25 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-  "rootDir": ".",
-  "outDir": "./dist",
-  "composite": true,
-  "declaration": true,
+  "extends": "../../tsconfig.base.json", // Inherit common settings
+  "compilerOptions": {                                                                                   
+    "rootDir": "./",
+    "outDir": "./dist",                                                                                                                                                                     
+    "composite": true,
+    "declaration": true,  
+    "resolveJsonModule": true                             
   },
-   "references": [
-    { "path": "../logger" } // Reference to other local packages
-  ],
   "include": [
-    "src", 
-    "bin", 
-    "../setupTest.ts",
-    "../jest.config.ts",
-    "examples",
-  ],  
-  "exclude": [ 
+    "index.ts",
+    "src/**/*",
+    "src/**/config/*.json",
+    "./bin/abimongo-core-cli.ts",
+    "browser.ts"
+  ],
+  "exclude": [
     "./node_modules",
-    // "./examples",
+    "./examples",
     "**/__tests__/**"
-  ] 
+  ],
+  "references": [
+    { "path": "../logger" }, // Reference to other local packages
+  ],
 }

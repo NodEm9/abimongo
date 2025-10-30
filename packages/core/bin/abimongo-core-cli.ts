@@ -22,7 +22,7 @@ program
       projectName,
       graphql: { enabled: options.withGraphql },
       features: { useRedisCache: options.withRedis },
-      // logger: options.logger,
+      logger: options.logger,
       multiTenant: options.multiTenant,
       advanced: {
         garbageCollector: options.withGarbageCollector,

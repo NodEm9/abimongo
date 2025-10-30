@@ -4,13 +4,14 @@ const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const { VERSION } = require('ts-node');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
+const { externalsType } = require('./webpack.cli.config');
 
 module.exports = {
 	mode: 'production',
 	entry: './src/index.ts',
 	target: 'node',
 	output: {
-		filename: 'abimongo-core.node.js',
+		filename: 'abimongo-core.js',
 		path: path.resolve(__dirname, 'dist'),
 		library: {
 			name: 'abimongo-core',
@@ -20,6 +21,7 @@ module.exports = {
 		globalObject: 'this',
 		clean: true
 	},
+	externalsType: 'umd',
 	externals: [
 		nodeExternals(),
 		{
@@ -143,12 +145,16 @@ module.exports = {
 			console: require.resolve('console-browserify'),
 			crypto: require.resolve("crypto-browserify"),
 			path: require.resolve('path-browserify'),
-			util: require.resolve('util/'),
+			util: false,
 			"async_hooks": false,
 			// "child_process": false,
 			"fs": false,
 		},
-		plugins: [new TsconfigPathsPlugin()]
+		plugins: [
+			new TsconfigPathsPlugin({
+				configFile: path.resolve(__dirname, 'tsconfig.json'),
+			})
+		]
 	},
 	plugins: [
 		new webpack.DefinePlugin({

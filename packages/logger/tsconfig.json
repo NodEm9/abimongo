@@ -8,9 +8,9 @@
   },
     "include": [
     "src",
-    "../setupTest.ts" 
     ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "../setupTest.ts"  
   ], 
 }

@@ -5,11 +5,11 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.ts',
+  entry: './index.ts',
   target: 'node',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'abimongo-create.js'
+    filename: 'index.js'
   },
   resolve: {
     extensions: ['.ts', '.js']
@@ -24,10 +24,10 @@ module.exports = {
     {
       apply: (compiler) => {
         compiler.hooks.emit.tapAsync('AddShebangPlugin', (compilation, callback) => {
-          const content = compilation.assets['abimongo-create.js'];
-          compilation.assets['abimongo-create.js'] = {
+          const content = compilation.assets['index.js'].source();
+          compilation.assets['index.js'] = {
             source: () => `#!/usr/bin/env node\n${content}`,
-            size: () => content.source().length + '#!/usr/bin/env node\n'.length,
+            size: () => content.length + '#!/usr/bin/env node\n'.length,
           };
           callback();
         });

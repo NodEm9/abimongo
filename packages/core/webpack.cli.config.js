@@ -14,56 +14,7 @@ module.exports = {
 	},
 	devtool: 'source-map', // Generate source maps for debugging
 	externalsType: 'umd',
-	externals: [
-		nodeExternals(),
-		{
-			// Exclude node_modules from the bundle
-			// This is important for CLI tools to avoid bundling unnecessary dependencies
-
-			'mongodb': {
-				umd: 'mongodb',
-				commonjs: 'mongodb',
-				commonjs2: 'mongodb',
-				amd: 'mongodb',
-				root: 'mongodb',
-			},
-			'@abimongo/logger': {
-				'commonjs': '@abimongo/logger',
-				'commonjs2': '@abimongo/logger',
-				'amd': '@abimongo/logger',
-				'root': '@abimongo/logger',
-			},
-			'@apollo/server': {
-				umd: '@apollo/server',
-				commonjs: '@apollo/server',
-				commonjs2: '@apollo/server',
-				amd: '@apollo/server',
-				root: '@apollo/server',
-			},
-			'dotenv': {
-				umd: 'dotenv',
-				commonjs: 'dotenv',
-				commonjs2: 'dotenv',
-				amd: 'dotenv',
-				root: 'dotenv'
-			},
-			// chalk: 'chalk',
-			graphql: {
-				umd: 'graphql',
-				commonjs: 'graphql',
-				commonjs2: 'graphql',
-				amd: 'graphql',
-				root: 'graphql',
-			},
-			'express': {
-				und: 'express',
-				commonjs: 'express',
-				commonjs2: 'express',
-				amd: 'express',
-				root: 'express',
-			},
-		}
-	],
+	externals: [nodeExternals()],
 	resolve: {
 		extensions: ['.ts', '.js'],
 		byDependency: {

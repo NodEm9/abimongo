@@ -10,12 +10,12 @@ module.exports = {
 	entry: './src/browser.ts',
 	target: 'web',
 	output: {
-		filename: 'abimongo-core.browser.js',
+		filename: 'abimongo-core-browser.js',
 		path: path.resolve(__dirname, 'dist'),
 		library: {
+			name: 'abimongocore-browser', // global name if script loaded in <script> tag
 			type: 'umd', // Universal Module Definition for compatibility with CommonJS, AMD, and browser globals
 			umdNamedDefine: true, // Use named UMD definition
-			name: 'AbimongoCore' // global name if script loaded in <script> tag
 		},
 	},
 	module: {

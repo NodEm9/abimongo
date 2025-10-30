@@ -3,7 +3,7 @@ import { ProjectOptions, AbimongoConfig } from '../types/AbimongoConfig'
 // ${options.logger?.enabled ? "import { logger } from '@abimongo/core';" : ''}
 
 export function generateMainTS(options: AbimongoConfig): string {
-  return `import { AbimongoBootstrapFactory } from '@abimongo/core';
+  return `import { initAbimongo } from '@abimongo/core';
 ${options.graphql?.enabled ? "import { AbimongoGraphQL } from '@abimongo/core';" : ''}
 
 import { bootstrap } from './core/AbimongoBootstrap';

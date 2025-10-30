@@ -7,6 +7,7 @@ type BufferedLogEntry = {
   level: string;
   message: string;
   meta: any[];
+  filename?: string;
 };
 
 /**

@@ -59,7 +59,7 @@ export async function generateProjectWithConfig(config: AbimongoConfig) {
     graphql: config.graphql,
     features: config.features,
     multiTenant: config.multiTenant,
-    // logger: config.logger?.enabled ? config.logger : undefined,
+    logger: config.logger?.enabled ? config.logger : undefined,
     // advanced: config.advanced,
   };
 

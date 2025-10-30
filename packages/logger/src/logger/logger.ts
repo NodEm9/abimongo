@@ -1,7 +1,8 @@
 import path from 'path';
 import {
   BufferedTransporter,
-  AdvancedRollingFileTransporter
+  AdvancedRollingFileTransporter,
+  createRotatingFileTransporter
 } from '../transports';
 import { MetricsTracker, clearAllTimers, formatMsg } from '../utils';
 import { LoggerConfig, LogLevel } from '../types';
@@ -20,6 +21,7 @@ interface LoggerOptions {
 
 interface LogMeta {
   tenantId?: string;
+  [key: string]: any;
 }
 
 /**
@@ -49,14 +51,13 @@ class AbimongoLogger {
     this.options.colorize = this.options.colorize ?? true;
 
     if (process.env.NODE_ENV !== 'test') {
-      if (!this.metrics) {
-        // this.stopTrackingMetrics();
-        return
-      }
-      // else {
-      //   this.startTrackingMetrics()
-      //   console.log('Metrics tracking enabled from logger constructor');
-      // // }
+      if (!this.metrics.isTrackingMetrics()) {
+        this.stopTrackingMetrics();
+        console.log('Metrics tracking was active. Stopping it on initialization.');
+      } else if (this.metrics.isTrackingMetrics()) {
+        this.startTrackingMetrics();
+        console.log('Metrics tracking was inactive. Starting it on initialization.');
+      } else { return; }
     }
   }
   /**
@@ -67,22 +68,35 @@ class AbimongoLogger {
    */
   async log(message: string, level: LogLevel = 'info', meta: LogMeta = {}) {
     const tenantId = meta.tenantId || 'default';
-    const filename = path.join(this.options.baseLogPath!, `${tenantId}.log`);
+    const appLog = process.env.ABIMONGO_APP_LOG || 'abimongo_app';
+    const filename = path.join(__dirname, '../logs/abimongo.log');
+    const pubFilename = path.join('', `${appLog}.log`);
     const formatted = formatMsg(level, message, [this.options.format]);
 
     let transport = this.transports.get(tenantId);
 
     if (!transport) {
-      const fileTransport = new AdvancedRollingFileTransporter({
-        filename,
-        frequency: 'daily',
-        maxSize: 5 * 1024 * 1024,
-        backupCount: 5,
-        compress: false,
-        flushInterval: this.options.flushInterval,
-      });
+      // const fileTransport = new AdvancedRollingFileTransporter({
+      //   filename: filename || pubFilename,
+      //   frequency: 'daily',
+      //   maxSize: 5 * 1024 * 1024,
+      //   backupCount: 5,
+      //   compress: false || true,
+      //   flushInterval: this.options.flushInterval,
+      // });
 
-      const buffered = new BufferedTransporter(fileTransport, {
+      const rotatingTransporter = createRotatingFileTransporter({
+        filename: filename || pubFilename,
+        frequency: 'daily',
+        maxSize: 5 * 1024 * 1024, // 10 MB 
+        backupCount: 5,
+        compress: true || false,
+        flushInterval: this.options.flushInterval
+      })
+
+
+
+      const buffered = new BufferedTransporter(rotatingTransporter, {
         flushInterval: this.options.flushInterval || 3000,
         flushSize: this.options.flushSize || 10,
       });
@@ -98,10 +112,12 @@ class AbimongoLogger {
       : colorByLevel(level, formatted);
 
     // Write the log message to the transport
-    await transport.write(coloredMessage, level);
+    await transport.write(coloredMessage, level, [meta]).then(() => {
+      this.metrics.trackLog();
+    });
 
-    const colorConsle = colorByLevel(level, `[${new Date().toISOString()}] [${level}] [${tenantId}] ${formatted}`);
-    console.log(colorConsle);
+    const colorConsole = colorByLevel(level, `[${level}] ${formatted}`);
+    console.log(colorConsole);
 
     process.exitCode = 0; // Reset exit code to 0 on successful log
   }
@@ -144,6 +160,16 @@ class AbimongoLogger {
   }
 }
 
+/**
+ * @instance - logger
+ * Singleton instance of AbimongoLogger for application-wide use. 
+ * Configured to log in JSON format, stream to Redis, and flush logs every 2 seconds or after 20 entries. 
+ * Adjust the configuration as needed for your application.
+ * @example
+ * import { logger } from './logger';
+ * logger.log('This is an info message', 'info', { tenantId: 'tenant1' });
+ * logger.log('This is an error message', 'error', { tenantId: 'tenant2' });
+ */
 export const logger = new AbimongoLogger({
   format: 'json', // or 'text'
   streamToRedis: true,

@@ -1,10 +1,11 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { AbimongoConfig, ProjectOptions } from '../../types';
+import { AbimongoConfig } from '../../types';
 import { execSync } from 'child_process';
 import chalk from 'chalk';
 import { MAIN_TS_CONTENT } from '../core/main';
-import { AbimongoGraphQL } from '../../graphql';
+import { findPackageJSON } from 'module';
+
 
 export async function generateAppStructure(projectRoot: string, options: AbimongoConfig) {
   const srcDir = path.join(projectRoot, 'src');
@@ -28,7 +29,7 @@ export async function generateAppStructure(projectRoot: string, options: Abimong
   }
 
   // Create placeholder files
-  await fs.writeFile(path.join(coreDir, 'AbimongoBootstrap.ts'), abimongoBootstrapFileContent);
+  await fs.writeFile(path.join(coreDir, 'initAbimongo.ts'), abimongoBootstrapFileContent);
   await fs.writeFile(path.join(utilsDir, 'helper.ts'), '// helper functions implementation');
   await fs.writeFile(path.join(typesDir, 'config.ts'), '// Config types');
 
@@ -74,9 +75,10 @@ export const resolvers = {
       `import { bootstrap } from '../core/AbimongoBootstrap';
 // You can use AbimongoGraphQL to setup your GraphQL server
 // but here everthing is already made available in the bootstrap file.
-// For more information, visit: https://abimongo.com/docs/graphql , https://abimongo.com/docs/core/bootstrap
-import { AbimongoGraphQL } from '@abimongo/core';
-export const app =  (await (bootstrap())); // or new AbimongoGraphQL({useRedis: false});
+// For more information, visit: https://github.com/NodEm9/abimongo/core/features/AbimongoGraphQL , https://github.com/NodEm9/abimongo/core/abimongo-bootstrap/AbimongoBootstrap
+import { run } from '../core/initAbimongo';
+
+export const app =  (await (run())); // or new AbimongoGraphQL({useRedis: false});
 const graphql = app.getGraphQL();
      graphql?.generateSchema();
 /**
@@ -109,11 +111,10 @@ const graphql = app.getGraphQL();
     "module": "commonjs",
     "dependencies": {
       "mongodb": "^6.14.2",
-      "node-cron": "^4.2.0"
     },
     "devDependencies": {
-      "typescript": "^5.3.3",
-      "ts-node": "^10.9.1",
+      "typescript": "^5.9.3",
+      "ts-node": "^10.9.2",
     },
   };
 
@@ -122,34 +123,63 @@ const graphql = app.getGraphQL();
     JSON.stringify(
       {
         compilerOptions: {
-          "target": 'ES2022',
-          "lib": ["DOM", "ES2022"],
+          // Environment and Module Settings
+          "target": 'ES2021',
+          "lib": [],
           "moduleDetection": "auto",
           "module": 'commonjs',
+          "moduleResolution": 'node',
           "rootDir": './src',
           "outDir": './dist',
+
+          // Source Map/Outputs Settings
+          "sourceMap": true,
+          "declaration": true,
+          "declarationMap": true,
           "esModuleInterop": true,
-          "resolveJsonModule": true,
+
+          // Typechecking Options (strictness)
+          "noUncheckedIndexedAccess": true,
+          "exactOptionalPropertyTypes": true,
           "forceConsistentCasingInFileNames": true,
+          "noImplicitReturns": true,
+          "noImplicitAny": true,
+
+          // Recommended Options Settings
+          "resolveJsonModule": true,
+          "jsx": "react-jsx",
           "strict": true,
           "skipLibCheck": true
         },
         "include": ['src/**/*'],
-        "exclude": ['node_modules', 'dist', 'templates']
+        "exclude": ['node_modules', 'dist']
       },
       null,
       2
     )
   );
 
+  const pkgManagerProps: PackageManager = [
+    'npm',
+    'yarn',
+    'pnpm'
+  ].includes(process.env.npm_config_user_agent?.split(' ')[0] || '') ?
+    (process.env.npm_config_user_agent?.split(' ')[0] as PackageManager) : 'npm'; 
 
-  await fs.writeJson(path.join(projectRoot, 'package.json'), packageJson, { spaces: 2 });
+  if(!findPackageJSON(path.resolve("."))) {
+    await fs.writeJson(path.join(".", 'package.json'), packageJson, { spaces: 2 });
+  } else {
+    console.log(chalk.yellowBright(`[Warning]: package.json already exists. Skipping creation.`));
+  } 
+  
+  
+  // await fs.writeJson(path.join(projectRoot, 'package.json'), packageJson, { spaces: 2 });
 
-  // execSync(`npm install @abimongo/core @abimongo/logger mongodb, { cwd: projectRoot, stdio: 'inherit' });
-  execSync(`npm install express mongodb`, { cwd: projectRoot, stdio: 'inherit' });
+  // execSync(`${getPackageManagerCommand(pkgManagerProps)} @abimongo/core @abimongo/logger mongodb, { cwd: projectRoot, stdio: 'inherit' });
+  execSync(`${getPackageManagerCommand(pkgManagerProps)} express mongodb`, { cwd: projectRoot, stdio: 'inherit' });
   console.log(chalk.blueBright(`[Installing dependencies]: Installing dependencies...`));
 
-  execSync(`npm install -D typescript ts-node @types/node`, { cwd: projectRoot, stdio: 'inherit' });
+execSync(`${getPackageManagerCommand(pkgManagerProps)} -D typescript ts-node @types/node`, { cwd: projectRoot, stdio: 'inherit' });
   console.log(chalk.blueBright(`[Installing dev dependencies]: Installing dev dependencies...`));
 
   // Create .gitignore
@@ -159,5 +189,21 @@ lib
 .store
 .env
 `;
-  await fs.writeFile(path.join(projectRoot, '.gitignore'), gitignoreContent);
+  await fs.writeFile(path.join(".", '.gitignore'), gitignoreContent);
 }
+
+type PackageManager = 'npm' | 'yarn' | 'pnpm';
+
+function getPackageManagerCommand(packageManager: PackageManager): string {
+  switch (packageManager) {
+    case 'npm':
+      return 'npm install';
+    case 'yarn':
+      return 'yarn add';
+    case 'pnpm':
+      return 'pnpm add';
+    default:
+      return 'npm install';
+  }
+}
+

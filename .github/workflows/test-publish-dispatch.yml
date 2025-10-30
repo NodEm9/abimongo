@@ -14,10 +14,10 @@ on:
         type: string
         default: '@abimongo/core'
       package_manager:
-        description: 'Package manager to use: npm or pnpm'
+        description: 'Package manager to use: pnpm or npm'
         required: false
         type: string
-        default: 'npm'
+        default: 'pnpm'
       dry_run:
         description: 'If true, do not actually publish'
         required: false

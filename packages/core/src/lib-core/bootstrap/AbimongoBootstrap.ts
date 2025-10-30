@@ -5,7 +5,7 @@ import { AbimongoClient } from '../AbimongoClient';
 import { AbimongoGraphQL, initializeGraphQL } from '../../graphql';
 import chalk from 'chalk';
 import { redis } from '../../redis-manager/redisClient';
-import { cacheWithRedis, createModel } from '../../utils';
+import { cacheWithRedis, createModel, setLogger } from '../../utils';
 import { invalidateTenantCache } from '../../utils/invalidateTenantCache';
 import { applyMultiTenancy, InitMultiTenancyOptions } from '../../tanancy';
 import { Application } from 'express';
@@ -128,10 +128,24 @@ export class AbimongoBootstrap {
     this.config = await loadAbimongoConfig(configFilePath);
     if (this.config.logger?.enabled) {
       const loggerConfig = this.config.logger ?? { enabled: false }
-      const loggerConfg = loggerConfig.enabled ? setupLogger(this.config.logger) : logger;
+      // Cast to any to satisfy overloads where advanced 
+      // //fields (like garbageCollector.logResults) may require a narrower type
+      const loggerConfg = loggerConfig.enabled ? setLogger(this.config.logger as any) : logger;
       this.logger = loggerConfg;
       console.info('📝 Logger initialized');
     }
+
+
+    // const loggerConfig = this.config.logger ?? { enabled: false };
+    // this.logger = setupLogger(loggerConfig as any); // Cast to any to satisfy LoggerConfig type
+    // this.logger?.info('📝 Logger initialized');
+
+    // if (this.config.logger?.enabled) {
+    //   const loggerConfig = this.config.logger ?? { enabled: false }
+    //   const loggerConfg = loggerConfig.enabled ? setupLogger(this.config.logger) : logger;
+    //   this.logger = loggerConfg;
+    //   console.info('📝 Logger initialized');
+    // }
     // Redis setup (if enabled)
     if (this.config.features?.useRedisCache && this.config.features.redisUri) {
       await redis.get(this.config.features.redisUri);
@@ -158,7 +172,7 @@ export class AbimongoBootstrap {
     }
 
     // Register models if provided
-    this.model = new AbimongoModel<Document>({
+    this.model = new AbimongoModel < Document > ({
       collectionName: `${this.mongoClient.getCollection('default')}`,
       schema: this.schema,
       tenantId: this.config.multiTenant?.enabled
@@ -243,7 +257,7 @@ export class AbimongoBootstrap {
 
       // Register GC files
       this.gc.register(
-        this.mongoClient.getCollection<Document>(this.config.model?.collectionName || 'default'),
+        this.mongoClient.getCollection < Document > (this.config.model?.collectionName || 'default'),
         this.schema
       );
       console.info('✅ Garbage Collector files registered');
@@ -286,7 +300,7 @@ export class AbimongoBootstrap {
     } = {}
   ): Promise<T> {
     if (!redis) throw new Error('Redis is not initialized');
-    return await cacheWithRedis<T>(redis, key, fetcher, options);
+    return await cacheWithRedis < T > (redis, key, fetcher, options);
   }
 
   public async invalidateCache(tenantId: string, namespace?: string) {

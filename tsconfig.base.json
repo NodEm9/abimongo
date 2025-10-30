@@ -2,30 +2,24 @@
   "compilerOptions": {
     "target": "ES2021",
     "lib": [
+      "ESNext",
       "ES2021", 
-      "ES2022.Error",
-      "ES2022.Object",
-      "esnext.disposable",
+      "DOM",
       "DOM.Iterable", 
-      "DOM"
+      "DOM.AsyncIterable"
       ],  
-    "moduleDetection": "auto",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "moduleDetection": "force",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "declaration": true,
-    // "paths": {
-    //   "@abimongo/logger": ["./packages/logger/src/index.ts"],
-    //   "@abimongo/core":   ["./packages/core/src/index.ts"],
-    //   "@abimongo/create": ["./packages/create/src/index.ts"]
-    // },
     "declarationMap": true,
     "esModuleInterop": true,
     "isolatedModules": true, 
-    "experimentalDecorators": true,
     "importHelpers": true,
+    "sourceMap": true,
+    "allowJs": true, 
     "forceConsistentCasingInFileNames": true,
-    // "noEmitOnError": false,
-    "resolvePackageJsonExports": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true, 
     "inlineSourceMap": false,                                                                                                                                    
     "noImplicitAny": false,                            
@@ -39,7 +33,7 @@
   },
   "include": [
     "packages/*", 
-    "docs/*", 
+    "docs/*",
     ],
   "exclude": ["node_modules", "packages/core/examples", "packages/*/src/__test__/**"]
 }

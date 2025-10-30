@@ -5,7 +5,6 @@ import { SchemaDefinition } from './schema.type';
 import { Document } from './document';
 
 
-
 export interface AbimongoLoggerSettings extends LoggerConfig {
   enabled?: boolean; // Used only in config.json
   logger?: LoggerConfig['logger']; // Used only in config.json

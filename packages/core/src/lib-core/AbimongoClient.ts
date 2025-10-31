@@ -11,14 +11,13 @@ import 'dotenv/config'
 import { AbimongoClientConfig, AbimongoClientOptions } from '../types';
 import { AsyncBatchTransporter } from '@abimongo/logger';
 import { GetTanantModelParams } from '../tanancy';
-import { AbimongoSchema } from '.';
+import { AbimongoSchema } from './AbimongoSchema';
 import {
 	ErrorType,
 	AbimongoModelRegistry,
 	AbiMongoError
 } from '../utils';
-import chalk from 'chalk';
-
+import { colourize } from '../utils';
 
 const abimongoSymbol = Symbol.for('abimongo:default');
 const abimongoClientSymbol = Symbol.for('abimongo:client');
@@ -210,10 +209,10 @@ export class AbimongoClient implements AbimongoClientConfig {
 		const tenantIds = this.tenantDBs.size > 0 ? [...this.tenantDBs.keys()] : [];
 		// Ensure the first tenant DB is initialized
 		await this.getDatabase(tenantIds[0], this.defaultUri).catch((error) => {
-			console.log(chalk.red('[error]: Error retrieving tenant databases:'), error);
+			console.log(colourize('[error]: Error retrieving tenant databases:', 'red'), error);
 		});
 		const foundInstances = this.instances.size > 0 ? [...this.instances.values()] : [];
-		console.log(`[info]: Found ${foundInstances.length} tenant DB instances: ${foundInstances.map(db => db.databaseName).join(', ')}`);
+		console.log(colourize(`[info]: Found ${foundInstances.length} tenant DB instances: ${foundInstances.map(db => db.databaseName).join(', ')}`, 'blue'));
 		return foundInstances;
 	}
 
@@ -245,7 +244,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 * @throws {AbiMongoError} If the database connection is not established.
 	 */
 	get db(): Db {
-		if (this._db === null || this._db === undefined) {
+		if (this._db?.databaseName === null || this._db?.databaseName === undefined) {
 			const message = 'Database connection is not established. call connect() first.';
 			const error = new Error(message).stack;
 			const cause = ErrorType.NULL_OR_UNDEFINED;
@@ -312,7 +311,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 			const cause = 'DB_NAME_ERROR';
 
 			const error = new Error(message).stack;
-			console.log(chalk.red(`[${cause}]: ${error}`));
+			console.log(colourize(`[${cause}]: ${error}`, 'red'));
 		}
 		return this._client?.db(this._options?.dbName).collection<T>(name) as Collection<T>;
 	}
@@ -330,7 +329,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 			const cause = 'DB_NAME_ERROR';
 
 			const error = new Error(message).stack;
-			console.log(chalk.red(`[${cause}]: ${error}`));
+			console.log(colourize(`[${cause}]: ${error}`, 'red'));
 		}
 		return this._client?.db(this._options?.dbName).collection<T>(name) as Collection<T>;
 	}

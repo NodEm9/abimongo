@@ -11,7 +11,7 @@ export interface LoggerFormatOptions {
 
 export function DEFAULT_CONFIG_CONTENT(options: AbimongoConfig): string {
   return JSON.stringify({
-    projectName: options.projectName || 'abimongo-app',
+    projectName: options.projectName || 'Abimongo',
     mongoUri: "mongodb://127.0.0.1:27017/mydb",
     multiTenant: {
       enabled: options.multiTenant || false,

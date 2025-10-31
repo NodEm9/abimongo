@@ -6,7 +6,7 @@
 
 > **createFileTransporter**(`filePath`): [`FileTransporter`](../classes/FileTransporter.md)
 
-Defined in: [transports/fileTransport.ts:47](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/transports/fileTransport.ts#L47)
+Defined in: [transports/fileTransport.ts:47](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/transports/fileTransport.ts#L47)
 
 Creates a file transport for logging.
 

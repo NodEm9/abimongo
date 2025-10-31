@@ -1,7 +1,6 @@
 import { AbimongoModel, AbimongoSchema,AbimongoClient  } from "../lib-core";
 import { ClientSession, Collection, Db, MongoClient, ObjectId } from "mongodb";
-import EventEmitter from "events";
-// import { bufferedTransporter } from "../utils";
+import { bufferedTransporter } from "../utils";
 
 
 type MockTenantDB = {
@@ -647,8 +646,8 @@ describe('AbimongoModel', () => {
 
 	afterAll(() => {
 		// bufferedTransporter.stop(); 
-		// const { shutdownLogger } = require('@abimongo/logger');
-		// shutdownLogger();
+		const { shutdownLogger } = require('@abimongo/logger');
+		shutdownLogger();
 	});
 
 })

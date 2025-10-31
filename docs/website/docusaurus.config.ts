@@ -3,8 +3,8 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import path from 'path';
 // import './src/css/fontello-9c142965/font/fontello.svg';
-
-
+  
+ 
 const config: Config = {
 	title: 'Abimongo',
 	url: 'https://nodem9.github.io',
@@ -65,6 +65,17 @@ const config: Config = {
 				sidebarPath: path.resolve(__dirname, './sidebars.create.ts'),
 			},
 		],
+		[
+			'@docusaurus/plugin-content-docs',
+			{
+				id: 'tutorials', 
+				path: path.resolve(__dirname, './tutorials/'),
+				routeBasePath: 'tutorials',
+				showLastUpdateAuthor: true,
+				showLastUpdateTime: true,
+				sidebarPath: path.resolve(__dirname, './sidebars.tutorials.ts'),
+			},
+		],
 		// TypeDoc API: Core
 		[
 			'docusaurus-plugin-typedoc',
@@ -94,7 +105,7 @@ const config: Config = {
 			'docusaurus-plugin-typedoc',
 			{
 				id: 'api-create',
-				entryPoints: ['packages/create/bin/abimongo-cli.ts'],
+				entryPoints: ['packages/create/bin/abimongo_create.ts'],
 				tsconfig: 'packages/create/tsconfig.json',
 				out: '/docs/create/api/create',
 				sidebar: { autoConfiguration: 'API (CLI)', position: 30 },
@@ -112,7 +123,7 @@ const config: Config = {
 			'family': 'Inter, sans-serif',
 			'size': '46px',
 			// 'weight': '700',
-		},
+		}, 
 		navbar: {
 			title: 'Abimongo',
 			logo: {
@@ -123,7 +134,7 @@ const config: Config = {
 				{ to: '/core/intro', label: 'Core', position: 'left' },
 				{ to: '/logger/intro', label: 'Logger', position: 'left' },
 				{ to: '/create/intro', label: 'Create New Project', position: 'left' },
-				// { to: '/core/api', label: 'API', position: 'right' },
+				{ to: '/tutorials/intro', label: 'Tutorials', position: 'left' },
 				{ href: 'https://github.com/NodEm9/abimongo', label: 'GitHub', position: 'right' },
 			],
 		},
@@ -131,12 +142,12 @@ const config: Config = {
 		footer: {
 			style: 'dark',
 			links: [
-				// {
+				// { 
 				//   title: 'Docs',
 				//   items: [
 				//     {
 				//       label: 'Tutorial',
-				//       to: '/docs',
+				//       to: '/tutorials',
 				//     },
 				//   ],
 				// },

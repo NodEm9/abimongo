@@ -2,7 +2,7 @@ import { AbimongoModel } from '../lib-core';
 import { createModel, getModelFilesFromPath } from '../utils';
 import path from 'path';
 import { AbimongoConfig, Document } from '../types';
-import chalk from 'chalk';
+import { colourize } from '../utils';
 
 
 let config: AbimongoConfig | undefined; 
@@ -11,7 +11,7 @@ export async function runGarbageCollectorOnAllModels() {
 	const modelsPath = config?.features?.models || './src/models';
 	const absolutePath = path.resolve(modelsPath);
 
-	console.log(chalk.blueBright(`[GC] Scanning models in: ${absolutePath}`));
+	console.log(colourize(`[GC] Scanning models in: ${absolutePath}`, 'blueBright'));
 
 	const modelFiles = getModelFilesFromPath(absolutePath);
 
@@ -20,14 +20,14 @@ export async function runGarbageCollectorOnAllModels() {
 			const { default: Model } = await import(file);
 
 			if (Model?.prototype instanceof AbimongoModel) {
-				console.log(chalk.blueBright(`[GC] Running GC on model: ${Model.name}`));
+				console.log(colourize(`[GC] Running GC on model: ${Model.name}`, 'blueBright'));
 				await runGarbageCollector(Model);
 			} else {
-				console.warn(chalk.yellow(`[GC] Skipping ${file} - Not an AbimongoModel`));
+				console.warn(colourize(`[GC] Skipping ${file} - Not an AbimongoModel`, 'yellow'));
 			}
 
 		} catch (err) {
-			console.error(chalk.red(`[GC] Failed to run GC on ${file}:`), err);
+			console.error(colourize(`[GC] Failed to run GC on ${file}:`, 'red'), err);
 		}
 	}
 }
@@ -40,5 +40,5 @@ export async function runGarbageCollector(Model: typeof createModel<Document>) {
 		deletedAt: { $lt: cutoffDate },
 	});
 
-	console.log(chalk.blueBright(`[GC] Deleted ${deletedDocs.deletedCount ?? 0} documents from ${Model.name}`));
+	console.log(colourize(`[GC] Deleted ${deletedDocs.deletedCount ?? 0} documents from ${Model.name}`, 'blueBright'));
 }

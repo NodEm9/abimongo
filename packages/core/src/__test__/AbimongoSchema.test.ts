@@ -281,8 +281,8 @@ describe('schema', () => {
 
 	afterAll(async () => {
 		schema = null as any; 
-		// const { shutdownLogger } = require('@abimongo/logger');
-		// await shutdownLogger();
+		const { shutdownLogger } = require('@abimongo/logger');
+		await shutdownLogger();
 	});
 
 });

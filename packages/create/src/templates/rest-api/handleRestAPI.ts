@@ -26,18 +26,16 @@ export async function handleRestAPI(
   const srcDir = path.join(rootDir, 'src');
   const README_FILE = path.join(rootDir, 'README.md');
 
-  console.log(chalk.cyan(`\n🚀 Creating REST API project in ${rootDir}...\n`));
+  console.log(chalk.cyan(`\n Creating REST API project in ${rootDir}...\n`));
   fs.ensureDirSync(srcDir);
 
   // Step 1: Write entry file
   const entryFileContent = `
 import express from 'express';
 import cors from 'cors';
-${options.useAbimongo ? `import { AbimongoClient } from 'abimongo_core';` : ''}
-${options.includeLogger ? `import { setupLogger, Logger } from 'abimongo_utils'; // Example usage` : ''}
+${options.useAbimongo ? `import { AbimongoClient } from '@abimongo/core';` : ''}
+${options.includeLogger ? `import { Logger } from '@abimongo/logger'; // Example usage` : ''}
 
-// Initialize garbage collection if needed
-${options.useAbimongo ? `import { startGC } from './common/setupGC';` : ''}
 
 const app = express();
 app.use(cors());
@@ -48,10 +46,17 @@ const client = new AbimongoClient({ uri: process.env.MONGO_URI });
 await client.connect();
 ` : ''}
 
-${options.useAbimongo ? `startGC(); // Start garbage collection` : ''}
+// Initialize logger properly. You have two options: Move the imported class above
+// to a dedicated file and implement it to take full advantage it's features or
+// import a direct logger instance like below:
+// import { logger } from '@abimongo/logger'; and start using it logger.log(). This
+// takes three parameters: the log level, the message, and an optional context object.
+${options.includeLogger ? `await abLogger.log('Started', 'info', { tenantId: 'tenant-a' });` : ''}
+${options.includeLogger ? ` Logger.initialise('Implementation here.'); \n const logger = Logger.instance
+ logger.info('Hello Abimongo!.')` : ''}
 
 app.get('/', (_, res) => {
-  res.send('REST API is running...');
+  res.send('Abimongo for REST APIs...');
 });
 
 const PORT = process.env.PORT || 5000;
@@ -63,12 +68,15 @@ app.listen(PORT, () => console.log(\`Server running on port \${PORT}\`));
   // Step 2: Write .env
   fs.writeFileSync(path.join(rootDir, '.env'), `PORT=5000\nMONGO_URI=mongodb://localhost:27017/${projectName}`);
 
+
+
+
   // Step 3: Init & install dependencies
-  execSync('npm init -y', { cwd: rootDir, stdio: 'inherit' });
+  execSync(`npm init -y`, { cwd: rootDir, stdio: 'inherit' });
 
   execSync(
-    `npm install express cors dotenv${options.useAbimongo ?
-      '@abimongo/core' : ''}${options.includeLogger ? ' @abimongo/utils' : ''}`,
+    `npm install express cors dotenv ${options.useAbimongo ?
+      '@abimongo/core' : ''}${options.includeLogger ? ' @abimongo/logger' : ''}`,
     { cwd: rootDir, stdio: 'inherit' }
   );
 
@@ -79,7 +87,7 @@ This project was scaffolded using the Abimongo CLI.
 ## Getting Started
 1. npm install  
 2. npm run dev
-3. Read the Abimongo Core documentation to understand how to use them (abimongo.dev)['https://www.abimongo.dev'].
+3. Read the Abimongo Core documentation to understand how to use them (abimongo.docs)['https://nodem9.github.io/abimongo/'].
 4. Ensure you send an x-tenant-id header with every request if using multi-tenancy. (This is optional)
 5. Customize your REST API as needed.
 
@@ -118,11 +126,18 @@ This project is licensed under the Apache-2.0 License.
     }, null, 2));
   }
 
-  console.log(chalk.green('\n✅ REST API project setup complete!'));
+  console.log(chalk.green('\n✔ REST API project setup complete!'));
   console.log(chalk.green(`✔ REST API project "${projectName}" created successfully.`));
-  console.log(chalk.blueBright(`👉 cd ${projectName}`));
-  console.log(chalk.blueBright(`👉 npm run dev`));
-  console.log(chalk.blueBright(`👉 Customize your Abimongo powered REST API from there.`));
-}
+  console.log('=====','Packages installed:','=====');
+  console.log(chalk.blueBright(`- Abimongo Core (if selected)`));
+  console.log(chalk.blueBright(`- Abimongo Logger (if selected)`));
+  console.log(chalk.blueBright(`- express`));
+  console.log(chalk.blueBright(`- cors`));
+  console.log('\nNext Steps:');
+  console.log(chalk.blueBright(`- cd ${projectName}`));
+  console.log(chalk.blueBright(`- npm run dev`));
+  console.log(chalk.blueBright(`- Customize your Abimongo powered REST API from there.`));
+};
+
 
 

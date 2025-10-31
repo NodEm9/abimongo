@@ -2,7 +2,6 @@
   "name": "@abimongo/logger",
   "version": "1.0.0",
   "publishConfig": {
-    "registry": "http://localhost:4873",
     "access": "public"
   },
   "main": "dist/abimongo-logger.js",

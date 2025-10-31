@@ -4,7 +4,7 @@ const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const { VERSION } = require('ts-node');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
-const { externalsType } = require('./webpack.cli.config');
+// const { externalsType } = require('./webpack.cli.config');
 
 module.exports = {
 	mode: 'production',
@@ -51,12 +51,6 @@ module.exports = {
 				commonjs2: 'dotenv',
 				amd: 'dotenv',
 				root: 'dotenv'
-			},
-			chalk: {
-				umd: 'chalk',
-				commonjs: 'chalk',
-				commonjs2: 'chalk',
-				amd: 'chalk',
 			},
 			graphql: {
 				umd: 'graphql',

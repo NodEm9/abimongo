@@ -8,7 +8,7 @@
 
 > **setLogger**(`loggerConfig`): `ILogger`
 
-Defined in: [packages/core/src/utils/logger.ts:11](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/logger.ts#L11)
+Defined in: [packages/core/src/utils/logger.ts:10](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/logger.ts#L10)
 
 Initializes the logger with the provided configuration.
 If no configuration is provided, it uses default settings.

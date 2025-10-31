@@ -19,10 +19,10 @@ This file documents the runtime-oriented bootstrapper (not the separate `cli` pa
 ## Programmatic example (factory)
 
 ```ts
-import { AbimongoBootstrapFactory } from '@abimongo/core/lib-core/bootstrap/AbimongoBootstrapFactory';
+import { initAbimongo } from '@abimongo/core';
 
 // Initialize using the default config file
-const abimongo = await AbimongoBootstrapFactory.create();
+const abimongo = await initAbimongo.create();
 
 // Access runtime helpers
 const mongoClient = abimongo.getMongoClient();
@@ -68,7 +68,7 @@ await abimongo.shutdown();
 
 ```ts
 import express from 'express';
-import { AbimongoBootstrapFactory } from '@abimongo/core/lib-core/bootstrap/AbimongoBootstrapFactory';
+import { initAbimongo } from '@abimongo/core';
 
 const app = express();
 const abimongo = await AbimongoBootstrapFactory.create();
@@ -115,14 +115,14 @@ The following example demonstrates a common pattern when using `AbimongoBootstra
 
 Notes and assumptions:
 
-- This example assumes `AbimongoBootstrapFactory.create()` returns an instance with `registerMultiTenancy`, `getModel`, `cache`, and `invalidateCache` methods (these exist in the current core implementation). If your runtime API differs, I can adapt the snippet.
+- This example assumes `initAbimongo.create()` returns an instance with `registerMultiTenancy`, `getModel`, `cache`, and `invalidateCache` methods (these exist in the current core implementation). If your runtime API differs, I can adapt the snippet.
 
 ```ts
 import express from 'express';
-import { AbimongoBootstrapFactory } from '@abimongo/core/lib-core/bootstrap/AbimongoBootstrapFactory';
+import { initAbimongo } from '@abimongo/core';
 
 const app = express();
-const abimongo = await AbimongoBootstrapFactory.create();
+const abimongo = await initAbimongo.create();
 
 // Wire tenant mapping and header key
 await abimongo.registerMultiTenancy(app, {

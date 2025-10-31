@@ -4,9 +4,9 @@
 
 # Variable: logger
 
-> `const` **logger**: `AbimongoLogger`
+> `const` **logger**: [`AbimongoLogger`](../classes/AbimongoLogger.md)
 
-Defined in: [logger/logger.ts:173](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/logger/logger.ts#L173)
+Defined in: [logger/logger.ts:173](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/logger.ts#L173)
 
 ## Instance
 

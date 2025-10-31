@@ -8,7 +8,7 @@
 
 > **createModel**\<`T`\>(`params`): [`AbimongoModel`](../classes/AbimongoModel.md)\<`T`\>
 
-Defined in: [packages/core/src/utils/builders/createModel.ts:43](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/builders/createModel.ts#L43)
+Defined in: [packages/core/src/utils/builders/createModel.ts:43](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/builders/createModel.ts#L43)
 
 Creates a new model for a MongoDB collection.
 In Multi-Tenancy mode, the model will be created for the specified tenant.

@@ -26,8 +26,8 @@ export async function generateProject(choices: ProjectChoices) {
 
   // Create the project folder
   fs.mkdirSync(projectRoot, { recursive: true });
-  // writeDefaultAbimongoConfig(projectRoot);
-  console.log(chalk.blue(`🚀 Creating ${projectType} project: ${projectName}`));
+  writeDefaultAbimongoConfig(projectRoot);
+  console.log(chalk.blue(`Creating ${projectType} project: ${projectName}`));
 
   // Handle project generation based on the project type
   switch (projectType) {
@@ -43,37 +43,39 @@ export async function generateProject(choices: ProjectChoices) {
       console.log(chalk.red(`Unknown or Invalid project type: ${projectType}`));
   }
   // Log success message
-  console.log(chalk.green(`✅ ${projectType} project "${projectName}" created successfully.`));
+  console.log(chalk.green(` ${projectType} project "${projectName}" created successfully.`));
 };
 
 
 
-// function writeDefaultAbimongoConfig(projectPath: string) {
-//   const configPath = path.join(projectPath, 'abimongo.config.json');
+function writeDefaultAbimongoConfig(projectPath: string) {
+  const configPath = path.join(projectPath, 'abimongo.config.json');
 
-//   const defaultJson = {
-//     projectName: "my-abimongo-app",
-//     database: {
-//       uri: "mongodb://localhost:27017/mydatabase",
-//       options: {}
-//     },
-//     features: {
-//       logger: true,
-//       graphql: false,
-//       multiTenant: false,
-//       enableRedis: false
-//     },
-//     logger: {
-//       level: "info",
-//       transports: [
-//         {
-//           type: "file",
-//           path: "./logs/app.log"
-//         }
-//       ]
-//     }
-//   };
+  const defaultJson = {
+    /**If you prefer to get a config with more features, you can delete this file initialise Abimongo vie commandline  */
+    /**Note: Bootstraping Abimongo via commandline is Advanced. Read more: 'https://nodem9.github.io/abimongo/core/abimongo-bootstrap/AbimongoBootstrap' */
+    projectName: "my-abimongo-app",
+    database: {
+      uri: "mongodb://localhost:27017/mydatabase",
+      options: {}
+    },
+    features: {
+      logger: true,
+      graphql: false,
+      multiTenant: false,
+      enableRedis: false
+    },
+    logger: {
+      level: "info",
+      transports: [
+        {
+          type: "file",
+          path: "./logs/app.log"
+        }
+      ]
+    }
+  };
 
-//   fs.writeFileSync(configPath, JSON.stringify(defaultJson, null, 2), 'utf-8');
-// }
+  fs.writeFileSync(configPath, JSON.stringify(defaultJson, null, 2), 'utf-8');
+}
 

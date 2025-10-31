@@ -1,5 +1,5 @@
 import figlet from 'figlet'; 
-import chalk from 'chalk';
+import { colourize } from './generatedFolderAndFile';
 
 export function showBanner() {
   try {
@@ -9,11 +9,11 @@ export function showBanner() {
       verticalLayout: 'default',
     });
 
-    console.log(chalk.cyan(banner));
+    console.log(colourize(banner, 'cyan'));
   } catch (error) {
     console.warn(
-      chalk.yellow('⚠️ Figlet font not found or failed to load. Displaying fallback banner.')
+      colourize('Figlet font not found or failed to load. Displaying fallback banner.', 'yellow')
     );
-    console.log(chalk.cyan('=== Abimongo Core CLI ==='));
+    console.log(colourize('=== Abimongo Core CLI ===', 'cyan'));
   }
 }

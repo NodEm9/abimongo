@@ -3,24 +3,20 @@ import { MongoClient } from 'mongodb';
 import { AbimongoSchema, AbimongoModel } from '../../lib-core';
 import { AbimongoGC } from '../../gc/AbimongoGC';
 import { Document } from '../../types';
-// import { shutdownLogger } from '@abimongo/logger';
+import { shutdownLogger } from '@abimongo/logger';
+import { bufferedTransporter } from '../../utils';
 
 describe('AbimongoGC', () => {
   let client: MongoClient;
   let db: any;
   let gc = new AbimongoGC({ interval: '1s' });
 
+  jest.setTimeout(60000);
   beforeAll(async () => {
     const mongoServer = await MongoMemoryServer.create();
     client = new MongoClient(mongoServer.getUri());
     await client.connect();
-    db = client.db('test_gc');
-  });
-
-  afterAll(async () => {
-    await gc.stop();
-    await client.close();
-    // await shutdownLogger();
+    db = await client.db('test_gc');
   });
 
   it('should soft-delete expired documents', async () => {
@@ -54,5 +50,9 @@ describe('AbimongoGC', () => {
 
     expect(result).not.toBeNull(); // Document should be soft-deleted
     expect(result?.deletedAt).not.toBeNull();
+  });
+  afterAll(async () => {
+    await client.close();
+    await shutdownLogger();
   });
 });

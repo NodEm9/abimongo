@@ -40,7 +40,7 @@ interface LogMeta {
  * * logger.log('This is a log message', 'info', { tenantId: 'tenant1' });
  * * logger.log('This is an error message', 'error', { tenantId: 'tenant2' });
  */
-class AbimongoLogger {
+export class AbimongoLogger {
   private transports: Map<string, BufferedTransporter> = new Map();
   private metrics = new MetricsTracker();
   private config!: LoggerConfig

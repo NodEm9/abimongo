@@ -4,7 +4,7 @@
 
 # Class: NoOpLogger
 
-Defined in: [logger/NoOpLogger.ts:4](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/logger/NoOpLogger.ts#L4)
+Defined in: [logger/NoOpLogger.ts:4](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/NoOpLogger.ts#L4)
 
 ## Implements
 
@@ -26,7 +26,7 @@ Defined in: [logger/NoOpLogger.ts:4](https://github.com/NodEm9/abimongo/blob/f79
 
 > **debug**(): `void`
 
-Defined in: [logger/NoOpLogger.ts:5](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/logger/NoOpLogger.ts#L5)
+Defined in: [logger/NoOpLogger.ts:5](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/NoOpLogger.ts#L5)
 
 #### Returns
 
@@ -42,7 +42,7 @@ Defined in: [logger/NoOpLogger.ts:5](https://github.com/NodEm9/abimongo/blob/f79
 
 > **error**(): `void`
 
-Defined in: [logger/NoOpLogger.ts:8](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/logger/NoOpLogger.ts#L8)
+Defined in: [logger/NoOpLogger.ts:8](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/NoOpLogger.ts#L8)
 
 #### Returns
 
@@ -58,7 +58,7 @@ Defined in: [logger/NoOpLogger.ts:8](https://github.com/NodEm9/abimongo/blob/f79
 
 > **info**(): `void`
 
-Defined in: [logger/NoOpLogger.ts:6](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/logger/NoOpLogger.ts#L6)
+Defined in: [logger/NoOpLogger.ts:6](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/NoOpLogger.ts#L6)
 
 #### Returns
 
@@ -74,7 +74,7 @@ Defined in: [logger/NoOpLogger.ts:6](https://github.com/NodEm9/abimongo/blob/f79
 
 > **trace**(): `void`
 
-Defined in: [logger/NoOpLogger.ts:9](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/logger/NoOpLogger.ts#L9)
+Defined in: [logger/NoOpLogger.ts:9](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/NoOpLogger.ts#L9)
 
 #### Returns
 
@@ -90,7 +90,7 @@ Defined in: [logger/NoOpLogger.ts:9](https://github.com/NodEm9/abimongo/blob/f79
 
 > **warn**(): `void`
 
-Defined in: [logger/NoOpLogger.ts:7](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/logger/NoOpLogger.ts#L7)
+Defined in: [logger/NoOpLogger.ts:7](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/NoOpLogger.ts#L7)
 
 #### Returns
 

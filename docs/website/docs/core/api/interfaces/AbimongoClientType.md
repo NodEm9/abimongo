@@ -6,7 +6,7 @@
 
 # Interface: AbimongoClientType\<T\>
 
-Defined in: [packages/core/src/types/abimongo.client.type.ts:61](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/abimongo.client.type.ts#L61)
+Defined in: [packages/core/src/types/abimongo.client.type.ts:61](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.client.type.ts#L61)
 
 Represents the AbimongoClient interface for interacting with MongoDB.
 
@@ -24,7 +24,7 @@ The type of the document in the collection.
 
 > **uri**: `string`
 
-Defined in: [packages/core/src/types/abimongo.client.type.ts:65](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/abimongo.client.type.ts#L65)
+Defined in: [packages/core/src/types/abimongo.client.type.ts:65](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.client.type.ts#L65)
 
 The MongoDB connection URI.
 
@@ -34,7 +34,7 @@ The MongoDB connection URI.
 
 > **collection**(`collectionName`): `Promise`\<`Collection`\<`T`\>\>
 
-Defined in: [packages/core/src/types/abimongo.client.type.ts:90](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/abimongo.client.type.ts#L90)
+Defined in: [packages/core/src/types/abimongo.client.type.ts:90](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.client.type.ts#L90)
 
 Retrieves a collection by name.
 
@@ -58,7 +58,7 @@ A promise that resolves to the collection instance.
 
 > **connect**(): `Promise`\<`Db`\>
 
-Defined in: [packages/core/src/types/abimongo.client.type.ts:71](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/abimongo.client.type.ts#L71)
+Defined in: [packages/core/src/types/abimongo.client.type.ts:71](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.client.type.ts#L71)
 
 Connects to the MongoDB database.
 
@@ -74,7 +74,7 @@ A promise that resolves to the connected database instance.
 
 > **dropDatabase**(): `Promise`\<`boolean`\>
 
-Defined in: [packages/core/src/types/abimongo.client.type.ts:77](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/abimongo.client.type.ts#L77)
+Defined in: [packages/core/src/types/abimongo.client.type.ts:77](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.client.type.ts#L77)
 
 Drops the entire database.
 
@@ -90,7 +90,7 @@ A promise that resolves to `true` if the database is dropped successfully.
 
 > **getClient**(): `MongoClient`
 
-Defined in: [packages/core/src/types/abimongo.client.type.ts:145](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/abimongo.client.type.ts#L145)
+Defined in: [packages/core/src/types/abimongo.client.type.ts:145](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.client.type.ts#L145)
 
 Retrieves the MongoClient instance.
 
@@ -106,7 +106,7 @@ The MongoClient instance.
 
 > **getCollection**(`name`): `Promise`\<`Collection`\<`T`\>\>
 
-Defined in: [packages/core/src/types/abimongo.client.type.ts:97](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/abimongo.client.type.ts#L97)
+Defined in: [packages/core/src/types/abimongo.client.type.ts:97](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.client.type.ts#L97)
 
 Retrieves a collection by name.
 
@@ -130,7 +130,7 @@ A promise that resolves to the collection instance.
 
 > **getDatabase**(`tenantId`, `uri`): `Promise`\<\{ `client`: `MongoClient`; `db`: `Db`; \}\>
 
-Defined in: [packages/core/src/types/abimongo.client.type.ts:126](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/abimongo.client.type.ts#L126)
+Defined in: [packages/core/src/types/abimongo.client.type.ts:126](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.client.type.ts#L126)
 
 Retrieves the database instance for a specific tenant and URI.
 
@@ -160,7 +160,7 @@ A promise that resolves to the database instance and its MongoClient.
 
 > **getDb**(): `Db`
 
-Defined in: [packages/core/src/types/abimongo.client.type.ts:83](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/abimongo.client.type.ts#L83)
+Defined in: [packages/core/src/types/abimongo.client.type.ts:83](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.client.type.ts#L83)
 
 Retrieves the current database instance.
 
@@ -176,7 +176,7 @@ The connected database instance.
 
 > **getTenantCollection**(`tenantId`, `collectionName`): `Promise`\<`Collection`\<`T`\>\>
 
-Defined in: [packages/core/src/types/abimongo.client.type.ts:118](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/abimongo.client.type.ts#L118)
+Defined in: [packages/core/src/types/abimongo.client.type.ts:118](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.client.type.ts#L118)
 
 Retrieves a collection for a specific tenant.
 
@@ -206,7 +206,7 @@ A promise that resolves to the collection instance.
 
 > **getTenantDB**(`tenantId`): `Db`
 
-Defined in: [packages/core/src/types/abimongo.client.type.ts:104](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/abimongo.client.type.ts#L104)
+Defined in: [packages/core/src/types/abimongo.client.type.ts:104](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.client.type.ts#L104)
 
 Retrieves the database instance for a specific tenant.
 
@@ -230,7 +230,7 @@ The database instance for the tenant.
 
 > **setDriver**(`mongodbDriver`): `void`
 
-Defined in: [packages/core/src/types/abimongo.client.type.ts:110](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/abimongo.client.type.ts#L110)
+Defined in: [packages/core/src/types/abimongo.client.type.ts:110](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.client.type.ts#L110)
 
 Sets the MongoDB driver.
 
@@ -252,7 +252,7 @@ The MongoDB driver to set.
 
 > **useDatabase**(`dbName`): `Promise`\<\{ `client`: `MongoClient`; `db`: `Db`; \}\>
 
-Defined in: [packages/core/src/types/abimongo.client.type.ts:133](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/abimongo.client.type.ts#L133)
+Defined in: [packages/core/src/types/abimongo.client.type.ts:133](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.client.type.ts#L133)
 
 Switches to a different database by name.
 
@@ -276,7 +276,7 @@ A promise that resolves to the new database instance and its MongoClient.
 
 > **validateUri**(`uri`): `void`
 
-Defined in: [packages/core/src/types/abimongo.client.type.ts:139](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/abimongo.client.type.ts#L139)
+Defined in: [packages/core/src/types/abimongo.client.type.ts:139](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.client.type.ts#L139)
 
 Validates the MongoDB connection URI.
 

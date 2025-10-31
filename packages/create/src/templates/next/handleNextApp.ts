@@ -31,16 +31,16 @@ export async function handleNextApp(projectName: string, options: TemplateOption
   // 2. API Route Example with Abimongo Core if enabled
   const apiHandler = useTypeScript
     ? `import type { NextApiRequest, NextApiResponse } from 'next';
-${useAbimongo ? `import { initAbimongo } from '../../lib/abimongo.config';` : ''}
+${useAbimongo ? `import { initAbimongo } from '@abimongo/core';` : ''}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  ${useAbimongo ? 'await initAbimongo();' : ''}
+  ${useAbimongo ? 'conat abimongo = await initAbimongo(); \n const graphql = abimongo.getGraphQL();' : ''}
   res.status(200).json({ message: 'Hello from API route!' });
 }
 `
-    : `${useAbimongo ? `const { initAbimongo } = require('../../lib/abimongo.config');\n` : ''}
+    : `${useAbimongo ? `const { initAbimongo } = require('@abimongo/core');\n` : ''}
 export default async function handler(req, res) {
-  ${useAbimongo ? 'await initAbimongo();' : ''}
+  ${useAbimongo ? 'conat abimongo = await initAbimongo(); \n const graphql = abimongo.getGraphQL();;' : ''}
   res.status(200).json({ message: 'Hello from API route!' });
 }
 `;
@@ -58,17 +58,17 @@ export default async function handler(req, res) {
     const abimongoConfig = useTypeScript
       ? `import { AbimongoClient } from '@abimongo/core';
 
-const client = new AbimongoClient({
-  uri: process.env.MONGO_URI || 'mongodb://localhost:27017/${projectName}'
-});
+      const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/${projectName}';
 
-export async function initAbimongo() {
+const client = new AbimongoClient(uri, options);
+
+export async function createConnection() {
   // You can use a try-catch block to handle connection errors
   try {
   await client.connect();
-  // Add model registration here
+  return client;
   } catch (error) {
-    console.error('Error connecting to Abimongo:', error);
+    console.error('Error connecting to MongoDB:', error);
     process.exit(1);
   }
 }
@@ -79,17 +79,18 @@ const client = new AbimongoClient({
   uri: process.env.MONGO_URI || 'mongodb://localhost:27017/${projectName}'
 });
 
-async function initAbimongo() {
+async function createConnection() {
   // You can use a try-catch block to handle connection errors
   await client.connect();
-  // Add model registration here
+  return client;
 }
 
-module.exports = { initAbimongo };
+module.exports = { createConnection };
 `;
 
     fs.writeFileSync(path.join(configDir, `abimongo.config.${ext}`), abimongoConfig);
   }
+
 
   // 5. Optional utils
   if (includeLogger) {
@@ -110,9 +111,20 @@ module.exports = { respondSuccess };`;
 
   // 6. Install Abimongo Core
   if (useAbimongo) {
-    console.log(chalk.yellow('📦 Installing @abimongo/core...'));
+    console.log(chalk.yellow('Installing @abimongo/core...'));
     execSync(`npm install @abimongo/core`, { cwd: rootDir, stdio: 'inherit' });
   }
+  if(includeLogger && !useAbimongo) {
+    console.log(chalk.yellow('Installing @abimongo/logger...'));
+    execSync(`npm install @abimongo/logger`, { cwd: rootDir, stdio: 'inherit' });
+  }
+  // 7. Final message
+  if(useAbimongo) {
+    console.log(chalk.green('Abimongo Core installed successfully!'));
+  }
+  if(includeLogger && !useAbimongo) {
+    console.log(chalk.green('Abimongo Logger installed successfully!'));
+  }
 
-  console.log(chalk.green('\n✅ Next.js app setup complete!\n'));
-}
+  console.log(chalk.green('\nNext.js app setup complete!\n'));
+};

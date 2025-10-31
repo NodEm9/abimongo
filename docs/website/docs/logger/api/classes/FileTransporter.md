@@ -4,7 +4,7 @@
 
 # Class: FileTransporter
 
-Defined in: [transports/fileTransport.ts:15](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/transports/fileTransport.ts#L15)
+Defined in: [transports/fileTransport.ts:15](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/transports/fileTransport.ts#L15)
 
 FileTransporter
 A logging transporter that writes log messages to a specified file.
@@ -28,7 +28,7 @@ const fileTransporter = createFileTransporter('logs/app.log');
 
 > **new FileTransporter**(`stream`): `FileTransporter`
 
-Defined in: [transports/fileTransport.ts:16](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/transports/fileTransport.ts#L16)
+Defined in: [transports/fileTransport.ts:16](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/transports/fileTransport.ts#L16)
 
 #### Parameters
 
@@ -46,7 +46,7 @@ Defined in: [transports/fileTransport.ts:16](https://github.com/NodEm9/abimongo/
 
 > **stream**: `WriteStream`
 
-Defined in: [transports/fileTransport.ts:16](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/transports/fileTransport.ts#L16)
+Defined in: [transports/fileTransport.ts:16](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/transports/fileTransport.ts#L16)
 
 ## Methods
 
@@ -54,7 +54,7 @@ Defined in: [transports/fileTransport.ts:16](https://github.com/NodEm9/abimongo/
 
 > **log**(`level`, `message`, `meta`): `Promise`\<`void`\>
 
-Defined in: [transports/fileTransport.ts:24](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/transports/fileTransport.ts#L24)
+Defined in: [transports/fileTransport.ts:24](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/transports/fileTransport.ts#L24)
 
 #### Parameters
 
@@ -80,7 +80,7 @@ Defined in: [transports/fileTransport.ts:24](https://github.com/NodEm9/abimongo/
 
 > **write**(`message`): `Promise`\<`void`\>
 
-Defined in: [transports/fileTransport.ts:19](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/transports/fileTransport.ts#L19)
+Defined in: [transports/fileTransport.ts:19](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/transports/fileTransport.ts#L19)
 
 #### Parameters
 

@@ -6,7 +6,7 @@
 
 > **retryWithBackoff**\<`T`\>(`fn`, `retries`, `delayMs`, `backoffFactor`): `Promise`\<`T`\>
 
-Defined in: [utils/retry/retryWithBackoff.ts:9](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/utils/retry/retryWithBackoff.ts#L9)
+Defined in: [utils/retry/retryWithBackoff.ts:9](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/utils/retry/retryWithBackoff.ts#L9)
 
 Retries an asynchronous function with exponential backoff.
 

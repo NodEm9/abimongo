@@ -18,36 +18,34 @@ export async function handleMERNStack(projectName: string, options: TemplateOpti
   const clientDir = path.join(rootDir, 'client');
   const serverDir = path.join(rootDir, 'server');
 
-  console.log(chalk.cyan(`\n📦 Creating MERN stack project in ${rootDir}...\n`));
-
   // 1. Create base directories
   fs.ensureDirSync(clientDir);
   fs.ensureDirSync(serverDir);
 
   // 2. Setup React frontend
-  console.log(chalk.yellow('⚛️  Setting up React frontend...'));
+  console.log(chalk.yellow(' Setting up React frontend...'));
   const reactTemplate = useTypeScript ? '--template typescript' : '';
   execSync(`npx create-react-app ${clientDir} ${reactTemplate}`, { stdio: 'inherit' });
 
   // 3. Setup Express backend
-  console.log(chalk.yellow('🚀 Setting up Express backend...'));
+  console.log(chalk.yellow('Setting up Express backend...'));
 
   const expressIndex = `import express from 'express';
-import cors from 'cors';
+
 import { config } from 'dotenv';
 ${useAbimongo ? `import { AbimongoClient } from '@abimongo/core';` : ''}
 
 config();
 const app = express();
-app.use(cors());
-app.use(express.json());
+app.use(express.json() as express.Express);
 
 ${useAbimongo ? `const client = new AbimongoClient({ uri: process.env.MONGO_URI });\nawait client.connect();\n` : ''}
 
 app.get('/', (_, res) => {
-  res.send('API is running...');
+  res.send('Hello Abimongo user..');
 });
 
+// Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(\`Server running on port \${PORT}\`));
 `;
@@ -59,25 +57,25 @@ app.listen(PORT, () => console.log(\`Server running on port \${PORT}\`));
     const abimongoConfig = useTypeScript
       ? `import { AbimongoClient } from '@abimongo/core';
 
-export const client = new AbimongoClient({
-  uri: process.env.MONGO_URI || 'mongodb://localhost:27017/${projectName}'
-});
+const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/${projectName}';
 
-export async function initAbimongo() {
+export const client = new AbimongoClient(uri, options);
+
+export async function createConnection() {
   await client.connect();
 }
 `
       : `const { AbimongoClient } = require('@abimongo/core');
 
-const client = new AbimongoClient({
-  uri: process.env.MONGO_URI || 'mongodb://localhost:27017/${projectName}'
-});
+const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/${projectName}';
 
-async function initAbimongo() {
+const client = new AbimongoClient(uri, options);
+
+async function createConnectiono() {
   await client.connect();
 }
 
-module.exports = { client, initAbimongo };
+module.exports = { createConnection };
 `;
 
     fs.writeFileSync(path.join(serverDir, `abimongo.config.${ext}`), abimongoConfig);
@@ -88,6 +86,7 @@ module.exports = { client, initAbimongo };
     path.join(serverDir, '.env'),
     `PORT=5000\nMONGO_URI=mongodb://localhost:27017/${projectName}`
   );
+
 
   // 6. Backend package.json and dependencies
   execSync(`npm init -y`, { cwd: serverDir, stdio: 'inherit' });
@@ -143,5 +142,5 @@ module.exports = { formatResponse };`;
   }
 
   // 8. Final message
-  console.log(chalk.green('\n✅ MERN Stack project setup complete!\n'));
+  console.log(chalk.green('\nMERN Stack project setup complete!\n'));
 }

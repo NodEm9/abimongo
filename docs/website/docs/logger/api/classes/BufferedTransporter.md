@@ -4,7 +4,7 @@
 
 # Class: BufferedTransporter
 
-Defined in: [transports/buffered.transporter.ts:30](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/transports/buffered.transporter.ts#L30)
+Defined in: [transports/buffered.transporter.ts:30](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/transports/buffered.transporter.ts#L30)
 
 BufferedTransporter
 
@@ -36,7 +36,7 @@ await bufferedTransporter.stop(); // Stop the transporter when done
 
 > **new BufferedTransporter**(`transporter`, `options?`): `BufferedTransporter`
 
-Defined in: [transports/buffered.transporter.ts:37](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/transports/buffered.transporter.ts#L37)
+Defined in: [transports/buffered.transporter.ts:37](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/transports/buffered.transporter.ts#L37)
 
 #### Parameters
 
@@ -64,7 +64,7 @@ Defined in: [transports/buffered.transporter.ts:37](https://github.com/NodEm9/ab
 
 > **flush**(): `Promise`\<`void`\>
 
-Defined in: [transports/buffered.transporter.ts:62](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/transports/buffered.transporter.ts#L62)
+Defined in: [transports/buffered.transporter.ts:62](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/transports/buffered.transporter.ts#L62)
 
 #### Returns
 
@@ -80,7 +80,7 @@ Defined in: [transports/buffered.transporter.ts:62](https://github.com/NodEm9/ab
 
 > **stop**(): `Promise`\<`void`\>
 
-Defined in: [transports/buffered.transporter.ts:84](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/transports/buffered.transporter.ts#L84)
+Defined in: [transports/buffered.transporter.ts:84](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/transports/buffered.transporter.ts#L84)
 
 #### Returns
 
@@ -92,7 +92,7 @@ Defined in: [transports/buffered.transporter.ts:84](https://github.com/NodEm9/ab
 
 > **write**(`message`, `level?`, `meta?`): `Promise`\<`void`\>
 
-Defined in: [transports/buffered.transporter.ts:48](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/transports/buffered.transporter.ts#L48)
+Defined in: [transports/buffered.transporter.ts:48](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/transports/buffered.transporter.ts#L48)
 
 #### Parameters
 

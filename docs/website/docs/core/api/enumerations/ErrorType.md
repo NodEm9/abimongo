@@ -6,7 +6,7 @@
 
 # Enumeration: ErrorType
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:2](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L2)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:2](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L2)
 
 ## Enumeration Members
 
@@ -14,7 +14,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:2](https://github.com/N
 
 > **ABIMONGO\_ERROR**: `"ABIMONGO_ERROR"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:13](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L13)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:13](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L13)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:13](https://github.com/
 
 > **AbiMongoCollectionError**: `"CollectionError"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:8](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L8)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:8](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L8)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:8](https://github.com/N
 
 > **AbiMongoConnectionError**: `"ConnectionError"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:9](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L9)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:9](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L9)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:9](https://github.com/N
 
 > **AbiMongoError**: `"AbiMongoError"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:3](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L3)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:3](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L3)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:3](https://github.com/N
 
 > **AbiMongoErrorCause**: `"AbiMongoErrorCause"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:7](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L7)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:7](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L7)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:7](https://github.com/N
 
 > **AbiMongoErrorMessage**: `"AbiMongoErrorMessage"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:6](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L6)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:6](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L6)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:6](https://github.com/N
 
 > **AbiMongoErrorStack**: `"AbiMongoErrorStack"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:5](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L5)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:5](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L5)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:5](https://github.com/N
 
 > **AbiMongoErrorType**: `"AbiMongoErrorType"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:4](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L4)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:4](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L4)
 
 ***
 
@@ -78,7 +78,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:4](https://github.com/N
 
 > **AbiMongoModelError**: `"ModelError"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:11](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L11)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:11](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L11)
 
 ***
 
@@ -86,7 +86,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:11](https://github.com/
 
 > **AbiMongoSchemaError**: `"SchemaError"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:10](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L10)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:10](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L10)
 
 ***
 
@@ -94,7 +94,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:10](https://github.com/
 
 > **CONNECTION\_ERROR**: `"UnCaughtException:: This is a ParseError or ConnectionError. Please check the connection string.  "`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:16](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L16)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:16](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L16)
 
 ***
 
@@ -102,7 +102,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:16](https://github.com/
 
 > **INITIALIZATION\_ERROR**: `"INITIALIZATION_ERROR"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:12](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L12)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:12](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L12)
 
 ***
 
@@ -110,7 +110,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:12](https://github.com/
 
 > **INVALID\_SCHEME\_ERROR**: `"INVALID_SCHEME_ERROR"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:15](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L15)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:15](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L15)
 
 ***
 
@@ -118,7 +118,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:15](https://github.com/
 
 > **NO\_DATABASE\_FOUND**: `"NO_DATABASE_FOUND"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:21](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L21)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:21](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L21)
 
 ***
 
@@ -126,7 +126,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:21](https://github.com/
 
 > **NOT\_FOUND**: `"NOT_FOUND"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:20](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L20)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:20](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L20)
 
 ***
 
@@ -134,7 +134,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:20](https://github.com/
 
 > **NOT\_FOUND\_IN\_CACHE**: `"NOT_FOUND_IN_CACHE"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:22](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L22)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:22](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L22)
 
 ***
 
@@ -142,7 +142,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:22](https://github.com/
 
 > **NULL\_OR\_UNDEFINED**: `"NULL_OR_UNDEFINED"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:14](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L14)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:14](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L14)
 
 ***
 
@@ -150,7 +150,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:14](https://github.com/
 
 > **SCHEMA\_ERROR**: `"SCHEMA_ERROR"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:18](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L18)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:18](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L18)
 
 ***
 
@@ -158,7 +158,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:18](https://github.com/
 
 > **SCHEMA\_VALIDATION\_ERROR**: `"SCHEMA_VALIDATION_ERROR"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:19](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L19)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:19](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L19)
 
 ***
 
@@ -166,7 +166,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:19](https://github.com/
 
 > **UNEXPECTED\_ERROR**: `"UNEXPECTED_ERROR"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:17](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L17)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:17](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L17)
 
 ***
 
@@ -174,7 +174,7 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:17](https://github.com/
 
 > **UNIQUE\_CONSTRAINT\_VIOLATION**: `"UNIQUE_CONSTRAINT_VIOLATION"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:24](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L24)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:24](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L24)
 
 ***
 
@@ -182,4 +182,4 @@ Defined in: [packages/core/src/utils/error/errorTypes.ts:24](https://github.com/
 
 > **VALIDATION\_ERROR**: `"VALIDATION_ERROR"`
 
-Defined in: [packages/core/src/utils/error/errorTypes.ts:23](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/utils/error/errorTypes.ts#L23)
+Defined in: [packages/core/src/utils/error/errorTypes.ts:23](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/error/errorTypes.ts#L23)

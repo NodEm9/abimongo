@@ -6,7 +6,7 @@
 
 # Interface: AbimongoConfigFile
 
-Defined in: [packages/core/src/types/AbimongoConfig.ts:71](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/AbimongoConfig.ts#L71)
+Defined in: [packages/core/src/types/AbimongoConfig.ts:70](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/AbimongoConfig.ts#L70)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [packages/core/src/types/AbimongoConfig.ts:71](https://github.com/No
 
 > `optional` **advanced**: `object`
 
-Defined in: [packages/core/src/types/AbimongoConfig.ts:78](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/AbimongoConfig.ts#L78)
+Defined in: [packages/core/src/types/AbimongoConfig.ts:77](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/AbimongoConfig.ts#L77)
 
 #### circuitBreaker?
 
@@ -54,7 +54,7 @@ Defined in: [packages/core/src/types/AbimongoConfig.ts:78](https://github.com/No
 
 > `optional` **features**: `object`
 
-Defined in: [packages/core/src/types/AbimongoConfig.ts:77](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/AbimongoConfig.ts#L77)
+Defined in: [packages/core/src/types/AbimongoConfig.ts:76](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/AbimongoConfig.ts#L76)
 
 #### models?
 
@@ -86,7 +86,7 @@ Defined in: [packages/core/src/types/AbimongoConfig.ts:77](https://github.com/No
 
 > `optional` **graphql**: `object`
 
-Defined in: [packages/core/src/types/AbimongoConfig.ts:76](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/AbimongoConfig.ts#L76)
+Defined in: [packages/core/src/types/AbimongoConfig.ts:75](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/AbimongoConfig.ts#L75)
 
 #### enabled?
 
@@ -110,7 +110,7 @@ Defined in: [packages/core/src/types/AbimongoConfig.ts:76](https://github.com/No
 
 > `optional` **logger**: [`AbimongoLoggerSettings`](AbimongoLoggerSettings.md)
 
-Defined in: [packages/core/src/types/AbimongoConfig.ts:75](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/AbimongoConfig.ts#L75)
+Defined in: [packages/core/src/types/AbimongoConfig.ts:74](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/AbimongoConfig.ts#L74)
 
 ***
 
@@ -118,7 +118,7 @@ Defined in: [packages/core/src/types/AbimongoConfig.ts:75](https://github.com/No
 
 > **mongoUri**: `string`
 
-Defined in: [packages/core/src/types/AbimongoConfig.ts:73](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/AbimongoConfig.ts#L73)
+Defined in: [packages/core/src/types/AbimongoConfig.ts:72](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/AbimongoConfig.ts#L72)
 
 ***
 
@@ -126,7 +126,7 @@ Defined in: [packages/core/src/types/AbimongoConfig.ts:73](https://github.com/No
 
 > `optional` **multiTenant**: `object`
 
-Defined in: [packages/core/src/types/AbimongoConfig.ts:74](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/AbimongoConfig.ts#L74)
+Defined in: [packages/core/src/types/AbimongoConfig.ts:73](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/AbimongoConfig.ts#L73)
 
 #### enabled?
 
@@ -158,4 +158,4 @@ Defined in: [packages/core/src/types/AbimongoConfig.ts:74](https://github.com/No
 
 > `optional` **projectName**: `string`
 
-Defined in: [packages/core/src/types/AbimongoConfig.ts:72](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/types/AbimongoConfig.ts#L72)
+Defined in: [packages/core/src/types/AbimongoConfig.ts:71](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/AbimongoConfig.ts#L71)

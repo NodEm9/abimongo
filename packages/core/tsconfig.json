@@ -9,10 +9,10 @@
   },
   "include": [
     "index.ts",
-    "src/**/*",
-    "src/**/config/*.json",
+    "src/**/*.ts",
     "./bin/abimongo-core-cli.ts",
-    "browser.ts"
+    "browser.ts",
+    "src/**/*.json"
   ],
   "exclude": [
     "./node_modules",

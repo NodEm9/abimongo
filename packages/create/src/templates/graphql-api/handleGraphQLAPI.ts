@@ -20,7 +20,7 @@ export async function handleGraphQLAPI(
   const rootDir = path.resolve(process.cwd(), projectName);
   const srcDir = path.join(rootDir, 'src');
 
-  console.log(chalk.cyan(`\n🔧 Creating GraphQL API project in ${rootDir}...\n`));
+  console.log(chalk.cyan(`\nCreating GraphQL API project in ${rootDir}...\n`));
   fs.ensureDirSync(srcDir);
 
   // Step 1: Write entry file
@@ -30,7 +30,7 @@ import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import cors from 'cors';
 ${options.useAbimongo ? `import { AbimongoGraphQL } from '@abimongo/core';` : ''}
-${options.includeLogger? `import { setupLogger, Logger } from '@abimongo/create';` : ''}
+${options.includeLogger ? `import { setupLogger, Logger } from '@abimongo/create';` : ''}
 
 const app = express();
 app.use(cors());
@@ -48,18 +48,55 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(\`GraphQL server running on port \${PORT}\`));
 `;
 
+
+  //Abimongo config file
+  const { useAbimongo, useTypeScript, includeLogger } = options;
+  if (useAbimongo) {
+    const configDir = path.join(rootDir, 'config');
+    fs.ensureDirSync(configDir);
+    const abimongoConfig = useTypeScript
+      ? `import { AbimongoClientOptions, AbimongoClient } from '@abimongo/core';
+export const options: AbimongoClientOptions = {
+  // Add your Abimongo client options here
+};
+export const client = new AbimongoClient({
+  uri: process.env.MONGO_URI || 'mongodb://localhost:27017/${projectName}'
+});
+export async function createConnection() {
+  // You can use a try-catch block to handle connection errors
+  await client.connect();
+  return client;
+}
+`
+      : `const { AbimongoClient } = require('@abimongo/core');  
+const options = {
+  // Add your Abimongo client options here
+};
+const client = new AbimongoClient({
+  uri: process.env.MONGO_URI || 'mongodb://localhost:27017/${projectName}'
+});
+async function createConnection() {
+  // You can use a try-catch block to handle connection errors
+  await client.connect();
+  return client;
+}
+module.exports = { createConnection };
+`;
+    fs.writeFileSync(path.join(configDir, `abimongo.config.${ext}`), abimongoConfig);
+  }
+
   fs.writeFileSync(path.join(srcDir, `index.${ext}`), entryFileContent.trimStart());
 
   // Step 2: .env
   fs.writeFileSync(path.join(rootDir, '.env'), `PORT=5000\nMONGO_URI=mongodb://localhost:27017/${projectName}`);
 
   // Step 3: Init & install dependencies
-  execSync('npm init -y', { cwd: rootDir, stdio: 'inherit' });
+  execSync(`npm init -y`, { cwd: rootDir, stdio: 'inherit' });
 
   const coreDeps = `express cors dotenv express-graphql graphql${options.useAbimongo ?
     ' @abimongo/core' : ''}${options.includeLogger ? ' @abimongo/create' : ''}`;
   execSync(`npm install ${coreDeps}`, { cwd: rootDir, stdio: 'inherit' });
-  console.log(chalk.green('\n✅ Installing dependencies...'));
+  console.log(chalk.green('\n Installing dependencies...'));
 
   if (options.useTypeScript) {
     execSync(`npm install -D typescript ts-node @types/express @types/node @types/express-graphql`, {
@@ -79,10 +116,10 @@ app.listen(PORT, () => console.log(\`GraphQL server running on port \${PORT}\`))
         skipLibCheck: true
       }
     }, null, 2));
-  }
+  };
 
-  console.log(chalk.green('\n✅ GraphQL API project setup complete!'));
-}
 
+  console.log(chalk.green('\nGraphQL API project setup complete!'));
+};
 
 

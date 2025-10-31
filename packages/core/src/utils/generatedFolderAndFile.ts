@@ -1,8 +1,25 @@
-
 import fs from 'fs-extra';
 import path from 'path';
-import chalk from 'chalk';
 
+
+export const colourize = (text: string, color: string) => {
+  switch (color) {
+    case 'yellow':
+      return '#FFFF00';
+    case 'green':
+      return '#00FF00';
+    case 'blue':
+      return '#0000FF';
+    case 'red':
+      return '#FF0000';
+    case 'blueBright':
+      return '#00BFFF';
+    case 'cyan':
+      return '#00FFFF';
+    default:
+      return text;
+  }
+};
 
 type GeneratedFolderAndFile = {
   name: string;
@@ -22,10 +39,10 @@ const generatedFiles = () => {
   ]
   
   // Log all generated files
-  console.log(chalk.yellow.bold('\n[Generated Files]:'));
+  console.log(colourize('\n[Generated Files]:', 'yellow'));
   allFiles.forEach(file => {
     if (fs.existsSync(file.path)) {
-      console.log(chalk.yellow(`- ${file.name}`));
+      console.log(colourize(`- ${file.name}`, 'yellow'));
     }
   });
 }
@@ -38,10 +55,10 @@ const generatedFolders = () => {
     { name: 'scripts/', path: path.join(projectRoot, 'scripts') },
   ]
   // Log all generated folders
-  console.log(chalk.yellow.bold('\n[Generated Folders]:'));
+  console.log(colourize('\n[Generated Folders]:', 'yellow'));
   allFolders.forEach(folder => {
     if (fs.existsSync(folder.path)) {
-      console.log(chalk.yellow(`- ${folder.name}`));
+      console.log(colourize(`- ${folder.name}`, 'yellow'));
     }
   });
 }

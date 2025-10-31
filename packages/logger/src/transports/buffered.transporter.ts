@@ -82,7 +82,7 @@ export class BufferedTransporter implements Transporter {
   }
 
   public async stop() {
-    // clearInterval(this.timer);
+    clearInterval(this.timer);
     this.timer = undefined;
     this.flush();
     this.transporter.close?.();

@@ -1,5 +1,5 @@
 
-export const MAIN_TS_CONTENT = `import { initAimongo } from '@abimongo/core';
+export const MAIN_TS_CONTENT = `import { initAbimongo } from '@abimongo/core';
 import { createServer } from 'http'; // or Fastify, Hapi, etc.
 import { ApolloServer } from '@apollo/server'; // Optional, only if GraphQL is enabled
 import { startStandaloneServer } from '@apollo/server/standalone';
@@ -17,7 +17,7 @@ import express from 'express';
  */
 
 export async function run() {
-  const app = await initAimongo.create(); // Will look for abimongo.config.json by default
+  const app = await initAbimongo.create(); // Will look for abimongo.config.json by default
   const httpServer = createServer(express());
 
   // Connect Mongodb
@@ -58,7 +58,7 @@ export async function run() {
 // 			return {
 // 				user: {
 // 					role: 'admin',
-// 					tenantId: req.headers['x-tenant-id'] || process.env.TENANT_A_ID,
+// 					tenantId: req.headers['x-tenant-id'] || 'tenant-a', // Example of multi-tenant header
 // 				},
 // 				collection: 'users',
 // 				tenantId: 'tenant-a',

@@ -8,11 +8,11 @@ import {
   enforceRBAC,
   invalidateTenantCache,
 } from "../middleware/rbac/rbacMiddleware";
-import { AbimongoGraphQLOptions, EventType, eventTypes } from '../types';
-import { redis, RedisService } from '../redis-manager/redisClient';
+import { AbimongoGraphQLOptions } from '../types';
+import { redis } from '../redis-manager/redisClient';
 import { Role } from '../middleware';
 import { getTenantDB } from '../utils/builders/getTanantDb';
-import { DB_CHANGE_EVENT, logDefaultEvent } from '../utils';
+import { DB_CHANGE_EVENT } from '../utils';
 
 
 
@@ -423,11 +423,13 @@ export class AbimongoGraphQL {
   /**
    * Dynamically generate GraphQL Schema
    */
-  async generateSchema(model?: any): Promise<GraphQLSchema> {
+  async generateSchema(model?: any, enableSubscriptions?: boolean): Promise<GraphQLSchema> {
     await this.ensureRedis();
     return makeExecutableSchema({
       typeDefs: [this.defaultTypeDefs(), ...this.typeDefs],
       resolvers: [this.defaultResolvers(), ...this.resolvers],
+      ...enableSubscriptions && { subscriptions: this.subscriptions() },
+      schemaExtensions: model || {},
     });
   }
 };

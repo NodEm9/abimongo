@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AbimongoBootstrap, initAbimongo } from '../lib-core';
-// import { bufferedTransporter } from '../utils';
+// import { bufferedTransporter } from '../utils'
 
 
 
@@ -78,6 +78,8 @@ describe('AbimongoBootstrap', () => {
 
   afterAll(() => {
     // bufferedTransporter.stop(); // or however you're exposing it
+    const { shutdownLogger } = require('@abimongo/logger');
+    shutdownLogger();
   });
 
   it('throws error if multi-tenancy is not enabled when calling registerMultiTenancy', async () => {

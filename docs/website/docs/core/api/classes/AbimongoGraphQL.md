@@ -6,7 +6,7 @@
 
 # Class: AbimongoGraphQL
 
-Defined in: [packages/core/src/graphql/AbimongoGraphQL.ts:153](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/graphql/AbimongoGraphQL.ts#L153)
+Defined in: [packages/core/src/graphql/AbimongoGraphQL.ts:153](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/graphql/AbimongoGraphQL.ts#L153)
 
 AbimongoGraphQL class provides a way to create a GraphQL schema
 with custom type definitions and resolvers, while integrating
@@ -152,7 +152,7 @@ all these features. This is a great way to get started quickly with Abimongo.
 
 > **new AbimongoGraphQL**(`options`): `AbimongoGraphQL`
 
-Defined in: [packages/core/src/graphql/AbimongoGraphQL.ts:161](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/graphql/AbimongoGraphQL.ts#L161)
+Defined in: [packages/core/src/graphql/AbimongoGraphQL.ts:161](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/graphql/AbimongoGraphQL.ts#L161)
 
 #### Parameters
 
@@ -170,7 +170,7 @@ Defined in: [packages/core/src/graphql/AbimongoGraphQL.ts:161](https://github.co
 
 > **customResolvers**(`resolver`): `AbimongoGraphQL`
 
-Defined in: [packages/core/src/graphql/AbimongoGraphQL.ts:182](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/graphql/AbimongoGraphQL.ts#L182)
+Defined in: [packages/core/src/graphql/AbimongoGraphQL.ts:182](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/graphql/AbimongoGraphQL.ts#L182)
 
 Add custom resolvers (will be merged)
 
@@ -190,7 +190,7 @@ Add custom resolvers (will be merged)
 
 > **customTypeDefs**(`schema`): `AbimongoGraphQL`
 
-Defined in: [packages/core/src/graphql/AbimongoGraphQL.ts:170](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/graphql/AbimongoGraphQL.ts#L170)
+Defined in: [packages/core/src/graphql/AbimongoGraphQL.ts:170](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/graphql/AbimongoGraphQL.ts#L170)
 
 Add custom typeDefs (string or SDL array)
 
@@ -210,7 +210,7 @@ Add custom typeDefs (string or SDL array)
 
 > **generateSchema**(`model?`): `Promise`\<`GraphQLSchema`\>
 
-Defined in: [packages/core/src/graphql/AbimongoGraphQL.ts:426](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/graphql/AbimongoGraphQL.ts#L426)
+Defined in: [packages/core/src/graphql/AbimongoGraphQL.ts:426](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/graphql/AbimongoGraphQL.ts#L426)
 
 Dynamically generate GraphQL Schema
 
@@ -230,7 +230,7 @@ Dynamically generate GraphQL Schema
 
 > **subscriptions**(): `boolean`
 
-Defined in: [packages/core/src/graphql/AbimongoGraphQL.ts:419](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/graphql/AbimongoGraphQL.ts#L419)
+Defined in: [packages/core/src/graphql/AbimongoGraphQL.ts:419](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/graphql/AbimongoGraphQL.ts#L419)
 
 #### Returns
 

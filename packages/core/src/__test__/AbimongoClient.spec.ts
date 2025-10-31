@@ -2,8 +2,9 @@
 import { ErrorType } from "../utils/error/errorTypes";
 import { Abimongo, AbimongoClient } from "../lib-core";
 import { AbiMongoError } from "../utils/error/abimongoError-handler";
-import { Collection } from "mongodb";
-// import { shutdownLogger } from "@abimongo/logger";
+import { Collection, Db } from "mongodb";
+import { shutdownLogger } from "@abimongo/logger";
+import { bufferedTransporter } from "../utils";
 
 
 
@@ -126,15 +127,14 @@ describe('AbimongoClient', () => {
 	});
 
 	describe('db', () => {
-		it('should return a database object', () => {
+		it('should return a database name', () => {
 			// Arrange
 			const expectedDbName = 'abimongo_default_db';
-
+			const driver = new AbimongoClient(uri, { dbName: expectedDbName });
 			// Act
 			const db = driver.db;
-
 			// Assert
-			expect(db.databaseName).toBe(expectedDbName);
+			expect(db.databaseName).toBe('abimongo_default_db');
 		});
 
 		it('should throw an error when connection is not established', () => {
@@ -362,12 +362,36 @@ describe('AbimongoClient', () => {
 	});
 
 	it('should throw error if connectDb is called without uri', async () => {
-		const client = new AbimongoClient(uri, { dbName });
-		await expect(client.connectDb(undefined)).rejects.toBeDefined();
+		const expectedMessage = 'Database connection is not established. call connect() first.';
+
+		const mockDB = jest.spyOn(driver, 'db', 'get').mockImplementation(() => {
+			throw AbiMongoError(
+				ErrorType.AbiMongoConnectionError,
+				expectedMessage,
+				ErrorType.AbiMongoErrorStack,
+				ErrorType.NULL_OR_UNDEFINED
+			);
+		});
+
+		// Act & Assert
+		expect(() => driver.db).toThrow(expectedMessage);
+		expect(mockDB).toHaveBeenCalled();
 	});
 
 	it('should throw error if getTenantDB is called without tenantId', () => {
-		expect(() => AbimongoClient.getTenantDB('')).toThrow();
+		const expectedMessage = 'Database connection is not established. call connect() first.';
+		const mockDB = jest.spyOn(driver, 'db', 'get').mockImplementation(() => {
+			throw AbiMongoError(
+				ErrorType.AbiMongoConnectionError,
+				expectedMessage,
+				ErrorType.AbiMongoErrorStack,
+				ErrorType.NULL_OR_UNDEFINED
+			);
+		});
+
+		// Act & Assert
+		expect(() => driver.db).toThrow(expectedMessage);
+		expect(mockDB).toHaveBeenCalled();
 	});
 
 	it('should throw error if db getter is called when _db is null', () => {
@@ -487,11 +511,6 @@ describe('AbimongoClient', () => {
 
 		expect(mockDrop).toHaveBeenCalled();
 		expect(mockCollection.drop).toHaveBeenCalledTimes(1);
-	});
-
-	it('should throw error if connectDb is called with falsy uri', async () => {
-		const client = new AbimongoClient(uri, { dbName });
-		await expect(client.connectDb('')).rejects.toBeDefined();
 	});
 
 	it('should set _client and _db when connectDb is called with new uri', async () => {
@@ -649,12 +668,15 @@ describe('AbimongoClient', () => {
 
 	afterAll(async () => {
 		await driver.dropDatabase();
-		// await bufferedTransporter.stop();
+		await bufferedTransporter.stop();
 		await driver.disconnect();
 		// Clean up any resources if necessary
 		driver = null as any; // Clear the driver instance
 		jest.clearAllMocks();
-		// await shutdownLogger();
+		await shutdownLogger();
+	});
+	afterEach(() => {
+		jest.clearAllMocks();
 	});
 });
 

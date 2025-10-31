@@ -25,13 +25,13 @@ export async function promptProjectOptions() {
     {
       name: 'useAbimongo',
       type: 'confirm',
-      message: 'Do you want to use( @abimongo/core)?',
+      message: 'Do you want to use(@abimongo/core)? / This package uses npm by default, if your package is different you may want to choose "NO" and install it manually later.',
       default: true
     },
     {
       name: 'includeLogger',
       type: 'confirm',
-      message: 'Include (@abimongo/logger)?',
+      message: 'Include (@abimongo/logger)? / This package uses npm by default, if your package is different you may want to choose "NO" and install it manually later.',
       default: true
     }
   ]);

@@ -6,7 +6,7 @@
 
 # Class: AbimongoBootstrap
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:97](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L97)
+Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:97](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L97)
 
 AbimongoBootstrap is the main entry point for initializing
 and managing the Abimongo application stack when you opt for the CLI.
@@ -92,11 +92,19 @@ If not provided, it defaults to 'abimongo.config.json'.
 
 > **new AbimongoBootstrap**(): `AbimongoBootstrap`
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:109](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L109)
+Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:109](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L109)
 
 #### Returns
 
 `AbimongoBootstrap`
+
+## Properties
+
+### logger
+
+> **logger**: `ILogger` \| `AbimongoLogger`
+
+Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:103](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L103)
 
 ## Methods
 
@@ -104,7 +112,7 @@ Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:109](http
 
 > **cache**\<`T`\>(`key`, `fetcher`, `options`): `Promise`\<`T`\>
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:278](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L278)
+Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:292](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L292)
 
 #### Type Parameters
 
@@ -150,7 +158,7 @@ Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:278](http
 
 > **getGCRunner**(): [`AbimongoGC`](AbimongoGC.md) \| `undefined`
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:330](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L330)
+Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:344](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L344)
 
 #### Returns
 
@@ -162,7 +170,7 @@ Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:330](http
 
 > **getGraphQL**(): [`AbimongoGraphQL`](AbimongoGraphQL.md) \| `undefined`
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:326](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L326)
+Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:340](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L340)
 
 #### Returns
 
@@ -174,7 +182,7 @@ Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:326](http
 
 > **getModel**(): [`AbimongoModel`](AbimongoModel.md)\<[`Document`](../type-aliases/Document.md)\> \| `undefined`
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:319](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L319)
+Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:333](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L333)
 
 #### Returns
 
@@ -186,7 +194,7 @@ Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:319](http
 
 > **getMongoClient**(): [`AbimongoClient`](AbimongoClient.md) \| `undefined`
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:311](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L311)
+Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:325](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L325)
 
 #### Returns
 
@@ -198,7 +206,7 @@ Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:311](http
 
 > **getRedisClient**(): `Promise`\<`RedisClientType`\>
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:303](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L303)
+Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:317](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L317)
 
 Returns the Redis client if Redis is enabled in the configuration.
 
@@ -214,7 +222,7 @@ A promise that resolves to the Redis client.
 
 > **getSchema**(): [`AbimongoSchema`](AbimongoSchema.md)\<[`Document`](../type-aliases/Document.md)\> \| `undefined`
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:322](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L322)
+Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:336](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L336)
 
 #### Returns
 
@@ -226,7 +234,7 @@ Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:322](http
 
 > **initialize**(`configFilePath?`): `Promise`\<`void`\>
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:127](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L127)
+Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:127](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L127)
 
 Initializes the Abimongo application stack.
 This method sets up MongoDB, Redis, and GraphQL connections,
@@ -251,7 +259,7 @@ If not provided, it defaults to 'abimongo.config.json'.
 
 > **invalidateCache**(`tenantId`, `namespace?`): `Promise`\<`void`\>
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:292](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L292)
+Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:306](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L306)
 
 #### Parameters
 
@@ -273,7 +281,7 @@ Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:292](http
 
 > **onConnect**(`hook`): `void`
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:116](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L116)
+Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:116](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L116)
 
 Register a hook to be called after the connection is established.
 This can be used for custom initialization logic that depends on the database being ready.
@@ -296,7 +304,7 @@ A function that will be called after the connection is established.
 
 > **registerMultiTenancy**(`application`, `tenants`, `options`): `Promise`\<`void`\>
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:254](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L254)
+Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:268](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L268)
 
 #### Parameters
 
@@ -328,7 +336,7 @@ Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:254](http
 
 > **shutdown**(): `Promise`\<`void`\>
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:334](https://github.com/NodEm9/abimongo/blob/5a2358b707b76da64f21a9d76ac4c65fbd8a1024/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L334)
+Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts:348](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrap.ts#L348)
 
 #### Returns
 

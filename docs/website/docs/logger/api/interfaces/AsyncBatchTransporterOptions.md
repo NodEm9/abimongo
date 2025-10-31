@@ -4,7 +4,7 @@
 
 # Interface: AsyncBatchTransporterOptions
 
-Defined in: [types/logger.types.ts:48](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/types/logger.types.ts#L48)
+Defined in: [types/logger.types.ts:48](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/types/logger.types.ts#L48)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [types/logger.types.ts:48](https://github.com/NodEm9/abimongo/blob/f
 
 > `optional` **batchSize**: `number`
 
-Defined in: [types/logger.types.ts:49](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/types/logger.types.ts#L49)
+Defined in: [types/logger.types.ts:49](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/types/logger.types.ts#L49)
 
 ***
 
@@ -20,7 +20,7 @@ Defined in: [types/logger.types.ts:49](https://github.com/NodEm9/abimongo/blob/f
 
 > `optional` **flushInterval**: `number`
 
-Defined in: [types/logger.types.ts:50](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/types/logger.types.ts#L50)
+Defined in: [types/logger.types.ts:50](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/types/logger.types.ts#L50)
 
 ***
 
@@ -28,7 +28,7 @@ Defined in: [types/logger.types.ts:50](https://github.com/NodEm9/abimongo/blob/f
 
 > **sendBatch**: (`entries`) => `Promise`\<`void`\>
 
-Defined in: [types/logger.types.ts:51](https://github.com/NodEm9/abimongo/blob/f798227fd9c43f8c2647fd11dd772b40a643da1f/packages/logger/src/types/logger.types.ts#L51)
+Defined in: [types/logger.types.ts:51](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/types/logger.types.ts#L51)
 
 #### Parameters
 

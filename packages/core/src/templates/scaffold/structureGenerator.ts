@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import { AbimongoConfig } from '../../types';
 import { execSync } from 'child_process';
-import chalk from 'chalk';
+import { colourize } from '../../utils';
 import { MAIN_TS_CONTENT } from '../core/main';
 import { findPackageJSON } from 'module';
 
@@ -159,28 +159,15 @@ const graphql = app.getGraphQL();
     )
   );
 
-  const pkgManagerProps: PackageManager = [
-    'npm',
-    'yarn',
-    'pnpm'
-  ].includes(process.env.npm_config_user_agent?.split(' ')[0] || '') ?
-    (process.env.npm_config_user_agent?.split(' ')[0] as PackageManager) : 'npm'; 
-
-  if(!findPackageJSON(path.resolve("."))) {
-    await fs.writeJson(path.join(".", 'package.json'), packageJson, { spaces: 2 });
-  } else {
-    console.log(chalk.yellowBright(`[Warning]: package.json already exists. Skipping creation.`));
-  } 
   
-  
-  // await fs.writeJson(path.join(projectRoot, 'package.json'), packageJson, { spaces: 2 });
+  await fs.writeJson(path.join(projectRoot, 'package.json'), packageJson, { spaces: 2 });
 
   // execSync(`${getPackageManagerCommand(pkgManagerProps)} @abimongo/core @abimongo/logger mongodb, { cwd: projectRoot, stdio: 'inherit' });
-  execSync(`${getPackageManagerCommand(pkgManagerProps)} express mongodb`, { cwd: projectRoot, stdio: 'inherit' });
-  console.log(chalk.blueBright(`[Installing dependencies]: Installing dependencies...`));
+  execSync(`npm install express mongodb`, { cwd: projectRoot, stdio: 'inherit' });
+  console.log(colourize(`[Installing dependencies]: Installing dependencies...`, 'blueBright'));
 
-execSync(`${getPackageManagerCommand(pkgManagerProps)} -D typescript ts-node @types/node`, { cwd: projectRoot, stdio: 'inherit' });
-  console.log(chalk.blueBright(`[Installing dev dependencies]: Installing dev dependencies...`));
+execSync(`npm install -D typescript ts-node @types/node`, { cwd: projectRoot, stdio: 'inherit' });
+  console.log(colourize(`[Installing dev dependencies]: Installing dev dependencies...`, 'blueBright'));
 
   // Create .gitignore
   const gitignoreContent = `node_modules
@@ -190,20 +177,5 @@ lib
 .env
 `;
   await fs.writeFile(path.join(".", '.gitignore'), gitignoreContent);
-}
-
-type PackageManager = 'npm' | 'yarn' | 'pnpm';
-
-function getPackageManagerCommand(packageManager: PackageManager): string {
-  switch (packageManager) {
-    case 'npm':
-      return 'npm install';
-    case 'yarn':
-      return 'yarn add';
-    case 'pnpm':
-      return 'pnpm add';
-    default:
-      return 'npm install';
-  }
 }
 

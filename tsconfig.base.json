@@ -7,16 +7,16 @@
       "DOM",
       "DOM.Iterable", 
       "DOM.AsyncIterable",
-      "ESNext.Disposable"
+      // "ESNext.Disposable"
       ],  
-    "moduleDetection": "force",
+    "moduleDetection": "auto",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
     "isolatedModules": true, 
-    "importHelpers": false,
+    "importHelpers": true,
     "noEmitHelpers": true,
     "sourceMap": true,
     "allowJs": true, 
@@ -26,14 +26,14 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true, 
     "noImplicitAny": false,  
-    "noEmitOnError": true, 
-    "noImplicitReturns": false, 
+    // "noEmitOnError": true, 
+    // "noImplicitReturns": false, 
     "noImplicitOverride": true, 
-    "alwaysStrict": true,                      
+    // "alwaysStrict": true,                      
     "strict": true,                                                                  
     "skipLibCheck": true, 
     "jsx": "react-jsx",  
-    "useUnknownInCatchVariables": false                            
+    // "useUnknownInCatchVariables": false                            
   },
   "ts-node": {
     "transpileOnly": true,

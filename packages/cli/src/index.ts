@@ -1,3 +1,3 @@
-export { AbimongoBootstrap, AbimongoBootstrapFactory } from '@abimongo/core';
+export { AbimongoBootstrap, initAbimongo } from '@abimongo/core';
 export { default as runCLI } from './cli';
-export default runCLI;
+export { default } from './cli';

@@ -1,5 +1,6 @@
-import { loadAbimongoConfig } from '../../config';
-import { AbimongoConfig, Document } from '../../types';
+import { loadAbimongoConfig } from '../../config/loadAbimongoConfig';
+import { AbimongoConfig } from '../../types/AbimongoConfig';
+import { Document } from '../../types/document';
 import { setupLogger, logger } from '@abimongo/logger';
 import { AbimongoClient } from '../AbimongoClient';
 import { AbimongoGraphQL, initializeGraphQL } from '../../graphql';

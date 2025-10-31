@@ -2,6 +2,7 @@
   "name": "@abimongo/core",
   "version": "1.0.0",
   "publishConfig": {
+  "registry": "http://localhost:4873/",
     "access": "public"
   },
   "description": "Enterprise-grade MongoDB ORM built on the official MongoDB driver.",

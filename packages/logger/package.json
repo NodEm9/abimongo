@@ -2,6 +2,7 @@
   "name": "@abimongo/logger",
   "version": "1.0.0",
   "publishConfig": {
+    "registry": "http://localhost:4873/",
     "access": "public"
   },
   "main": "dist/abimongo-logger.js",
@@ -36,7 +37,8 @@
     "release": "pnpm changeset version && pnpm install && pnpm build && changeset publish",
     "typedoc": "typedoc --options typedoc.json",
     "clean": "rimraf dist",
-    "publish": "pnpm -recursive publish --tag latest --no-git-checks"
+    "prepack": "pnpm build",
+    "publish": "pnpm --recursive publish --tag latest --no-git-checks"
   },
   "keywords": [
     "abimongo",

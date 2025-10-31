@@ -4,13 +4,15 @@
     "rootDir": "./",
     "outDir": "./dist",
     "composite": true,
-    "declaration": true
+    "declaration": true,
+    // "types": ["node"]
   },
   "references": [
     { "path": "../core" },
     { "path": "../create" }
   ],
   "include": [
+    // "index.ts",
     "src/**/*.ts",
     "bin/**/*.ts"
   ],

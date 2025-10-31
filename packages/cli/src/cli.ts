@@ -15,8 +15,20 @@ const createBin = path.resolve(createBinRelative);
 export default function runCLI() {
   // lightweight banner; defer to create CLI for full UX
   try {
+    // Small color helper for nicer console output in the CLI
+    const colorize = (text: string, color?: 'green' | 'yellow' | 'blue' | 'red') => {
+      const codes: Record<string, string> = {
+        green: '\u001b[32m',
+        yellow: '\u001b[33m',
+        blue: '\u001b[34m',
+        red: '\u001b[31m',
+      };
+      const reset = '\u001b[0m';
+      return color && codes[color] ? `${codes[color]}${text}${reset}` : text;
+    };
+
     // Attempt to show a simple banner
-    console.log('=== Abimongo CLI ===');
+    console.log(colorize('=== Abimongo CLI ===', 'blue'));
   }
   catch (e) { }
   const program = new Command();
@@ -97,12 +109,86 @@ export default function runCLI() {
       await fs.writeJson(path.join(target, 'package.json'), pkg, { spaces: 2 });
 
       // README
-      const readme = `# ${name}\n\nThis project was initialized with Abimongo CLI.\n\nNext steps:\n\n1. cd ${name}\n2. Install dependencies (pnpm install or npm install)\n3. Start your app (see README.md)\n\nThe abimongo config file is at ./abimongo.config.json`;
+      const readmeLines = [
+        `# ${name}`,
+        '',
+        'This project was initialized with Abimongo CLI.',
+        '',
+        'This starter uses the Abimongo bootstrap helper exported as `initAbimongo` from `@abimongo/core`.',
+        '',
+        'Example (src/main.ts):',
+        '',
+        "import { initAbimongo } from '@abimongo/core';",
+        '',
+        'async function start() {',
+        '  const app = await initAbimongo.create(); // reads ./abimongo.config.json by default',
+        '  const db = app.getMongoClient();',
+        '  await db?.connect();',
+        "  console.log('✅ MongoDB connected');",
+        '  // Start optional features based on config (gc, graphql, etc.)',
+        '}',
+        '',
+        'start().catch(console.error);',
+        '',
+        'Next steps:',
+        '',
+        `1. cd ${name}`,
+        '2. Install dependencies (pnpm install or npm install)',
+        '3. Start your app: `node ./dist/src/main.js` (or compile your TypeScript)',
+        '',
+        'The abimongo config file is at ./abimongo.config.json',
+      ];
+      const readme = readmeLines.join('\n');
       await fs.writeFile(path.join(target, 'README.md'), readme, 'utf8');
 
       console.log(`✅ Abimongo project initialized at: ${target}`);
       console.log(`- Configuration written to ${configPath}`);
       console.log(`- package.json created (contains @abimongo/core and @abimongo/logger as dependencies)`);
+
+      // Generate a minimal src/main.ts starter that uses the initAbimongo factory
+      try {
+        const srcDir = path.join(target, 'src');
+        await fs.mkdirp(srcDir);
+        const mainLines: string[] = [];
+        mainLines.push("import { initAbimongo } from '@abimongo/core';");
+        mainLines.push('');
+        // minimal color helper used in starter
+        mainLines.push('function colorByLevel(level: string, text: string) {');
+        mainLines.push("  const codes: Record<string,string> = { info: '\\u001b[32m', warn: '\\u001b[33m', error: '\\u001b[31m' }; ");
+        mainLines.push("  const reset = '\\u001b[0m';");
+        mainLines.push('  return (codes[level] || "") + text + reset;');
+        mainLines.push('}');
+        mainLines.push('');
+        mainLines.push('async function start() {');
+        mainLines.push('  const app = await initAbimongo.create();');
+        mainLines.push('  const db = app.getMongoClient();');
+        mainLines.push('  await db?.connect();');
+        mainLines.push("  console.log(colorByLevel('info', '✅ MongoDB connected'));");
+        mainLines.push('');
+        mainLines.push('  // Optional: start GC runner if available');
+        mainLines.push('  try {');
+        mainLines.push('    const gc = app.getGCRunner?.();');
+        mainLines.push('    if (gc && typeof gc.start === "function") await gc.start();');
+        mainLines.push("    console.log(colorByLevel('info', '♻️  Garbage Collector started.')); ");
+        mainLines.push('  } catch (e) { /* ignore optional feature failures */ }');
+        mainLines.push('');
+        mainLines.push('  // Optional: initialize GraphQL if configured');
+        mainLines.push('  try {');
+        mainLines.push('    const graphql = await app.getGraphQL?.();');
+        mainLines.push('    if (graphql && graphql.generateSchema) console.log(colorByLevel("info", "GraphQL ready (schema generation available)."));');
+        mainLines.push('  } catch (e) { /* noop */ }');
+        mainLines.push('}');
+        mainLines.push('');
+        mainLines.push('start().catch(err => {');
+        mainLines.push('  console.error(colorByLevel("error", String(err)));');
+        mainLines.push('  process.exit(1);');
+        mainLines.push('});');
+
+        await fs.writeFile(path.join(srcDir, 'main.ts'), mainLines.join('\n'), 'utf8');
+      } catch (e) {
+        // Non-fatal if we can't write starter main
+        console.warn('Could not write src/main.ts starter:', String(e));
+      }
 
       // If user requested auto-install, detect package manager and run it
       if (opts.install) {
@@ -170,6 +256,9 @@ export default function runCLI() {
         }
 
         // Use AbimongoBootstrap directly and point it at the generated config file
+        // Prefer the exported factory alias `initAbimongo` when generating starter projects.
+        // We still support creating AbimongoBootstrap directly where needed, but the
+        // starter `src/main.ts` will use `initAbimongo.create()` for a concise programmatic start.
         const abimongo = new AbimongoBootstrap();
         const cfgPathResolved = path.resolve(configPath);
         await abimongo.initialize(cfgPathResolved);

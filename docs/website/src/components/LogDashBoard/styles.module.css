@@ -31,12 +31,15 @@
 }
 
 .codeSnippet {
-	background: rgb(56, 44, 44);
-	padding: 20px;
-	border-radius: 8px;
+	/* prettier glassy background + subtle gradient animation */
+	background: linear-gradient(135deg, rgba(10, 16, 32, 0.85), rgba(24, 30, 48, 0.86));
+	padding: 28px;
+	border-radius: 12px;
 	margin: 40px 0;
-	box-shadow: 0.5px 6px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 10px 30px rgba(2, 6, 23, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.02);
 	place-items: center;
+	border: 1px solid rgba(255, 255, 255, 0.03);
+	backdrop-filter: blur(6px) saturate(120%);
 }
 
 .codeSnippet .hljs {
@@ -49,4 +52,126 @@
 	padding: 25px;
 	border-radius: 5px;
 	overflow-x: auto;
+}
+
+/* typed-line visuals */
+.typedLine {
+	display: block;
+	white-space: pre-wrap;
+	color: #e6edf3;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace;
+	line-height: 1.6;
+	transform: translateX(-10px);
+	opacity: 0;
+	transition: transform 300ms cubic-bezier(.2, .9, .2, 1), opacity 220ms ease;
+}
+
+.typedLine.enter {
+	transform: translateX(0);
+	opacity: 1;
+}
+
+.typedText {
+	display: inline-block;
+}
+
+.caret {
+	display: inline-block;
+	width: 10px;
+	height: 1.05em;
+	margin-left: 6px;
+	background: linear-gradient(90deg, #7fffd4 0%, transparent 60%);
+	animation: blink 900ms steps(1) infinite;
+	vertical-align: bottom;
+	border-radius: 2px;
+}
+
+@keyframes blink {
+
+	0%,
+	40% {
+		opacity: 1
+	}
+
+	60%,
+	100% {
+		opacity: 0
+	}
+}
+
+/* animated line drop */
+.codeLine {
+	display: block;
+	will-change: transform, opacity;
+	backface-visibility: hidden;
+	transform-origin: left top;
+	transition: opacity 200ms linear, transform 200ms ease;
+}
+
+.drop {
+	animation-name: dropFade;
+	animation-duration: 600ms;
+	animation-fill-mode: forwards;
+	animation-timing-function: cubic-bezier(.2, .8, .2, 1);
+}
+
+@keyframes dropFade {
+	0% {
+		opacity: 1;
+		transform: translateY(0) rotate(0deg);
+	}
+
+	60% {
+		opacity: 0.6;
+		transform: translateY(12px) rotate(-1deg);
+	}
+
+	100% {
+		opacity: 0;
+		transform: translateY(40px) rotate(-2deg);
+	}
+}
+
+/* Metrics grid */
+.metricsGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	gap: 12px;
+	margin: 20px 0 28px 0;
+}
+
+.metricCard {
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+	border-radius: 8px;
+	padding: 12px;
+	color: #e6edf3;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	min-height: 64px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.metricLabel {
+	font-size: 0.85rem;
+	color: #9fb3c8;
+}
+
+.metricValue {
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin-top: 6px;
+}
+
+.deltaUp {
+	color: #60d394;
+	margin-top: 6px;
+	font-size: 0.9rem
+}
+
+.deltaDown {
+	color: #ff7b7b;
+	margin-top: 6px;
+	font-size: 0.9rem
 }

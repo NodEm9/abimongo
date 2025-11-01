@@ -1130,15 +1130,15 @@ export default [
   },
   {
     path: '/abimongo/tutorials',
-    component: ComponentCreator('/abimongo/tutorials', '93e'),
+    component: ComponentCreator('/abimongo/tutorials', '097'),
     routes: [
       {
         path: '/abimongo/tutorials',
-        component: ComponentCreator('/abimongo/tutorials', 'e5d'),
+        component: ComponentCreator('/abimongo/tutorials', '1cc'),
         routes: [
           {
             path: '/abimongo/tutorials',
-            component: ComponentCreator('/abimongo/tutorials', '6f3'),
+            component: ComponentCreator('/abimongo/tutorials', '5a7'),
             routes: [
               {
                 path: '/abimongo/tutorials/core_tutotrials/abimongo-express',
@@ -1161,12 +1161,6 @@ export default [
               {
                 path: '/abimongo/tutorials/core_tutotrials/core-tutorials',
                 component: ComponentCreator('/abimongo/tutorials/core_tutotrials/core-tutorials', '77a'),
-                exact: true,
-                sidebar: "tutorials"
-              },
-              {
-                path: '/abimongo/tutorials/create-tutorials',
-                component: ComponentCreator('/abimongo/tutorials/create-tutorials', 'dbe'),
                 exact: true,
                 sidebar: "tutorials"
               },

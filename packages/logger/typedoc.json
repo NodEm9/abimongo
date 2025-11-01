@@ -1,6 +1,7 @@
 {
   "entryPoints": ["src/index.ts"],
   "out": "../../docs/website/docs/logger/api",
+  "logLevel": "Error",
   "plugin": ["typedoc-plugin-markdown"],
   "excludeExternals": false,
   "excludePrivate": true,

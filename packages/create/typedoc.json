@@ -1,6 +1,7 @@
 {
   "entryPoints": ["src/index.ts"],
   "out": "../../docs/website/docs/create/api",
+  "logLevel": "Error",
   "tsconfig": "./tsconfig.json",
   "excludePrivate": true,
   "excludeInternal": true,

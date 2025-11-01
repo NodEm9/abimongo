@@ -12,8 +12,7 @@ const sidebars: SidebarsConfig = {
 				'core_tutotrials/abimongo-express', 
 				'core_tutotrials/abimongo-multitenancy', 
 				'core_tutotrials/abimongo-graphql',
-				'logger-tutorials',
-				'create-tutorials'
+				'logger-tutorials'
 			],
 		}
 	]

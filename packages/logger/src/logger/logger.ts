@@ -161,9 +161,8 @@ export class AbimongoLogger {
 }
 
 /**
- * @instance - logger
- * Singleton instance of AbimongoLogger for application-wide use. 
- * Configured to log in JSON format, stream to Redis, and flush logs every 2 seconds or after 20 entries. 
+ * Singleton instance of AbimongoLogger for application-wide use.
+ * Configured to log in JSON format, stream to Redis, and flush logs every 2 seconds or after 20 entries.
  * Adjust the configuration as needed for your application.
  * @example
  * import { logger } from './logger';

@@ -2,8 +2,8 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import path from 'path';
-  
- 
+
+
 const config: Config = {
 	title: 'Abimongo',
 	url: 'https://nodem9.github.io',
@@ -68,7 +68,7 @@ const config: Config = {
 		[
 			'@docusaurus/plugin-content-docs',
 			{
-				id: 'tutorials', 
+				id: 'tutorials',
 				path: path.resolve(__dirname, './tutorials/'),
 				routeBasePath: 'tutorials',
 				showLastUpdateAuthor: true,
@@ -84,7 +84,7 @@ const config: Config = {
 				entryPoints: ['packages/core/src/index.ts'],
 				tsconfig: 'packages/core/tsconfig.json',
 				out: '/core/api/core',
-				sidebar: { autoConfiguration: 'API (Core)', position: 10 },
+				sidebar: { autoConfiguration: 'API (Core)' },
 				readme: 'none',
 			},
 		],
@@ -96,11 +96,11 @@ const config: Config = {
 				entryPoints: ['packages/logger/src/index.ts'],
 				tsconfig: 'packages/logger/tsconfig.json',
 				out: '/logger/api/logger',
-				sidebar: { autoConfiguration: 'API (Logger)', position: 20 },
+				sidebar: { autoConfiguration: 'API (Logger)' },
 				readme: 'none',
 			},
 		],
-			// TypeDoc API: CLI (if you export a programmatic API)
+		// TypeDoc API: CLI (if you export a programmatic API)
 		[
 			'docusaurus-plugin-typedoc',
 			{
@@ -108,7 +108,7 @@ const config: Config = {
 				entryPoints: ['packages/create/src/index.ts'],
 				tsconfig: 'packages/create/tsconfig.json',
 				out: '/docs/create/api/create',
-				sidebar: { autoConfiguration: 'API (CLI)', position: 40 },
+				sidebar: { autoConfiguration: 'API (CLI)' },
 				readme: 'none',
 			},
 		]
@@ -123,7 +123,7 @@ const config: Config = {
 			'family': 'Inter, sans-serif',
 			'size': '46px',
 			// 'weight': '700',
-		}, 
+		},
 		navbar: {
 			title: 'Abimongo',
 			logo: {

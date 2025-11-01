@@ -88,8 +88,7 @@ type OnConnectHook = () => Promise<void> | void;
  * initOptions: { /* custom options * / } // This where you can lazily initialize tenants if needed
  * });
  * };
- * @method initialize
- * @param {string} [configFilePath] - Optional path to a custom configuration file.
+  * @param {string} [configFilePathOrObject] - Optional path to a custom configuration file or a config object.
  * If not provided, it defaults to 'abimongo.config.json'.
  * @returns {Promise<void>} - A promise that resolves when the initialization is complete.
  * 
@@ -122,8 +121,8 @@ export class AbimongoBootstrap {
    * Initializes the Abimongo application stack.
    * This method sets up MongoDB, Redis, and GraphQL connections,
    * and executes any registered onConnect hooks.
-   * @param configFilePath - Optional path to a custom configuration file.
-   * If not provided, it defaults to 'abimongo.config.json'.
+  * @param {string|AbimongoConfig} [configFilePathOrObject] - Optional path to a custom configuration file or a config object.
+  * If not provided, it defaults to 'abimongo.config.json'.
    */
   public async initialize(configFilePathOrObject?: string | AbimongoConfig): Promise<void> {
     // allow passing either a path to a config file or a config object

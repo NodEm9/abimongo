@@ -83,8 +83,7 @@ export default {
         "tsconfig": "packages/core/tsconfig.json",
         "out": "/core/api/core",
         "sidebar": {
-          "autoConfiguration": "API (Core)",
-          "position": 10
+          "autoConfiguration": "API (Core)"
         },
         "readme": "none"
       }
@@ -99,8 +98,7 @@ export default {
         "tsconfig": "packages/logger/tsconfig.json",
         "out": "/logger/api/logger",
         "sidebar": {
-          "autoConfiguration": "API (Logger)",
-          "position": 20
+          "autoConfiguration": "API (Logger)"
         },
         "readme": "none"
       }
@@ -115,8 +113,7 @@ export default {
         "tsconfig": "packages/create/tsconfig.json",
         "out": "/docs/create/api/create",
         "sidebar": {
-          "autoConfiguration": "API (CLI)",
-          "position": 40
+          "autoConfiguration": "API (CLI)"
         },
         "readme": "none"
       }

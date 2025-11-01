@@ -963,11 +963,6 @@
               "sidebar": "tutorials"
             },
             {
-              "id": "create-tutorials",
-              "path": "/abimongo/tutorials/create-tutorials",
-              "sidebar": "tutorials"
-            },
-            {
               "id": "intro",
               "path": "/abimongo/tutorials/intro",
               "sidebar": "tutorials"

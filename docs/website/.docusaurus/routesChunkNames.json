@@ -776,17 +776,17 @@
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---abimongo-logger-metrics-tracer-892-ad7"
   },
-  "/abimongo/tutorials-93e": {
+  "/abimongo/tutorials-097": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
       "plugin": "plugin---abimongo-tutorials-6-d-2-547"
     }
   },
-  "/abimongo/tutorials-e5d": {
+  "/abimongo/tutorials-1cc": {
     "__comp": "__comp---theme-doc-version-roota-7-b-5de",
     "__props": "__props---abimongo-tutorials-426-84d"
   },
-  "/abimongo/tutorials-6f3": {
+  "/abimongo/tutorials-5a7": {
     "__comp": "__comp---theme-doc-roota-94-67a"
   },
   "/abimongo/tutorials/core_tutotrials/abimongo-express-6db": {
@@ -804,10 +804,6 @@
   "/abimongo/tutorials/core_tutotrials/core-tutorials-77a": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---abimongo-tutorials-core-tutotrials-core-tutorials-8-f-3-0d0"
-  },
-  "/abimongo/tutorials/create-tutorials-dbe": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---abimongo-tutorials-create-tutorialsd-1-e-54d"
   },
   "/abimongo/tutorials/intro-3dd": {
     "__comp": "__comp---theme-doc-item-178-a40",

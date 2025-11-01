@@ -1,7 +1,7 @@
 {
   "id": "core_tutotrials/abimongo-graphql",
   "title": "abimongo-graphql",
-  "description": "",
+  "description": "---",
   "source": "@site/tutorials/core_tutotrials/abimongo-graphql.md",
   "sourceDirName": "core_tutotrials",
   "slug": "/core_tutotrials/abimongo-graphql",

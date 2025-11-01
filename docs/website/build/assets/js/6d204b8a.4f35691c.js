@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkabimongo=self.webpackChunkabimongo||[]).push([[3784],{2281:s=>{s.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"tutorials"}')}}]);

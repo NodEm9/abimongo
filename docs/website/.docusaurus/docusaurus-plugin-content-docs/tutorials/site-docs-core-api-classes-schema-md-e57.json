@@ -1,0 +1,23 @@
+{
+  "id": "core/api/classes/Schema",
+  "title": "Schema",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/classes/Schema.md",
+  "sourceDirName": "core/api/classes",
+  "slug": "/core/api/classes/Schema",
+  "permalink": "/abimongo/docs/core/api/classes/Schema",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "RedisService",
+    "permalink": "/abimongo/docs/core/api/classes/RedisService"
+  },
+  "next": {
+    "title": "TenantContext",
+    "permalink": "/abimongo/docs/core/api/classes/TenantContext"
+  }
+}

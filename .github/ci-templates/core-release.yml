@@ -20,10 +20,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Use Node.js
+      - name: Setup Node.js & PNPM
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '20'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install Dependencies
@@ -40,9 +40,9 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Run Semantic Release
         env:

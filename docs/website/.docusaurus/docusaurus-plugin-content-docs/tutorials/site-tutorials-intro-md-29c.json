@@ -1,0 +1,21 @@
+{
+  "id": "intro",
+  "title": "Hello Intro",
+  "description": "",
+  "source": "@site/tutorials/intro.md",
+  "sourceDirName": ".",
+  "slug": "/intro",
+  "permalink": "/abimongo/tutorials/intro",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "tutorials",
+  "next": {
+    "title": "core-tutorials",
+    "permalink": "/abimongo/tutorials/core_tutotrials/core-tutorials"
+  }
+}

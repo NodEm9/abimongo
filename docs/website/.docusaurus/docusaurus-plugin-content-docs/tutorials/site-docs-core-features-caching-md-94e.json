@@ -1,0 +1,23 @@
+{
+  "id": "core/features/Caching",
+  "title": "Caching in Abimongo Core",
+  "description": "Abimongo Core includes a Redis-backed caching layer that reduces database load and speeds up common read patterns. This document explains the concepts, recommended usage patterns, and safe implementation examples using the library's model and Redis helpers.",
+  "source": "@site/docs/core/features/Caching.md",
+  "sourceDirName": "core/features",
+  "slug": "/core/features/Caching",
+  "permalink": "/abimongo/docs/core/features/Caching",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "AbimongoGraphQL — Generate GraphQL schemas from MongoDB collections",
+    "permalink": "/abimongo/docs/core/features/AbimongoGraphQL"
+  },
+  "next": {
+    "title": "Role-Based Access Control (RBAC) in Abimongo Core",
+    "permalink": "/abimongo/docs/core/features/rbac"
+  }
+}

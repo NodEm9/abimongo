@@ -1,30 +1,58 @@
-import { MongoMemoryServer } from 'mongodb-memory-server';
-import { MongoClient } from 'mongodb';
-import { AbimongoSchema, AbimongoModel } from '../../lib-core';
+import { AbimongoSchema } from '../../lib-core';
 import { AbimongoGC } from '../../gc/AbimongoGC';
 import { Document } from '../../types';
-// import { shutdownLogger } from '@abimongo/logger';
+import { bufferedTransporter } from '../../utils';
+import { shutdownLogger } from '@abimongo/logger';
 
-describe('AbimongoGC', () => {
-  let client: MongoClient;
-  let db: any;
+/**
+ * This test avoids starting a real MongoDB instance by providing a
+ * tiny in-memory mock of the MongoDB collection API used by the GC.
+ */
+describe('AbimongoGC (mocked DB)', () => {
   let gc = new AbimongoGC({ interval: '1s' });
 
-  beforeAll(async () => {
-    const mongoServer = await MongoMemoryServer.create();
-    client = new MongoClient(mongoServer.getUri());
-    await client.connect();
-    db = client.db('test_gc');
-  });
+  // Simple in-memory collection mock
+  function createFakeCollection(name = 'posts') {
+    let docs: any[] = [];
+    return {
+      collectionName: name,
+      async insertOne(doc: any) {
+        const _id = `${Date.now()}_${Math.random()}`;
+        const document = { _id, ...doc };
+        docs.push(document);
+        return { insertedId: _id };
+      },
+      async findOne(filter: any) {
+        return docs.find(d => {
+          return Object.keys(filter).every(k => d[k] === filter[k]);
+        }) || null;
+      },
+      async updateMany(filter: any, update: any) {
+        const matched = docs.filter(d => {
+          // Support only $lte on a single field used by test
+          const field = Object.keys(filter)[0];
+          const condition = filter[field];
+          if (condition && condition.$lte) {
+            return new Date(d[field]) <= condition.$lte;
+          }
+          return false;
+        });
+        const set = update.$set || {};
+        for (const m of matched) Object.assign(m, set);
+        return { matchedCount: matched.length };
+      },
+      async deleteMany(_filter: any) {
+        // not used by this test
+        return { deletedCount: 0 };
+      },
+      // For AbimongoModel compatibility if used elsewhere
+      async toArray() { return docs; }
+    } as any;
+  }
 
-  afterAll(async () => {
-    await gc.stop();
-    await client.close();
-    // await shutdownLogger();
-  });
+  jest.setTimeout(10000);
 
   it('should soft-delete expired documents', async () => {
-    const mockDb = db = client.db('test_gc');
     const schema = new AbimongoSchema<Document>({
       name: String,
       createdAt: { type: Date, default: () => new Date(Date.now() - 1000 * 60 * 60 * 24 * 31) }, // 31 days ago
@@ -34,25 +62,22 @@ describe('AbimongoGC', () => {
       softDelete: true,
     });
 
-    const model = new AbimongoModel({
-      db: mockDb, // Pass the db instance
-      collectionName: 'posts', // Pass the collection name as a string
-      schema,
-    });
+    const fakeCollection = createFakeCollection('posts');
 
-    await model.create({ name: 'Old Post' });
+    // Insert an expired document
+    await fakeCollection.insertOne({ name: 'Old Post', createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 31) });
 
-    gc.register(model.collection, schema);
-    await gc['cleanup'](
-      model.collection,
-      schema.getGCConfig()!
-    );
+    // Register the collection/schema with GC and run cleanup
+    gc.register(fakeCollection, schema as any);
+    await (gc as any)['cleanup'](fakeCollection, schema.getGCConfig()!);
 
-    const result = await model.collection.findOne({ name: 'Old Post' });
-    result?._id.toString(); // Ensure the document is found
-    result?.deletedAt; // Access deletedAt field to ensure soft-delete worked
+    const result = await fakeCollection.findOne({ name: 'Old Post' });
+    expect(result).not.toBeNull();
+    expect(result?.deletedAt).toBeDefined();
+  });
 
-    expect(result).not.toBeNull(); // Document should be soft-deleted
-    expect(result?.deletedAt).not.toBeNull();
+  afterAll(async () => {
+    await bufferedTransporter.stop();
+    await shutdownLogger();
   });
 });

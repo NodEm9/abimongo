@@ -43,65 +43,23 @@ export default [
     exact: true
   },
   {
-    path: '/abimongo/cli',
-    component: ComponentCreator('/abimongo/cli', '298'),
-    routes: [
-      {
-        path: '/abimongo/cli',
-        component: ComponentCreator('/abimongo/cli', '8d2'),
-        routes: [
-          {
-            path: '/abimongo/cli',
-            component: ComponentCreator('/abimongo/cli', '70e'),
-            routes: [
-              {
-                path: '/abimongo/cli/getting-started',
-                component: ComponentCreator('/abimongo/cli/getting-started', 'b56'),
-                exact: true,
-                sidebar: "cli"
-              },
-              {
-                path: '/abimongo/cli/Guides/advanced-usage',
-                component: ComponentCreator('/abimongo/cli/Guides/advanced-usage', '51a'),
-                exact: true,
-                sidebar: "cli"
-              },
-              {
-                path: '/abimongo/cli/Guides/commands',
-                component: ComponentCreator('/abimongo/cli/Guides/commands', 'a4b'),
-                exact: true,
-                sidebar: "cli"
-              },
-              {
-                path: '/abimongo/cli/Guides/configuration',
-                component: ComponentCreator('/abimongo/cli/Guides/configuration', '002'),
-                exact: true,
-                sidebar: "cli"
-              },
-              {
-                path: '/abimongo/cli/intro',
-                component: ComponentCreator('/abimongo/cli/intro', '526'),
-                exact: true,
-                sidebar: "cli"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
     path: '/abimongo/core',
-    component: ComponentCreator('/abimongo/core', '4c9'),
+    component: ComponentCreator('/abimongo/core', '715'),
     routes: [
       {
         path: '/abimongo/core',
-        component: ComponentCreator('/abimongo/core', '990'),
+        component: ComponentCreator('/abimongo/core', '0d2'),
         routes: [
           {
             path: '/abimongo/core',
-            component: ComponentCreator('/abimongo/core', 'c53'),
+            component: ComponentCreator('/abimongo/core', '233'),
             routes: [
+              {
+                path: '/abimongo/core/abimongo-bootstrap',
+                component: ComponentCreator('/abimongo/core/abimongo-bootstrap', 'df9'),
+                exact: true,
+                sidebar: "core"
+              },
               {
                 path: '/abimongo/core/abimongo-bootstrap/AbimongoBootstrap',
                 component: ComponentCreator('/abimongo/core/abimongo-bootstrap/AbimongoBootstrap', '5eb'),
@@ -115,536 +73,572 @@ export default [
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core',
-                component: ComponentCreator('/abimongo/core/api/core', '922'),
+                path: '/abimongo/core/api/classes/Abimongo',
+                component: ComponentCreator('/abimongo/core/api/classes/Abimongo', '1a6'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/classes/Abimongo',
-                component: ComponentCreator('/abimongo/core/api/core/classes/Abimongo', 'd32'),
+                path: '/abimongo/core/api/classes/AbimongoBootstrap',
+                component: ComponentCreator('/abimongo/core/api/classes/AbimongoBootstrap', 'bee'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/classes/AbimongoBootstrap',
-                component: ComponentCreator('/abimongo/core/api/core/classes/AbimongoBootstrap', '380'),
+                path: '/abimongo/core/api/classes/AbimongoClient',
+                component: ComponentCreator('/abimongo/core/api/classes/AbimongoClient', '591'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/classes/AbimongoBootstrapFactory',
-                component: ComponentCreator('/abimongo/core/api/core/classes/AbimongoBootstrapFactory', '336'),
+                path: '/abimongo/core/api/classes/AbimongoGC',
+                component: ComponentCreator('/abimongo/core/api/classes/AbimongoGC', '212'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/classes/AbimongoClient',
-                component: ComponentCreator('/abimongo/core/api/core/classes/AbimongoClient', 'b15'),
+                path: '/abimongo/core/api/classes/AbimongoGraphQL',
+                component: ComponentCreator('/abimongo/core/api/classes/AbimongoGraphQL', '9ea'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/classes/AbimongoGC',
-                component: ComponentCreator('/abimongo/core/api/core/classes/AbimongoGC', 'fab'),
+                path: '/abimongo/core/api/classes/AbimongoModel',
+                component: ComponentCreator('/abimongo/core/api/classes/AbimongoModel', '978'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/classes/AbimongoGraphQL',
-                component: ComponentCreator('/abimongo/core/api/core/classes/AbimongoGraphQL', '70e'),
+                path: '/abimongo/core/api/classes/AbimongoSchema',
+                component: ComponentCreator('/abimongo/core/api/classes/AbimongoSchema', '418'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/classes/AbimongoModel',
-                component: ComponentCreator('/abimongo/core/api/core/classes/AbimongoModel', '928'),
+                path: '/abimongo/core/api/classes/AuthService',
+                component: ComponentCreator('/abimongo/core/api/classes/AuthService', '7a4'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/classes/AbimongoSchema',
-                component: ComponentCreator('/abimongo/core/api/core/classes/AbimongoSchema', '21b'),
+                path: '/abimongo/core/api/classes/initAbimongo',
+                component: ComponentCreator('/abimongo/core/api/classes/initAbimongo', 'a91'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/classes/AuthService',
-                component: ComponentCreator('/abimongo/core/api/core/classes/AuthService', '368'),
+                path: '/abimongo/core/api/classes/MultiTenantManager',
+                component: ComponentCreator('/abimongo/core/api/classes/MultiTenantManager', '07c'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/classes/MultiTenantManager',
-                component: ComponentCreator('/abimongo/core/api/core/classes/MultiTenantManager', '9bf'),
+                path: '/abimongo/core/api/classes/RedisService',
+                component: ComponentCreator('/abimongo/core/api/classes/RedisService', '98e'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/classes/RedisService',
-                component: ComponentCreator('/abimongo/core/api/core/classes/RedisService', '722'),
+                path: '/abimongo/core/api/classes/Schema',
+                component: ComponentCreator('/abimongo/core/api/classes/Schema', 'ab6'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/classes/Schema',
-                component: ComponentCreator('/abimongo/core/api/core/classes/Schema', '6b5'),
+                path: '/abimongo/core/api/classes/TenantContext',
+                component: ComponentCreator('/abimongo/core/api/classes/TenantContext', '6ed'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/classes/TenantContext',
-                component: ComponentCreator('/abimongo/core/api/core/classes/TenantContext', '380'),
+                path: '/abimongo/core/api/enumerations/ErrorType',
+                component: ComponentCreator('/abimongo/core/api/enumerations/ErrorType', 'fc5'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/enumerations/ErrorType',
-                component: ComponentCreator('/abimongo/core/api/core/enumerations/ErrorType', 'fb0'),
+                path: '/abimongo/core/api/functions/AbiMongoError',
+                component: ComponentCreator('/abimongo/core/api/functions/AbiMongoError', '54c'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/AbiMongoError',
-                component: ComponentCreator('/abimongo/core/api/core/functions/AbiMongoError', 'c7f'),
+                path: '/abimongo/core/api/functions/applyMultiTenancy',
+                component: ComponentCreator('/abimongo/core/api/functions/applyMultiTenancy', 'b51'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/applyMultiTenancy',
-                component: ComponentCreator('/abimongo/core/api/core/functions/applyMultiTenancy', '726'),
+                path: '/abimongo/core/api/functions/authorize',
+                component: ComponentCreator('/abimongo/core/api/functions/authorize', 'bed'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/authorize',
-                component: ComponentCreator('/abimongo/core/api/core/functions/authorize', '3eb'),
+                path: '/abimongo/core/api/functions/cacheWithRedis',
+                component: ComponentCreator('/abimongo/core/api/functions/cacheWithRedis', 'f85'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/cacheWithRedis',
-                component: ComponentCreator('/abimongo/core/api/core/functions/cacheWithRedis', 'e5f'),
+                path: '/abimongo/core/api/functions/castId',
+                component: ComponentCreator('/abimongo/core/api/functions/castId', '4d9'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/castId',
-                component: ComponentCreator('/abimongo/core/api/core/functions/castId', 'ed9'),
+                path: '/abimongo/core/api/functions/checkPermission',
+                component: ComponentCreator('/abimongo/core/api/functions/checkPermission', 'b76'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/checkPermission',
-                component: ComponentCreator('/abimongo/core/api/core/functions/checkPermission', '36e'),
+                path: '/abimongo/core/api/functions/colourize',
+                component: ComponentCreator('/abimongo/core/api/functions/colourize', '88e'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/connectRedis',
-                component: ComponentCreator('/abimongo/core/api/core/functions/connectRedis', 'fd1'),
+                path: '/abimongo/core/api/functions/connectRedis',
+                component: ComponentCreator('/abimongo/core/api/functions/connectRedis', '7fc'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/createModel',
-                component: ComponentCreator('/abimongo/core/api/core/functions/createModel', 'eff'),
+                path: '/abimongo/core/api/functions/createModel',
+                component: ComponentCreator('/abimongo/core/api/functions/createModel', '2e8'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/createSchema',
-                component: ComponentCreator('/abimongo/core/api/core/functions/createSchema', '53f'),
+                path: '/abimongo/core/api/functions/createSchema',
+                component: ComponentCreator('/abimongo/core/api/functions/createSchema', '7ff'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/describeEvent',
-                component: ComponentCreator('/abimongo/core/api/core/functions/describeEvent', '9ff'),
+                path: '/abimongo/core/api/functions/describeEvent',
+                component: ComponentCreator('/abimongo/core/api/functions/describeEvent', '3cc'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/enforceRBAC',
-                component: ComponentCreator('/abimongo/core/api/core/functions/enforceRBAC', 'e30'),
+                path: '/abimongo/core/api/functions/enforceRBAC',
+                component: ComponentCreator('/abimongo/core/api/functions/enforceRBAC', '939'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/ensureModelNameSafe',
-                component: ComponentCreator('/abimongo/core/api/core/functions/ensureModelNameSafe', '178'),
+                path: '/abimongo/core/api/functions/ensureModelNameSafe',
+                component: ComponentCreator('/abimongo/core/api/functions/ensureModelNameSafe', '699'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/foldersAndFiles',
-                component: ComponentCreator('/abimongo/core/api/core/functions/foldersAndFiles', 'dbb'),
+                path: '/abimongo/core/api/functions/foldersAndFiles',
+                component: ComponentCreator('/abimongo/core/api/functions/foldersAndFiles', 'c12'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/formatDuration',
-                component: ComponentCreator('/abimongo/core/api/core/functions/formatDuration', 'deb'),
+                path: '/abimongo/core/api/functions/formatDuration',
+                component: ComponentCreator('/abimongo/core/api/functions/formatDuration', 'e30'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/GCSettings',
-                component: ComponentCreator('/abimongo/core/api/core/functions/GCSettings', 'fd0'),
+                path: '/abimongo/core/api/functions/GCSettings',
+                component: ComponentCreator('/abimongo/core/api/functions/GCSettings', 'b5d'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/generateProject',
-                component: ComponentCreator('/abimongo/core/api/core/functions/generateProject', '515'),
+                path: '/abimongo/core/api/functions/generateProject',
+                component: ComponentCreator('/abimongo/core/api/functions/generateProject', '59f'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/generateProjectWithConfig',
-                component: ComponentCreator('/abimongo/core/api/core/functions/generateProjectWithConfig', 'b39'),
+                path: '/abimongo/core/api/functions/generateProjectWithConfig',
+                component: ComponentCreator('/abimongo/core/api/functions/generateProjectWithConfig', '6ea'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/getCachedData',
-                component: ComponentCreator('/abimongo/core/api/core/functions/getCachedData', 'ba7'),
+                path: '/abimongo/core/api/functions/getCachedData',
+                component: ComponentCreator('/abimongo/core/api/functions/getCachedData', 'bbb'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/getEventOptions',
-                component: ComponentCreator('/abimongo/core/api/core/functions/getEventOptions', '85b'),
+                path: '/abimongo/core/api/functions/getEventOptions',
+                component: ComponentCreator('/abimongo/core/api/functions/getEventOptions', '479'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/getEventType',
-                component: ComponentCreator('/abimongo/core/api/core/functions/getEventType', '70f'),
+                path: '/abimongo/core/api/functions/getEventType',
+                component: ComponentCreator('/abimongo/core/api/functions/getEventType', '0fa'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/getModelFilesFromPath',
-                component: ComponentCreator('/abimongo/core/api/core/functions/getModelFilesFromPath', 'f48'),
+                path: '/abimongo/core/api/functions/getModelFilesFromPath',
+                component: ComponentCreator('/abimongo/core/api/functions/getModelFilesFromPath', '07e'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/getOriginalResolver',
-                component: ComponentCreator('/abimongo/core/api/core/functions/getOriginalResolver', '03c'),
+                path: '/abimongo/core/api/functions/getOriginalResolver',
+                component: ComponentCreator('/abimongo/core/api/functions/getOriginalResolver', '93d'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/getRBACAction',
-                component: ComponentCreator('/abimongo/core/api/core/functions/getRBACAction', 'e7c'),
+                path: '/abimongo/core/api/functions/getRBACAction',
+                component: ComponentCreator('/abimongo/core/api/functions/getRBACAction', '6ce'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/getTenantDB',
-                component: ComponentCreator('/abimongo/core/api/core/functions/getTenantDB', '09c'),
+                path: '/abimongo/core/api/functions/getTenantDB',
+                component: ComponentCreator('/abimongo/core/api/functions/getTenantDB', '94b'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/getTenantModel',
-                component: ComponentCreator('/abimongo/core/api/core/functions/getTenantModel', '729'),
+                path: '/abimongo/core/api/functions/getTenantModel',
+                component: ComponentCreator('/abimongo/core/api/functions/getTenantModel', '56c'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/initializeGraphQL',
-                component: ComponentCreator('/abimongo/core/api/core/functions/initializeGraphQL', 'ca9'),
+                path: '/abimongo/core/api/functions/initializeGraphQL',
+                component: ComponentCreator('/abimongo/core/api/functions/initializeGraphQL', '193'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/initializeRedis',
-                component: ComponentCreator('/abimongo/core/api/core/functions/initializeRedis', 'ba0'),
+                path: '/abimongo/core/api/functions/initializeRedis',
+                component: ComponentCreator('/abimongo/core/api/functions/initializeRedis', '3a0'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/initMultiTenancy',
-                component: ComponentCreator('/abimongo/core/api/core/functions/initMultiTenancy', '5ec'),
+                path: '/abimongo/core/api/functions/initMultiTenancy',
+                component: ComponentCreator('/abimongo/core/api/functions/initMultiTenancy', '9dd'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/invalidateTenantCache',
-                component: ComponentCreator('/abimongo/core/api/core/functions/invalidateTenantCache', '86b'),
+                path: '/abimongo/core/api/functions/invalidateTenantCache',
+                component: ComponentCreator('/abimongo/core/api/functions/invalidateTenantCache', '560'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/isObjectId',
-                component: ComponentCreator('/abimongo/core/api/core/functions/isObjectId', 'd50'),
+                path: '/abimongo/core/api/functions/isObjectId',
+                component: ComponentCreator('/abimongo/core/api/functions/isObjectId', '6bf'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/isValidDuration',
-                component: ComponentCreator('/abimongo/core/api/core/functions/isValidDuration', '29e'),
+                path: '/abimongo/core/api/functions/isValidDuration',
+                component: ComponentCreator('/abimongo/core/api/functions/isValidDuration', '741'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/isValidObjectId',
-                component: ComponentCreator('/abimongo/core/api/core/functions/isValidObjectId', 'd25'),
+                path: '/abimongo/core/api/functions/isValidObjectId',
+                component: ComponentCreator('/abimongo/core/api/functions/isValidObjectId', '088'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/loadAbimongoConfig',
-                component: ComponentCreator('/abimongo/core/api/core/functions/loadAbimongoConfig', '750'),
+                path: '/abimongo/core/api/functions/loadAbimongoConfig',
+                component: ComponentCreator('/abimongo/core/api/functions/loadAbimongoConfig', 'f93'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/loadModelsFromPath',
-                component: ComponentCreator('/abimongo/core/api/core/functions/loadModelsFromPath', 'ad0'),
+                path: '/abimongo/core/api/functions/loadModelsFromPath',
+                component: ComponentCreator('/abimongo/core/api/functions/loadModelsFromPath', 'c3f'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/logDefaultEvent',
-                component: ComponentCreator('/abimongo/core/api/core/functions/logDefaultEvent', '953'),
+                path: '/abimongo/core/api/functions/logDefaultEvent',
+                component: ComponentCreator('/abimongo/core/api/functions/logDefaultEvent', '8d2'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/logEvent',
-                component: ComponentCreator('/abimongo/core/api/core/functions/logEvent', 'a34'),
+                path: '/abimongo/core/api/functions/logEvent',
+                component: ComponentCreator('/abimongo/core/api/functions/logEvent', '169'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/parseDuration',
-                component: ComponentCreator('/abimongo/core/api/core/functions/parseDuration', 'cec'),
+                path: '/abimongo/core/api/functions/parseDuration',
+                component: ComponentCreator('/abimongo/core/api/functions/parseDuration', 'f4b'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/functions/setCachedData',
-                component: ComponentCreator('/abimongo/core/api/core/functions/setCachedData', '02d'),
+                path: '/abimongo/core/api/functions/setCachedData',
+                component: ComponentCreator('/abimongo/core/api/functions/setCachedData', '1db'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/interfaces/AbimongoClientConfig',
-                component: ComponentCreator('/abimongo/core/api/core/interfaces/AbimongoClientConfig', '9e6'),
+                path: '/abimongo/core/api/functions/setLogger',
+                component: ComponentCreator('/abimongo/core/api/functions/setLogger', 'a09'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/interfaces/AbimongoClientOptions',
-                component: ComponentCreator('/abimongo/core/api/core/interfaces/AbimongoClientOptions', 'd0c'),
+                path: '/abimongo/core/api/interfaces/AbimongoClientConfig',
+                component: ComponentCreator('/abimongo/core/api/interfaces/AbimongoClientConfig', '1d4'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/interfaces/AbimongoClientType',
-                component: ComponentCreator('/abimongo/core/api/core/interfaces/AbimongoClientType', 'bdf'),
+                path: '/abimongo/core/api/interfaces/AbimongoClientOptions',
+                component: ComponentCreator('/abimongo/core/api/interfaces/AbimongoClientOptions', '72d'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/interfaces/AbimongoConfig',
-                component: ComponentCreator('/abimongo/core/api/core/interfaces/AbimongoConfig', '178'),
+                path: '/abimongo/core/api/interfaces/AbimongoClientType',
+                component: ComponentCreator('/abimongo/core/api/interfaces/AbimongoClientType', '3f9'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/interfaces/AbimongoConfigFile',
-                component: ComponentCreator('/abimongo/core/api/core/interfaces/AbimongoConfigFile', 'c42'),
+                path: '/abimongo/core/api/interfaces/AbimongoConfig',
+                component: ComponentCreator('/abimongo/core/api/interfaces/AbimongoConfig', '253'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/interfaces/AbimongoGraphQLOptions',
-                component: ComponentCreator('/abimongo/core/api/core/interfaces/AbimongoGraphQLOptions', 'f93'),
+                path: '/abimongo/core/api/interfaces/AbimongoConfigFile',
+                component: ComponentCreator('/abimongo/core/api/interfaces/AbimongoConfigFile', '0b2'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/interfaces/AbimongoModelOptions',
-                component: ComponentCreator('/abimongo/core/api/core/interfaces/AbimongoModelOptions', 'adc'),
+                path: '/abimongo/core/api/interfaces/AbimongoGraphQLOptions',
+                component: ComponentCreator('/abimongo/core/api/interfaces/AbimongoGraphQLOptions', 'd46'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/interfaces/AbimongoPlugin',
-                component: ComponentCreator('/abimongo/core/api/core/interfaces/AbimongoPlugin', '54e'),
+                path: '/abimongo/core/api/interfaces/AbimongoLoggerSettings',
+                component: ComponentCreator('/abimongo/core/api/interfaces/AbimongoLoggerSettings', 'e96'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/interfaces/ILogger',
-                component: ComponentCreator('/abimongo/core/api/core/interfaces/ILogger', '370'),
+                path: '/abimongo/core/api/interfaces/AbimongoModelOptions',
+                component: ComponentCreator('/abimongo/core/api/interfaces/AbimongoModelOptions', 'a64'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/interfaces/InitMultiTenancyOptions',
-                component: ComponentCreator('/abimongo/core/api/core/interfaces/InitMultiTenancyOptions', '8dd'),
+                path: '/abimongo/core/api/interfaces/AbimongoPlugin',
+                component: ComponentCreator('/abimongo/core/api/interfaces/AbimongoPlugin', '827'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/interfaces/NoOpLogger',
-                component: ComponentCreator('/abimongo/core/api/core/interfaces/NoOpLogger', '123'),
+                path: '/abimongo/core/api/interfaces/ILogger',
+                component: ComponentCreator('/abimongo/core/api/interfaces/ILogger', '15c'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/interfaces/ProjectOptions',
-                component: ComponentCreator('/abimongo/core/api/core/interfaces/ProjectOptions', '3f9'),
+                path: '/abimongo/core/api/interfaces/InitMultiTenancyOptions',
+                component: ComponentCreator('/abimongo/core/api/interfaces/InitMultiTenancyOptions', '3d3'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/interfaces/Relationship',
-                component: ComponentCreator('/abimongo/core/api/core/interfaces/Relationship', 'e52'),
+                path: '/abimongo/core/api/interfaces/NoOpLogger',
+                component: ComponentCreator('/abimongo/core/api/interfaces/NoOpLogger', 'b0a'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/type-aliases/Document',
-                component: ComponentCreator('/abimongo/core/api/core/type-aliases/Document', 'a79'),
+                path: '/abimongo/core/api/interfaces/ProjectOptions',
+                component: ComponentCreator('/abimongo/core/api/interfaces/ProjectOptions', '2a6'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/type-aliases/EventType',
-                component: ComponentCreator('/abimongo/core/api/core/type-aliases/EventType', 'd0b'),
+                path: '/abimongo/core/api/interfaces/Relationship',
+                component: ComponentCreator('/abimongo/core/api/interfaces/Relationship', '766'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/type-aliases/GCConfig',
-                component: ComponentCreator('/abimongo/core/api/core/type-aliases/GCConfig', '47b'),
+                path: '/abimongo/core/api/type-aliases/Document',
+                component: ComponentCreator('/abimongo/core/api/type-aliases/Document', 'f7e'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/type-aliases/GetTanantModelParams',
-                component: ComponentCreator('/abimongo/core/api/core/type-aliases/GetTanantModelParams', 'b49'),
+                path: '/abimongo/core/api/type-aliases/EventType',
+                component: ComponentCreator('/abimongo/core/api/type-aliases/EventType', '3f3'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/type-aliases/HookFunction',
-                component: ComponentCreator('/abimongo/core/api/core/type-aliases/HookFunction', 'f07'),
+                path: '/abimongo/core/api/type-aliases/GCConfig',
+                component: ComponentCreator('/abimongo/core/api/type-aliases/GCConfig', '2ca'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/type-aliases/Permission',
-                component: ComponentCreator('/abimongo/core/api/core/type-aliases/Permission', '943'),
+                path: '/abimongo/core/api/type-aliases/GetTanantModelParams',
+                component: ComponentCreator('/abimongo/core/api/type-aliases/GetTanantModelParams', 'd05'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/type-aliases/Role',
-                component: ComponentCreator('/abimongo/core/api/core/type-aliases/Role', '467'),
+                path: '/abimongo/core/api/type-aliases/HookFunction',
+                component: ComponentCreator('/abimongo/core/api/type-aliases/HookFunction', '9a5'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/type-aliases/SchemaDefinition',
-                component: ComponentCreator('/abimongo/core/api/core/type-aliases/SchemaDefinition', 'f35'),
+                path: '/abimongo/core/api/type-aliases/Permission',
+                component: ComponentCreator('/abimongo/core/api/type-aliases/Permission', '85a'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/type-aliases/User',
-                component: ComponentCreator('/abimongo/core/api/core/type-aliases/User', '963'),
+                path: '/abimongo/core/api/type-aliases/Role',
+                component: ComponentCreator('/abimongo/core/api/type-aliases/Role', 'a76'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/variables/abimongo',
-                component: ComponentCreator('/abimongo/core/api/core/variables/abimongo', '222'),
+                path: '/abimongo/core/api/type-aliases/SchemaDefinition',
+                component: ComponentCreator('/abimongo/core/api/type-aliases/SchemaDefinition', '92a'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/variables/AbimongoModelRegistry',
-                component: ComponentCreator('/abimongo/core/api/core/variables/AbimongoModelRegistry', '854'),
+                path: '/abimongo/core/api/type-aliases/User',
+                component: ComponentCreator('/abimongo/core/api/type-aliases/User', '194'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/variables/abimongoSymbol',
-                component: ComponentCreator('/abimongo/core/api/core/variables/abimongoSymbol', 'de5'),
+                path: '/abimongo/core/api/variables/abimongo',
+                component: ComponentCreator('/abimongo/core/api/variables/abimongo', '842'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/variables/DB_CHANGE_EVENT',
-                component: ComponentCreator('/abimongo/core/api/core/variables/DB_CHANGE_EVENT', '898'),
+                path: '/abimongo/core/api/variables/AbimongoModelRegistry',
+                component: ComponentCreator('/abimongo/core/api/variables/AbimongoModelRegistry', 'fca'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/variables/DOCUMENT_DELETED_EVENT',
-                component: ComponentCreator('/abimongo/core/api/core/variables/DOCUMENT_DELETED_EVENT', '89b'),
+                path: '/abimongo/core/api/variables/abimongoSymbol',
+                component: ComponentCreator('/abimongo/core/api/variables/abimongoSymbol', '62e'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/variables/DOCUMENT_INSERTED_EVENT',
-                component: ComponentCreator('/abimongo/core/api/core/variables/DOCUMENT_INSERTED_EVENT', 'a64'),
+                path: '/abimongo/core/api/variables/bufferedTransporter',
+                component: ComponentCreator('/abimongo/core/api/variables/bufferedTransporter', '93a'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/variables/DOCUMENT_UPDATED_EVENT',
-                component: ComponentCreator('/abimongo/core/api/core/variables/DOCUMENT_UPDATED_EVENT', '82c'),
+                path: '/abimongo/core/api/variables/DB_CHANGE_EVENT',
+                component: ComponentCreator('/abimongo/core/api/variables/DB_CHANGE_EVENT', '2e7'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/variables/eventTypes',
-                component: ComponentCreator('/abimongo/core/api/core/variables/eventTypes', 'afe'),
+                path: '/abimongo/core/api/variables/DOCUMENT_DELETED_EVENT',
+                component: ComponentCreator('/abimongo/core/api/variables/DOCUMENT_DELETED_EVENT', 'a7d'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/variables/now',
-                component: ComponentCreator('/abimongo/core/api/core/variables/now', '083'),
+                path: '/abimongo/core/api/variables/DOCUMENT_INSERTED_EVENT',
+                component: ComponentCreator('/abimongo/core/api/variables/DOCUMENT_INSERTED_EVENT', '230'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/variables/objectIdSymbol',
-                component: ComponentCreator('/abimongo/core/api/core/variables/objectIdSymbol', 'c9c'),
+                path: '/abimongo/core/api/variables/DOCUMENT_UPDATED_EVENT',
+                component: ComponentCreator('/abimongo/core/api/variables/DOCUMENT_UPDATED_EVENT', 'f76'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/variables/redis',
-                component: ComponentCreator('/abimongo/core/api/core/variables/redis', 'efb'),
+                path: '/abimongo/core/api/variables/elasticTransport',
+                component: ComponentCreator('/abimongo/core/api/variables/elasticTransport', '1bc'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/variables/rolePermissions',
-                component: ComponentCreator('/abimongo/core/api/core/variables/rolePermissions', '0f7'),
+                path: '/abimongo/core/api/variables/eventTypes',
+                component: ComponentCreator('/abimongo/core/api/variables/eventTypes', 'af0'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/variables/SchemaType',
-                component: ComponentCreator('/abimongo/core/api/core/variables/SchemaType', 'fbb'),
+                path: '/abimongo/core/api/variables/logger',
+                component: ComponentCreator('/abimongo/core/api/variables/logger', 'c44'),
                 exact: true,
                 sidebar: "core"
               },
               {
-                path: '/abimongo/core/api/core/variables/schemaTypeSymbol',
-                component: ComponentCreator('/abimongo/core/api/core/variables/schemaTypeSymbol', 'ca1'),
+                path: '/abimongo/core/api/variables/lokiTransport',
+                component: ComponentCreator('/abimongo/core/api/variables/lokiTransport', '2ed'),
+                exact: true,
+                sidebar: "core"
+              },
+              {
+                path: '/abimongo/core/api/variables/now',
+                component: ComponentCreator('/abimongo/core/api/variables/now', '412'),
+                exact: true,
+                sidebar: "core"
+              },
+              {
+                path: '/abimongo/core/api/variables/objectIdSymbol',
+                component: ComponentCreator('/abimongo/core/api/variables/objectIdSymbol', '672'),
+                exact: true,
+                sidebar: "core"
+              },
+              {
+                path: '/abimongo/core/api/variables/redis',
+                component: ComponentCreator('/abimongo/core/api/variables/redis', '530'),
+                exact: true,
+                sidebar: "core"
+              },
+              {
+                path: '/abimongo/core/api/variables/rolePermissions',
+                component: ComponentCreator('/abimongo/core/api/variables/rolePermissions', 'ac1'),
+                exact: true,
+                sidebar: "core"
+              },
+              {
+                path: '/abimongo/core/api/variables/SchemaType',
+                component: ComponentCreator('/abimongo/core/api/variables/SchemaType', 'e21'),
+                exact: true,
+                sidebar: "core"
+              },
+              {
+                path: '/abimongo/core/api/variables/schemaTypeSymbol',
+                component: ComponentCreator('/abimongo/core/api/variables/schemaTypeSymbol', '9ca'),
                 exact: true,
                 sidebar: "core"
               },
@@ -733,16 +727,46 @@ export default [
     ]
   },
   {
+    path: '/abimongo/create',
+    component: ComponentCreator('/abimongo/create', '6f2'),
+    routes: [
+      {
+        path: '/abimongo/create',
+        component: ComponentCreator('/abimongo/create', 'abc'),
+        routes: [
+          {
+            path: '/abimongo/create',
+            component: ComponentCreator('/abimongo/create', 'b8f'),
+            routes: [
+              {
+                path: '/abimongo/create/abimongo-cli',
+                component: ComponentCreator('/abimongo/create/abimongo-cli', 'b84'),
+                exact: true,
+                sidebar: "create"
+              },
+              {
+                path: '/abimongo/create/intro',
+                component: ComponentCreator('/abimongo/create/intro', 'd5e'),
+                exact: true,
+                sidebar: "create"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
     path: '/abimongo/logger',
-    component: ComponentCreator('/abimongo/logger', '314'),
+    component: ComponentCreator('/abimongo/logger', 'ce9'),
     routes: [
       {
         path: '/abimongo/logger',
-        component: ComponentCreator('/abimongo/logger', 'e3c'),
+        component: ComponentCreator('/abimongo/logger', '37c'),
         routes: [
           {
             path: '/abimongo/logger',
-            component: ComponentCreator('/abimongo/logger', 'c5a'),
+            component: ComponentCreator('/abimongo/logger', '513'),
             routes: [
               {
                 path: '/abimongo/logger/api',
@@ -751,308 +775,308 @@ export default [
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger',
-                component: ComponentCreator('/abimongo/logger/api/logger', 'ec6'),
+                path: '/abimongo/logger/api/classes/AbimongoLogger',
+                component: ComponentCreator('/abimongo/logger/api/classes/AbimongoLogger', 'f96'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/classes/AdvancedRollingFileTransporter',
-                component: ComponentCreator('/abimongo/logger/api/logger/classes/AdvancedRollingFileTransporter', '84f'),
+                path: '/abimongo/logger/api/classes/AdvancedRollingFileTransporter',
+                component: ComponentCreator('/abimongo/logger/api/classes/AdvancedRollingFileTransporter', 'eee'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/classes/AsyncBatchTransporter',
-                component: ComponentCreator('/abimongo/logger/api/logger/classes/AsyncBatchTransporter', 'dad'),
+                path: '/abimongo/logger/api/classes/AsyncBatchTransporter',
+                component: ComponentCreator('/abimongo/logger/api/classes/AsyncBatchTransporter', '6fe'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/classes/BufferedTransporter',
-                component: ComponentCreator('/abimongo/logger/api/logger/classes/BufferedTransporter', '41a'),
+                path: '/abimongo/logger/api/classes/BufferedTransporter',
+                component: ComponentCreator('/abimongo/logger/api/classes/BufferedTransporter', '5fe'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/classes/FileTransporter',
-                component: ComponentCreator('/abimongo/logger/api/logger/classes/FileTransporter', 'd7f'),
+                path: '/abimongo/logger/api/classes/FileTransporter',
+                component: ComponentCreator('/abimongo/logger/api/classes/FileTransporter', '183'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/classes/Logger',
-                component: ComponentCreator('/abimongo/logger/api/logger/classes/Logger', '4aa'),
+                path: '/abimongo/logger/api/classes/Logger',
+                component: ComponentCreator('/abimongo/logger/api/classes/Logger', '930'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/classes/MetricsTracker',
-                component: ComponentCreator('/abimongo/logger/api/logger/classes/MetricsTracker', 'd50'),
+                path: '/abimongo/logger/api/classes/MetricsTracker',
+                component: ComponentCreator('/abimongo/logger/api/classes/MetricsTracker', '42e'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/classes/NoOpLogger',
-                component: ComponentCreator('/abimongo/logger/api/logger/classes/NoOpLogger', 'a0f'),
+                path: '/abimongo/logger/api/classes/NoOpLogger',
+                component: ComponentCreator('/abimongo/logger/api/classes/NoOpLogger', 'ec8'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/clearAllTimers',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/clearAllTimers', 'a41'),
+                path: '/abimongo/logger/api/functions/clearAllTimers',
+                component: ComponentCreator('/abimongo/logger/api/functions/clearAllTimers', 'e92'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/colorByLevel',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/colorByLevel', '357'),
+                path: '/abimongo/logger/api/functions/colorByLevel',
+                component: ComponentCreator('/abimongo/logger/api/functions/colorByLevel', 'ae3'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/consoleTransport',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/consoleTransport', 'dcf'),
+                path: '/abimongo/logger/api/functions/consoleTransport',
+                component: ComponentCreator('/abimongo/logger/api/functions/consoleTransport', '5f3'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/createCircuitBreaker',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/createCircuitBreaker', '72e'),
+                path: '/abimongo/logger/api/functions/createCircuitBreaker',
+                component: ComponentCreator('/abimongo/logger/api/functions/createCircuitBreaker', 'b4b'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/createElasticTransport',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/createElasticTransport', '957'),
+                path: '/abimongo/logger/api/functions/createElasticTransport',
+                component: ComponentCreator('/abimongo/logger/api/functions/createElasticTransport', '43b'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/createFileTransporter',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/createFileTransporter', '066'),
+                path: '/abimongo/logger/api/functions/createFileTransporter',
+                component: ComponentCreator('/abimongo/logger/api/functions/createFileTransporter', '5ea'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/createHttpTransport',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/createHttpTransport', 'bb0'),
+                path: '/abimongo/logger/api/functions/createHttpTransport',
+                component: ComponentCreator('/abimongo/logger/api/functions/createHttpTransport', 'f48'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/createLogger',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/createLogger', '3ac'),
+                path: '/abimongo/logger/api/functions/createLogger',
+                component: ComponentCreator('/abimongo/logger/api/functions/createLogger', '60e'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/createLokiTransport',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/createLokiTransport', 'ec4'),
+                path: '/abimongo/logger/api/functions/createLokiTransport',
+                component: ComponentCreator('/abimongo/logger/api/functions/createLokiTransport', 'b6e'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/createResilientTransporter',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/createResilientTransporter', 'c57'),
+                path: '/abimongo/logger/api/functions/createResilientTransporter',
+                component: ComponentCreator('/abimongo/logger/api/functions/createResilientTransporter', 'a08'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/createRotatingFileTransporter',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/createRotatingFileTransporter', 'fe8'),
+                path: '/abimongo/logger/api/functions/createRotatingFileTransporter',
+                component: ComponentCreator('/abimongo/logger/api/functions/createRotatingFileTransporter', 'd98'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/formatConsole',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/formatConsole', 'd5f'),
+                path: '/abimongo/logger/api/functions/formatConsole',
+                component: ComponentCreator('/abimongo/logger/api/functions/formatConsole', '690'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/formatError',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/formatError', '747'),
+                path: '/abimongo/logger/api/functions/formatError',
+                component: ComponentCreator('/abimongo/logger/api/functions/formatError', '252'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/formatJSON',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/formatJSON', '580'),
+                path: '/abimongo/logger/api/functions/formatJSON',
+                component: ComponentCreator('/abimongo/logger/api/functions/formatJSON', 'c83'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/formatMsg',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/formatMsg', '628'),
+                path: '/abimongo/logger/api/functions/formatMsg',
+                component: ComponentCreator('/abimongo/logger/api/functions/formatMsg', '508'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/getLogLevel',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/getLogLevel', '76d'),
+                path: '/abimongo/logger/api/functions/getLogLevel',
+                component: ComponentCreator('/abimongo/logger/api/functions/getLogLevel', 'a61'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/getLogLevelPriority',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/getLogLevelPriority', '79d'),
+                path: '/abimongo/logger/api/functions/getLogLevelPriority',
+                component: ComponentCreator('/abimongo/logger/api/functions/getLogLevelPriority', 'bff'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/isLogLevel',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/isLogLevel', '061'),
+                path: '/abimongo/logger/api/functions/isLogLevel',
+                component: ComponentCreator('/abimongo/logger/api/functions/isLogLevel', '8b8'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/now',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/now', '7c1'),
+                path: '/abimongo/logger/api/functions/now',
+                component: ComponentCreator('/abimongo/logger/api/functions/now', '426'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/registerInterval',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/registerInterval', '643'),
+                path: '/abimongo/logger/api/functions/registerInterval',
+                component: ComponentCreator('/abimongo/logger/api/functions/registerInterval', '1f4'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/registerTimeout',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/registerTimeout', '093'),
+                path: '/abimongo/logger/api/functions/registerTimeout',
+                component: ComponentCreator('/abimongo/logger/api/functions/registerTimeout', '368'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/retryWithBackoff',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/retryWithBackoff', '532'),
+                path: '/abimongo/logger/api/functions/retryWithBackoff',
+                component: ComponentCreator('/abimongo/logger/api/functions/retryWithBackoff', 'ee9'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/setupLogger',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/setupLogger', '6d7'),
+                path: '/abimongo/logger/api/functions/setupLogger',
+                component: ComponentCreator('/abimongo/logger/api/functions/setupLogger', '0bd'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/functions/shouldLog',
-                component: ComponentCreator('/abimongo/logger/api/logger/functions/shouldLog', '658'),
+                path: '/abimongo/logger/api/functions/shouldLog',
+                component: ComponentCreator('/abimongo/logger/api/functions/shouldLog', 'ba5'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/interfaces/AsyncBatchTransporterOptions',
-                component: ComponentCreator('/abimongo/logger/api/logger/interfaces/AsyncBatchTransporterOptions', '3be'),
+                path: '/abimongo/logger/api/interfaces/AsyncBatchTransporterOptions',
+                component: ComponentCreator('/abimongo/logger/api/interfaces/AsyncBatchTransporterOptions', '7ef'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/interfaces/FormatOptions',
-                component: ComponentCreator('/abimongo/logger/api/logger/interfaces/FormatOptions', '9b0'),
+                path: '/abimongo/logger/api/interfaces/FormatOptions',
+                component: ComponentCreator('/abimongo/logger/api/interfaces/FormatOptions', '827'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/interfaces/ILogger',
-                component: ComponentCreator('/abimongo/logger/api/logger/interfaces/ILogger', 'a73'),
+                path: '/abimongo/logger/api/interfaces/ILogger',
+                component: ComponentCreator('/abimongo/logger/api/interfaces/ILogger', 'ad2'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/interfaces/LogEntry',
-                component: ComponentCreator('/abimongo/logger/api/logger/interfaces/LogEntry', '8a9'),
+                path: '/abimongo/logger/api/interfaces/LogEntry',
+                component: ComponentCreator('/abimongo/logger/api/interfaces/LogEntry', '5a3'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/interfaces/LoggerConfig',
-                component: ComponentCreator('/abimongo/logger/api/logger/interfaces/LoggerConfig', '2f3'),
+                path: '/abimongo/logger/api/interfaces/LoggerConfig',
+                component: ComponentCreator('/abimongo/logger/api/interfaces/LoggerConfig', '67d'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/interfaces/LoggerFormatOptions',
-                component: ComponentCreator('/abimongo/logger/api/logger/interfaces/LoggerFormatOptions', 'e45'),
+                path: '/abimongo/logger/api/interfaces/LoggerFormatOptions',
+                component: ComponentCreator('/abimongo/logger/api/interfaces/LoggerFormatOptions', 'e51'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/interfaces/LoggerHooks',
-                component: ComponentCreator('/abimongo/logger/api/logger/interfaces/LoggerHooks', '319'),
+                path: '/abimongo/logger/api/interfaces/LoggerHooks',
+                component: ComponentCreator('/abimongo/logger/api/interfaces/LoggerHooks', '492'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/interfaces/LoggerTransporter',
-                component: ComponentCreator('/abimongo/logger/api/logger/interfaces/LoggerTransporter', '127'),
+                path: '/abimongo/logger/api/interfaces/LoggerTransporter',
+                component: ComponentCreator('/abimongo/logger/api/interfaces/LoggerTransporter', 'f32'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/interfaces/LogMeta',
-                component: ComponentCreator('/abimongo/logger/api/logger/interfaces/LogMeta', '1cb'),
+                path: '/abimongo/logger/api/interfaces/LogMeta',
+                component: ComponentCreator('/abimongo/logger/api/interfaces/LogMeta', '7bc'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/interfaces/LogTransport',
-                component: ComponentCreator('/abimongo/logger/api/logger/interfaces/LogTransport', 'cbd'),
+                path: '/abimongo/logger/api/interfaces/LogTransport',
+                component: ComponentCreator('/abimongo/logger/api/interfaces/LogTransport', '08d'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/interfaces/MetricsSnapshot',
-                component: ComponentCreator('/abimongo/logger/api/logger/interfaces/MetricsSnapshot', 'c00'),
+                path: '/abimongo/logger/api/interfaces/MetricsSnapshot',
+                component: ComponentCreator('/abimongo/logger/api/interfaces/MetricsSnapshot', '365'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/interfaces/RotatingFileTransporterOptions',
-                component: ComponentCreator('/abimongo/logger/api/logger/interfaces/RotatingFileTransporterOptions', '330'),
+                path: '/abimongo/logger/api/interfaces/RotatingFileTransporterOptions',
+                component: ComponentCreator('/abimongo/logger/api/interfaces/RotatingFileTransporterOptions', 'caa'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/interfaces/Transporter',
-                component: ComponentCreator('/abimongo/logger/api/logger/interfaces/Transporter', '2b7'),
+                path: '/abimongo/logger/api/interfaces/Transporter',
+                component: ComponentCreator('/abimongo/logger/api/interfaces/Transporter', '622'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/type-aliases/AbimongoConfig',
-                component: ComponentCreator('/abimongo/logger/api/logger/type-aliases/AbimongoConfig', '33a'),
+                path: '/abimongo/logger/api/type-aliases/AbimongoConfig',
+                component: ComponentCreator('/abimongo/logger/api/type-aliases/AbimongoConfig', 'afc'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/type-aliases/LogLevel',
-                component: ComponentCreator('/abimongo/logger/api/logger/type-aliases/LogLevel', 'b7c'),
+                path: '/abimongo/logger/api/type-aliases/LogLevel',
+                component: ComponentCreator('/abimongo/logger/api/type-aliases/LogLevel', '4ce'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/type-aliases/RemoteTransporter',
-                component: ComponentCreator('/abimongo/logger/api/logger/type-aliases/RemoteTransporter', '75d'),
+                path: '/abimongo/logger/api/type-aliases/RemoteTransporter',
+                component: ComponentCreator('/abimongo/logger/api/type-aliases/RemoteTransporter', 'ecf'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/variables/DefaultLogger',
-                component: ComponentCreator('/abimongo/logger/api/logger/variables/DefaultLogger', '07c'),
+                path: '/abimongo/logger/api/variables/DefaultLogger',
+                component: ComponentCreator('/abimongo/logger/api/variables/DefaultLogger', 'b16'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/variables/LOG_LEVELS',
-                component: ComponentCreator('/abimongo/logger/api/logger/variables/LOG_LEVELS', 'f47'),
+                path: '/abimongo/logger/api/variables/LOG_LEVELS',
+                component: ComponentCreator('/abimongo/logger/api/variables/LOG_LEVELS', '910'),
                 exact: true,
                 sidebar: "logger"
               },
               {
-                path: '/abimongo/logger/api/logger/variables/logger',
-                component: ComponentCreator('/abimongo/logger/api/logger/variables/logger', '03b'),
+                path: '/abimongo/logger/api/variables/logger',
+                component: ComponentCreator('/abimongo/logger/api/variables/logger', 'ded'),
                 exact: true,
                 sidebar: "logger"
               },
@@ -1097,6 +1121,60 @@ export default [
                 component: ComponentCreator('/abimongo/logger/metrics-tracer', '0f2'),
                 exact: true,
                 sidebar: "logger"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '/abimongo/tutorials',
+    component: ComponentCreator('/abimongo/tutorials', '097'),
+    routes: [
+      {
+        path: '/abimongo/tutorials',
+        component: ComponentCreator('/abimongo/tutorials', '1cc'),
+        routes: [
+          {
+            path: '/abimongo/tutorials',
+            component: ComponentCreator('/abimongo/tutorials', '5a7'),
+            routes: [
+              {
+                path: '/abimongo/tutorials/core_tutotrials/abimongo-express',
+                component: ComponentCreator('/abimongo/tutorials/core_tutotrials/abimongo-express', '6db'),
+                exact: true,
+                sidebar: "tutorials"
+              },
+              {
+                path: '/abimongo/tutorials/core_tutotrials/abimongo-graphql',
+                component: ComponentCreator('/abimongo/tutorials/core_tutotrials/abimongo-graphql', 'a14'),
+                exact: true,
+                sidebar: "tutorials"
+              },
+              {
+                path: '/abimongo/tutorials/core_tutotrials/abimongo-multitenancy',
+                component: ComponentCreator('/abimongo/tutorials/core_tutotrials/abimongo-multitenancy', '33e'),
+                exact: true,
+                sidebar: "tutorials"
+              },
+              {
+                path: '/abimongo/tutorials/core_tutotrials/core-tutorials',
+                component: ComponentCreator('/abimongo/tutorials/core_tutotrials/core-tutorials', '77a'),
+                exact: true,
+                sidebar: "tutorials"
+              },
+              {
+                path: '/abimongo/tutorials/intro',
+                component: ComponentCreator('/abimongo/tutorials/intro', '3dd'),
+                exact: true,
+                sidebar: "tutorials"
+              },
+              {
+                path: '/abimongo/tutorials/logger-tutorials',
+                component: ComponentCreator('/abimongo/tutorials/logger-tutorials', '6e5'),
+                exact: true,
+                sidebar: "tutorials"
               }
             ]
           }

@@ -6,7 +6,7 @@ import Layout from '@theme/Layout';
 import HomepageFeatures from '../components/HomepageFeatures';
 import Heading from '@theme/Heading';
 import LogDashboard from '../components/LogDashBoard/Log-DashBoard';
-import Snippet from '../components/LogDashBoard/snippet';
+import Snippet from '../components/LogDashBoard/snippetAnimated';
 import React from 'react';
 
 import styles from './index.module.css';

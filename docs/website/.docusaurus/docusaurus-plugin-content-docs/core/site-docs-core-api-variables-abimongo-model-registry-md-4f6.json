@@ -1,0 +1,25 @@
+{
+  "id": "api/variables/AbimongoModelRegistry",
+  "title": "AbimongoModelRegistry",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/variables/AbimongoModelRegistry.md",
+  "sourceDirName": "api/variables",
+  "slug": "/api/variables/AbimongoModelRegistry",
+  "permalink": "/abimongo/core/api/variables/AbimongoModelRegistry",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "User",
+    "permalink": "/abimongo/core/api/type-aliases/User"
+  },
+  "next": {
+    "title": "DB_CHANGE_EVENT",
+    "permalink": "/abimongo/core/api/variables/DB_CHANGE_EVENT"
+  }
+}

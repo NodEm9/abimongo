@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
+import { bufferedTransporter } from '../../utils';
 // import { generateProject } from '../../init-cli/genaret.project';
 
 
@@ -73,4 +74,11 @@ describe('generateProject', () => {
   //   const config = await fs.readJson(path.join(projectRoot, 'abimongo.config.json'));
   //   expect(config.features.useRedisCache).toBe(true);
   // });
+
+  afterAll(async () => {
+    jest.resetAllMocks();
+    await bufferedTransporter.stop();
+    const shutdownLogger = require('@abimongo/logger').shutdownLogger;
+    await shutdownLogger();
+  });
 });

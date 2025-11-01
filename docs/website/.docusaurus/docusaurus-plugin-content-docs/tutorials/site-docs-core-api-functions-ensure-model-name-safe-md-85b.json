@@ -1,0 +1,23 @@
+{
+  "id": "core/api/functions/ensureModelNameSafe",
+  "title": "ensureModelNameSafe",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/ensureModelNameSafe.md",
+  "sourceDirName": "core/api/functions",
+  "slug": "/core/api/functions/ensureModelNameSafe",
+  "permalink": "/abimongo/docs/core/api/functions/ensureModelNameSafe",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "enforceRBAC",
+    "permalink": "/abimongo/docs/core/api/functions/enforceRBAC"
+  },
+  "next": {
+    "title": "foldersAndFiles",
+    "permalink": "/abimongo/docs/core/api/functions/foldersAndFiles"
+  }
+}

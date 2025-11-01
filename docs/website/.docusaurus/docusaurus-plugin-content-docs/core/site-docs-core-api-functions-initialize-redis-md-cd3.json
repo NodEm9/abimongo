@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/initializeRedis",
+  "title": "initializeRedis",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/initializeRedis.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/initializeRedis",
+  "permalink": "/abimongo/core/api/functions/initializeRedis",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "initializeGraphQL",
+    "permalink": "/abimongo/core/api/functions/initializeGraphQL"
+  },
+  "next": {
+    "title": "invalidateTenantCache",
+    "permalink": "/abimongo/core/api/functions/invalidateTenantCache"
+  }
+}

@@ -76,5 +76,5 @@ Where to go next
 -----------------
 
 - Transports and examples: [Transports](../transports.md)
-- Practical patterns: [Guides](./guides.md)
+<!-- - Practical patterns: [Guides](./guides.md) -->
 - Consumption patterns/API: [Consumption](../consumption.md)

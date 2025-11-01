@@ -1,0 +1,23 @@
+{
+  "id": "logger/api/classes/NoOpLogger",
+  "title": "NoOpLogger",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/classes/NoOpLogger.md",
+  "sourceDirName": "logger/api/classes",
+  "slug": "/logger/api/classes/NoOpLogger",
+  "permalink": "/abimongo/docs/logger/api/classes/NoOpLogger",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "MetricsTracker",
+    "permalink": "/abimongo/docs/logger/api/classes/MetricsTracker"
+  },
+  "next": {
+    "title": "clearAllTimers",
+    "permalink": "/abimongo/docs/logger/api/functions/clearAllTimers"
+  }
+}

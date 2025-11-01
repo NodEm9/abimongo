@@ -1,5 +1,5 @@
 #!/usr/bin/env node
+import runCLI from '../src/index';
 
-import initProject from '../src/index'
+runCLI();
 
-initProject();

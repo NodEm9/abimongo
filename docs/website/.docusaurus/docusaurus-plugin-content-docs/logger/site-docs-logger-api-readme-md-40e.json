@@ -15,7 +15,7 @@
   "frontMatter": {},
   "sidebar": "logger",
   "next": {
-    "title": "@abimongo/logger",
-    "permalink": "/abimongo/logger/api/logger/"
+    "title": "AbimongoLogger",
+    "permalink": "/abimongo/logger/api/classes/AbimongoLogger"
   }
 }

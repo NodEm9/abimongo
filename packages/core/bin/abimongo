@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+/*
+ * Thin wrapper for the published `abimongo` bin.
+ * It sets a small env flag to prevent the logger package from installing
+ * process signal handlers during CLI startup (prevents accidental early
+ * termination in some environments). The real CLI code lives in
+ * `../dist/abimongo-core-cli.js` and is required below.
+ */
+process.env.ABIMONGO_DISABLE_SIGNAL_HANDLERS = '1';
+
+// Support the historic `abimongo init <projectName> ...` form which some users
+// expect (the CLI implementation expects the projectName as a positional
+// argument). If the first argument is the `init` keyword, remove it so the
+// underlying commander parser sees the project name in the expected position.
+if (process.argv.length >= 3 && process.argv[2] === 'init') {
+	process.argv.splice(2, 1);
+}
+
+try {
+	require('../dist/abimongo-core-cli.js');
+} catch (err) {
+	// eslint-disable-next-line no-console
+	console.error('Failed to launch Abimongo CLI:', err);
+	process.exit(1);
+}

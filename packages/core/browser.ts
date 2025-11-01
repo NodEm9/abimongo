@@ -1,9 +1,16 @@
 /**
- * Abimongo Core Library for Browser
- * This module provides core functionalities for Abimongo in a browser environment.
- * It includes database operations, configuration, and more.
- * @module AbimongoCoreBrowser
+ * @author Emmanuel Nodolomwanyi - Abimongo Team
+ * @package - @abimongo/core
  * @version 1.0.0
  */
-export * from './src/browser';
+
+/**
+ * Abimongo Core Library for
+ * This library provides core functionalities for Abimongo, ORM/ODM solution
+ * for MongoDB in Node.js and Browser environments.
+ * @module Abimongo Browser Module
+ * @version 1.0.0
+ */
+
+export * from './src/index';
 console.log('Abimongo Core Library Loaded for Browser');

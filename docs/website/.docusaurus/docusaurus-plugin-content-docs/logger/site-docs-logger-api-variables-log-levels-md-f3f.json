@@ -1,0 +1,25 @@
+{
+  "id": "api/variables/LOG_LEVELS",
+  "title": "LOG_LEVELS",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/variables/LOG_LEVELS.md",
+  "sourceDirName": "api/variables",
+  "slug": "/api/variables/LOG_LEVELS",
+  "permalink": "/abimongo/logger/api/variables/LOG_LEVELS",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "DefaultLogger",
+    "permalink": "/abimongo/logger/api/variables/DefaultLogger"
+  },
+  "next": {
+    "title": "logger",
+    "permalink": "/abimongo/logger/api/variables/logger"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "core/api/variables/lokiTransport",
+  "title": "lokiTransport",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/variables/lokiTransport.md",
+  "sourceDirName": "core/api/variables",
+  "slug": "/core/api/variables/lokiTransport",
+  "permalink": "/abimongo/docs/core/api/variables/lokiTransport",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "logger",
+    "permalink": "/abimongo/docs/core/api/variables/logger"
+  },
+  "next": {
+    "title": "now",
+    "permalink": "/abimongo/docs/core/api/variables/now"
+  }
+}

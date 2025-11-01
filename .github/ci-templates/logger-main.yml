@@ -18,13 +18,13 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [22.x]
+        node-version: [20.x]
 
     steps:
       - name: ⬇️ Checkout code
         uses: actions/checkout@v4
 
-      - name: 🟢 Setup Node.js
+      - name: 🟢 Setup Node.js & PNPM
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
@@ -59,7 +59,7 @@ jobs:
               name=$(jq -r .name package.json)
               version=$(jq -r .version package.json)
               echo "📦 Publishing $name@$version"
-              npm publish --access public || echo "⚠️ Skipping: $name (possibly already published)"
+               pnpm -r publish --tag latest --no-git-checks --access public || echo "⚠️ Skipping: $name (possibly already published)"
               cd -
             fi
           done

@@ -1,0 +1,23 @@
+{
+  "id": "core/api/variables/abimongoSymbol",
+  "title": "abimongoSymbol",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/variables/abimongoSymbol.md",
+  "sourceDirName": "core/api/variables",
+  "slug": "/core/api/variables/abimongoSymbol",
+  "permalink": "/abimongo/docs/core/api/variables/abimongoSymbol",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "abimongo",
+    "permalink": "/abimongo/docs/core/api/variables/abimongo"
+  },
+  "next": {
+    "title": "bufferedTransporter",
+    "permalink": "/abimongo/docs/core/api/variables/bufferedTransporter"
+  }
+}

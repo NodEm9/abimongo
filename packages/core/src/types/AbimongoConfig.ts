@@ -1,4 +1,4 @@
-import type { LoggerConfig } from '@abimongo/logger';
+import { LoggerConfig } from '@abimongo/logger';
 import { InitMultiTenancyOptions } from '../tanancy/init/initMultiTenancy';
 import { AbimongoModelOptions } from './abimongo.mode.type';
 import { SchemaDefinition } from './schema.type';
@@ -17,7 +17,7 @@ export interface AbimongoLoggerSettings extends LoggerConfig {
   excludedSources?: LoggerConfig['excludedSources'];
   hooks?: LoggerConfig['hooks'];
   enrichMetadata?: LoggerConfig['enrichMetadata'];
-  enableMetrics?: LoggerConfig['enableMetrics']
+  enableMetrics?: LoggerConfig['enableMetrics'];
   shouldLog?: LoggerConfig['shouldLog'];
   circuitBreaker?: LoggerConfig['circuitBreaker'];
   compressLogFiles?: LoggerConfig['compressLogFiles'];
@@ -30,7 +30,7 @@ export interface AbimongoConfig {
   model?: AbimongoModelOptions;
   schema?: SchemaDefinition<Document>
   multiTenant?: {
-    enabled?: true,
+    enabled?: boolean,
     headerKey?: "x-tenant-id",
     tenants?: {
       "tenant-a": "mongodb://localhost:27017/tenant-a",
@@ -41,8 +41,8 @@ export interface AbimongoConfig {
   logger?: AbimongoLoggerSettings;
   graphql?: {
     enabled?: boolean;
-    subscriptions?: true;
-    playground?: false;
+    subscriptions?: boolean;
+    playground?: boolean;
     schemaOutputPath?: string;
   };
   features?: {
@@ -54,6 +54,7 @@ export interface AbimongoConfig {
     redisUri?: string;
   };
   advanced?: {
+    autoInstall?: boolean;
     circuitBreaker?: {
       enabled?: boolean;
       retryAttempts?: number;
@@ -61,7 +62,7 @@ export interface AbimongoConfig {
     garbageCollector?: {
       enabled?: boolean;
       retentionPeriod?: number | string; // Retain data for a specified number of days
-      logResults?: false; // Log results of garbage collection
+      logResults?: boolean; // Log results of garbage collection
     };
     gcCron?: string;
   };
@@ -71,7 +72,7 @@ export interface AbimongoConfigFile {
   projectName?: string;
   mongoUri: string;
   multiTenant?: AbimongoConfig['multiTenant'];
-  // logger?: AbimongoLoggerSettings;
+  logger?: AbimongoLoggerSettings;
   graphql?: AbimongoConfig['graphql'];
   features?: AbimongoConfig['features'];
   advanced?: AbimongoConfig['advanced'];
@@ -83,7 +84,7 @@ export interface ProjectOptions {
   model?: AbimongoModelOptions;
   schema?: SchemaDefinition<Document>;
   multiTenant?: {
-    enabled?: true,
+    enabled?: boolean,
     headerKey?: "x-tenant-id",
     tenants?: {
       "tenant-a": "mongodb://localhost:27017/tenant-a",
@@ -91,11 +92,11 @@ export interface ProjectOptions {
     },
     initOptions?: InitMultiTenancyOptions
   };
-  // logger?: AbimongoLoggerSettings;
+  logger?: AbimongoLoggerSettings;
   graphql?: {
     enabled?: boolean;
-    subscriptions?: true;
-    playground?: false;
+    subscriptions?: boolean;
+    playground?: boolean;
     schemaOutputPath?: string;
   };
   features?: {
@@ -114,6 +115,7 @@ export interface ProjectOptions {
     logInterval?: number; // in milliseconds
   },
   advanced?: {
+    autoInstall?: boolean;
     circuitBreaker?: {
       enabled?: boolean;
       retryAttempts?: number;
@@ -121,7 +123,7 @@ export interface ProjectOptions {
     garbageCollector?: {
       enabled?: boolean;
       retentionPeriod?: number; // Retain data for a specified number of days
-      logResults?: false; // Log results of garbage collection
+      logResults?: boolean; // Log results of garbage collection
     };
     gcCron?: string;
   };

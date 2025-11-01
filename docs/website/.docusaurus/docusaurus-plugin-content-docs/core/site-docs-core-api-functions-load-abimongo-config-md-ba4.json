@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/loadAbimongoConfig",
+  "title": "loadAbimongoConfig",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/loadAbimongoConfig.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/loadAbimongoConfig",
+  "permalink": "/abimongo/core/api/functions/loadAbimongoConfig",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "isValidObjectId",
+    "permalink": "/abimongo/core/api/functions/isValidObjectId"
+  },
+  "next": {
+    "title": "loadModelsFromPath",
+    "permalink": "/abimongo/core/api/functions/loadModelsFromPath"
+  }
+}

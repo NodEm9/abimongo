@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/colourize",
+  "title": "colourize",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/colourize.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/colourize",
+  "permalink": "/abimongo/core/api/functions/colourize",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "checkPermission",
+    "permalink": "/abimongo/core/api/functions/checkPermission"
+  },
+  "next": {
+    "title": "connectRedis",
+    "permalink": "/abimongo/core/api/functions/connectRedis"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "core/api/classes/AuthService",
+  "title": "AuthService",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/classes/AuthService.md",
+  "sourceDirName": "core/api/classes",
+  "slug": "/core/api/classes/AuthService",
+  "permalink": "/abimongo/docs/core/api/classes/AuthService",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "AbimongoSchema",
+    "permalink": "/abimongo/docs/core/api/classes/AbimongoSchema"
+  },
+  "next": {
+    "title": "MultiTenantManager",
+    "permalink": "/abimongo/docs/core/api/classes/MultiTenantManager"
+  }
+}

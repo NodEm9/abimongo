@@ -1,0 +1,76 @@
+## Archived package workflow template: packages/cli/.github/workflows/main.yml
+## Moved to .github/ci-templates/ as a template; not executed by Actions here.
+
+name: Node.js CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js & PNPM
+        uses: actions/setup-node@v4
+        with: 
+          node-version: '22.x'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Run tests
+        run: pnpm test
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Bump Version (Only on Main)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git status  # Debug step to verify clean working directory
+          npm version patch -m "CI: Bump version to %s [skip ci]"
+          git add . 
+          git commit -m "chore: Commit untracked Version bump [skip ci]" || echo "No changes to commit"
+          git push origin main 
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SSH_PRIVATE_KEY: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to npm
+        env:
+          2FACTOR_TOKEN: ${{ secrets.NPM_2FACTOR_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+        run:  pnpm -r publish --tag latest --no-git-checks

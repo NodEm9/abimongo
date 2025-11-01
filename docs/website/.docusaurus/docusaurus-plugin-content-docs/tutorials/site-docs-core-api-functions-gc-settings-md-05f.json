@@ -1,0 +1,23 @@
+{
+  "id": "core/api/functions/GCSettings",
+  "title": "GCSettings",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/GCSettings.md",
+  "sourceDirName": "core/api/functions",
+  "slug": "/core/api/functions/GCSettings",
+  "permalink": "/abimongo/docs/core/api/functions/GCSettings",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "AbiMongoError",
+    "permalink": "/abimongo/docs/core/api/functions/AbiMongoError"
+  },
+  "next": {
+    "title": "applyMultiTenancy",
+    "permalink": "/abimongo/docs/core/api/functions/applyMultiTenancy"
+  }
+}

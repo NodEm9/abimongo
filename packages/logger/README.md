@@ -1,4 +1,4 @@
-# abimongo_logger ![NPM Version](https://img.shields.io/npm/v/abimongo_utils?style=flat-square&logo=slugs.md%20file&logoSize=100)
+<!-- # abimongo_logger ![NPM Version](https://img.shields.io/npm/v/abimongo_utils?style=flat-square&logo=slugs.md%20file&logoSize=100) -->
 
 A modular utility library for Node.js projects, starting with a robust, extensible logger utility. This library is designed to be expanded with additional utilities over time, making it a central toolkit for your backend applications.
 
@@ -19,7 +19,7 @@ A modular utility library for Node.js projects, starting with a robust, extensib
 ## Installation
 
 ```sh
-npm install abimongo_logger
+npm install @abimongo/logger
 ```
 
 ---
@@ -31,7 +31,7 @@ npm install abimongo_logger
 #### Basic Setup
 
 ```typescript
-import { setupLogger } from 'abimongo_logger';
+import { setupLogger } from '@abimongo/logger';
 
 const logger = setupLogger({
   level: 'info',
@@ -84,7 +84,7 @@ const logger = setupLogger({ logger: customLogger });
 
 If you are implementing ( logger ) without using the above setup yourself then follow below steps.
 
-## 🔥 Advanced Logger Usage (`@abimongo_logger`)
+## 🔥 Advanced Logger Usage (`@@abimongo/logger`)
 
 The logger is a pluggable, buffered, rolling log system that supports:
 
@@ -105,7 +105,7 @@ sudo apt install redis # Linux
 ### Usage
 
 ```ts
-import { logger } from 'abimongo_logger';
+import { logger } from '@abimongo/logger';
 
 await logger.log('User created', 'info', { tenantId: 'org-123' });
 ```

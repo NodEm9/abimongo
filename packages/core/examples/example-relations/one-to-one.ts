@@ -1,9 +1,10 @@
 // TypeScript typings for the example
-import { AbimongoModel } from "../../src/lib/abimongoModel/AbimongoModel";
+import { AbimongoModel } from "../../src/lib-core/AbimongoModelFactory";
 import { dbDriver } from "../dbConfig";
-import { Document, castId, ObjectId } from "../../src/lib/helpers";
-import { AbimongoSchema } from "../../src/lib/schema/schema";
-import { SchemaType } from "../../src/lib/types";
+import { castId, } from "../../src//utils";
+import { Document, SchemaType } from "../../src/types";
+import { AbimongoSchema } from "../../src";
+import { ObjectId } from "mongodb";
 
 
 // Define Interfaces
@@ -60,10 +61,20 @@ export async function main(data: User, profile: Profile): Promise<void> {
 	const tenantId = 'tenantId';
 
 	const userCollection = await db.collection<UserDoc>('users');
-	const UserModel = new AbimongoModel<UserDoc>(tenantId, `${userCollection}`, db.client, userSchema);
+	const UserModel = new AbimongoModel<UserDoc>({
+		collectionName:	`${userCollection}`,
+		schema: userSchema,
+		tenantId: tenantId,
+		db: db.db
+	});
 
 	const profileCollection = db.collection<ProfileDoc>('profiles');
-	const ProfileModel = new AbimongoModel<ProfileDoc>(tenantId, `${profileCollection}`, db.client, profileSchema);
+	const ProfileModel = new AbimongoModel<ProfileDoc>({
+		collectionName: `${profileCollection}`,
+		schema: profileSchema,
+		tenantId: tenantId,
+		db: db.db
+	});
 
 
 	// Create User and Profile

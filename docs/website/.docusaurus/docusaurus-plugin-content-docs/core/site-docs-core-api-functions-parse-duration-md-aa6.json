@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/parseDuration",
+  "title": "parseDuration",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/parseDuration.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/parseDuration",
+  "permalink": "/abimongo/core/api/functions/parseDuration",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "logEvent",
+    "permalink": "/abimongo/core/api/functions/logEvent"
+  },
+  "next": {
+    "title": "setCachedData",
+    "permalink": "/abimongo/core/api/functions/setCachedData"
+  }
+}

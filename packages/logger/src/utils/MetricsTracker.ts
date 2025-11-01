@@ -26,7 +26,14 @@ export class MetricsTracker {
   private rotations = 0;
   private lastTotalLogs = 0;
   private intervalId?: NodeJS.Timeout;
+  static instance: MetricsTracker;
 
+  constructor() {
+    if (!MetricsTracker.instance) {
+      MetricsTracker.instance = this;
+    }
+    return MetricsTracker.instance;
+  }
   public trackLog(): void {
     this.totalLogs++;
   }
@@ -75,6 +82,10 @@ export class MetricsTracker {
   }
 
   isTrackingMetrics(): boolean {
+    MetricsTracker.instance = this ? this : new MetricsTracker();
     return this.intervalId !== undefined;
   }
-}
+
+
+};
+

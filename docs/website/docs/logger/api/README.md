@@ -4,73 +4,83 @@
 
 # @abimongo/logger
 
+- The main entry point for the Logger package. 
+Defines and exports the core Logger functionality, transports, and utilities.
+
 ## Classes
 
-- [AdvancedRollingFileTransporter](./logger/classes/AdvancedRollingFileTransporter.md)
-- [AsyncBatchTransporter](./logger/classes/AsyncBatchTransporter.md)
-- [BufferedTransporter](./logger/classes/BufferedTransporter.md)
-- [FileTransporter](./logger/classes/FileTransporter.md)
-- [Logger](./logger/classes/Logger.md)
-- [MetricsTracker](./logger/classes/MetricsTracker.md)
-- [NoOpLogger](./logger/classes/NoOpLogger.md)
+- [AbimongoLogger](./classes/AbimongoLogger.md)
+- [AdvancedRollingFileTransporter](./classes/AdvancedRollingFileTransporter.md)
+- [AsyncBatchTransporter](./classes/AsyncBatchTransporter.md)
+- [BufferedTransporter](./classes/BufferedTransporter.md)
+- [FileTransporter](./classes/FileTransporter.md)
+- [Logger](./classes/Logger.md)
+- [MetricsTracker](./classes/MetricsTracker.md)
+- [NoOpLogger](./classes/NoOpLogger.md)
 
 ## Interfaces
 
-- [AsyncBatchTransporterOptions](./logger/interfaces/AsyncBatchTransporterOptions.md)
-- [FormatOptions](./logger/interfaces/FormatOptions.md)
-- [ILogger](./logger/interfaces/ILogger.md)
-- [LogEntry](./logger/interfaces/LogEntry.md)
-- [LoggerConfig](./logger/interfaces/LoggerConfig.md)
-- [LoggerFormatOptions](./logger/interfaces/LoggerFormatOptions.md)
-- [LoggerHooks](./logger/interfaces/LoggerHooks.md)
-- [LoggerTransporter](./logger/interfaces/LoggerTransporter.md)
-- [LogMeta](./logger/interfaces/LogMeta.md)
-- [LogTransport](./logger/interfaces/LogTransport.md)
-- [MetricsSnapshot](./logger/interfaces/MetricsSnapshot.md)
-- [RotatingFileTransporterOptions](./logger/interfaces/RotatingFileTransporterOptions.md)
-- [Transporter](./logger/interfaces/Transporter.md)
+- [AsyncBatchTransporterOptions](./interfaces/AsyncBatchTransporterOptions.md)
+- [FormatOptions](./interfaces/FormatOptions.md)
+- [ILogger](./interfaces/ILogger.md)
+- [LogEntry](./interfaces/LogEntry.md)
+- [LoggerConfig](./interfaces/LoggerConfig.md)
+- [LoggerFormatOptions](./interfaces/LoggerFormatOptions.md)
+- [LoggerHooks](./interfaces/LoggerHooks.md)
+- [LoggerTransporter](./interfaces/LoggerTransporter.md)
+- [LogMeta](./interfaces/LogMeta.md)
+- [LogTransport](./interfaces/LogTransport.md)
+- [MetricsSnapshot](./interfaces/MetricsSnapshot.md)
+- [RotatingFileTransporterOptions](./interfaces/RotatingFileTransporterOptions.md)
+- [Transporter](./interfaces/Transporter.md)
 
 ## Type Aliases
 
-- [AbimongoConfig](./logger/type-aliases/AbimongoConfig.md)
-- [LogLevel](./logger/type-aliases/LogLevel.md)
-- [RemoteTransporter](./logger/type-aliases/RemoteTransporter.md)
+- [AbimongoConfig](./type-aliases/AbimongoConfig.md)
+- [LogLevel](./type-aliases/LogLevel.md)
+- [RemoteTransporter](./type-aliases/RemoteTransporter.md)
 
 ## Variables
 
-- [DefaultLogger](./logger/variables/DefaultLogger.md)
-- [LOG\_LEVELS](./logger/variables/LOG_LEVELS.md)
-- [logger](./logger/variables/logger.md)
+- [DefaultLogger](./variables/DefaultLogger.md)
+- [LOG\_LEVELS](./variables/LOG_LEVELS.md)
+- [logger](./variables/logger.md)
 
 ## Functions
 
-- [clearAllTimers](./logger/functions/clearAllTimers.md)
-- [colorByLevel](./logger/functions/colorByLevel.md)
-- [consoleTransport](./logger/functions/consoleTransport.md)
-- [createCircuitBreaker](./logger/functions/createCircuitBreaker.md)
-- [createElasticTransport](./logger/functions/createElasticTransport.md)
-- [createFileTransporter](./logger/functions/createFileTransporter.md)
-- [createHttpTransport](./logger/functions/createHttpTransport.md)
-- [createLogger](./logger/functions/createLogger.md)
-- [createLokiTransport](./logger/functions/createLokiTransport.md)
-- [createResilientTransporter](./logger/functions/createResilientTransporter.md)
-- [createRotatingFileTransporter](./logger/functions/createRotatingFileTransporter.md)
-- [formatConsole](./logger/functions/formatConsole.md)
-- [formatError](./logger/functions/formatError.md)
-- [formatJSON](./logger/functions/formatJSON.md)
-- [formatMsg](./logger/functions/formatMsg.md)
-- [getLogLevel](./logger/functions/getLogLevel.md)
-- [getLogLevelPriority](./logger/functions/getLogLevelPriority.md)
-- [isLogLevel](./logger/functions/isLogLevel.md)
-- [now](./logger/functions/now.md)
-- [registerInterval](./logger/functions/registerInterval.md)
-- [registerTimeout](./logger/functions/registerTimeout.md)
-- [retryWithBackoff](./logger/functions/retryWithBackoff.md)
-- [setupLogger](./logger/functions/setupLogger.md)
-- [shouldLog](./logger/functions/shouldLog.md)
+- [clearAllTimers](./functions/clearAllTimers.md)
+- [colorByLevel](./functions/colorByLevel.md)
+- [consoleTransport](./functions/consoleTransport.md)
+- [createCircuitBreaker](./functions/createCircuitBreaker.md)
+- [createElasticTransport](./functions/createElasticTransport.md)
+- [createFileTransporter](./functions/createFileTransporter.md)
+- [createHttpTransport](./functions/createHttpTransport.md)
+- [createLogger](./functions/createLogger.md)
+- [createLokiTransport](./functions/createLokiTransport.md)
+- [createResilientTransporter](./functions/createResilientTransporter.md)
+- [createRotatingFileTransporter](./functions/createRotatingFileTransporter.md)
+- [formatConsole](./functions/formatConsole.md)
+- [formatError](./functions/formatError.md)
+- [formatJSON](./functions/formatJSON.md)
+- [formatMsg](./functions/formatMsg.md)
+- [getLogLevel](./functions/getLogLevel.md)
+- [getLogLevelPriority](./functions/getLogLevelPriority.md)
+- [isLogLevel](./functions/isLogLevel.md)
+- [now](./functions/now.md)
+- [registerInterval](./functions/registerInterval.md)
+- [registerTimeout](./functions/registerTimeout.md)
+- [retryWithBackoff](./functions/retryWithBackoff.md)
+- [setupLogger](./functions/setupLogger.md)
+- [shouldLog](./functions/shouldLog.md)
 
 ## References
 
+### loggerMetricsTracker
+
+Renames and re-exports [MetricsTracker](./classes/MetricsTracker.md)
+
+***
+
 ### shutdownLogger
 
-Renames and re-exports [clearAllTimers](./logger/functions/clearAllTimers.md)
+Renames and re-exports [clearAllTimers](./functions/clearAllTimers.md)

@@ -3,11 +3,11 @@ import { objectIdSymbol } from "./symbols";
 import { ObjectId } from 'mongodb'
 
 
-declare module "bson" {
-	interface ObjectId {
-		[objectIdSymbol]: boolean;
-	}
-}
+// declare module "bson" {
+// 	interface ObjectId {
+// 		[objectIdSymbol]: boolean;
+// 	}
+// }
 
 Object.defineProperty(ObjectId.prototype, "_id", {
 	configurable: true,

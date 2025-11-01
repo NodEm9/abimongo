@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AbimongoBootstrap, AbimongoBootstrapFactory } from '../lib-core';
-import { bufferedTransporter } from '../utils';
+import { AbimongoBootstrap, initAbimongo } from '../lib-core';
+import { bufferedTransporter } from '../utils'
 
 
 
@@ -32,13 +32,13 @@ jest.mock('express', () => ({
 
 describe('AbimongoBootstrap', () => {
   it('initializes MongoDB only', async () => {
-    const app = await AbimongoBootstrapFactory.create();
+    const app = await initAbimongo.create();
     expect(app.getMongoClient()).toBeDefined();
     expect(app.getGraphQL()).toBeUndefined();
   });
 
   it('initializes with Redis cache if enabled', async () => {
-    const app = await AbimongoBootstrapFactory.create({
+    const app = await initAbimongo.create({
       features: {
         useRedisCache: true,
         redisUri: 'redis://localhost:6379'
@@ -47,7 +47,7 @@ describe('AbimongoBootstrap', () => {
     expect(app.getRedisClient()).toBeDefined();
   });
   it('initializes with GraphQL if enabled', async () => {
-    const app = await AbimongoBootstrapFactory.create({
+    const app = await initAbimongo.create({
       graphql: {
         enabled: true
       }
@@ -68,16 +68,12 @@ describe('AbimongoBootstrap', () => {
   });
 
   it('shuts down gracefully', async () => {
-    const app = await AbimongoBootstrapFactory.create();
+    const app = await initAbimongo.create();
     const spy = jest.spyOn(console, 'log').mockImplementation(() => { });
     await app.shutdown();
     console.log('🧼 Shutdown complete');
     expect(spy).toHaveBeenCalledWith('🧼 Shutdown complete');
     spy.mockRestore();
-  });
-
-  afterAll(() => {
-    // bufferedTransporter.stop(); // or however you're exposing it
   });
 
   it('throws error if multi-tenancy is not enabled when calling registerMultiTenancy', async () => {
@@ -176,5 +172,11 @@ describe('AbimongoBootstrap', () => {
     const mockGraphQL = {};
     (app as any).graphql = mockGraphQL;
     expect(app.getGraphQL()).toBe(mockGraphQL);
+  });
+
+  afterAll(async () => {
+    await bufferedTransporter.stop();
+    const { shutdownLogger } = require('@abimongo/logger');
+    await shutdownLogger();
   });
 });

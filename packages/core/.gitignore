@@ -4,14 +4,14 @@ node_modules
 lib
 dist
 
-package-lock.json 
+# package-lock.json 
 
 # Compiled doc
-docs/*.html
-docs/*functions/*.html
-docs/*classes/*.html
-docs/*variables/*.html
-docs/*.nojekyll
+# docs/*.html
+# docs/*functions/*.html
+# docs/*classes/*.html
+# docs/*variables/*.html
+# docs/*.nojekyll
 
 # Jest coverage
 coverage/
@@ -29,6 +29,9 @@ archives
  
 # Logs
 logs
+
+# Bundler
+webpack.web.config.js
 
 # Records
 records.json

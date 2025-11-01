@@ -3,29 +3,33 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
-  "packageManager": "npm@11.0.0",
+  "packageManager": "pnpm@10.19.0",
   "workspaces": [
     "packages/*"
   ],
-  "files": [
-    "packages/core/dist",
-    "packages/logger/dist",
-    "packages/cli/dist"
-  ],
   "scripts": {
-    "build": "npm run build -ws",
-    "test": "npm run test -ws",
-    "lint": "npm run lint -ws",
+    "build": "pnpm --recursive build",
+    "build:ordered": "pnpm --filter @abimongo/logger build && pnpm --filter @abimongo/core build && pnpm --filter @abimongo/cli build && pnpm --filter @abimongo/create build",
+    "test": "pnpm --recursive test",
+    "lint": "pnpm --recursive lint",
+    "lint:fix": "pnpm --recursive lint:fix",
+    "build:core": "pnpm --filter @abimongo/core build",
+    "build:logger": "pnpm --filter @abimongo/logger build",
+    "build:create": "pnpm --filter @abimongo/create build",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "changeset publish",
     "changelog:generate": "changeset version",
     "docs:changelog": "node ./scripts/copy-changelog.js",
-    "docs:prepare-changelog": "npm run changelog:generate && npm run docs:changelog",
+    "docs:prepare-changelog": "pnpm changelog:generate && pnpm docs:changelog",
     "docs:dev": "docusaurus start docs/website",
+    "docs:api": "pnpm --recursive run typedoc",
+    "api:docs": "pnpm docs:api",
     "docs:build": "docusaurus build docs/website",
     "docs:serve": "docusaurus serve docs/website/build",
-    "docs:clean": "rimraf docs/website/build"
+    "docs:clean": "rimraf docs/website/build",
+    "typecheck": "pnpm -w -r exec tsc --build",
+    "publish": "pnpm --recursive publish --tag latest --no-git-checks"
   },
   "repository": {
     "type": "git",
@@ -43,26 +47,35 @@
   },
   "homepage": "https://github.com/NodEm9/abimongo#readme",
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=11.0.0"
+    "node": ">=20.11.0",
+    "pnpm": ">=10.19.0"
   },
   "devDependencies": {
+    "@abimongo/core": "1.0.3",
     "@changesets/cli": "^2.29.7",
     "@docusaurus/core": "^3.9.2",
     "@docusaurus/preset-classic": "^3.9.2",
+    "@docusaurus/types": "^3.9.2",
     "@types/node": "^24.8.1",
-    "docusaurus": "^1.14.7",
+    "docusaurus": "^0.0.2",
     "docusaurus-plugin-typedoc": "^1.4.2",
+    "gh-pages": "^6.3.0",
     "highlight.js": "^11.11.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "rimraf": "^6.0.1",
+    "tslib": "^2.8.1",
     "typedoc": "^0.28.14",
     "typedoc-plugin-markdown": "^4.9.0",
+    "typescript": "^5.9.3",
     "typescript-cached-transpile": "^0.0.6"
   },
   "dependencies": {
+    "@abimongo/cli": "1.0.2",
     "@mdx-js/react": "^3.1.1",
-    "prism-react-renderer": "^2.4.1"
+    "clsx": "^2.1.1",
+    "fs-extra": "^11.3.2",
+    "prism-react-renderer": "^2.4.1",
+    "tsx": "^4.20.6"
   }
 }

@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const path = require('path');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
+
 module.exports = {
 	mode: 'production',
 	target: 'node',
@@ -13,56 +14,7 @@ module.exports = {
 	},
 	devtool: 'source-map', // Generate source maps for debugging
 	externalsType: 'umd',
-	externals: [
-		nodeExternals(),
-		{
-			// Exclude node_modules from the bundle
-			// This is important for CLI tools to avoid bundling unnecessary dependencies
-
-			'mongodb': {
-				umd: 'mongodb',
-				commonjs: 'mongodb',
-				commonjs2: 'mongodb',
-				amd: 'mongodb',
-				root: 'mongodb',
-			},
-			'@abimongo/logger': {
-				'commonjs': '@abimongo/logger',
-				'commonjs2': '@abimongo/logger',
-				'amd': '@abimongo/logger',
-				'root': '@abimongo/logger',
-			},
-			'@apollo/server': {
-				umd: '@apollo/server',
-				commonjs: '@apollo/server',
-				commonjs2: '@apollo/server',
-				amd: '@apollo/server',
-				root: '@apollo/server',
-			},
-			'dotenv': {
-				umd: 'dotenv',
-				commonjs: 'dotenv',
-				commonjs2: 'dotenv',
-				amd: 'dotenv',
-				root: 'dotenv'
-			},
-			// chalk: 'chalk',
-			graphql: {
-				umd: 'graphql',
-				commonjs: 'graphql',
-				commonjs2: 'graphql',
-				amd: 'graphql',
-				root: 'graphql',
-			},
-			'express': {
-				und: 'express',
-				commonjs: 'express',
-				commonjs2: 'express',
-				amd: 'express',
-				root: 'express',
-			},
-		}
-	],
+	externals: [nodeExternals()],
 	resolve: {
 		extensions: ['.ts', '.js'],
 		byDependency: {
@@ -73,19 +25,6 @@ module.exports = {
 				aliasFields: ['browser', 'module'],
 			},
 		},
-		// fallback: {
-		// 	// Provide fallbacks for Node.js core modules
-		// 	fs: false,
-		// 	kerberos: false,
-		// 	"@mongodb-js/zstd": false,
-		// 	'@aws-sdk/credential-providers': false,
-		// 	'@aws-sdk/signature-v4-crt': false,
-		// 	'gcp-metadata': false,
-		// 	'snappy': false,
-		// 	'socks': false,
-		// 	'aws4': false,
-		// 	'mongodb-client-encryption': false,
-		// },
 		plugins: [
 			new TsconfigPathsPlugin({
 				configFile: path.resolve(__dirname, 'tsconfig.json'),

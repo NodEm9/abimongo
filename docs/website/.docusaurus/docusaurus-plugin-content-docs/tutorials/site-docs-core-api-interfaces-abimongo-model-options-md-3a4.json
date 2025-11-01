@@ -1,0 +1,23 @@
+{
+  "id": "core/api/interfaces/AbimongoModelOptions",
+  "title": "AbimongoModelOptions",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/interfaces/AbimongoModelOptions.md",
+  "sourceDirName": "core/api/interfaces",
+  "slug": "/core/api/interfaces/AbimongoModelOptions",
+  "permalink": "/abimongo/docs/core/api/interfaces/AbimongoModelOptions",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "AbimongoLoggerSettings",
+    "permalink": "/abimongo/docs/core/api/interfaces/AbimongoLoggerSettings"
+  },
+  "next": {
+    "title": "AbimongoPlugin",
+    "permalink": "/abimongo/docs/core/api/interfaces/AbimongoPlugin"
+  }
+}

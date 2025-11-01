@@ -8,7 +8,6 @@ import {
 } from '@abimongo/logger';  
 
 
-
 /**
  * @module logHelpers
  * This module provides utilities for setting up and managing log transports in the Abimongo application.
@@ -33,13 +32,14 @@ const rotatingTransporter = createRotatingFileTransporter({
 	frequency: 'daily',
 	maxSize: 1024 * 1024 * 10, // 10 MB 
 	backupCount: 5,
+	compress: true,
+	flushInterval: 3000, // 3 seconds
 })
 
 
 /**
  * Creates a resilient transporter that retries failed log writes with exponential backoff.
  * This is useful for ensuring that logs are not lost due to temporary issues.
- * @param {BufferedTransporter} transporter - The buffered transporter to wrap.
  * @returns {BufferedTransporter} - A resilient buffered transporter.
  * @example
  * const resilientLogger = createResilientTransporter(rotatingTransporter);
@@ -77,6 +77,6 @@ export const elasticTransport = createResilientTransporter(
 export const lokiTransport = createResilientTransporter(
 	createLokiTransport('http://localhost:3100/loki/api/v1/push', {
 		job: 'abimongo',
-		instance: 'abimongo-instance',
+		// instance: 'abimongo-instance',
 	})
 );

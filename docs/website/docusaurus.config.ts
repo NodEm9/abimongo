@@ -2,7 +2,6 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import path from 'path';
-// import './src/css/fontello-9c142965/font/fontello.svg';
 
 
 const config: Config = {
@@ -58,11 +57,23 @@ const config: Config = {
 			'@docusaurus/plugin-content-docs',
 			{
 				id: 'cli',
-				path: path.resolve(__dirname, './docs/cli'),
-				routeBasePath: 'cli',
+				path: path.resolve(__dirname, './docs/create'),
+				routeBasePath: 'create',
 				showLastUpdateAuthor: true,
 				showLastUpdateTime: true,
-				sidebarPath: path.resolve(__dirname, './sidebars.cli.ts'),
+				sidebarPath: path.resolve(__dirname, './sidebars.create.ts'),
+			},
+		],
+		// Content docs: Tutorials
+		[
+			'@docusaurus/plugin-content-docs',
+			{
+				id: 'tutorials',
+				path: path.resolve(__dirname, './tutorials/'),
+				routeBasePath: 'tutorials',
+				showLastUpdateAuthor: true,
+				showLastUpdateTime: true,
+				sidebarPath: path.resolve(__dirname, './sidebars.tutorials.ts'),
 			},
 		],
 		// TypeDoc API: Core
@@ -73,7 +84,7 @@ const config: Config = {
 				entryPoints: ['packages/core/src/index.ts'],
 				tsconfig: 'packages/core/tsconfig.json',
 				out: '/core/api/core',
-				sidebar: { autoConfiguration: 'API (Core)', position: 10 },
+				sidebar: { autoConfiguration: 'API (Core)' },
 				readme: 'none',
 			},
 		],
@@ -85,22 +96,22 @@ const config: Config = {
 				entryPoints: ['packages/logger/src/index.ts'],
 				tsconfig: 'packages/logger/tsconfig.json',
 				out: '/logger/api/logger',
-				sidebar: { autoConfiguration: 'API (Logger)', position: 20 },
+				sidebar: { autoConfiguration: 'API (Logger)' },
 				readme: 'none',
 			},
 		],
 		// TypeDoc API: CLI (if you export a programmatic API)
-		// [
-		// 	'docusaurus-plugin-typedoc',
-		// 	{
-		// 		id: 'api-cli',
-		// 		entryPoints: ['packages/cli/bin/abimongo_cli.ts'],
-		// 		tsconfig: 'packages/cli/tsconfig.json',
-		// 		out: '/docs/cli/api/cli',
-		// 		sidebar: { autoConfiguration: 'API (CLI)', position: 30 },
-		// 		readme: 'none',
-		// 	},
-		// ],
+		[
+			'docusaurus-plugin-typedoc',
+			{
+				id: 'api-create',
+				entryPoints: ['packages/create/src/index.ts'],
+				tsconfig: 'packages/create/tsconfig.json',
+				out: '/docs/create/api/create',
+				sidebar: { autoConfiguration: 'API (CLI)' },
+				readme: 'none',
+			},
+		]
 	],
 
 	themeConfig: {
@@ -122,8 +133,8 @@ const config: Config = {
 			items: [
 				{ to: '/core/intro', label: 'Core', position: 'left' },
 				{ to: '/logger/intro', label: 'Logger', position: 'left' },
-				{ to: '/cli/intro', label: 'CLI', position: 'left' },
-				// { to: '/core/api', label: 'API', position: 'right' },
+				{ to: '/create/intro', label: 'Cli', position: 'left' },
+				{ to: '/tutorials/intro', label: 'Tutorials', position: 'left' },
 				{ href: 'https://github.com/NodEm9/abimongo', label: 'GitHub', position: 'right' },
 			],
 		},
@@ -131,12 +142,12 @@ const config: Config = {
 		footer: {
 			style: 'dark',
 			links: [
-				// {
+				// { 
 				//   title: 'Docs',
 				//   items: [
 				//     {
 				//       label: 'Tutorial',
-				//       to: '/docs',
+				//       to: '/tutorials',
 				//     },
 				//   ],
 				// },

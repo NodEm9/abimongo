@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/getModelFilesFromPath",
+  "title": "getModelFilesFromPath",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/getModelFilesFromPath.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/getModelFilesFromPath",
+  "permalink": "/abimongo/core/api/functions/getModelFilesFromPath",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "getEventType",
+    "permalink": "/abimongo/core/api/functions/getEventType"
+  },
+  "next": {
+    "title": "getOriginalResolver",
+    "permalink": "/abimongo/core/api/functions/getOriginalResolver"
+  }
+}

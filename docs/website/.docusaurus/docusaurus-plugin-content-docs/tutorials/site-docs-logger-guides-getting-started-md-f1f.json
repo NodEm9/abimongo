@@ -1,0 +1,26 @@
+{
+  "id": "logger/guides/getting-started'",
+  "title": "Logger - Getting started",
+  "description": "Logger — Getting started",
+  "source": "@site/docs/logger/guides/getting-started'.md",
+  "sourceDirName": "logger/guides",
+  "slug": "/logger/getting-started",
+  "permalink": "/abimongo/docs/logger/getting-started",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "slug": "/logger/getting-started",
+    "title": "Logger - Getting started"
+  },
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "Logger FAQ",
+    "permalink": "/abimongo/docs/logger/faq"
+  },
+  "next": {
+    "title": "Logger - guides",
+    "permalink": "/abimongo/docs/logger/logger-guides"
+  }
+}

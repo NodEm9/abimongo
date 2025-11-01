@@ -1,7 +1,6 @@
-
 import fs from 'fs-extra';
 import path from 'path';
-import chalk from 'chalk';
+import { colorByLevel } from '@abimongo/logger';
 
 
 type GeneratedFolderAndFile = {
@@ -22,10 +21,12 @@ const generatedFiles = () => {
   ]
   
   // Log all generated files
-  console.log(chalk.yellow.bold('\n[Generated Files]:'));
+  console.log(colorByLevel('info', '\n[Generated Files]:'));
+  
   allFiles.forEach(file => {
     if (fs.existsSync(file.path)) {
-      console.log(chalk.yellow(`- ${file.name}`));
+      const colorConsole = colorByLevel( 'info', `- ${file.name}`)
+      console.log(colorConsole);
     }
   });
 }
@@ -38,10 +39,10 @@ const generatedFolders = () => {
     { name: 'scripts/', path: path.join(projectRoot, 'scripts') },
   ]
   // Log all generated folders
-  console.log(chalk.yellow.bold('\n[Generated Folders]:'));
+  console.log(colorByLevel( 'info', '\n[Generated Folders]:'));
   allFolders.forEach(folder => {
     if (fs.existsSync(folder.path)) {
-      console.log(chalk.yellow(`- ${folder.name}`));
+      console.log(colorByLevel( 'info', `- ${folder.name}`));
     }
   });
 }

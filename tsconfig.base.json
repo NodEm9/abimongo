@@ -9,22 +9,23 @@
       "DOM.Iterable", 
       "DOM"
       ],  
-    "module": "CommonJS",
-    "moduleResolution": "Node",
+    "moduleDetection": "auto",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "declaration": true,
-    "baseUrl": "./",
-    "paths": {
-      "@abimongo/logger": ["packages/logger/src"],
-      "@abimongo/core":   ["packages/core"],
-      "@abimongo/cli":    ["packages/cli"]
-    },
+    // No top-level `paths` mappings here to avoid pulling sibling package
+    // TypeScript sources into other packages' compilation units. Local
+    // development that prefers package source should use per-package
+    // webpack aliases (DEV-only) instead. Keeping this file plain avoids
+    // ts-loader/TypeScript program-listing issues in monorepo builds.
     "declarationMap": true,
     "esModuleInterop": true,
     "isolatedModules": true, 
     "experimentalDecorators": true,
-    "importHelpers": false,
+    "importHelpers": true,
     "forceConsistentCasingInFileNames": true,
     "noEmitOnError": true,
+    "resolvePackageJsonExports": true,
     "resolveJsonModule": true, 
     "inlineSourceMap": false,                                                                                                                                    
     "noImplicitAny": false,                            
@@ -37,8 +38,8 @@
   //   "compiler": "typescript-cached-transpile"
   // },
   "include": [
-    "packages/*", 
+    "packages/**/src/**/*", 
     "docs/*", 
     ],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "packages/core/examples", "packages/*/src/__test__/**"]
 }

@@ -1,12 +1,12 @@
 import { ProjectOptions, AbimongoConfig } from '../types/AbimongoConfig'
 
-// ${options.logger?.enabled ? "import { logger } from '@abimongo/core';" : ''}
 
 export function generateMainTS(options: AbimongoConfig): string {
-  return `import { AbimongoBootstrapFactory } from '@abimongo/core';
+  return `import { initAbimongo } from '@abimongo/core';
 ${options.graphql?.enabled ? "import { AbimongoGraphQL } from '@abimongo/core';" : ''}
+${options.logger?.enabled ? "import { logger } from '@abimongo/core';" : ''}
 
-import { bootstrap } from './core/AbimongoBootstrap';
+import { run } from './core/initAbimongo';
 /**
  *  You can use this built-in logger or create your own
  *  If you want to use the built-in logger, make sure to enable it in your project options.
@@ -17,12 +17,12 @@ import { bootstrap } from './core/AbimongoBootstrap';
 
 async function main() {
 
-const run = await bootstrap();
-  run.onConnect(() => {
+const runApp = await run();
+  runApp.onConnect(() => {
     console.log('✨ App is fully bootstrapped!');
   });
 
-  return run;
+  return runApp;
 }
 
 main().catch((err) => {

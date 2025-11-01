@@ -1,0 +1,23 @@
+{
+  "id": "core/api/functions/setLogger",
+  "title": "setLogger",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/setLogger.md",
+  "sourceDirName": "core/api/functions",
+  "slug": "/core/api/functions/setLogger",
+  "permalink": "/abimongo/docs/core/api/functions/setLogger",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "setCachedData",
+    "permalink": "/abimongo/docs/core/api/functions/setCachedData"
+  },
+  "next": {
+    "title": "AbimongoClientConfig",
+    "permalink": "/abimongo/docs/core/api/interfaces/AbimongoClientConfig"
+  }
+}

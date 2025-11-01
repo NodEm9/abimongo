@@ -1,0 +1,23 @@
+{
+  "id": "core/api/functions/describeEvent",
+  "title": "describeEvent",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/describeEvent.md",
+  "sourceDirName": "core/api/functions",
+  "slug": "/core/api/functions/describeEvent",
+  "permalink": "/abimongo/docs/core/api/functions/describeEvent",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "createSchema",
+    "permalink": "/abimongo/docs/core/api/functions/createSchema"
+  },
+  "next": {
+    "title": "enforceRBAC",
+    "permalink": "/abimongo/docs/core/api/functions/enforceRBAC"
+  }
+}

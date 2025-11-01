@@ -21,25 +21,27 @@ interface RollingFileOptions {
 }
 
 /***
- * AdvancedRollingFileTransporter
+ * @class - AdvancedRollingFileTransporter
  *
  * A logging transporter that writes log messages to a file with advanced rolling features.
  * Logs can be rotated based on file size or time intervals (daily/hourly).
  * Supports compression of old log files and maintains a specified number of backup files.
  * Also includes a buffering mechanism to optimize write operations and periodic flushing.
  * @example
+ * ```typescript
  * const transporter = new AdvancedRollingFileTransporter({
  *   filename: 'logs/app.log',
- *  maxSize: 10 * 1024 * 1024, // 10 MB
- *  backupCount: 7,
- * frequency: 'daily',
- * compress: true,
- * flushInterval: 5000, // Flush every 5 seconds
- *  });
+ *   maxSize: 10 * 1024 * 1024, // 10 MB
+ *   backupCount: 7,
+ *   frequency: 'daily',
+ *   compress: true,
+ *   flushInterval: 5000, // Flush every 5 seconds
+ * });
  *
  * await transporter.write('This is a log message', 'info');
  * await transporter.flush(); // Manually flush if needed
  * await transporter.close(); // Close the transporter when done
+ * ```
  */
 export class AdvancedRollingFileTransporter {
   private currentStream: fs.WriteStream;
@@ -232,5 +234,7 @@ export class AdvancedRollingFileTransporter {
     this.metrics.stop();
     await clearAllTimers();
   }
-}
+};
+
+
 

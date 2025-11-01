@@ -1,11 +1,11 @@
 import { loadAbimongoConfig } from '../../config';
-import { AbimongoConfig, Document } from '../../types';
-// import { setupLogger, logger } from '@abimongo/logger';
+import { AbimongoConfig } from '../../types/AbimongoConfig';
+import { Document } from '../../types/document';
+import { setupLogger, logger } from '@abimongo/logger';
 import { AbimongoClient } from '../AbimongoClient';
 import { AbimongoGraphQL, initializeGraphQL } from '../../graphql';
-import chalk from 'chalk';
 import { redis } from '../../redis-manager/redisClient';
-import { cacheWithRedis, createModel } from '../../utils';
+import { cacheWithRedis, createModel, setLogger } from '../../utils';
 import { invalidateTenantCache } from '../../utils/invalidateTenantCache';
 import { applyMultiTenancy, InitMultiTenancyOptions } from '../../tanancy';
 import { Application } from 'express';
@@ -13,6 +13,7 @@ import { AbimongoModel } from '../AbimongoModelFactory';
 import { AbimongoSchema, Schema } from '../AbimongoSchema';
 import { AbimongoGC } from '../../gc';
 import { scheduleGarbageCollector } from '../../gc/gcCron.node';
+import { colorByLevel } from '@abimongo/logger';
 
 
 const isNode = typeof process !== 'undefined' && process.versions?.node;
@@ -87,8 +88,7 @@ type OnConnectHook = () => Promise<void> | void;
  * initOptions: { /* custom options * / } // This where you can lazily initialize tenants if needed
  * });
  * };
- * @method initialize
- * @param {string} [configFilePath] - Optional path to a custom configuration file.
+  * @param {string} [configFilePathOrObject] - Optional path to a custom configuration file or a config object.
  * If not provided, it defaults to 'abimongo.config.json'.
  * @returns {Promise<void>} - A promise that resolves when the initialization is complete.
  * 
@@ -100,7 +100,7 @@ export class AbimongoBootstrap {
   private model!: AbimongoModel<Document>;
   private schema!: AbimongoSchema<Document>
   private graphql!: AbimongoGraphQL;
-  // public logger!: ReturnType<typeof setupLogger> | typeof logger;
+  public logger!: ReturnType<typeof setupLogger> | typeof logger;
   private app?: Application = undefined;
   private gc!: AbimongoGC;
 
@@ -121,21 +121,30 @@ export class AbimongoBootstrap {
    * Initializes the Abimongo application stack.
    * This method sets up MongoDB, Redis, and GraphQL connections,
    * and executes any registered onConnect hooks.
-   * @param configFilePath - Optional path to a custom configuration file.
-   * If not provided, it defaults to 'abimongo.config.json'.
+  * @param {string|AbimongoConfig} [configFilePathOrObject] - Optional path to a custom configuration file or a config object.
+  * If not provided, it defaults to 'abimongo.config.json'.
    */
-  public async initialize(configFilePath?: string): Promise<void> {
-    this.config = await loadAbimongoConfig(configFilePath);
-    // if (this.config.logger?.enabled) {
-    //   const loggerConfig = this.config.logger ?? { enabled: false }
-    //   const loggerConfg = loggerConfig.enabled ? setLogger(this.config.logger) : logger;
-    //   this.logger = loggerConfg;
-    //   console.info('📝 Logger initialized');
-    // }
+  public async initialize(configFilePathOrObject?: string | AbimongoConfig): Promise<void> {
+    // allow passing either a path to a config file or a config object
+    if (configFilePathOrObject && typeof configFilePathOrObject === 'object') {
+      this.config = configFilePathOrObject as AbimongoConfig;
+    } else {
+      this.config = await loadAbimongoConfig(configFilePathOrObject as string | undefined);
+    }
+    if (this.config.logger?.enabled) {
+      const loggerConfig = this.config.logger ?? { enabled: false }
+      // Cast to any to satisfy overloads where advanced 
+      // //fields (like garbageCollector.logResults) may require a narrower type
+      const loggerConfg = loggerConfig.enabled ? setLogger(this.config.logger as any) : logger;
+      this.logger = loggerConfg;
+      console.info('📝 Logger initialized');
+    }
+
+
     // Redis setup (if enabled)
     if (this.config.features?.useRedisCache && this.config.features.redisUri) {
       await redis.get(this.config.features.redisUri);
-      console.info(chalk.green('✅ Redis connected'));
+      console.info(colorByLevel('info', 'Redis connected'));
     }
 
     // Mongo setup (always required)
@@ -145,16 +154,16 @@ export class AbimongoBootstrap {
         dbName: this.config.projectName || undefined,
       });
     await this.mongoClient.connect();
-    console.info(chalk.green('✅ MongoDB connected via AbimongoClient'));
+    console.info(colorByLevel('info', 'MongoDB connected via AbimongoClient'));
 
     // Register schema if provided
     this.schema = new Schema(typeof this.config.schema === 'object'
       ? this.config.schema : {});
     if (this.config.schema) {
       this.schema.registerSchema(this.config.schema);
-      console.info(chalk.green('✅ Schema registered'));
+      console.info(colorByLevel('info', 'Schema registered'));
     } else {
-      console.info(chalk.yellow('⚠️ No schema provided, using default schema'));
+      console.info(colorByLevel('warn', 'No schema provided, using default schema'));
     }
 
     // Register models if provided
@@ -179,7 +188,7 @@ export class AbimongoBootstrap {
     if (this.config.model) {
       // for (const modelConfig of [this.config.model]) {
       this.model.registerModel(this.config.model);
-      console.info(chalk.green(`✅ Model registered: ${this.config.model.collectionName}`));
+      console.info(colorByLevel('info', `Model registered: ${this.config.model.collectionName}`));
       // }
     }
 
@@ -192,7 +201,7 @@ export class AbimongoBootstrap {
           initOptions: this.config.multiTenant.initOptions || {},
         }
       ).catch((error) => {
-        console.error(chalk.red('❌ Error initializing multi-tenancy:', error));
+        console.error(colorByLevel('error', `❌ Error initializing multi-tenancy: ${error}`));
       });
     }
 
@@ -203,8 +212,8 @@ export class AbimongoBootstrap {
         this.config.features?.typeDefs || '',
         this.config.features?.resolvers || {},
       );
-      console.info(chalk.green('✅ GraphQL schema generated'));
-      console.info(chalk.green('✅ GraphQL initialized'));
+      console.info(colorByLevel('info', 'GraphQL schema generated'));
+      console.info(colorByLevel('info', 'GraphQL initialized'));
     }
 
     for (const hook of this.onConnectHooks) {
@@ -218,12 +227,6 @@ export class AbimongoBootstrap {
         // const { scheduleGarbageCollector } = await import('../../gc/').ts;
         scheduleGarbageCollector(cronExpr);
       }
-
-      // if (typeof window === 'undefined') {
-      //   const { scheduleGarbageCollector } = require('../../gc');
-      //   scheduleGarbageCollector(cronExpr);
-      //   console.info(`[ABIMONGO] 🚮 Garbage Collector scheduled with "${cronExpr}"`);
-      // }
 
       const { gcCron } = this.config.advanced;
       if (!gcCron) {
@@ -273,7 +276,7 @@ export class AbimongoBootstrap {
         initOptions: this.config.multiTenant?.initOptions || {},
       }
     )
-    console.log(chalk.green(`✅ Multi-tenancy initialized for tenant: ${tenants}`));
+    console.log(colorByLevel('info', `Multi-tenancy initialized for tenant: ${tenants}`));
   }
   public async cache<T>(
     key: string,

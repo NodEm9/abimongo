@@ -1,17 +1,17 @@
 {
   "name": "@abimongo/logger",
   "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/abimongo-logger.js",
-  "module": "dist/abimongo-logger.mjs",
+  "module": "dist/abimongo-logger.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
     "README.md",
     "LICENSE"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "sideEffects": false,
   "browser": {
     "async_hooks": false
@@ -21,8 +21,8 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/abimongo-logger.mjs",
-      "require": "./dist/abimongo-logger.cjs",
+      "import": "./dist/abimongo-logger.js",
+      "require": "./dist/abimongo-logger.js",
       "types": "./dist/index.d.ts"
     },
     "./package.json": "./package.json"
@@ -33,12 +33,11 @@
     "build": "webpack --config webpack.config.js",
     "test": "jest --detectOpenHandles --coverage",
     "changeset": "changeset",
-    "release": "changeset version && pnpm install && pnpm run build && changeset publish",
-    "docs": "typedoc",
+    "release": "pnpm changeset version && pnpm install && pnpm build && changeset publish",
+    "typedoc": "typedoc --options typedoc.json",
     "clean": "rimraf dist",
-    "patch:version": "npm version patch",
-    "minor:version": "npm version minor",
-    "major:version": "npm version major"
+    "prepack": "pnpm build",
+    "publish": "pnpm --recursive publish --tag latest --no-git-checks"
   },
   "keywords": [
     "abimongo",
@@ -81,18 +80,17 @@
     "tsx": "^4.19.4",
     "typedoc": "^0.28.4",
     "typedoc-plugin-markdown": "^4.6.4",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.3",
     "webpack": "^5.99.8",
     "webpack-cli": "^6.0.1",
     "webpack-remove-debug": "^0.1.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.27.1",
-    "axios": "^1.9.0",
-    "chalk": "^4.1.2"
+    "axios": "^1.9.0"
   },
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=11.0.0"
+    "node": ">=20.11.0",
+    "pnpm": ">=10.19.0"
   }
 }

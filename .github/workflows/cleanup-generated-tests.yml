@@ -1,0 +1,35 @@
+name: Cleanup generated test projects
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  cleanup:
+    name: Cleanup generated tests and commit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Run cleanup script (PowerShell)
+        run: pwsh -NoProfile -NonInteractive ./scripts/cleanup-generated-tests.ps1 -Force
+
+      - name: Commit & push any deletions
+        env:
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        run: |
+          git config user.name "$GIT_COMMITTER_NAME"
+          git config user.email "$GIT_COMMITTER_EMAIL"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "chore(ci): remove generated CLI/bootstrap test projects"
+            git push origin HEAD:main
+          else
+            echo "No changes to commit"
+          fi

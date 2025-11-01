@@ -1,7 +1,6 @@
-import { AbimongoModel, AbimongoSchema,AbimongoClient  } from "../lib-core";
+import { AbimongoModel, AbimongoSchema, AbimongoClient } from "../lib-core";
 import { ClientSession, Collection, Db, MongoClient, ObjectId } from "mongodb";
-import EventEmitter from "events";
-// import { bufferedTransporter } from "../utils";
+import { bufferedTransporter } from "../utils";
 
 
 type MockTenantDB = {
@@ -421,7 +420,7 @@ describe('AbimongoModel', () => {
 
 			// Assert
 			// expect(model.init).toHaveBeenCalledTimes(1);
-			expect(mockCollection.insertMany).toHaveBeenCalledWith(docs, expect.any(Object));
+			expect(await mockCollection.insertMany).toHaveBeenCalledWith(docs, expect.any(Object));
 		})
 	})
 
@@ -546,7 +545,7 @@ describe('AbimongoModel', () => {
 
 			await model.populateOne(mockPopulate(), `name`, model);
 
-			expect(mockCollection.findOne).toHaveBeenCalled();
+			expect(await mockCollection.findOne).toHaveBeenCalled();
 		})
 	})
 
@@ -645,10 +644,10 @@ describe('AbimongoModel', () => {
 		})
 	})
 
-	afterAll(() => {
-		// bufferedTransporter.stop(); 
-		// const { shutdownLogger } = require('@abimongo/logger');
-		// shutdownLogger();
+	afterAll(async () => {
+		await bufferedTransporter.stop();
+		const { shutdownLogger } = require('@abimongo/logger');
+		await shutdownLogger();
 	});
 
 })
@@ -763,8 +762,8 @@ describe('AbimongoModel.updateWithTransaction', () => {
 
 	afterAll(async () => {
 		// await bufferedTransporter.stop(); // or however you're exposing it
-		// const { shutdownLogger } = require('@abimongo/logger');
-		// await shutdownLogger();
+		const { shutdownLogger } = require('@abimongo/logger');
+		await shutdownLogger();
 	});
 
 });

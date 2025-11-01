@@ -15,11 +15,11 @@
   "frontMatter": {},
   "sidebar": "core",
   "previous": {
-    "title": "AbimongoBootstrap (core)",
-    "permalink": "/abimongo/core/abimongo-bootstrap/AbimongoBootstrap"
+    "title": "Abimongo Bootstrap",
+    "permalink": "/abimongo/core/abimongo-bootstrap"
   },
   "next": {
-    "title": "@abimongo/core",
-    "permalink": "/abimongo/core/api/core/"
+    "title": "Abimongo",
+    "permalink": "/abimongo/core/api/classes/Abimongo"
   }
 }

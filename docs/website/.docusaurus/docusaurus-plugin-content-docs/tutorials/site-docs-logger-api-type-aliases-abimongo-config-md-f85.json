@@ -1,0 +1,23 @@
+{
+  "id": "logger/api/type-aliases/AbimongoConfig",
+  "title": "AbimongoConfig",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/type-aliases/AbimongoConfig.md",
+  "sourceDirName": "logger/api/type-aliases",
+  "slug": "/logger/api/type-aliases/AbimongoConfig",
+  "permalink": "/abimongo/docs/logger/api/type-aliases/AbimongoConfig",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "Transporter",
+    "permalink": "/abimongo/docs/logger/api/interfaces/Transporter"
+  },
+  "next": {
+    "title": "LogLevel",
+    "permalink": "/abimongo/docs/logger/api/type-aliases/LogLevel"
+  }
+}

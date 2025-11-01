@@ -1,0 +1,23 @@
+{
+  "id": "logger/api/functions/consoleTransport",
+  "title": "consoleTransport",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/functions/consoleTransport.md",
+  "sourceDirName": "logger/api/functions",
+  "slug": "/logger/api/functions/consoleTransport",
+  "permalink": "/abimongo/docs/logger/api/functions/consoleTransport",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "colorByLevel",
+    "permalink": "/abimongo/docs/logger/api/functions/colorByLevel"
+  },
+  "next": {
+    "title": "createCircuitBreaker",
+    "permalink": "/abimongo/docs/logger/api/functions/createCircuitBreaker"
+  }
+}

@@ -64,6 +64,7 @@ export function createRotatingFileTransporter(options?: RotatingFileTransporterO
     transport.set('daily', transportBuffered);
     transport.get('daily');
     console.log(`Created daily rotating file transporter at: ${options?.filename}`);
+    clearAllTimers();
     return transportBuffered;
   };
 
@@ -83,10 +84,11 @@ export function createRotatingFileTransporter(options?: RotatingFileTransporterO
     transport.set('hourly', transportBuffered);
     transport.get('hourly');
     console.log(`Created hourly rotating file transporter at: ${options?.filename}`);
+
     return transportBuffered;
   }
 
-  console.log(`📂 Log files will be located at: ${rollingTransport.getLogDirectory()} directory`);
+  console.log(`Log files will be located at: ${rollingTransport.getLogDirectory()} directory`);
   console.log(`Created log file at: ${options?.filename}`);
 
   // Clear the interval on process exit
@@ -94,24 +96,16 @@ export function createRotatingFileTransporter(options?: RotatingFileTransporterO
     clearInterval(flushInterval);
     rollingTransport.close();
     // metrics.stop();
-    console.log('🛑 Stopped rotating file transporter and cleared interval');
+    console.log('Stopped rotating file transporter and cleared interval');
     await clearAllTimers();
   });
 
   return {
     write: async (message: string) => {
       const logEntry = `[${new Date().toISOString()}] - ${message}\n`;
-      try {
-        const transportBuffered = new BufferedTransporter(rollingTransport, {
-          flushInterval: options?.flushInterval || 60000,
-          flushSize: 20,
-        });
-        await transportBuffered.write(logEntry);
-
-      } catch (err) {
-        console.error('Error writing log entry:', err);
-        throw err;
-      }
-    }
-  }
+      return await rollingTransport.write(logEntry);
+    },
+    flush: async () => await rollingTransport.flush(),
+    close: () => rollingTransport.close(),
+  };
 };

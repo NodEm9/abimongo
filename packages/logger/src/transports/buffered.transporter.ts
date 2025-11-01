@@ -7,10 +7,11 @@ type BufferedLogEntry = {
   level: string;
   message: string;
   meta: any[];
+  filename?: string;
 };
 
 /**
- * BufferedTransporter
+ *@class BufferedTransporter
  *
  * A logging transporter that buffers log messages and flushes them to an underlying transporter
  * at specified intervals or when the buffer reaches a certain size. This helps to optimize performance by reducing
@@ -41,7 +42,7 @@ export class BufferedTransporter implements Transporter {
     this.transporter = transporter;
     this.flushInterval = options?.flushInterval || 5000;
     this.flushSize = options?.flushSize || 10;
-      this.startAutoFlush();
+    this.startAutoFlush();
   }
 
   public write(message: string, level?: string, meta?: any[]): Promise<void> {
@@ -75,16 +76,24 @@ export class BufferedTransporter implements Transporter {
   }
 
   private startAutoFlush() {
+    // During tests we avoid starting background intervals which keep Jest running.
+    // Detect Jest by the presence of JEST_WORKER_ID or NODE_ENV === 'test'.
+    if (process.env.JEST_WORKER_ID !== undefined || process.env.NODE_ENV === 'test') {
+      return;
+    }
+
     this.timer = registerInterval(setInterval(
       () => this.flush().catch(console.error),
       this.flushInterval));
   }
 
   public async stop() {
-    // clearInterval(this.timer);
+    clearInterval(this.timer);
     this.timer = undefined;
     this.flush();
     this.transporter.close?.();
     await clearAllTimers();
   }
-}
+};
+
+

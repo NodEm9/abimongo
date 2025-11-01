@@ -1,0 +1,23 @@
+{
+  "id": "core/api/variables/logger",
+  "title": "logger",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/variables/logger.md",
+  "sourceDirName": "core/api/variables",
+  "slug": "/core/api/variables/logger",
+  "permalink": "/abimongo/docs/core/api/variables/logger",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "eventTypes",
+    "permalink": "/abimongo/docs/core/api/variables/eventTypes"
+  },
+  "next": {
+    "title": "lokiTransport",
+    "permalink": "/abimongo/docs/core/api/variables/lokiTransport"
+  }
+}

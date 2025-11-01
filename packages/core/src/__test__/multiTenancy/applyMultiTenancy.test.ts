@@ -10,7 +10,8 @@ import express from 'express';
 import request from 'supertest';
 import { applyMultiTenancy, TenantContext } from '../../tanancy';
 import * as initMultiTenancyModule from '../../tanancy';
-// import { shutdownLogger } from "@abimongo/logger";
+import { shutdownLogger } from "@abimongo/logger";
+import { bufferedTransporter } from '../../utils';
 
 jest.mock('../../tanancy/init/initMultiTenancy');
 jest.mock('../../tanancy/TenantContext');
@@ -86,7 +87,7 @@ describe('applyMultiTenancy', () => {
 	});
 
 	afterAll(async () => {
-		// await shutdownLogger();
-		// bufferedTransporter.stop();
+		await bufferedTransporter.stop();
+		await shutdownLogger();
 	});
 });

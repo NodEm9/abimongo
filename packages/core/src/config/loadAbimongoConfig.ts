@@ -4,6 +4,7 @@ import Ajv, { ValidateFunction } from 'ajv';
 import { AbimongoConfig } from '../types';
 import configSchema from './abimongo.config.schema.json';
 
+
 const ajv = new Ajv({
   allErrors: true,
   useDefaults: true,
@@ -23,12 +24,33 @@ const DEFAULT_CONFIG_FILENAME = 'abimongo.config.json';
  * @throws {Error} If the config file is not found or is invalid.
  */
 export async function loadAbimongoConfig(configPath?: string): Promise<AbimongoConfig> {
-  const finalPath = configPath
-    ? path.resolve(configPath)
-    : path.resolve(process.cwd(), DEFAULT_CONFIG_FILENAME);
+  // Candidate locations (test runners and consumers may use different cwd)
+  const candidates = configPath
+    ? [path.resolve(configPath)]
+    : [
+      // typical project root config
+      path.resolve(process.cwd(), DEFAULT_CONFIG_FILENAME),
+      // when running tests from package root: look under src/config/
+      path.resolve(process.cwd(), 'src', 'config', DEFAULT_CONFIG_FILENAME),
+      // possible local config folder next to this module
+      path.resolve(__dirname, DEFAULT_CONFIG_FILENAME),
+      // one level up from compiled dist layout
+      path.resolve(__dirname, '..', DEFAULT_CONFIG_FILENAME),
+      // fallback to a config folder in package root
+      path.resolve(process.cwd(), 'config', DEFAULT_CONFIG_FILENAME),
+    ];
 
-  if (!(await fs.pathExists(finalPath))) {
-    throw new Error(`Config file not found at ${finalPath}`);
+  let finalPath: string | undefined;
+  for (const candidate of candidates) {
+    // eslint-disable-next-line no-await-in-loop
+    if (await fs.pathExists(candidate)) {
+      finalPath = candidate;
+      break;
+    }
+  }
+
+  if (!finalPath) {
+    throw new Error(`Config file not found at any of: ${candidates.join(', ')}`);
   }
 
   const raw = await fs.readFile(finalPath, 'utf-8');
@@ -36,6 +58,30 @@ export async function loadAbimongoConfig(configPath?: string): Promise<AbimongoC
 
   try {
     parsed = JSON.parse(raw);
+
+    // Defensive normalization: if consumers provided booleans for certain
+    // config sections (e.g. "logger": false), Ajv with `useDefaults` will
+    // attempt to assign default properties onto those primitives which
+    // throws a TypeError. Convert known boolean shorthand fields into
+    // objects before validation so defaults can be applied safely.
+    const normalize = (cfg: any) => {
+      if (typeof cfg.logger === 'boolean') cfg.logger = { enabled: cfg.logger };
+      if (!cfg.logger) cfg.logger = { enabled: false };
+
+      if (typeof cfg.graphql === 'boolean') cfg.graphql = { enabled: cfg.graphql };
+      if (!cfg.graphql) cfg.graphql = { enabled: false };
+
+      if (!cfg.features) cfg.features = { useRedisCache: false };
+      if (typeof cfg.features?.useRedisCache === 'undefined') cfg.features.useRedisCache = false;
+
+      if (typeof cfg.advanced === 'boolean') cfg.advanced = { garbageCollector: { enabled: cfg.advanced } };
+      if (!cfg.advanced) cfg.advanced = { garbageCollector: { enabled: false }, circuitBreaker: { enabled: false } };
+      if (typeof cfg.advanced.garbageCollector === 'boolean') cfg.advanced.garbageCollector = { enabled: cfg.advanced.garbageCollector };
+
+      return cfg;
+    };
+
+    parsed = normalize(parsed) as AbimongoConfig;
     if (!validate) {
       validate = ajv.compile(configSchema);
     }

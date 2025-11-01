@@ -1,13 +1,12 @@
 import path from "path";
-import chalk from "chalk";
-
+import {colorize} from "../../core/src/utils/color-palatte";
 
 
 (async () => {
 try {
   const buildPath = path.resolve(__dirname, '../abimongo_core.node.js'); 
 
- async function resolvePath(p) {
+ async function resolvePath(p: string) {
 
     const abimongo = await import(buildPath);
 
@@ -30,19 +29,19 @@ try {
     const missing = requiredExports.filter(key => !(key in abimongo));
 
     if (missing.length > 0) {
-      console.error(chalk.red('❌ Missing exports in abimongo_core build:'));
+      console.error(colorize('❌ Missing exports in abimongo_core build:', 'win32'));
       for (const name of missing) {
         console.error(`- ${name}`);
       }
       process.exit(1);
     }
 
-    console.log(chalk.green('✅ All required exports are present in abimongo_core.'));
+    console.log(colorize('✅ All required exports are present in abimongo_core.', 'win32'));
     return path.isAbsolute(p) ? p : path.join(__dirname, p);
   }
   resolvePath(buildPath);
 } catch (err) {
-  console.error(chalk.red('❌ Failed to load abimongo_core build output:'), err);
+  console.error(colorize('❌ Failed to load abimongo_core build output:', 'win32'), err);
   process.exit(1);
 }
 })()

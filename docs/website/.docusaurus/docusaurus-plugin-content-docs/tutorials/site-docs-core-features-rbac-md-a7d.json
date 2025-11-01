@@ -1,0 +1,23 @@
+{
+  "id": "core/features/rbac",
+  "title": "Role-Based Access Control (RBAC) in Abimongo Core",
+  "description": "Abimongo Core includes a flexible, tenant-aware Role-Based Access Control (RBAC) system built to protect database operations and GraphQL resolvers. It supports declarative permissions, programmatic checks, caching for performance, and integrates with middleware (Express / GraphQL) and multi-tenant flows.",
+  "source": "@site/docs/core/features/rbac.md",
+  "sourceDirName": "core/features",
+  "slug": "/core/features/rbac",
+  "permalink": "/abimongo/docs/core/features/rbac",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "Caching in Abimongo Core",
+    "permalink": "/abimongo/docs/core/features/Caching"
+  },
+  "next": {
+    "title": "Redis integration (Abimongo Core)",
+    "permalink": "/abimongo/docs/core/features/redis"
+  }
+}

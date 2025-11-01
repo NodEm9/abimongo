@@ -1,0 +1,23 @@
+{
+  "id": "core/api/interfaces/AbimongoClientConfig",
+  "title": "AbimongoClientConfig",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/interfaces/AbimongoClientConfig.md",
+  "sourceDirName": "core/api/interfaces",
+  "slug": "/core/api/interfaces/AbimongoClientConfig",
+  "permalink": "/abimongo/docs/core/api/interfaces/AbimongoClientConfig",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "setLogger",
+    "permalink": "/abimongo/docs/core/api/functions/setLogger"
+  },
+  "next": {
+    "title": "AbimongoClientOptions",
+    "permalink": "/abimongo/docs/core/api/interfaces/AbimongoClientOptions"
+  }
+}

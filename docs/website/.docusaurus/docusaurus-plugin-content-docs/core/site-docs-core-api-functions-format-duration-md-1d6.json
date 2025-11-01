@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/formatDuration",
+  "title": "formatDuration",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/formatDuration.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/formatDuration",
+  "permalink": "/abimongo/core/api/functions/formatDuration",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "foldersAndFiles",
+    "permalink": "/abimongo/core/api/functions/foldersAndFiles"
+  },
+  "next": {
+    "title": "generateProject",
+    "permalink": "/abimongo/core/api/functions/generateProject"
+  }
+}

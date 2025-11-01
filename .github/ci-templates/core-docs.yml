@@ -29,7 +29,7 @@ jobs:
           node-version:  ${{ matrix.node-version }}
 
       - name: Install Dependencies
-        run: npm install
+        run: pnpm install
 
       - name: 🛠️ Generate Docs 
         run: npx typedoc --entryPoints src/index.ts --tsconfig tsconfig.json
@@ -37,8 +37,8 @@ jobs:
       - name: 🛠️ Build Docusaurus
         run: |
           cd docs-site
-          npm install
-          npm run build
+          pnpm install
+          pnpm run build
 
       - name: 📤 Upload built site
         uses: actions/upload-artifact@v4

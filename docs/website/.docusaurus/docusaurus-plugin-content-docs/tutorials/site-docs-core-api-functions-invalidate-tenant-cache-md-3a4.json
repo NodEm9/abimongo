@@ -1,0 +1,23 @@
+{
+  "id": "core/api/functions/invalidateTenantCache",
+  "title": "invalidateTenantCache",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/invalidateTenantCache.md",
+  "sourceDirName": "core/api/functions",
+  "slug": "/core/api/functions/invalidateTenantCache",
+  "permalink": "/abimongo/docs/core/api/functions/invalidateTenantCache",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "initializeRedis",
+    "permalink": "/abimongo/docs/core/api/functions/initializeRedis"
+  },
+  "next": {
+    "title": "isObjectId",
+    "permalink": "/abimongo/docs/core/api/functions/isObjectId"
+  }
+}

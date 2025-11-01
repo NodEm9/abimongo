@@ -2,6 +2,7 @@
 import { AbimongoGraphQL } from '../graphql/AbimongoGraphQL';
 import { invalidateTenantCache } from '../middleware/rbac/rbacMiddleware';
 import { connectRedis } from '../redis-manager';
+import { bufferedTransporter } from '../utils';
 
 
 
@@ -204,7 +205,7 @@ describe('AbimongoGraphQL', () => {
 
 			expect(result).toHaveLength(1);
 			expect(mockRedisClient.publish).toHaveBeenCalled();
-			expect(mockRedisClient.disconnect).toHaveBeenCalled();
+			expect(await mockRedisClient.disconnect).toHaveBeenCalled();
 			expect(invalidateTenantCache).toHaveBeenCalled();
 		});
 
@@ -258,7 +259,7 @@ describe('AbimongoGraphQL', () => {
 				expect(message).toBe('message');
 			});
 			expect(result).toBeUndefined();
-			expect(mockRedisClient.subscribe).toHaveBeenCalled();
+			expect(await mockRedisClient.subscribe).toHaveBeenCalled();
 		});
 
 		it('should subscribe to documentDeleted', async () => {
@@ -275,10 +276,11 @@ describe('AbimongoGraphQL', () => {
 	});
 
 	afterAll(async () => {
-		mockRedisClient.disconnect();
-		abimongo = null as any; 
-		// const { shutdownLogger } = require('@abimongo/logger');
-		// await shutdownLogger();
+		await mockRedisClient.disconnect();
+		abimongo = null as any;
+		await bufferedTransporter.stop();
+		const { shutdownLogger } = require('@abimongo/logger');
+		await shutdownLogger();
 	});
 
 });

@@ -1,0 +1,31 @@
+[**@abimongo/core v1.0.0**](../README.md)
+
+***
+
+[@abimongo/core](../README.md) / loadAbimongoConfig
+
+# Function: loadAbimongoConfig()
+
+> **loadAbimongoConfig**(`configPath?`): `Promise`\<[`AbimongoConfig`](../interfaces/AbimongoConfig.md)\>
+
+Defined in: [packages/core/src/config/loadAbimongoConfig.ts:26](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/config/loadAbimongoConfig.ts#L26)
+
+Loads and validates the Abimongo configuration from a JSON file.
+
+## Parameters
+
+### configPath?
+
+`string`
+
+Optional path to the configuration file.
+
+## Returns
+
+`Promise`\<[`AbimongoConfig`](../interfaces/AbimongoConfig.md)\>
+
+- The validated Abimongo configuration.
+
+## Throws
+
+If the config file is not found or is invalid.

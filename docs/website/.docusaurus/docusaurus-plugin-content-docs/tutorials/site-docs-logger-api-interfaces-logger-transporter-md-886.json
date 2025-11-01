@@ -1,0 +1,23 @@
+{
+  "id": "logger/api/interfaces/LoggerTransporter",
+  "title": "LoggerTransporter",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/interfaces/LoggerTransporter.md",
+  "sourceDirName": "logger/api/interfaces",
+  "slug": "/logger/api/interfaces/LoggerTransporter",
+  "permalink": "/abimongo/docs/logger/api/interfaces/LoggerTransporter",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "LoggerHooks",
+    "permalink": "/abimongo/docs/logger/api/interfaces/LoggerHooks"
+  },
+  "next": {
+    "title": "MetricsSnapshot",
+    "permalink": "/abimongo/docs/logger/api/interfaces/MetricsSnapshot"
+  }
+}

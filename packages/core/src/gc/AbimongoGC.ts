@@ -2,7 +2,7 @@ import { AbimongoClient, AbimongoSchema } from '../lib-core';
 import { Collection, Filter } from 'mongodb';
 // import { LoggerConfig, setupLogger } from '@abimongo/logger';
 import { GCConfig, Document } from '../types';
-import chalk from 'chalk';
+import { colorByLevel } from '@abimongo/logger';
 // import { logger } from '../config';
 import * as cron from 'node-cron';
 
@@ -43,44 +43,44 @@ export class AbimongoGC {
 			this.enabled = true;
 		}
 		if (options.logResults) {
-			console.log(chalk.blueBright('[AbimongoGC]: Logging results of GC operations.'));
+			console.log(colorByLevel('info', '[AbimongoGC]: Logging results of GC operations.'));
 			this.options.logResults = true;
 			this.enabled = true;
 		}
 		this.initialize();
 		if (options.cron) {
-			console.log(chalk.blueBright(`[AbimongoGC]: Cron schedule set to: ${options.cron}`));
+			console.log(colorByLevel('info', `[AbimongoGC]: Cron schedule set to: ${options.cron}`));
 			// You can implement cron scheduling here if needed
 			// For example, using node-cron or any other cron library
 			cron.schedule(options.cron, () => this.runOnce());
 			this.enabled = true;
 		} else if (options.interval) {
-			console.log(chalk.blueBright(`[AbimongoGC]: Interval set to: ${options.interval}`));
+			console.log(colorByLevel('info', `[AbimongoGC]: Interval set to: ${options.interval}`));
 			this.intervalMs = this.parseInterval(options.interval);
 			this.enabled = true;
 			this.start();
 		} else {
-			console.log(chalk.blackBright('[AbimongoGC]: No cron schedule provided, using interval-based cleanup.'));
+			console.log(colorByLevel('warn', '[AbimongoGC]: No cron schedule provided, using interval-based cleanup.'));
 		}
 	};
 
 	private initialize() {
-		console.log(chalk.blackBright('[AbimongoGC] Initializing Garbage Collector...'));
+		console.log(colorByLevel('info', '[AbimongoGC] Initializing Garbage Collector...'));
 		
 		if (this.options.retentionPeriod && this.options.interval && this.options.logger) {
-			console.log(chalk.blueBright(`[AbimongoGC] Retention period set to ${this.options.retentionPeriod} days. \n Interval set to ${this.options.interval} \n Logger configured.`));
+			console.log(colorByLevel('info', `[AbimongoGC] Retention period set to ${this.options.retentionPeriod} days. \n Interval set to ${this.options.interval} \n Logger configured.`));
 		} else {
-			console.log(chalk.blackBright('[AbimongoGC] No ( retention period, Interval or logger ) set, GC is using default settings.'));
+			console.log(colorByLevel('warn', '[AbimongoGC] No ( retention period, Interval or logger ) set, GC is using default settings.'));
 		}
 
 		if (!this.enabled) {
-			console.log(chalk.yellow('[AbimongoGC] Garbage Collector is disabled via options.'));
+			console.log(colorByLevel('warn', '[AbimongoGC] Garbage Collector is disabled via options.'));
 			return;
 		}
 
-		console.log(chalk.blueBright('[AbimongoGC] Initialization complete.'));
+		console.log(colorByLevel('info', '[AbimongoGC] Initialization complete.'));
 		this.start();
-		console.log(chalk.blueBright('[AbimongoGC] Garbage Collector is running.'));
+		console.log(colorByLevel('info', '[AbimongoGC] Garbage Collector is running.'));
 	}
 
 	register(collection: Collection<any>, schema: AbimongoSchema<Document>) {
@@ -89,14 +89,14 @@ export class AbimongoGC {
 
 	start() {
 		if (!this.intervalRef) return;
-		console.log(chalk.blueBright('[AbimongoGC]: 🔁 Started GC loop every', this.intervalMs, 'ms'));
+		console.log(colorByLevel('info', `[AbimongoGC]: 🔁 Started GC loop every ${this.intervalMs} ms`));
 		this.intervalRef = setInterval(() => this.runOnce(), this.intervalMs);
 	}
 
 	stop() {
 		if (this.intervalRef) clearInterval(this.intervalRef);
 		this.intervalRef = null;
-		console.log(chalk.blueBright('[AbimongoGC]: ⏹️ Stopped'));
+		console.log(colorByLevel('info', '[AbimongoGC]: ⏹️ Stopped'));
 	}
 
 	async runOnce() {
@@ -120,9 +120,9 @@ export class AbimongoGC {
 		config: GCConfig
 	) {
 		const now = new Date();
-		console.log(chalk.blueBright(`[GC]: Starting cleanup for "${collection.collectionName}" with config:`, config));
+		console.log(colorByLevel('info', `[GC]: Starting cleanup for "${collection.collectionName}" with config:`), config);
 		if (!config.ttlField || !config.expiresIn) {
-			console.warn(chalk.yellow(`[GC]: No TTL field or expiration time set for "${collection.collectionName}"`));
+			console.warn('info', (`[GC]: No TTL field or expiration time set for "${collection.collectionName}"`));
 			return;
 		}
 
@@ -140,13 +140,13 @@ export class AbimongoGC {
 
 			if (softDelete) {
 				await collection.updateMany(filter, { $set: { deletedAt: now } });
-				console.debug(chalk.blueBright(`[GC]: Soft-deleted documents older than ${expiresIn} from "${collection.collectionName}"`));
+				console.debug(colorByLevel('info', `[GC]: Soft-deleted documents older than ${expiresIn} from "${collection.collectionName}"`));
 			} else {
 				await collection.deleteMany(filter);
-				console.debug(chalk.blueBright(`[GC]: Deleted documents older than ${expiresIn} from "${collection.collectionName}"`));
+				console.debug(colorByLevel('info', `[GC]: Deleted documents older than ${expiresIn} from "${collection.collectionName}"`));
 			}
-			console.debug(chalk.blueBright(`[GC]: Cleanup completed for "${collection.collectionName}" with filter:`, filter));
-			console.debug(chalk.blueBright(`[GC]: Processed ${filter[ttlField].$lte} documents older than ${expiresIn}`));
+			console.debug(colorByLevel('info', `[GC]: Cleanup completed for "${collection.collectionName}" with filter:`), filter);
+			console.debug(colorByLevel('info', `[GC]: Processed ${filter[ttlField].$lte} documents older than ${expiresIn}`));
 		}
 	};
 

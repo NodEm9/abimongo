@@ -1,0 +1,23 @@
+{
+  "id": "logger/api/functions/colorByLevel",
+  "title": "colorByLevel",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/functions/colorByLevel.md",
+  "sourceDirName": "logger/api/functions",
+  "slug": "/logger/api/functions/colorByLevel",
+  "permalink": "/abimongo/docs/logger/api/functions/colorByLevel",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "clearAllTimers",
+    "permalink": "/abimongo/docs/logger/api/functions/clearAllTimers"
+  },
+  "next": {
+    "title": "consoleTransport",
+    "permalink": "/abimongo/docs/logger/api/functions/consoleTransport"
+  }
+}

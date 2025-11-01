@@ -1,6 +1,6 @@
 ---
 slug: /logger/transports
-title: Logger transports
+title: (Advanced) Logger transports
 ---
 
 ## Overview

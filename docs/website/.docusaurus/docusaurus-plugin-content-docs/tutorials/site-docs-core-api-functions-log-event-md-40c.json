@@ -1,0 +1,23 @@
+{
+  "id": "core/api/functions/logEvent",
+  "title": "logEvent",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/logEvent.md",
+  "sourceDirName": "core/api/functions",
+  "slug": "/core/api/functions/logEvent",
+  "permalink": "/abimongo/docs/core/api/functions/logEvent",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "logDefaultEvent",
+    "permalink": "/abimongo/docs/core/api/functions/logDefaultEvent"
+  },
+  "next": {
+    "title": "parseDuration",
+    "permalink": "/abimongo/docs/core/api/functions/parseDuration"
+  }
+}

@@ -1,5 +1,5 @@
 
-export const MAIN_TS_CONTENT = `import { AbimongoBootstrapFactory} from '@abimongo/core';
+export const MAIN_TS_CONTENT = `import { initAbimongo } from '@abimongo/core';
 import { createServer } from 'http'; // or Fastify, Hapi, etc.
 import { ApolloServer } from '@apollo/server'; // Optional, only if GraphQL is enabled
 import { startStandaloneServer } from '@apollo/server/standalone';
@@ -16,8 +16,8 @@ import express from 'express';
  * Doing so ensures that your configuration from abimongo.config.json is properly loaded.
  */
 
-export async function bootstrap() {
-  const app = await AbimongoBootstrapFactory.create(); // Will look for abimongo.config.json by default
+export async function run() {
+  const app = await initAbimongo.create(); // Will look for abimongo.config.json by default
   const httpServer = createServer(express());
 
   // Connect Mongodb
@@ -58,7 +58,7 @@ export async function bootstrap() {
 // 			return {
 // 				user: {
 // 					role: 'admin',
-// 					tenantId: req.headers['x-tenant-id'] || process.env.TENANT_A_ID,
+// 					tenantId: req.headers['x-tenant-id'] || 'tenant-a', // Example of multi-tenant header
 // 				},
 // 				collection: 'users',
 // 				tenantId: 'tenant-a',
@@ -66,22 +66,12 @@ export async function bootstrap() {
 // 			};
 // 		}
 // 	})
-//     console.log('🚀 GraphQL server is running.');
+//   
 //     // Optionally mount it to Express or other framework
-
 //     console.log('🚀 Server ready at http://localhost:4000/graphql');
 // }
-    //  const logger = app.getLogger();
-    //  logger.info('Logger is enabled and ready to use.');
-
-
 
 return app;
 
-}
-
-bootstrap().catch((err) => {
-  console.error('❌ Error starting application:', err);
-  process.exit(1);
-})`;
+}`;
 

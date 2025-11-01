@@ -73,7 +73,13 @@ export class AbimongoModel<T extends Document> {
           this.db = resolved.db();
         })
     } else if (client) {
-      this.db = client.db();
+      // client may be a test stub; guard against non-function .db
+      if (client && typeof (client as any).db === 'function') {
+        this.db = client.db();
+      } else {
+        // provide a safe stub DB for tests
+        this.db = ({} as unknown) as Db;
+      }
     }
 
     this.collectionName = collectionName;

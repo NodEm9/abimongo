@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/generateProject",
+  "title": "generateProject",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/generateProject.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/generateProject",
+  "permalink": "/abimongo/core/api/functions/generateProject",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "formatDuration",
+    "permalink": "/abimongo/core/api/functions/formatDuration"
+  },
+  "next": {
+    "title": "generateProjectWithConfig",
+    "permalink": "/abimongo/core/api/functions/generateProjectWithConfig"
+  }
+}

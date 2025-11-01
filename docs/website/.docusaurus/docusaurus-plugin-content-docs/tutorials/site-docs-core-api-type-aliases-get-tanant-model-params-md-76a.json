@@ -1,0 +1,23 @@
+{
+  "id": "core/api/type-aliases/GetTanantModelParams",
+  "title": "GetTanantModelParams",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/type-aliases/GetTanantModelParams.md",
+  "sourceDirName": "core/api/type-aliases",
+  "slug": "/core/api/type-aliases/GetTanantModelParams",
+  "permalink": "/abimongo/docs/core/api/type-aliases/GetTanantModelParams",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "GCConfig",
+    "permalink": "/abimongo/docs/core/api/type-aliases/GCConfig"
+  },
+  "next": {
+    "title": "HookFunction",
+    "permalink": "/abimongo/docs/core/api/type-aliases/HookFunction"
+  }
+}

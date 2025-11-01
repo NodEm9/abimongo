@@ -1,7 +1,7 @@
 //src/gc/gcCron.browser.ts
-import chalk from 'chalk';
+import { colorByLevel } from "@abimongo/logger";
 
 export const startGarbageCollector = () => {
   // No-op for browsers
-  console.warn(chalk.yellow('[GC] Garbage collector is disabled in the browser.'));
+  console.warn(colorByLevel('warn', '[GC] Garbage collector is disabled in the browser.'));
 };

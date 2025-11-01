@@ -1,10 +1,10 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { AbimongoConfig, ProjectOptions } from '../../types';
+import { AbimongoConfig } from '../../types';
 import { execSync } from 'child_process';
-import chalk from 'chalk';
+import { colorize } from '../../utils/color-palatte';
 import { MAIN_TS_CONTENT } from '../core/main';
-import { AbimongoGraphQL } from '../../graphql';
+
 
 export async function generateAppStructure(projectRoot: string, options: AbimongoConfig) {
   const srcDir = path.join(projectRoot, 'src');
@@ -28,7 +28,7 @@ export async function generateAppStructure(projectRoot: string, options: Abimong
   }
 
   // Create placeholder files
-  await fs.writeFile(path.join(coreDir, 'AbimongoBootstrap.ts'), abimongoBootstrapFileContent);
+  await fs.writeFile(path.join(coreDir, 'initAbimongo.ts'), abimongoBootstrapFileContent);
   await fs.writeFile(path.join(utilsDir, 'helper.ts'), '// helper functions implementation');
   await fs.writeFile(path.join(typesDir, 'config.ts'), '// Config types');
 
@@ -71,12 +71,13 @@ export const resolvers = {
 };
 `)
     fs.writeFileSync(path.join(graphqlDir, 'graphQL.ts'),
-      `import { bootstrap } from '../core/AbimongoBootstrap';
+      `import { bootstrap } from '../core/initAbimongo';
 // You can use AbimongoGraphQL to setup your GraphQL server
 // but here everthing is already made available in the bootstrap file.
-// For more information, visit: https://abimongo.com/docs/graphql , https://abimongo.com/docs/core/bootstrap
-import { AbimongoGraphQL } from '@abimongo/core';
-export const app =  (await (bootstrap())); // or new AbimongoGraphQL({useRedis: false});
+// For more information, visit: https://github.com/NodEm9/abimongo/core/features/AbimongoGraphQL , https://github.com/NodEm9/abimongo/core/abimongo-bootstrap/AbimongoBootstrap
+import { run } from '../core/initAbimongo';
+
+export const app =  (await (run())); // or new AbimongoGraphQL({useRedis: false});
 const graphql = app.getGraphQL();
      graphql?.generateSchema();
 /**
@@ -109,11 +110,10 @@ const graphql = app.getGraphQL();
     "module": "commonjs",
     "dependencies": {
       "mongodb": "^6.14.2",
-      "node-cron": "^4.2.0"
     },
     "devDependencies": {
-      "typescript": "^5.3.3",
-      "ts-node": "^10.9.1",
+      "typescript": "^5.9.3",
+      "ts-node": "^10.9.2",
     },
   };
 
@@ -122,20 +122,36 @@ const graphql = app.getGraphQL();
     JSON.stringify(
       {
         compilerOptions: {
-          "target": 'ES2022',
-          "lib": ["DOM", "ES2022"],
+          // Environment and Module Settings
+          "target": 'ES2021',
+          "lib": [],
           "moduleDetection": "auto",
           "module": 'commonjs',
+          "moduleResolution": 'node',
           "rootDir": './src',
           "outDir": './dist',
+
+          // Source Map/Outputs Settings
+          "sourceMap": true,
+          "declaration": true,
+          "declarationMap": true,
           "esModuleInterop": true,
-          "resolveJsonModule": true,
+
+          // Typechecking Options (strictness)
+          "noUncheckedIndexedAccess": true,
+          "exactOptionalPropertyTypes": true,
           "forceConsistentCasingInFileNames": true,
+          "noImplicitReturns": true,
+          "noImplicitAny": true,
+
+          // Recommended Options Settings
+          "resolveJsonModule": true,
+          "jsx": "react-jsx",
           "strict": true,
           "skipLibCheck": true
         },
         "include": ['src/**/*'],
-        "exclude": ['node_modules', 'dist', 'templates']
+        "exclude": ['node_modules', 'dist']
       },
       null,
       2
@@ -145,12 +161,26 @@ const graphql = app.getGraphQL();
 
   await fs.writeJson(path.join(projectRoot, 'package.json'), packageJson, { spaces: 2 });
 
-  // execSync(`npm install @abimongo/core @abimongo/logger mongodb, { cwd: projectRoot, stdio: 'inherit' });
-  execSync(`npm install express mongodb`, { cwd: projectRoot, stdio: 'inherit' });
-  console.log(chalk.blueBright(`[Installing dependencies]: Installing dependencies...`));
+  // execSync(`${getPackageManagerCommand(pkgManagerProps)} @abimongo/core @abimongo/logger mongodb, { cwd: projectRoot, stdio: 'inherit' });
+  // By default we do NOT run npm/yarn installs during scaffolding because
+  // running a package manager here may block (network, registry) and will
+  // make `npx abimongo` slower or fail in offline/test environments.
+  // If consumers want automatic install, pass `advanced.autoInstall = true`
+  // in the options (not enabled by default).
+  if (options.advanced && (options.advanced as any).autoInstall) {
+    try {
+      execSync(`npm install express mongodb`, { cwd: projectRoot, stdio: 'inherit' });
+      console.log(colorize(`[Installing dependencies]: Installed runtime dependencies.`, 'green'));
 
-  execSync(`npm install -D typescript ts-node @types/node`, { cwd: projectRoot, stdio: 'inherit' });
-  console.log(chalk.blueBright(`[Installing dev dependencies]: Installing dev dependencies...`));
+      execSync(`npm install -D typescript ts-node @types/node`, { cwd: projectRoot, stdio: 'inherit' });
+      console.log(colorize(`[Installing dev dependencies]: Installed dev dependencies.`, 'green'));
+    } catch (err) {
+      console.log(colorize(`⚠️  Dependency installation failed or was interrupted. Skipping install.`, 'yellow'));
+    }
+  } else {
+    console.log(colorize(`[Skipping install]: To auto-install dependencies during scaffold set advanced.autoInstall=true in options.`, 'blue'));
+    console.log(colorize(`[Next steps]: cd ${projectRoot} && npm install`, 'blue'));
+  }
 
   // Create .gitignore
   const gitignoreContent = `node_modules
@@ -161,3 +191,4 @@ lib
 `;
   await fs.writeFile(path.join(projectRoot, '.gitignore'), gitignoreContent);
 }
+

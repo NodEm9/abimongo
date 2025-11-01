@@ -1,0 +1,21 @@
+{
+  "id": "intro",
+  "title": "Abimongo Create (scaffolder)",
+  "description": "The Abimongo Create tool is a project scaffolding utility. It creates starter applications (for example it scaffolds projects and developer tooling rather than exposing a runtime API.",
+  "source": "@site/docs/create/intro.md",
+  "sourceDirName": ".",
+  "slug": "/intro",
+  "permalink": "/abimongo/create/intro",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761516291000,
+  "frontMatter": {},
+  "sidebar": "create",
+  "previous": {
+    "title": "Abimongo CLI (shim)",
+    "permalink": "/abimongo/create/abimongo-cli"
+  }
+}

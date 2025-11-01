@@ -15,8 +15,8 @@
   "frontMatter": {},
   "sidebar": "core",
   "previous": {
-    "title": "Variable: schemaTypeSymbol",
-    "permalink": "/abimongo/core/api/core/variables/schemaTypeSymbol"
+    "title": "schemaTypeSymbol",
+    "permalink": "/abimongo/core/api/variables/schemaTypeSymbol"
   },
   "next": {
     "title": "AbimongoModel",

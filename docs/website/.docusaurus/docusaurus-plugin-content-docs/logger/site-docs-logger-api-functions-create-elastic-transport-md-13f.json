@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/createElasticTransport",
+  "title": "createElasticTransport",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/functions/createElasticTransport.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/createElasticTransport",
+  "permalink": "/abimongo/logger/api/functions/createElasticTransport",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "createCircuitBreaker",
+    "permalink": "/abimongo/logger/api/functions/createCircuitBreaker"
+  },
+  "next": {
+    "title": "createFileTransporter",
+    "permalink": "/abimongo/logger/api/functions/createFileTransporter"
+  }
+}

@@ -9,25 +9,60 @@ module.exports = {
   target: 'node',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'abimongo-cli.js'
+    filename: 'abimongo_cli.js',
   },
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js'],
+    // In a monorepo workspace prefer the local source of @abimongo/core
+    // during development only when DEV_USE_SOURCE=true. Pulling sibling
+    // package source into this compilation can cause ts-loader/tsc
+    // project-listing errors, so keep this opt-in.
+    alias: (process.env.DEV_USE_SOURCE === 'true') ? {
+      '@abimongo/core': path.resolve(__dirname, '../core/src')
+    } : {},
   },
   module: {
-    rules: [{ test: /\.ts$/, use: 'ts-loader', exclude: /node_modules/ }]
+    rules: [
+      {
+        test: /\.ts$/,
+        use: {
+          loader: 'ts-loader',
+          options: {
+            // Always point ts-loader at this package tsconfig to avoid
+            // implicit cross-package program composition.
+            configFile: path.resolve(__dirname, 'tsconfig.json'),
+            // Only transpile for bundling; run full type-check in a
+            // separate root-level `typecheck` step (added to package.json).
+            transpileOnly: true,
+            onlyCompileBundledFiles: true,
+          }
+        },
+        exclude: /node_modules/
+      }
+    ]
   },
   externals: {
-    'fsevents': 'commonjs fsevents'
+    'fsevents': 'commonjs fsevents',
+    // Optional native modules pulled in by mongodb - keep as externals so
+    // the CLI bundle doesn't try to resolve optional native deps at build
+    // time. They are optional at runtime and should not fail the build.
+    'kerberos': 'commonjs kerberos',
+    '@mongodb-js/zstd': 'commonjs @mongodb-js/zstd',
+    '@aws-sdk/credential-providers': 'commonjs @aws-sdk/credential-providers',
+    'gcp-metadata': 'commonjs gcp-metadata',
+    'snappy': 'commonjs snappy',
+    'socks': 'commonjs socks',
+    'aws4': 'commonjs aws4',
+    'mongodb-client-encryption': 'commonjs mongodb-client-encryption'
   },
   plugins: [
     {
       apply: (compiler) => {
         compiler.hooks.emit.tapAsync('AddShebangPlugin', (compilation, callback) => {
-          const content = compilation.assets['abimongo_cli.js'];
+          const content = compilation.assets['abimongo_cli.js'].source();
           compilation.assets['abimongo_cli.js'] = {
             source: () => `#!/usr/bin/env node\n${content}`,
-            size: () => content.source().length + '#!/usr/bin/env node\n'.length,
+            size: () => content.length + '#!/usr/bin/env node\n'.length,
           };
           callback();
         });
@@ -35,62 +70,3 @@ module.exports = {
     },
   ],
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-// import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-// const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// export default {
-//   mode: 'production',
-//   target: 'node',
-//   entry: './src/abimongo-cli/index.ts',
-//   output: {
-//     path: path.resolve(__dirname, 'dist'),
-//     filename: 'cli.js',
-//   },
-//   resolve: {
-//     extensions: ['.ts', '.js'],
-//   },
-//   module: {
-//     rules: [
-//       {
-//         test: /\.ts$/,
-//         loader: 'ts-loader',
-//         exclude: /node_modules/,
-//       },
-//     ],
-//   },
-//   externalsPresets: { node: true },
-//   externals: {
-//     fs: 'commonjs fs',
-//     path: 'commonjs path',
-//     child_process: 'commonjs child_process',
-//   },
-// 	plugins: [
-// 			new CleanWebpackPlugin({
-// 			cleanStaleWebpackAssets: false,
-// 			cleanOnceBeforeBuildPatterns: ['**/*', '!records.json'],
-// 			cleanAfterEveryBuildPatterns: ['**/*', '!records.json'],
-// 		}),
-// 	],
-// };

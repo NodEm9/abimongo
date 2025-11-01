@@ -1,0 +1,23 @@
+{
+  "id": "core/api/classes/MultiTenantManager",
+  "title": "MultiTenantManager",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/classes/MultiTenantManager.md",
+  "sourceDirName": "core/api/classes",
+  "slug": "/core/api/classes/MultiTenantManager",
+  "permalink": "/abimongo/docs/core/api/classes/MultiTenantManager",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "AuthService",
+    "permalink": "/abimongo/docs/core/api/classes/AuthService"
+  },
+  "next": {
+    "title": "RedisService",
+    "permalink": "/abimongo/docs/core/api/classes/RedisService"
+  }
+}

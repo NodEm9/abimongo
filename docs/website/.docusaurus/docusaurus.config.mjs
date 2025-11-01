@@ -55,11 +55,22 @@ export default {
       "@docusaurus/plugin-content-docs",
       {
         "id": "cli",
-        "path": "C:\\Users\\User\\Documents\\GitHub\\abimongo\\docs\\website\\docs\\cli",
-        "routeBasePath": "cli",
+        "path": "C:\\Users\\User\\Documents\\GitHub\\abimongo\\docs\\website\\docs\\create",
+        "routeBasePath": "create",
         "showLastUpdateAuthor": true,
         "showLastUpdateTime": true,
-        "sidebarPath": "C:\\Users\\User\\Documents\\GitHub\\abimongo\\docs\\website\\sidebars.cli.ts"
+        "sidebarPath": "C:\\Users\\User\\Documents\\GitHub\\abimongo\\docs\\website\\sidebars.create.ts"
+      }
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        "id": "tutorials",
+        "path": "C:\\Users\\User\\Documents\\GitHub\\abimongo\\docs\\website\\tutorials",
+        "routeBasePath": "tutorials",
+        "showLastUpdateAuthor": true,
+        "showLastUpdateTime": true,
+        "sidebarPath": "C:\\Users\\User\\Documents\\GitHub\\abimongo\\docs\\website\\sidebars.tutorials.ts"
       }
     ],
     [
@@ -72,8 +83,7 @@ export default {
         "tsconfig": "packages/core/tsconfig.json",
         "out": "/core/api/core",
         "sidebar": {
-          "autoConfiguration": "API (Core)",
-          "position": 10
+          "autoConfiguration": "API (Core)"
         },
         "readme": "none"
       }
@@ -88,8 +98,22 @@ export default {
         "tsconfig": "packages/logger/tsconfig.json",
         "out": "/logger/api/logger",
         "sidebar": {
-          "autoConfiguration": "API (Logger)",
-          "position": 20
+          "autoConfiguration": "API (Logger)"
+        },
+        "readme": "none"
+      }
+    ],
+    [
+      "docusaurus-plugin-typedoc",
+      {
+        "id": "api-create",
+        "entryPoints": [
+          "packages/create/src/index.ts"
+        ],
+        "tsconfig": "packages/create/tsconfig.json",
+        "out": "/docs/create/api/create",
+        "sidebar": {
+          "autoConfiguration": "API (CLI)"
         },
         "readme": "none"
       }
@@ -124,8 +148,13 @@ export default {
           "position": "left"
         },
         {
-          "to": "/cli/intro",
-          "label": "CLI",
+          "to": "/create/intro",
+          "label": "Cli",
+          "position": "left"
+        },
+        {
+          "to": "/tutorials/intro",
+          "label": "Tutorials",
           "position": "left"
         },
         {

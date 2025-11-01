@@ -1,0 +1,23 @@
+{
+  "id": "core/api/functions/getTenantDB",
+  "title": "getTenantDB",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/getTenantDB.md",
+  "sourceDirName": "core/api/functions",
+  "slug": "/core/api/functions/getTenantDB",
+  "permalink": "/abimongo/docs/core/api/functions/getTenantDB",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "getRBACAction",
+    "permalink": "/abimongo/docs/core/api/functions/getRBACAction"
+  },
+  "next": {
+    "title": "getTenantModel",
+    "permalink": "/abimongo/docs/core/api/functions/getTenantModel"
+  }
+}

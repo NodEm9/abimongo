@@ -71,4 +71,4 @@ export function createResilientTransporter(baseTransporter: RemoteTransporter): 
   return async (formattedMessage, meta) => {
     await retryWithBackoff(() => breakerWrapped(formattedMessage, meta));
   };
-}
+};

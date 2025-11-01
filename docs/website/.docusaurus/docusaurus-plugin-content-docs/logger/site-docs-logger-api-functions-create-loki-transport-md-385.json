@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/createLokiTransport",
+  "title": "createLokiTransport",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/functions/createLokiTransport.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/createLokiTransport",
+  "permalink": "/abimongo/logger/api/functions/createLokiTransport",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "createLogger",
+    "permalink": "/abimongo/logger/api/functions/createLogger"
+  },
+  "next": {
+    "title": "createResilientTransporter",
+    "permalink": "/abimongo/logger/api/functions/createResilientTransporter"
+  }
+}

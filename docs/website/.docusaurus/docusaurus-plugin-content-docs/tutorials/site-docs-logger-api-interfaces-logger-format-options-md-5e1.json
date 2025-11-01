@@ -1,0 +1,23 @@
+{
+  "id": "logger/api/interfaces/LoggerFormatOptions",
+  "title": "LoggerFormatOptions",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/interfaces/LoggerFormatOptions.md",
+  "sourceDirName": "logger/api/interfaces",
+  "slug": "/logger/api/interfaces/LoggerFormatOptions",
+  "permalink": "/abimongo/docs/logger/api/interfaces/LoggerFormatOptions",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "LoggerConfig",
+    "permalink": "/abimongo/docs/logger/api/interfaces/LoggerConfig"
+  },
+  "next": {
+    "title": "LoggerHooks",
+    "permalink": "/abimongo/docs/logger/api/interfaces/LoggerHooks"
+  }
+}

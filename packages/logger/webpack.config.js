@@ -4,16 +4,17 @@ const path = require('path');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const { VERSION } = require('ts-node');
 
+
 module.exports = {
 	mode: 'production',
 	entry: './src/index.ts',
 	target: 'node',
-	devtool: 'source-map',
+	// devtool: 'source-map',
 	output: {
 		filename: 'abimongo-logger.js',
 		path: path.resolve(__dirname, 'dist'),
 		library: {
-			name: 'abimongo-logger',
+			name: 'abimongo-logger', 
 			type: 'umd',
 		},
 		globalObject: 'this',

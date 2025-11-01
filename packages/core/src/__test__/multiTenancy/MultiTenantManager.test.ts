@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MultiTenantManager } from '../../tanancy/MultiTenantManager';
 import { MongoClient } from 'mongodb';
+// import { bufferedTransporter } from '../../utils';
 
 
 jest.mock('mongodb', () => {
@@ -78,5 +79,11 @@ describe('MultiTenantManager', () => {
 		const db = client.db(dbName);
 		// expect(db.databaseName).toBe('somedb');
 		expect(typeof db.collection).toBe('function');
+	});
+	afterAll(async () => {
+		jest.resetAllMocks();
+		// await bufferedTransporter.stop();
+		const shutdownLogger = require('@abimongo/logger').shutdownLogger;
+		await shutdownLogger();
 	});
 });

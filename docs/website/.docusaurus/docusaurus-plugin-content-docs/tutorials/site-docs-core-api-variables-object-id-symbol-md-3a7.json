@@ -1,0 +1,23 @@
+{
+  "id": "core/api/variables/objectIdSymbol",
+  "title": "objectIdSymbol",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/variables/objectIdSymbol.md",
+  "sourceDirName": "core/api/variables",
+  "slug": "/core/api/variables/objectIdSymbol",
+  "permalink": "/abimongo/docs/core/api/variables/objectIdSymbol",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "now",
+    "permalink": "/abimongo/docs/core/api/variables/now"
+  },
+  "next": {
+    "title": "redis",
+    "permalink": "/abimongo/docs/core/api/variables/redis"
+  }
+}

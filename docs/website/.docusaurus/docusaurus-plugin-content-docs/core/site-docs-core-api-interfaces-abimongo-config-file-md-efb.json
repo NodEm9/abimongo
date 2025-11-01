@@ -1,0 +1,25 @@
+{
+  "id": "api/interfaces/AbimongoConfigFile",
+  "title": "AbimongoConfigFile",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/interfaces/AbimongoConfigFile.md",
+  "sourceDirName": "api/interfaces",
+  "slug": "/api/interfaces/AbimongoConfigFile",
+  "permalink": "/abimongo/core/api/interfaces/AbimongoConfigFile",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "AbimongoConfig",
+    "permalink": "/abimongo/core/api/interfaces/AbimongoConfig"
+  },
+  "next": {
+    "title": "AbimongoGraphQLOptions",
+    "permalink": "/abimongo/core/api/interfaces/AbimongoGraphQLOptions"
+  }
+}

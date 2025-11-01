@@ -1,0 +1,23 @@
+{
+  "id": "core/api/classes/AbimongoClient",
+  "title": "AbimongoClient",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/classes/AbimongoClient.md",
+  "sourceDirName": "core/api/classes",
+  "slug": "/core/api/classes/AbimongoClient",
+  "permalink": "/abimongo/docs/core/api/classes/AbimongoClient",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "AbimongoBootstrap",
+    "permalink": "/abimongo/docs/core/api/classes/AbimongoBootstrap"
+  },
+  "next": {
+    "title": "AbimongoGC",
+    "permalink": "/abimongo/docs/core/api/classes/AbimongoGC"
+  }
+}

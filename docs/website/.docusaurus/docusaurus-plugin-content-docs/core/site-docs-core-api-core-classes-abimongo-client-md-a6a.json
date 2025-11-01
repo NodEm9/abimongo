@@ -1,0 +1,25 @@
+{
+  "id": "api/core/classes/AbimongoClient",
+  "title": "Class: AbimongoClient",
+  "description": "Defined in39",
+  "source": "@site/docs/core/api/core/classes/AbimongoClient.md",
+  "sourceDirName": "api/core/classes",
+  "slug": "/api/core/classes/AbimongoClient",
+  "permalink": "/abimongo/core/api/core/classes/AbimongoClient",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "Class: AbimongoBootstrapFactory",
+    "permalink": "/abimongo/core/api/core/classes/AbimongoBootstrapFactory"
+  },
+  "next": {
+    "title": "Class: AbimongoGC",
+    "permalink": "/abimongo/core/api/core/classes/AbimongoGC"
+  }
+}

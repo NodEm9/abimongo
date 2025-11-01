@@ -1,12 +1,17 @@
 /**
- * Abimongo Core Library for Browser
- * This module provides core functionalities for Abimongo in a browser environment.
- * It includes database operations, configuration, and more.
- * @module AbimongoCoreBrowser
+ * @author Emmanuel Nodolomwanyi - Abimongo Team
+ * @package - @abimongo/core
  * @version 1.0.0
  */
 
-console.log('Abimongo Core Library Loaded');
+/**
+ * Abimongo Core Library for Browser
+ * This module provides core functionalities for Abimongo in a browser environment.
+ * It includes database operations, configuration, and more.
+ * @module Abimongo Core Browser Module
+ * @version 1.0.0
+ */
+console.log('Abimongo Core Library Loaded for Browser');
 
 export * from './lib-core';
 export * from './lib-core/bootstrap';
@@ -16,7 +21,6 @@ export * from './tanancy';
 export { applyMultiTenancy } from './tanancy/applyMultiTenancy';
 export * from './utils/builders';
 export * from './utils';
-// export * from './config/setupLogger';
 export * from './gc/AbimongoGC';
 export { GCSettings } from './decorators/gcSettings';
 export * from './redis-manager';

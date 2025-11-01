@@ -1,0 +1,21 @@
+{
+  "id": "abimongo-cli",
+  "title": "Abimongo CLI (shim)",
+  "description": "@abimongo/cli is a lightweight, non-invasive CLI shim that provides two complementary workflows:",
+  "source": "@site/docs/create/abimongo-cli.md",
+  "sourceDirName": ".",
+  "slug": "/abimongo-cli",
+  "permalink": "/abimongo/create/abimongo-cli",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761902010000,
+  "frontMatter": {},
+  "sidebar": "create",
+  "next": {
+    "title": "Abimongo Create (scaffolder)",
+    "permalink": "/abimongo/create/intro"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "core/api/variables/eventTypes",
+  "title": "eventTypes",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/variables/eventTypes.md",
+  "sourceDirName": "core/api/variables",
+  "slug": "/core/api/variables/eventTypes",
+  "permalink": "/abimongo/docs/core/api/variables/eventTypes",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "elasticTransport",
+    "permalink": "/abimongo/docs/core/api/variables/elasticTransport"
+  },
+  "next": {
+    "title": "logger",
+    "permalink": "/abimongo/docs/core/api/variables/logger"
+  }
+}

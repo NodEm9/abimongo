@@ -1,0 +1,23 @@
+{
+  "id": "core/api/functions/getEventType",
+  "title": "getEventType",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/getEventType.md",
+  "sourceDirName": "core/api/functions",
+  "slug": "/core/api/functions/getEventType",
+  "permalink": "/abimongo/docs/core/api/functions/getEventType",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "getEventOptions",
+    "permalink": "/abimongo/docs/core/api/functions/getEventOptions"
+  },
+  "next": {
+    "title": "getModelFilesFromPath",
+    "permalink": "/abimongo/docs/core/api/functions/getModelFilesFromPath"
+  }
+}

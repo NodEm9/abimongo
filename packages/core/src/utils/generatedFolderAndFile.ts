@@ -1,25 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
+import { colorByLevel } from '@abimongo/logger';
 
-
-export const colourize = (text: string, color: string) => {
-  switch (color) {
-    case 'yellow':
-      return '#FFFF00';
-    case 'green':
-      return '#00FF00';
-    case 'blue':
-      return '#0000FF';
-    case 'red':
-      return '#FF0000';
-    case 'blueBright':
-      return '#00BFFF';
-    case 'cyan':
-      return '#00FFFF';
-    default:
-      return text;
-  }
-};
 
 type GeneratedFolderAndFile = {
   name: string;
@@ -39,10 +21,12 @@ const generatedFiles = () => {
   ]
   
   // Log all generated files
-  console.log(colourize('\n[Generated Files]:', 'yellow'));
+  console.log(colorByLevel('info', '\n[Generated Files]:'));
+  
   allFiles.forEach(file => {
     if (fs.existsSync(file.path)) {
-      console.log(colourize(`- ${file.name}`, 'yellow'));
+      const colorConsole = colorByLevel( 'info', `- ${file.name}`)
+      console.log(colorConsole);
     }
   });
 }
@@ -55,10 +39,10 @@ const generatedFolders = () => {
     { name: 'scripts/', path: path.join(projectRoot, 'scripts') },
   ]
   // Log all generated folders
-  console.log(colourize('\n[Generated Folders]:', 'yellow'));
+  console.log(colorByLevel( 'info', '\n[Generated Folders]:'));
   allFolders.forEach(folder => {
     if (fs.existsSync(folder.path)) {
-      console.log(colourize(`- ${folder.name}`, 'yellow'));
+      console.log(colorByLevel( 'info', `- ${folder.name}`));
     }
   });
 }

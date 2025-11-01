@@ -1,0 +1,25 @@
+{
+  "id": "api/variables/redis",
+  "title": "redis",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/variables/redis.md",
+  "sourceDirName": "api/variables",
+  "slug": "/api/variables/redis",
+  "permalink": "/abimongo/core/api/variables/redis",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "objectIdSymbol",
+    "permalink": "/abimongo/core/api/variables/objectIdSymbol"
+  },
+  "next": {
+    "title": "rolePermissions",
+    "permalink": "/abimongo/core/api/variables/rolePermissions"
+  }
+}

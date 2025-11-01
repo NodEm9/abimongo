@@ -25,7 +25,35 @@ on:
         default: true
 
 jobs:
+  validate:
+    name: Validate build and typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Enable pnpm (Corepack)
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Ordered build
+        run: pnpm run build:ordered
+
+      - name: Workspace typecheck
+        run: pnpm -w -r exec tsc --build
+
   call-reusable:
+    name: Dispatch reusable publish
+    needs: validate
     uses: ./.github/workflows/reusable-publish.yml
     with:
       package_path: ${{ github.event.inputs.package_path }}

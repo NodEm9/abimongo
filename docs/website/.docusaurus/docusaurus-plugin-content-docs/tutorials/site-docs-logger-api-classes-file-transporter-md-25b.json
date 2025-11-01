@@ -1,0 +1,23 @@
+{
+  "id": "logger/api/classes/FileTransporter",
+  "title": "FileTransporter",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/classes/FileTransporter.md",
+  "sourceDirName": "logger/api/classes",
+  "slug": "/logger/api/classes/FileTransporter",
+  "permalink": "/abimongo/docs/logger/api/classes/FileTransporter",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "BufferedTransporter",
+    "permalink": "/abimongo/docs/logger/api/classes/BufferedTransporter"
+  },
+  "next": {
+    "title": "Logger",
+    "permalink": "/abimongo/docs/logger/api/classes/Logger"
+  }
+}

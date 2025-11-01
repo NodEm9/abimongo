@@ -1,10 +1,9 @@
-name: CI • Build & Release
+name: CI • Publish • Docs
 
 on:
-  pull_request:
-    branches: [ main ]
   push:
-    branches: [ main ]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -16,50 +15,34 @@ jobs:
   build-test:
     name: Build & Test (All Packages)
     runs-on: ubuntu-latest
+
     strategy:
-      matrix:
-        node-version: [20.x]
+     matrix:
+       node-version: [22.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node ${{ matrix.node-version }}
+      - name: Setup Node  ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-
-      # - name: Ensure modern npm 
-      #   run: |
-      #     echo "Current npm version:";
-      #     npm --version || true;
-      #     npm i -g npm@9
-          
-      # Use npm ci if your package-lock.json was generated with npm>=7 and includes workspaces.
-      # If your lockfile is old/broken, temporarily use npm install (comment the other).
-      - name: Install (workspaces)
-        # If this still errors, try:
-        run: pnpm install
-     
-      # - name: Build types (topological)
-      #   run: npx tsc -b
-
-      - name: Build bundles (all workspaces)
-        run: pnpm --recursive build
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org/'
 
       - name: Install (workspaces)
-        run: pnpm install
+        run: npm ci
 
       - name: Lint
-        run: pnpm run lint
+        run: npm run lint
 
       - name: Test
-        run: pnpm run test
+        run: npm run test
 
-      - name: Build
-        run: pnpm --recursive build
+      - name:  Build
+        run: npm run build
 
       - name: Save dist artifacts (optional)
         uses: actions/upload-artifact@v4
@@ -68,86 +51,13 @@ jobs:
           path: |
             packages/**/dist
           retention-days: 7
-    
-    
-      - name: Print versions
-        run: |
-          node -v
-          pnpm -v     
-      
-      - name: Sanity ensure we're at repo root and workspaces exist
-        run: |
-          test -f package.json
-          test -d packages/core && test -d packages/logger
-          node -e "console.log('CWD=',process.cwd())"
-          pnpm pkg get workspaces
-          pnpm ls -r --depth -1 --json
-
-      # Nuke any workspace filter/env that could force weird modes
-      # - name: Clear workspace filters
-      #   run: |
-      #     echo "npm_config_workspaces=" >> $GITHUB_ENV
-      #     echo "npm_config_workspace="  >> $GITHUB_ENV
-      #     # Remove any project .npmrc workspace lines if they exist
-      #     if [ -f .npmrc ]; then
-      #       sed -i '/^workspace[s]*=/d' .npmrc || true
-      #     fi
-
-      # Use pnpm install if your package-lock.json was generated with npm>=7 and includes workspaces.
-      # If your lockfile is old/broken, temporarily use npm install (comment the other).
-      - name: Install (workspaces)
-        run: pnpm install
-     
-      # - name: Build types (topological)
-      #   run: npx tsc -b
-
-      - name: Build bundles (all workspaces)
-        run: pnpm --recursive build
- 
-
-  dry-run:
-    name: Dry-run (validate changesets & package)
-    runs-on: ubuntu-latest
-    needs: build-test
-    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node & PNPM
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
-
-      # - name: Ensure modern npm 
-      #   run: |
-      #     echo "Current npm version:";
-      #     npm --version || true;
-      #     npm i -g npm@9
-
-      - name: Install
-        run: pnpm install
-
-      - name: Show pending Changesets
-        run: npx @changesets/cli status || true
-
-      - name: Build packages (ensure dist exists)
-        run: pnpm --recursive build
-
-      - name: Pack @abimongo/create for verification
-        run: pnpm pack ./packages/create
-
-      - name: Show tarball
-        run: dir | Select-String "abimongo" || true
 
   release:
     name: Publish to npm (Changesets)
     needs: build-test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -158,37 +68,34 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: 'npm'
           registry-url: 'https://registry.npmjs.org/'
 
-      # - name: Ensure modern npm 
-      #   run: |
-      #     echo "Current npm version:";
-      #     npm --version || true;
-      #     npm i -g npm@9
-
       - name: Install
-        run: pnpm install
+        run: npm ci
 
       - name: Build (ensure dist exists before publish)
-        run: pnpm -r publish --tag latest --no-git-checks
+        run: npm run build
 
-      - name: Publish packages via Changesets
+      - name: Create Release PR or Publish
+        uses: changesets/action@v1
+        with:
+          # When there are unpublished changesets on main:
+          #  - creates a version bump PR (if not present), OR
+          #  - publishes to npm if the PR is already merged
+          publish: npm run release
+          commit: "chore(release): publish new versions"
+          title: "chore(release): publish new versions"
         env:
-          2FACTOR_TOKEN: ${{ secrets.NPM_2FACTOR_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # This will publish packages according to Changesets. CI resolves workspace: deps.
-          npx @changesets/cli publish --access public
 
   docs:
     name: Build & Deploy Docs
-    needs: [build-test]
+    needs: [build-test] # you can switch to [release] if you want docs only after a publish
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        node-version: [20.x]
+     matrix:
+      node-version: [22.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -199,19 +106,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-
-      # - name: Ensure modern npm 
-      #   run: |
-      #      echo "Current npm version:";
-      #      npm --version || true;
-      #      npm i -g npm@9
+          cache: 'npm'
 
       - name: Install
-        run: pnpm install
+        run: npm ci
 
-      - name: Build docs (TypeDoc & Docusaurus)
-        run: pnpm run api:docs && pnpm run docs:build
+      - name: Build docs (TypeDoc)
+        run: npm run api:docs && npm run docs:build
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -221,14 +122,13 @@ jobs:
         with:
           path: docs/website/build
 
+
+      # - name: Deploy to GitHub Pages (alternative)
+      #   uses: actions/deploy-pages@v4
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/website/build
           publish_branch: gh-pages
-        # env:
-        #   GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        # run: npx docusaurus deploy --no-build docs/website
-
-# Duplicate workflow removed — consolidated into the first workflow defined above.

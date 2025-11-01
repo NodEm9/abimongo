@@ -1,0 +1,25 @@
+{
+  "id": "api/classes/AbimongoGraphQL",
+  "title": "AbimongoGraphQL",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/classes/AbimongoGraphQL.md",
+  "sourceDirName": "api/classes",
+  "slug": "/api/classes/AbimongoGraphQL",
+  "permalink": "/abimongo/core/api/classes/AbimongoGraphQL",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "AbimongoGC",
+    "permalink": "/abimongo/core/api/classes/AbimongoGC"
+  },
+  "next": {
+    "title": "AbimongoModel",
+    "permalink": "/abimongo/core/api/classes/AbimongoModel"
+  }
+}

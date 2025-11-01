@@ -1,0 +1,25 @@
+{
+  "id": "api/variables/abimongo",
+  "title": "abimongo",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/variables/abimongo.md",
+  "sourceDirName": "api/variables",
+  "slug": "/api/variables/abimongo",
+  "permalink": "/abimongo/core/api/variables/abimongo",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "SchemaType",
+    "permalink": "/abimongo/core/api/variables/SchemaType"
+  },
+  "next": {
+    "title": "abimongoSymbol",
+    "permalink": "/abimongo/core/api/variables/abimongoSymbol"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "core/api/interfaces/NoOpLogger",
+  "title": "NoOpLogger",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/interfaces/NoOpLogger.md",
+  "sourceDirName": "core/api/interfaces",
+  "slug": "/core/api/interfaces/NoOpLogger",
+  "permalink": "/abimongo/docs/core/api/interfaces/NoOpLogger",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "InitMultiTenancyOptions",
+    "permalink": "/abimongo/docs/core/api/interfaces/InitMultiTenancyOptions"
+  },
+  "next": {
+    "title": "ProjectOptions",
+    "permalink": "/abimongo/docs/core/api/interfaces/ProjectOptions"
+  }
+}

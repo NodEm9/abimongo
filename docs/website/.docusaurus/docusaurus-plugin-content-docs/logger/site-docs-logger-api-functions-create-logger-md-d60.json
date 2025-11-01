@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/createLogger",
+  "title": "createLogger",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/functions/createLogger.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/createLogger",
+  "permalink": "/abimongo/logger/api/functions/createLogger",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "createHttpTransport",
+    "permalink": "/abimongo/logger/api/functions/createHttpTransport"
+  },
+  "next": {
+    "title": "createLokiTransport",
+    "permalink": "/abimongo/logger/api/functions/createLokiTransport"
+  }
+}

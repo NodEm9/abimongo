@@ -1,0 +1,25 @@
+{
+  "id": "core_tutotrials/abimongo-multitenancy",
+  "title": "abimongo-multitenancy",
+  "description": "",
+  "source": "@site/tutorials/core_tutotrials/abimongo-multitenancy.md",
+  "sourceDirName": "core_tutotrials",
+  "slug": "/core_tutotrials/abimongo-multitenancy",
+  "permalink": "/abimongo/tutorials/core_tutotrials/abimongo-multitenancy",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "tutorials",
+  "previous": {
+    "title": "abimongo-express",
+    "permalink": "/abimongo/tutorials/core_tutotrials/abimongo-express"
+  },
+  "next": {
+    "title": "abimongo-graphql",
+    "permalink": "/abimongo/tutorials/core_tutotrials/abimongo-graphql"
+  }
+}

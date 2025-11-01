@@ -1,0 +1,25 @@
+{
+  "id": "api/interfaces/RotatingFileTransporterOptions",
+  "title": "RotatingFileTransporterOptions",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/interfaces/RotatingFileTransporterOptions.md",
+  "sourceDirName": "api/interfaces",
+  "slug": "/api/interfaces/RotatingFileTransporterOptions",
+  "permalink": "/abimongo/logger/api/interfaces/RotatingFileTransporterOptions",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "MetricsSnapshot",
+    "permalink": "/abimongo/logger/api/interfaces/MetricsSnapshot"
+  },
+  "next": {
+    "title": "Transporter",
+    "permalink": "/abimongo/logger/api/interfaces/Transporter"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/createCircuitBreaker",
+  "title": "createCircuitBreaker",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/functions/createCircuitBreaker.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/createCircuitBreaker",
+  "permalink": "/abimongo/logger/api/functions/createCircuitBreaker",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "consoleTransport",
+    "permalink": "/abimongo/logger/api/functions/consoleTransport"
+  },
+  "next": {
+    "title": "createElasticTransport",
+    "permalink": "/abimongo/logger/api/functions/createElasticTransport"
+  }
+}

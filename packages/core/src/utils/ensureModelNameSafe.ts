@@ -1,5 +1,3 @@
-
-
 /**
  * Ensures that the provided model name is a valid, non-empty string.
  * Throws an error if the model name is invalid.

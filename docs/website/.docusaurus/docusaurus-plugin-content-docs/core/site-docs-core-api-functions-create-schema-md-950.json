@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/createSchema",
+  "title": "createSchema",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/createSchema.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/createSchema",
+  "permalink": "/abimongo/core/api/functions/createSchema",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "createModel",
+    "permalink": "/abimongo/core/api/functions/createModel"
+  },
+  "next": {
+    "title": "describeEvent",
+    "permalink": "/abimongo/core/api/functions/describeEvent"
+  }
+}

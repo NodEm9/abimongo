@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import { AbimongoConfig } from '../../types';
 import { execSync } from 'child_process';
-import { colourize } from '../../utils';
+import { colorByLevel } from '@abimongo/logger';
 import { MAIN_TS_CONTENT } from '../core/main';
 import { findPackageJSON } from 'module';
 
@@ -164,10 +164,10 @@ const graphql = app.getGraphQL();
 
   // execSync(`${getPackageManagerCommand(pkgManagerProps)} @abimongo/core @abimongo/logger mongodb, { cwd: projectRoot, stdio: 'inherit' });
   execSync(`npm install express mongodb`, { cwd: projectRoot, stdio: 'inherit' });
-  console.log(colourize(`[Installing dependencies]: Installing dependencies...`, 'blueBright'));
+  console.log(colorByLevel('info', `[Installing dependencies]: Installing dependencies...`));
 
 execSync(`npm install -D typescript ts-node @types/node`, { cwd: projectRoot, stdio: 'inherit' });
-  console.log(colourize(`[Installing dev dependencies]: Installing dev dependencies...`, 'blueBright'));
+  console.log(colorByLevel('info', `[Installing dev dependencies]: Installing dev dependencies...`));
 
   // Create .gitignore
   const gitignoreContent = `node_modules

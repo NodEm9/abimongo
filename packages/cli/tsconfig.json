@@ -9,10 +9,10 @@
   },
   "references": [
     { "path": "../core" },
-    { "path": "../create" }
+    { "path": "../logger" },
+    { "path": "../create" },
   ],
   "include": [
-    // "index.ts",
     "src/**/*.ts",
     "bin/**/*.ts"
   ],

@@ -1,0 +1,23 @@
+{
+  "id": "logger/api/functions/isLogLevel",
+  "title": "isLogLevel",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/functions/isLogLevel.md",
+  "sourceDirName": "logger/api/functions",
+  "slug": "/logger/api/functions/isLogLevel",
+  "permalink": "/abimongo/docs/logger/api/functions/isLogLevel",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "getLogLevelPriority",
+    "permalink": "/abimongo/docs/logger/api/functions/getLogLevelPriority"
+  },
+  "next": {
+    "title": "now",
+    "permalink": "/abimongo/docs/logger/api/functions/now"
+  }
+}

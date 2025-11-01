@@ -1,0 +1,23 @@
+{
+  "id": "core/api/classes/AbimongoGC",
+  "title": "AbimongoGC",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/classes/AbimongoGC.md",
+  "sourceDirName": "core/api/classes",
+  "slug": "/core/api/classes/AbimongoGC",
+  "permalink": "/abimongo/docs/core/api/classes/AbimongoGC",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "AbimongoClient",
+    "permalink": "/abimongo/docs/core/api/classes/AbimongoClient"
+  },
+  "next": {
+    "title": "AbimongoGraphQL",
+    "permalink": "/abimongo/docs/core/api/classes/AbimongoGraphQL"
+  }
+}

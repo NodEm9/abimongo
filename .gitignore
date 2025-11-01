@@ -1,18 +1,4 @@
-# Ignore generated Docusaurus build artifacts
-docs/website/.docusaurus/
-docs/website/build/
-
-# Ignore local package tarballs
-*.tgz
-
-node_modules/
-
-# Ignore generated package dist folders
-packages/*/dist/
-
-# Misc
-rename-cli.patch
-.DS_Storenode_modules
+node_modules
 dist
 coverage
 .env

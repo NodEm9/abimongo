@@ -7,12 +7,12 @@
   "declaration": true,
   },
     "include": [
-    "src",
-    "tests"
+    "src"
     ],
   "exclude": [
     "node_modules",
-    // "../setupTest.ts"  
+    // "../setupTest.ts" 
+    "./**/*.test.ts" 
 
   ], 
 }

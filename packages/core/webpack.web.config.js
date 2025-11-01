@@ -7,7 +7,7 @@ const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
 	mode: 'production',
-	entry: './src/browser.ts',
+	entry: './browser.ts',
 	target: 'web',
 	output: {
 		filename: 'abimongo-core-browser.js',

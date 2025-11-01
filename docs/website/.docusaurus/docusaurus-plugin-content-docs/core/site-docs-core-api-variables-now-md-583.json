@@ -1,0 +1,25 @@
+{
+  "id": "api/variables/now",
+  "title": "now",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/variables/now.md",
+  "sourceDirName": "api/variables",
+  "slug": "/api/variables/now",
+  "permalink": "/abimongo/core/api/variables/now",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "lokiTransport",
+    "permalink": "/abimongo/core/api/variables/lokiTransport"
+  },
+  "next": {
+    "title": "objectIdSymbol",
+    "permalink": "/abimongo/core/api/variables/objectIdSymbol"
+  }
+}

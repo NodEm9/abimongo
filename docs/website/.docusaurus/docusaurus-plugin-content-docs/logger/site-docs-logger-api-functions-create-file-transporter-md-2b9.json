@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/createFileTransporter",
+  "title": "createFileTransporter",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/functions/createFileTransporter.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/createFileTransporter",
+  "permalink": "/abimongo/logger/api/functions/createFileTransporter",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "createElasticTransport",
+    "permalink": "/abimongo/logger/api/functions/createElasticTransport"
+  },
+  "next": {
+    "title": "createHttpTransport",
+    "permalink": "/abimongo/logger/api/functions/createHttpTransport"
+  }
+}

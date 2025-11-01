@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/connectRedis",
+  "title": "connectRedis",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/connectRedis.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/connectRedis",
+  "permalink": "/abimongo/core/api/functions/connectRedis",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "colourize",
+    "permalink": "/abimongo/core/api/functions/colourize"
+  },
+  "next": {
+    "title": "createModel",
+    "permalink": "/abimongo/core/api/functions/createModel"
+  }
+}

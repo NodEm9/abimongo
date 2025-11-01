@@ -1,0 +1,23 @@
+{
+  "id": "core/api/functions/setCachedData",
+  "title": "setCachedData",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/setCachedData.md",
+  "sourceDirName": "core/api/functions",
+  "slug": "/core/api/functions/setCachedData",
+  "permalink": "/abimongo/docs/core/api/functions/setCachedData",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "parseDuration",
+    "permalink": "/abimongo/docs/core/api/functions/parseDuration"
+  },
+  "next": {
+    "title": "setLogger",
+    "permalink": "/abimongo/docs/core/api/functions/setLogger"
+  }
+}

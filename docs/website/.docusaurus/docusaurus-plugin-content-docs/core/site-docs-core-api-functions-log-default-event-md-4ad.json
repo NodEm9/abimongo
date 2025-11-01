@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/logDefaultEvent",
+  "title": "logDefaultEvent",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/logDefaultEvent.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/logDefaultEvent",
+  "permalink": "/abimongo/core/api/functions/logDefaultEvent",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "loadModelsFromPath",
+    "permalink": "/abimongo/core/api/functions/loadModelsFromPath"
+  },
+  "next": {
+    "title": "logEvent",
+    "permalink": "/abimongo/core/api/functions/logEvent"
+  }
+}

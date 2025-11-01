@@ -1,0 +1,28 @@
+{
+  "id": "consumption",
+  "title": "Consuming the logger",
+  "description": "Overview",
+  "source": "@site/docs/logger/consumption.md",
+  "sourceDirName": ".",
+  "slug": "/logger/consumption",
+  "permalink": "/abimongo/logger/logger/consumption",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761333011000,
+  "frontMatter": {
+    "slug": "/logger/consumption",
+    "title": "Consuming the logger"
+  },
+  "sidebar": "logger",
+  "previous": {
+    "title": "logger",
+    "permalink": "/abimongo/logger/api/variables/logger"
+  },
+  "next": {
+    "title": "Logger FAQ",
+    "permalink": "/abimongo/logger/faq"
+  }
+}

@@ -1,14 +1,17 @@
 /**
- * @package Abimongo Core Library
- * This library provides core functionalities for Abimongo, including database operations, configuration, and more.
- * It is designed to be used both in Node.js and browser environments.
- * @module Abimongo - (Core)
+ * @author Emmanuel Nodolomwanyi - Abimongo Team
+ * @package - @abimongo/core
  * @version 1.0.0
  */
-export * from './src/index';
-const initAbimongo = setTimeout(() => {
-	console.log('Abimongo Core (Version 1.0.0) initialising...');
-}, 100);
-clearTimeout(initAbimongo);
 
-console.log('Abimongo Core (Version: 1.0.0) initialised.');
+/**
+ * Abimongo Core Library
+ * This library provides core functionalities for Abimongo, ORM/ODM solution
+ * for MongoDB in Node.js and Browser environments.
+ * @module AbimongoCore
+ * @version 1.0.0
+ */
+
+
+export * from './src/index';
+console.log('Abimongo Core Library Loaded');

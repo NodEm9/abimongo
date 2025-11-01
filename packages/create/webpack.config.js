@@ -5,7 +5,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
-  entry: './index.ts',
+  entry: './src/index.ts',
   target: 'node',
   output: {
     path: path.resolve(__dirname, 'dist'),

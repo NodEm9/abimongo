@@ -1,0 +1,23 @@
+{
+  "id": "core/api/functions/foldersAndFiles",
+  "title": "foldersAndFiles",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/foldersAndFiles.md",
+  "sourceDirName": "core/api/functions",
+  "slug": "/core/api/functions/foldersAndFiles",
+  "permalink": "/abimongo/docs/core/api/functions/foldersAndFiles",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "ensureModelNameSafe",
+    "permalink": "/abimongo/docs/core/api/functions/ensureModelNameSafe"
+  },
+  "next": {
+    "title": "formatDuration",
+    "permalink": "/abimongo/docs/core/api/functions/formatDuration"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "api/variables/DOCUMENT_INSERTED_EVENT",
+  "title": "DOCUMENT_INSERTED_EVENT",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/variables/DOCUMENT_INSERTED_EVENT.md",
+  "sourceDirName": "api/variables",
+  "slug": "/api/variables/DOCUMENT_INSERTED_EVENT",
+  "permalink": "/abimongo/core/api/variables/DOCUMENT_INSERTED_EVENT",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "DOCUMENT_DELETED_EVENT",
+    "permalink": "/abimongo/core/api/variables/DOCUMENT_DELETED_EVENT"
+  },
+  "next": {
+    "title": "DOCUMENT_UPDATED_EVENT",
+    "permalink": "/abimongo/core/api/variables/DOCUMENT_UPDATED_EVENT"
+  }
+}

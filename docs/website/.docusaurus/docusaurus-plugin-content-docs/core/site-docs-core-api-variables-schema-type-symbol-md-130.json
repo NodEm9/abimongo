@@ -1,0 +1,25 @@
+{
+  "id": "api/variables/schemaTypeSymbol",
+  "title": "schemaTypeSymbol",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/variables/schemaTypeSymbol.md",
+  "sourceDirName": "api/variables",
+  "slug": "/api/variables/schemaTypeSymbol",
+  "permalink": "/abimongo/core/api/variables/schemaTypeSymbol",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "rolePermissions",
+    "permalink": "/abimongo/core/api/variables/rolePermissions"
+  },
+  "next": {
+    "title": "AbimongoClient",
+    "permalink": "/abimongo/core/core-concepts/AbimongoClient"
+  }
+}

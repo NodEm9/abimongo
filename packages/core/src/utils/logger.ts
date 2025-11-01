@@ -24,12 +24,12 @@ export function setLogger(
       enabled: true,
       retentionDays: 30, // Retain data for 30 days
       logResults: true, // Log results of garbage collection
-    } : { enabled: false },
+    } : { enabled: Boolean(loggerConfig?.garbageCollector?.enabled) },
     gcCron: "0 0 * * *", // Default to daily at midnight
   };
   const compressLogs = {
     compressLogFiles: {
-      enabled: loggerConfig?.compressLogFiles?.enabled ? true : false,
+      enabled: loggerConfig?.compressLogFiles?.enabled ?? false
     },
   };
 

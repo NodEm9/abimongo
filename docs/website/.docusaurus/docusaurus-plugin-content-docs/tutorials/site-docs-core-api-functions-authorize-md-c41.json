@@ -1,0 +1,23 @@
+{
+  "id": "core/api/functions/authorize",
+  "title": "authorize",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/authorize.md",
+  "sourceDirName": "core/api/functions",
+  "slug": "/core/api/functions/authorize",
+  "permalink": "/abimongo/docs/core/api/functions/authorize",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "applyMultiTenancy",
+    "permalink": "/abimongo/docs/core/api/functions/applyMultiTenancy"
+  },
+  "next": {
+    "title": "cacheWithRedis",
+    "permalink": "/abimongo/docs/core/api/functions/cacheWithRedis"
+  }
+}

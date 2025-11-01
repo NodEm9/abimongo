@@ -1,0 +1,23 @@
+{
+  "id": "logger/api/functions/createLogger",
+  "title": "createLogger",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/functions/createLogger.md",
+  "sourceDirName": "logger/api/functions",
+  "slug": "/logger/api/functions/createLogger",
+  "permalink": "/abimongo/docs/logger/api/functions/createLogger",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "createHttpTransport",
+    "permalink": "/abimongo/docs/logger/api/functions/createHttpTransport"
+  },
+  "next": {
+    "title": "createLokiTransport",
+    "permalink": "/abimongo/docs/logger/api/functions/createLokiTransport"
+  }
+}

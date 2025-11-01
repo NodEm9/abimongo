@@ -10,7 +10,6 @@
     { "path": "../logger" }
   ],
   "include": [ 
-    "index.ts",
     "src/**/*.ts",
     "bin/**/*.ts"
   ],

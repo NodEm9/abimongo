@@ -1,0 +1,25 @@
+{
+  "id": "api/interfaces/ILogger",
+  "title": "ILogger",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/interfaces/ILogger.md",
+  "sourceDirName": "api/interfaces",
+  "slug": "/api/interfaces/ILogger",
+  "permalink": "/abimongo/core/api/interfaces/ILogger",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "AbimongoPlugin",
+    "permalink": "/abimongo/core/api/interfaces/AbimongoPlugin"
+  },
+  "next": {
+    "title": "InitMultiTenancyOptions",
+    "permalink": "/abimongo/core/api/interfaces/InitMultiTenancyOptions"
+  }
+}

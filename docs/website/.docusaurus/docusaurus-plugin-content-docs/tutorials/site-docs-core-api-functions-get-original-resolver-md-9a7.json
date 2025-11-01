@@ -1,0 +1,23 @@
+{
+  "id": "core/api/functions/getOriginalResolver",
+  "title": "getOriginalResolver",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/getOriginalResolver.md",
+  "sourceDirName": "core/api/functions",
+  "slug": "/core/api/functions/getOriginalResolver",
+  "permalink": "/abimongo/docs/core/api/functions/getOriginalResolver",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "getModelFilesFromPath",
+    "permalink": "/abimongo/docs/core/api/functions/getModelFilesFromPath"
+  },
+  "next": {
+    "title": "getRBACAction",
+    "permalink": "/abimongo/docs/core/api/functions/getRBACAction"
+  }
+}

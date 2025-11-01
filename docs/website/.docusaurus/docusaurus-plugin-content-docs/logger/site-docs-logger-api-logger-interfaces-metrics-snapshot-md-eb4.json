@@ -1,0 +1,25 @@
+{
+  "id": "api/logger/interfaces/MetricsSnapshot",
+  "title": "Interface: MetricsSnapshot",
+  "description": "Defined in16",
+  "source": "@site/docs/logger/api/logger/interfaces/MetricsSnapshot.md",
+  "sourceDirName": "api/logger/interfaces",
+  "slug": "/api/logger/interfaces/MetricsSnapshot",
+  "permalink": "/abimongo/logger/api/logger/interfaces/MetricsSnapshot",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "Interface: LoggerTransporter",
+    "permalink": "/abimongo/logger/api/logger/interfaces/LoggerTransporter"
+  },
+  "next": {
+    "title": "Interface: RotatingFileTransporterOptions",
+    "permalink": "/abimongo/logger/api/logger/interfaces/RotatingFileTransporterOptions"
+  }
+}

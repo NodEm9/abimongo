@@ -1,0 +1,23 @@
+{
+  "id": "core/getting-started/installation",
+  "title": "Installation",
+  "description": "A short, practical installation guide for @abimongo/core. This page shows how to install the package, satisfy the runtime dependencies, and run a minimal local development setup.",
+  "source": "@site/docs/core/getting-started/installation.md",
+  "sourceDirName": "core/getting-started",
+  "slug": "/core/getting-started/installation",
+  "permalink": "/abimongo/docs/core/getting-started/installation",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "Getting started with @abimongo/core",
+    "permalink": "/abimongo/docs/core/getting-started/gettting-started"
+  },
+  "next": {
+    "title": "Abimongo Core — Overview",
+    "permalink": "/abimongo/docs/core/intro"
+  }
+}

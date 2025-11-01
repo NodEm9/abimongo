@@ -30,7 +30,7 @@ export interface AbimongoConfig {
   model?: AbimongoModelOptions;
   schema?: SchemaDefinition<Document>
   multiTenant?: {
-    enabled?: true,
+    enabled?: boolean,
     headerKey?: "x-tenant-id",
     tenants?: {
       "tenant-a": "mongodb://localhost:27017/tenant-a",
@@ -41,8 +41,8 @@ export interface AbimongoConfig {
   logger?: AbimongoLoggerSettings;
   graphql?: {
     enabled?: boolean;
-    subscriptions?: true;
-    playground?: false;
+    subscriptions?: boolean;
+    playground?: boolean;
     schemaOutputPath?: string;
   };
   features?: {
@@ -61,7 +61,7 @@ export interface AbimongoConfig {
     garbageCollector?: {
       enabled?: boolean;
       retentionPeriod?: number | string; // Retain data for a specified number of days
-      logResults?: false; // Log results of garbage collection
+      logResults?: boolean; // Log results of garbage collection
     };
     gcCron?: string;
   };
@@ -83,7 +83,7 @@ export interface ProjectOptions {
   model?: AbimongoModelOptions;
   schema?: SchemaDefinition<Document>;
   multiTenant?: {
-    enabled?: true,
+    enabled?: boolean,
     headerKey?: "x-tenant-id",
     tenants?: {
       "tenant-a": "mongodb://localhost:27017/tenant-a",
@@ -94,8 +94,8 @@ export interface ProjectOptions {
   logger?: AbimongoLoggerSettings;
   graphql?: {
     enabled?: boolean;
-    subscriptions?: true;
-    playground?: false;
+    subscriptions?: boolean;
+    playground?: boolean;
     schemaOutputPath?: string;
   };
   features?: {
@@ -121,7 +121,7 @@ export interface ProjectOptions {
     garbageCollector?: {
       enabled?: boolean;
       retentionPeriod?: number; // Retain data for a specified number of days
-      logResults?: false; // Log results of garbage collection
+      logResults?: boolean; // Log results of garbage collection
     };
     gcCron?: string;
   };

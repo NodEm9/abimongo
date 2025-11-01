@@ -1,0 +1,23 @@
+{
+  "id": "core/api/variables/rolePermissions",
+  "title": "rolePermissions",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/variables/rolePermissions.md",
+  "sourceDirName": "core/api/variables",
+  "slug": "/core/api/variables/rolePermissions",
+  "permalink": "/abimongo/docs/core/api/variables/rolePermissions",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "redis",
+    "permalink": "/abimongo/docs/core/api/variables/redis"
+  },
+  "next": {
+    "title": "schemaTypeSymbol",
+    "permalink": "/abimongo/docs/core/api/variables/schemaTypeSymbol"
+  }
+}

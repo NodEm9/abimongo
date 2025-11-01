@@ -1,0 +1,25 @@
+{
+  "id": "api/interfaces/Relationship",
+  "title": "Relationship",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/interfaces/Relationship.md",
+  "sourceDirName": "api/interfaces",
+  "slug": "/api/interfaces/Relationship",
+  "permalink": "/abimongo/core/api/interfaces/Relationship",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "ProjectOptions",
+    "permalink": "/abimongo/core/api/interfaces/ProjectOptions"
+  },
+  "next": {
+    "title": "Document",
+    "permalink": "/abimongo/core/api/type-aliases/Document"
+  }
+}

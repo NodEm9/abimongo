@@ -1,0 +1,21 @@
+name: Release • @abimongo/cli
+
+# Publish only the CLI package when a Release is created or when a tag is pushed.
+on:
+  release:
+    types: [published]
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  publish-cli:
+    name: Publish @abimongo/cli
+    uses: ./.github/workflows/reusable-publish.yml
+    with:
+      package_path: 'packages/cli'
+      package_name: '@abimongo/cli'
+      package_manager: 'pnpm'
+      dry_run: false
+    secrets: inherit

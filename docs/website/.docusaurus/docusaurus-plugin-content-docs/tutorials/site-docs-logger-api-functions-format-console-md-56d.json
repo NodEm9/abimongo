@@ -1,0 +1,23 @@
+{
+  "id": "logger/api/functions/formatConsole",
+  "title": "formatConsole",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/functions/formatConsole.md",
+  "sourceDirName": "logger/api/functions",
+  "slug": "/logger/api/functions/formatConsole",
+  "permalink": "/abimongo/docs/logger/api/functions/formatConsole",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "createRotatingFileTransporter",
+    "permalink": "/abimongo/docs/logger/api/functions/createRotatingFileTransporter"
+  },
+  "next": {
+    "title": "formatError",
+    "permalink": "/abimongo/docs/logger/api/functions/formatError"
+  }
+}

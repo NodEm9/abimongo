@@ -1,0 +1,23 @@
+{
+  "id": "core/api/interfaces/InitMultiTenancyOptions",
+  "title": "InitMultiTenancyOptions",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/interfaces/InitMultiTenancyOptions.md",
+  "sourceDirName": "core/api/interfaces",
+  "slug": "/core/api/interfaces/InitMultiTenancyOptions",
+  "permalink": "/abimongo/docs/core/api/interfaces/InitMultiTenancyOptions",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "ILogger",
+    "permalink": "/abimongo/docs/core/api/interfaces/ILogger"
+  },
+  "next": {
+    "title": "NoOpLogger",
+    "permalink": "/abimongo/docs/core/api/interfaces/NoOpLogger"
+  }
+}

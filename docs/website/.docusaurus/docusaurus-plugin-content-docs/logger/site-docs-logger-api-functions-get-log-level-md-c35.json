@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/getLogLevel",
+  "title": "getLogLevel",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/functions/getLogLevel.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/getLogLevel",
+  "permalink": "/abimongo/logger/api/functions/getLogLevel",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "formatMsg",
+    "permalink": "/abimongo/logger/api/functions/formatMsg"
+  },
+  "next": {
+    "title": "getLogLevelPriority",
+    "permalink": "/abimongo/logger/api/functions/getLogLevelPriority"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "api/logger/classes/Logger",
+  "title": "Class: Logger",
+  "description": "Defined in31",
+  "source": "@site/docs/logger/api/logger/classes/Logger.md",
+  "sourceDirName": "api/logger/classes",
+  "slug": "/api/logger/classes/Logger",
+  "permalink": "/abimongo/logger/api/logger/classes/Logger",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "Class: FileTransporter",
+    "permalink": "/abimongo/logger/api/logger/classes/FileTransporter"
+  },
+  "next": {
+    "title": "Class: MetricsTracker",
+    "permalink": "/abimongo/logger/api/logger/classes/MetricsTracker"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "core-concepts/AbimongoSchema",
+  "title": "AbimongoSchema",
+  "description": "AbimongoSchema is the schema abstraction used by @abimongo/core to describe document shapes, validations, indexes, relationships, virtual fields, and middleware hooks.",
+  "source": "@site/docs/core/core-concepts/AbimongoSchema.md",
+  "sourceDirName": "core-concepts",
+  "slug": "/core-concepts/AbimongoSchema",
+  "permalink": "/abimongo/core/core-concepts/AbimongoSchema",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761333011000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "AbimongoModel",
+    "permalink": "/abimongo/core/core-concepts/AbimongoModel"
+  },
+  "next": {
+    "title": "Multi-tenancy (Abimongo Core)",
+    "permalink": "/abimongo/core/core-concepts/MultiTenancy"
+  }
+}

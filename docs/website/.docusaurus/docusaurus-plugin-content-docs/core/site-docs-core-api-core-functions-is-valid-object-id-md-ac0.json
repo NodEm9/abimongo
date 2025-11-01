@@ -1,0 +1,25 @@
+{
+  "id": "api/core/functions/isValidObjectId",
+  "title": "Function: isValidObjectId()",
+  "description": "isValidObjectId(id): boolean",
+  "source": "@site/docs/core/api/core/functions/isValidObjectId.md",
+  "sourceDirName": "api/core/functions",
+  "slug": "/api/core/functions/isValidObjectId",
+  "permalink": "/abimongo/core/api/core/functions/isValidObjectId",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "Function: isValidDuration()",
+    "permalink": "/abimongo/core/api/core/functions/isValidDuration"
+  },
+  "next": {
+    "title": "Function: loadAbimongoConfig()",
+    "permalink": "/abimongo/core/api/core/functions/loadAbimongoConfig"
+  }
+}

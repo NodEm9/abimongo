@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/now",
+  "title": "now",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/functions/now.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/now",
+  "permalink": "/abimongo/logger/api/functions/now",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "isLogLevel",
+    "permalink": "/abimongo/logger/api/functions/isLogLevel"
+  },
+  "next": {
+    "title": "registerInterval",
+    "permalink": "/abimongo/logger/api/functions/registerInterval"
+  }
+}

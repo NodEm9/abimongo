@@ -1,0 +1,25 @@
+{
+  "id": "api/classes/initAbimongo",
+  "title": "initAbimongo",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/classes/initAbimongo.md",
+  "sourceDirName": "api/classes",
+  "slug": "/api/classes/initAbimongo",
+  "permalink": "/abimongo/core/api/classes/initAbimongo",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "TenantContext",
+    "permalink": "/abimongo/core/api/classes/TenantContext"
+  },
+  "next": {
+    "title": "ErrorType",
+    "permalink": "/abimongo/core/api/enumerations/ErrorType"
+  }
+}

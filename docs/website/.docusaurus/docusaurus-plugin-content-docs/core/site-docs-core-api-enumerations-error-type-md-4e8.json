@@ -1,0 +1,25 @@
+{
+  "id": "api/enumerations/ErrorType",
+  "title": "ErrorType",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/enumerations/ErrorType.md",
+  "sourceDirName": "api/enumerations",
+  "slug": "/api/enumerations/ErrorType",
+  "permalink": "/abimongo/core/api/enumerations/ErrorType",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "initAbimongo",
+    "permalink": "/abimongo/core/api/classes/initAbimongo"
+  },
+  "next": {
+    "title": "AbiMongoError",
+    "permalink": "/abimongo/core/api/functions/AbiMongoError"
+  }
+}

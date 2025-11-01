@@ -2,17 +2,16 @@ import { Abimongo, abimongo, AbimongoClient } from "../src/lib-core";
 import "dotenv/config";
 // import { logger } from "./example-1/router";
 // import { logger } from "../src/config";
-import { MultiTenantManager } from "../src/tanancy/MultiTenantManager";
 
 
 export const dbConfig = {
 	uri: process.env.MONGO_URI!,
-	dbName: 'abimongo-example',
+	dbName: process.env.DB_NAME!,
 	collectionName: 'tenants',
 	tenantId: {
-		'tenant-a': process.env.TENANT_A_ID!,
-		'tenant-b': process.env.TENANT_B_ID!,
-		'tenant-c': process.env.TENANT_C_ID!,
+		'tenant-a': 'tenant-a',
+		'tenant-b': 'tenant-b',
+		'tenant-c': 'tenant-c',
 	},
 	tenantUri: {
 		'tenant-a': process.env.TENANT_A_URI!,
@@ -27,9 +26,9 @@ export async function dbDriver() {
 		const tenants = dbConfig.tenantUri
 		Array.isArray(tenants) || console.error('Invalid tenant URIs configuration:', tenants);
 
-		const clientDB = new AbimongoClient(dbConfig.tenantUri['tenant-a'], {
+		const clientDB = new AbimongoClient(process.env.MONGO_URI, {
 			dbName: dbConfig.dbName,
-			// logger,
+			// logger: logger,
 		});
 
 		//  const dbName = await abimongo.useDatabase(dbConfig.dbName);
@@ -39,13 +38,6 @@ export async function dbDriver() {
 
 		await clientDB.connect();
 
-			// Register lazy tenant URIs so they can be resolved on first use
-		const tenantUris = dbConfig.tenantUri || {};
-		for (const [tid, uri] of Object.entries(tenantUris)) {
-			if (typeof uri === 'string' && uri.length > 0) {
-				MultiTenantManager.registerLazyTenant(tid, uri.split(',')[0]);
-			}
-		}
 		console.log(`Connected to database: ${[JSON.stringify(clientDB.db.databaseName)]}`);
 		return clientDB;
 

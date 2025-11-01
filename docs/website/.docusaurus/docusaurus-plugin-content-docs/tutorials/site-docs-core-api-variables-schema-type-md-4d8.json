@@ -1,0 +1,23 @@
+{
+  "id": "core/api/variables/SchemaType",
+  "title": "SchemaType",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/variables/SchemaType.md",
+  "sourceDirName": "core/api/variables",
+  "slug": "/core/api/variables/SchemaType",
+  "permalink": "/abimongo/docs/core/api/variables/SchemaType",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "DOCUMENT_UPDATED_EVENT",
+    "permalink": "/abimongo/docs/core/api/variables/DOCUMENT_UPDATED_EVENT"
+  },
+  "next": {
+    "title": "abimongo",
+    "permalink": "/abimongo/docs/core/api/variables/abimongo"
+  }
+}

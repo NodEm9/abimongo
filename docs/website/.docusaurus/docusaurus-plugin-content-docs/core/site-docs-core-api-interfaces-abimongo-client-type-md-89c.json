@@ -1,0 +1,25 @@
+{
+  "id": "api/interfaces/AbimongoClientType",
+  "title": "AbimongoClientType",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/interfaces/AbimongoClientType.md",
+  "sourceDirName": "api/interfaces",
+  "slug": "/api/interfaces/AbimongoClientType",
+  "permalink": "/abimongo/core/api/interfaces/AbimongoClientType",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "AbimongoClientOptions",
+    "permalink": "/abimongo/core/api/interfaces/AbimongoClientOptions"
+  },
+  "next": {
+    "title": "AbimongoConfig",
+    "permalink": "/abimongo/core/api/interfaces/AbimongoConfig"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "core/api/type-aliases/EventType",
+  "title": "EventType",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/type-aliases/EventType.md",
+  "sourceDirName": "core/api/type-aliases",
+  "slug": "/core/api/type-aliases/EventType",
+  "permalink": "/abimongo/docs/core/api/type-aliases/EventType",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "Document",
+    "permalink": "/abimongo/docs/core/api/type-aliases/Document"
+  },
+  "next": {
+    "title": "GCConfig",
+    "permalink": "/abimongo/docs/core/api/type-aliases/GCConfig"
+  }
+}

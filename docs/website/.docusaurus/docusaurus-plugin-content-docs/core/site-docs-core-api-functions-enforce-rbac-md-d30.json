@@ -1,0 +1,25 @@
+{
+  "id": "api/functions/enforceRBAC",
+  "title": "enforceRBAC",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/enforceRBAC.md",
+  "sourceDirName": "api/functions",
+  "slug": "/api/functions/enforceRBAC",
+  "permalink": "/abimongo/core/api/functions/enforceRBAC",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "describeEvent",
+    "permalink": "/abimongo/core/api/functions/describeEvent"
+  },
+  "next": {
+    "title": "ensureModelNameSafe",
+    "permalink": "/abimongo/core/api/functions/ensureModelNameSafe"
+  }
+}

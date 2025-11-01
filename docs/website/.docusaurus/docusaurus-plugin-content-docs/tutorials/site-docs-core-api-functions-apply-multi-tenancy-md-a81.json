@@ -1,0 +1,23 @@
+{
+  "id": "core/api/functions/applyMultiTenancy",
+  "title": "applyMultiTenancy",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/applyMultiTenancy.md",
+  "sourceDirName": "core/api/functions",
+  "slug": "/core/api/functions/applyMultiTenancy",
+  "permalink": "/abimongo/docs/core/api/functions/applyMultiTenancy",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "GCSettings",
+    "permalink": "/abimongo/docs/core/api/functions/GCSettings"
+  },
+  "next": {
+    "title": "authorize",
+    "permalink": "/abimongo/docs/core/api/functions/authorize"
+  }
+}

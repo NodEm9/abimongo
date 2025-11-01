@@ -1,7 +1,7 @@
 //src/gc/gcCron.browser.ts
-import { colourize } from "../utils";
+import { colorByLevel } from "@abimongo/logger";
 
 export const startGarbageCollector = () => {
   // No-op for browsers
-  console.warn(colourize('[GC] Garbage collector is disabled in the browser.', 'yellow'));
+  console.warn(colorByLevel('warn', '[GC] Garbage collector is disabled in the browser.'));
 };

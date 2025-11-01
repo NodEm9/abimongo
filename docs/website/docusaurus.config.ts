@@ -2,7 +2,6 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import path from 'path';
-// import './src/css/fontello-9c142965/font/fontello.svg';
   
  
 const config: Config = {
@@ -65,6 +64,7 @@ const config: Config = {
 				sidebarPath: path.resolve(__dirname, './sidebars.create.ts'),
 			},
 		],
+		// Content docs: Tutorials
 		[
 			'@docusaurus/plugin-content-docs',
 			{
@@ -100,18 +100,18 @@ const config: Config = {
 				readme: 'none',
 			},
 		],
-		// TypeDoc API: CLI (if you export a programmatic API)
+			// TypeDoc API: CLI (if you export a programmatic API)
 		[
 			'docusaurus-plugin-typedoc',
 			{
 				id: 'api-create',
-				entryPoints: ['packages/create/bin/abimongo_create.ts'],
+				entryPoints: ['packages/create/src/index.ts'],
 				tsconfig: 'packages/create/tsconfig.json',
 				out: '/docs/create/api/create',
-				sidebar: { autoConfiguration: 'API (CLI)', position: 30 },
+				sidebar: { autoConfiguration: 'API (CLI)', position: 40 },
 				readme: 'none',
 			},
-		],
+		]
 	],
 
 	themeConfig: {
@@ -133,7 +133,7 @@ const config: Config = {
 			items: [
 				{ to: '/core/intro', label: 'Core', position: 'left' },
 				{ to: '/logger/intro', label: 'Logger', position: 'left' },
-				{ to: '/create/intro', label: 'Create New Project', position: 'left' },
+				{ to: '/create/intro', label: 'Cli', position: 'left' },
 				{ to: '/tutorials/intro', label: 'Tutorials', position: 'left' },
 				{ href: 'https://github.com/NodEm9/abimongo', label: 'GitHub', position: 'right' },
 			],

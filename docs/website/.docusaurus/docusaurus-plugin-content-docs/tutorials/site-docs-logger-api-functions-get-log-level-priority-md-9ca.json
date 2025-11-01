@@ -1,0 +1,23 @@
+{
+  "id": "logger/api/functions/getLogLevelPriority",
+  "title": "getLogLevelPriority",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/functions/getLogLevelPriority.md",
+  "sourceDirName": "logger/api/functions",
+  "slug": "/logger/api/functions/getLogLevelPriority",
+  "permalink": "/abimongo/docs/logger/api/functions/getLogLevelPriority",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "getLogLevel",
+    "permalink": "/abimongo/docs/logger/api/functions/getLogLevel"
+  },
+  "next": {
+    "title": "isLogLevel",
+    "permalink": "/abimongo/docs/logger/api/functions/isLogLevel"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "core/api/functions/loadModelsFromPath",
+  "title": "loadModelsFromPath",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/loadModelsFromPath.md",
+  "sourceDirName": "core/api/functions",
+  "slug": "/core/api/functions/loadModelsFromPath",
+  "permalink": "/abimongo/docs/core/api/functions/loadModelsFromPath",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "loadAbimongoConfig",
+    "permalink": "/abimongo/docs/core/api/functions/loadAbimongoConfig"
+  },
+  "next": {
+    "title": "logDefaultEvent",
+    "permalink": "/abimongo/docs/core/api/functions/logDefaultEvent"
+  }
+}

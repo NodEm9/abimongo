@@ -1,0 +1,25 @@
+{
+  "id": "api/classes/BufferedTransporter",
+  "title": "BufferedTransporter",
+  "description": "@abimongo/logger",
+  "source": "@site/docs/logger/api/classes/BufferedTransporter.md",
+  "sourceDirName": "api/classes",
+  "slug": "/api/classes/BufferedTransporter",
+  "permalink": "/abimongo/logger/api/classes/BufferedTransporter",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "AsyncBatchTransporter",
+    "permalink": "/abimongo/logger/api/classes/AsyncBatchTransporter"
+  },
+  "next": {
+    "title": "FileTransporter",
+    "permalink": "/abimongo/logger/api/classes/FileTransporter"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "abimongo-bootstrap",
+  "title": "Abimongo Bootstrap",
+  "description": "This page documents the programmatic bootstrap behavior of @abimongo/core, outlines",
+  "source": "@site/docs/core/abimongo-bootstrap.md",
+  "sourceDirName": ".",
+  "slug": "/abimongo-bootstrap",
+  "permalink": "/abimongo/core/abimongo-bootstrap",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "AbimongoBootstrap (core)",
+    "permalink": "/abimongo/core/abimongo-bootstrap/AbimongoBootstrap"
+  },
+  "next": {
+    "title": "README",
+    "permalink": "/abimongo/core/api/"
+  }
+}

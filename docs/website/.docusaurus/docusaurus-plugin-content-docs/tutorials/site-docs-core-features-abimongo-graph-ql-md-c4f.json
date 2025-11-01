@@ -1,0 +1,23 @@
+{
+  "id": "core/features/AbimongoGraphQL",
+  "title": "AbimongoGraphQL — Generate GraphQL schemas from MongoDB collections",
+  "description": "AbimongoGraphQL (package: @abimongo/core) simplifies building a GraphQL API on top of MongoDB collections. It ships with sensible defaults (types, resolvers, RBAC hooks and subscription plumbing) and lets you extend or override behavior with custom type definitions and resolvers.",
+  "source": "@site/docs/core/features/AbimongoGraphQL.md",
+  "sourceDirName": "core/features",
+  "slug": "/core/features/AbimongoGraphQL",
+  "permalink": "/abimongo/docs/core/features/AbimongoGraphQL",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "Frequently Asked Questions (FAQ)",
+    "permalink": "/abimongo/docs/core/faq"
+  },
+  "next": {
+    "title": "Caching in Abimongo Core",
+    "permalink": "/abimongo/docs/core/features/Caching"
+  }
+}

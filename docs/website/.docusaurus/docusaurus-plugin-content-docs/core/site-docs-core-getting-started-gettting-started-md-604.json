@@ -1,0 +1,25 @@
+{
+  "id": "getting-started/gettting-started",
+  "title": "Getting started with @abimongo/core",
+  "description": "This quickstart shows the minimal steps to get a working app with @abimongo/core. It focuses on the common happy-path: connect, define a schema, create a model, and perform simple operations. For advanced topics (multi-tenancy, caching, GraphQL integration) there are dedicated docs in the repository.",
+  "source": "@site/docs/core/getting-started/gettting-started.md",
+  "sourceDirName": "getting-started",
+  "slug": "/getting-started/gettting-started",
+  "permalink": "/abimongo/core/getting-started/gettting-started",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761333011000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "Redis integration (Abimongo Core)",
+    "permalink": "/abimongo/core/features/redis"
+  },
+  "next": {
+    "title": "Installation",
+    "permalink": "/abimongo/core/getting-started/installation"
+  }
+}

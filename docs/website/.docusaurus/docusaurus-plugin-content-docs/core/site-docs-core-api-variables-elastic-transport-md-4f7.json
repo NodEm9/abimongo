@@ -1,0 +1,25 @@
+{
+  "id": "api/variables/elasticTransport",
+  "title": "elasticTransport",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/variables/elasticTransport.md",
+  "sourceDirName": "api/variables",
+  "slug": "/api/variables/elasticTransport",
+  "permalink": "/abimongo/core/api/variables/elasticTransport",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "bufferedTransporter",
+    "permalink": "/abimongo/core/api/variables/bufferedTransporter"
+  },
+  "next": {
+    "title": "eventTypes",
+    "permalink": "/abimongo/core/api/variables/eventTypes"
+  }
+}

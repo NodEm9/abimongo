@@ -1,0 +1,25 @@
+{
+  "id": "api/logger/functions/createCircuitBreaker",
+  "title": "Function: createCircuitBreaker()",
+  "description": "createCircuitBreaker\\(fn, failureThreshold, cooldownPeriod): (...args) => Promise\\\\>",
+  "source": "@site/docs/logger/api/logger/functions/createCircuitBreaker.md",
+  "sourceDirName": "api/logger/functions",
+  "slug": "/api/logger/functions/createCircuitBreaker",
+  "permalink": "/abimongo/logger/api/logger/functions/createCircuitBreaker",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "Function: consoleTransport()",
+    "permalink": "/abimongo/logger/api/logger/functions/consoleTransport"
+  },
+  "next": {
+    "title": "Function: createElasticTransport()",
+    "permalink": "/abimongo/logger/api/logger/functions/createElasticTransport"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "core/api/interfaces/AbimongoConfig",
+  "title": "AbimongoConfig",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/interfaces/AbimongoConfig.md",
+  "sourceDirName": "core/api/interfaces",
+  "slug": "/core/api/interfaces/AbimongoConfig",
+  "permalink": "/abimongo/docs/core/api/interfaces/AbimongoConfig",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "AbimongoClientType",
+    "permalink": "/abimongo/docs/core/api/interfaces/AbimongoClientType"
+  },
+  "next": {
+    "title": "AbimongoConfigFile",
+    "permalink": "/abimongo/docs/core/api/interfaces/AbimongoConfigFile"
+  }
+}

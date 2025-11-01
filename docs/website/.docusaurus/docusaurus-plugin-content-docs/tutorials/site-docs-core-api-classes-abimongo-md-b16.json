@@ -1,0 +1,23 @@
+{
+  "id": "core/api/classes/Abimongo",
+  "title": "Abimongo",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/classes/Abimongo.md",
+  "sourceDirName": "core/api/classes",
+  "slug": "/core/api/classes/Abimongo",
+  "permalink": "/abimongo/docs/core/api/classes/Abimongo",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "README",
+    "permalink": "/abimongo/docs/core/api/"
+  },
+  "next": {
+    "title": "AbimongoBootstrap",
+    "permalink": "/abimongo/docs/core/api/classes/AbimongoBootstrap"
+  }
+}

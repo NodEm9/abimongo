@@ -1,0 +1,23 @@
+{
+  "id": "core/api/functions/logDefaultEvent",
+  "title": "logDefaultEvent",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/functions/logDefaultEvent.md",
+  "sourceDirName": "core/api/functions",
+  "slug": "/core/api/functions/logDefaultEvent",
+  "permalink": "/abimongo/docs/core/api/functions/logDefaultEvent",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "loadModelsFromPath",
+    "permalink": "/abimongo/docs/core/api/functions/loadModelsFromPath"
+  },
+  "next": {
+    "title": "logEvent",
+    "permalink": "/abimongo/docs/core/api/functions/logEvent"
+  }
+}

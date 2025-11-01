@@ -1,0 +1,25 @@
+{
+  "id": "faq",
+  "title": "Logger FAQ",
+  "description": "What is the Abimongo logger?",
+  "source": "@site/docs/logger/faq.md",
+  "sourceDirName": ".",
+  "slug": "/faq",
+  "permalink": "/abimongo/logger/faq",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761333011000,
+  "frontMatter": {},
+  "sidebar": "logger",
+  "previous": {
+    "title": "Consuming the logger",
+    "permalink": "/abimongo/logger/logger/consumption"
+  },
+  "next": {
+    "title": "Logger - Getting started",
+    "permalink": "/abimongo/logger/logger/getting-started"
+  }
+}

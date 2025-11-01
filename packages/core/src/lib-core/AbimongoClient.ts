@@ -9,15 +9,16 @@ import {
 } from 'mongodb';
 import 'dotenv/config'
 import { AbimongoClientConfig, AbimongoClientOptions } from '../types';
-import { AsyncBatchTransporter } from '@abimongo/logger';
+// import { AsyncBatchTransporter } from '@abimongo/logger';
 import { GetTanantModelParams } from '../tanancy';
-import { AbimongoSchema } from './AbimongoSchema';
+import { AbimongoSchema } from '.';
 import {
 	ErrorType,
 	AbimongoModelRegistry,
 	AbiMongoError
 } from '../utils';
-import { colourize } from '../utils';
+import chalk from 'chalk';
+
 
 const abimongoSymbol = Symbol.for('abimongo:default');
 const abimongoClientSymbol = Symbol.for('abimongo:client');
@@ -52,27 +53,26 @@ export class AbimongoClient implements AbimongoClientConfig {
 		public uri: string = AbimongoClient.defaultUri,
 		public _options?: AbimongoClientOptions,
 	) {
-		// Use provided uri or fall back to default
-		this._uri = uri || AbimongoClient.defaultUri;
+		this._uri = this.uri = AbimongoClient.defaultUri;
+		this._dbName = this._options?.dbName ? this._db?.databaseName : this._dbName || process.env.DB_NAME || 'abimongo_default_db';
 		this._options = _options || {};
-		this._dbName = this._options?.dbName || process.env.DB_NAME || 'abimongo_default_db';
 
-		// Validate and create client
+		// const MongoClient = (await import('mongodb')).MongoClient;
 		this.validateUri(this._uri);
 		this._client = this._options?.client || new MongoClient(this._uri, {
 			directConnection: true,
 			minPoolSize: 5,
 			maxPoolSize: 50,
 			serverSelectionTimeoutMS: 5000,
-		});
+		})
 
-		this._db = this._client && typeof this._client.db === 'function' ? this._client.db(this._dbName) : null;
-		if (this._client && typeof this._client.db === 'function') {
-			this._client.db(this._dbName).collection(this._options?.collectionName || (defaultCollectionName as unknown as string));
-		}
+		this._db = this._client?.db(this._dbName);
+		this._client?.db(this._dbName).collection(this._options?.collectionName || [defaultCollectionName] as unknown as string);
+
 		// Ensure MongoDB dependency is available
 		this.ensureMongoDependency();
-	}
+
+	};
 
 	static init() {
 		if (this.instances.has(String(abimongoSymbol))) {
@@ -85,8 +85,8 @@ export class AbimongoClient implements AbimongoClientConfig {
 
 	private ensureMongoDependency() {
 		try {
-			// Require only to ensure peer dependency is installed. Do not overwrite _client.
-			require('mongodb');
+			const { MongoClient } = require('mongodb');
+			this._client = MongoClient;
 		} catch (err) {
 			console.error(
 				'\n❌ Missing peer dependency: "mongodb".\n' +
@@ -104,23 +104,21 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 * @returns {Promise<AbimongoClient>} A promise that resolves to the connected AbimongoClient instance.
 	 * @throws {Error} If the URI is not provided.
 	 */
-	async connectDb(uri: string | undefined, options?: AbimongoClientOptions): Promise<AbimongoClient> {
+	async connectDb(uri: string, options?: AbimongoClientOptions): Promise<AbimongoClient> {
 		const _abimongo = this instanceof AbimongoClient ? this : abimongo;
-		const resolvedUri = uri || _abimongo._uri || AbimongoClient.defaultUri;
-		if (!resolvedUri) {
-			throw new Error('MongoDB URI is required.');
+		if (!uri) {
+			const message = 'MongoDB URI is required.';
+			throw new Error(message).stack;
 		}
 
-		if (!_abimongo._client || _abimongo._uri !== resolvedUri) {
-			_abimongo._uri = resolvedUri;
+		if (!_abimongo._client || _abimongo._uri !== uri) {
+			_abimongo._uri = uri;
 			_abimongo._options = options || _abimongo._options;
-			_abimongo._client = _abimongo._options?.client || new MongoClient(_abimongo._uri) as MongoClient;
-			_abimongo._db = _abimongo._client && typeof _abimongo._client.db === 'function'
-				? _abimongo._client.db(_abimongo._options?.dbName || _abimongo._dbName)
-				: null;
+			_abimongo._client = _abimongo._options?.client || new MongoClient(_abimongo.uri) as MongoClient;
+			_abimongo._db = _abimongo._client?.db(_abimongo._options?.dbName);
 		}
 
-		return _abimongo;
+		return _abimongo
 	}
 
 	/**
@@ -209,10 +207,10 @@ export class AbimongoClient implements AbimongoClientConfig {
 		const tenantIds = this.tenantDBs.size > 0 ? [...this.tenantDBs.keys()] : [];
 		// Ensure the first tenant DB is initialized
 		await this.getDatabase(tenantIds[0], this.defaultUri).catch((error) => {
-			console.log(colourize('[error]: Error retrieving tenant databases:', 'red'), error);
+			console.log(chalk.red('[error]: Error retrieving tenant databases:'), error);
 		});
 		const foundInstances = this.instances.size > 0 ? [...this.instances.values()] : [];
-		console.log(colourize(`[info]: Found ${foundInstances.length} tenant DB instances: ${foundInstances.map(db => db.databaseName).join(', ')}`, 'blue'));
+		console.log(`[info]: Found ${foundInstances.length} tenant DB instances: ${foundInstances.map(db => db.databaseName).join(', ')}`);
 		return foundInstances;
 	}
 
@@ -244,7 +242,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 * @throws {AbiMongoError} If the database connection is not established.
 	 */
 	get db(): Db {
-		if (this._db?.databaseName === null || this._db?.databaseName === undefined) {
+		if (this._db === null || this._db === undefined) {
 			const message = 'Database connection is not established. call connect() first.';
 			const error = new Error(message).stack;
 			const cause = ErrorType.NULL_OR_UNDEFINED;
@@ -311,7 +309,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 			const cause = 'DB_NAME_ERROR';
 
 			const error = new Error(message).stack;
-			console.log(colourize(`[${cause}]: ${error}`, 'red'));
+			console.log(chalk.red(`[${cause}]: ${error}`));
 		}
 		return this._client?.db(this._options?.dbName).collection<T>(name) as Collection<T>;
 	}
@@ -329,7 +327,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 			const cause = 'DB_NAME_ERROR';
 
 			const error = new Error(message).stack;
-			console.log(colourize(`[${cause}]: ${error}`, 'red'));
+			console.log(chalk.red(`[${cause}]: ${error}`));
 		}
 		return this._client?.db(this._options?.dbName).collection<T>(name) as Collection<T>;
 	}
@@ -459,11 +457,11 @@ export class AbimongoClient implements AbimongoClientConfig {
 		}
 
 		let isConnected;
-		const clientIsConnected = async () => {
+		const clientIsCOnnected = async () => {
 			try {
 				if (await this._client?.connect()) {
 					isConnected = await this._client?.connect()
-					console.log(`[info]: MongoDB client is connected: ${this._client?.db(this._dbName)}`);
+					console.log(`[info]: MongoDB client is connected: ${isConnected}`);
 				}
 				return isConnected;
 			} catch (error) {
@@ -471,7 +469,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 				return false;
 			}
 		}
-		clientIsConnected();
+		clientIsCOnnected();
 		return isConnected ? true : false;
 	}
 
@@ -489,36 +487,29 @@ export class AbimongoClient implements AbimongoClientConfig {
 		}
 	}
 
-	/***
-	 * Handles a batch of MongoDB topology events.
-	 * @param {(TopologyOpeningEvent | TopologyClosedEvent)[]} batch - The batch of topology events to handle.
-	 * @param {AsyncBatchTransporter} [transporter] - Optional transporter for logging events asynchronously.
-	 * @returns {Promise<void>} A promise that resolves when the batch is processed.
-	 * @see {@link AsyncBatchTransporter} for more details on the transporter interface.
-	 */
-	static async handleLogBatch(
-		batch: (TopologyOpeningEvent | TopologyClosedEvent)[],
-		transporter?: AsyncBatchTransporter
-	): Promise<void> {
-		if (!Array.isArray(batch) || batch.length === 0) {
-			console.warn(`[warning]: Received an empty log batch or invalid format: ${batch}`);
-			return;
-		}
+	// static async handleLogBatch(
+	// 	batch: (TopologyOpeningEvent | TopologyClosedEvent)[],
+	// 	transporter?: AsyncBatchTransporter
+	// ): Promise<void> {
+	// 	if (!Array.isArray(batch) || batch.length === 0) {
+	// 		console.warn(`[warning]: Received an empty log batch or invalid format: ${batch}`);
+	// 		return;
+	// 	}
 
-		// Always handle the first event explicitly
-		this.handleTopologyEvent(batch[0]);
+	// 	// Always handle the first event explicitly
+	// 	this.handleTopologyEvent(batch[0]);
 
-		const remaining = batch.slice(1);
-		if (remaining.length > 0) {
-			if (transporter) {
-				for (const event of remaining) {
-					transporter.log('info', 'Topology event (batch)', [event]);
-				}
-			} else {
-				console.warn(`[warning]: No transporter provided; remaining batch will not be processed: ${remaining}`);
-			}
-		}
-	}
+	// 	const remaining = batch.slice(1);
+	// 	if (remaining.length > 0) {
+	// 		if (transporter) {
+	// 			for (const event of remaining) {
+	// 				transporter.log('info', 'Topology event (batch)', [event]);
+	// 			}
+	// 		} else {
+	// 			console.warn(`[warning]: No transporter provided; remaining batch will not be processed: ${remaining}`);
+	// 		}
+	// 	}
+	// }
 
 }
 
@@ -533,8 +524,10 @@ export class Abimongo extends AbimongoClient {
 	 * @param {AbimongoClientConfig} [options] - Optional configuration options for the client.
 	 * @throws {Error} If the URI is not provided.
 	 */
-	constructor(uri?: string, options?: AbimongoClientOptions) {
-		// Allow constructing with no URI; parent constructor provides the default.
+	constructor(uri: string, options?: AbimongoClientOptions) {
+		if (uri === undefined) {
+			throw new Error('MongoDB URI is required.');
+		}
 		super(uri, { dbName: options?.dbName || '' });
 	}
 
@@ -561,4 +554,8 @@ export class Abimongo extends AbimongoClient {
 	}
 }
 
-export const abimongo = new Abimongo();
+export const abimongo = new Abimongo(`${{
+	[abimongoSymbol]: true
+}}`);
+
+

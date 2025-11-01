@@ -1,0 +1,23 @@
+{
+  "id": "core/api/classes/AbimongoSchema",
+  "title": "AbimongoSchema",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/classes/AbimongoSchema.md",
+  "sourceDirName": "core/api/classes",
+  "slug": "/core/api/classes/AbimongoSchema",
+  "permalink": "/abimongo/docs/core/api/classes/AbimongoSchema",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "defaultSidebar",
+  "previous": {
+    "title": "AbimongoModel",
+    "permalink": "/abimongo/docs/core/api/classes/AbimongoModel"
+  },
+  "next": {
+    "title": "AuthService",
+    "permalink": "/abimongo/docs/core/api/classes/AuthService"
+  }
+}

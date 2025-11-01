@@ -3,6 +3,7 @@ import { spawn, spawnSync } from 'child_process';
 import path from 'path';
 import fs from 'fs-extra';
 import { AbimongoBootstrap } from '@abimongo/core';
+import { colorByLevel } from '@abimongo/logger';
 
 // Instead of requiring the create package (which may execute its CLI
 // on import), spawn the create CLI as a child process when delegating
@@ -12,25 +13,24 @@ import { AbimongoBootstrap } from '@abimongo/core';
 const createBinRelative = path.join(__dirname, '..', '..', '..', 'create', 'dist', 'index.js');
 const createBin = path.resolve(createBinRelative);
 
+
+
+/**
+ * Run the Abimongo CLI
+ * This function is responsible for executing the Abimongo command-line interface.
+ */
 export default function runCLI() {
   // lightweight banner; defer to create CLI for full UX
   try {
-    // Small color helper for nicer console output in the CLI
-    const colorize = (text: string, color?: 'green' | 'yellow' | 'blue' | 'red') => {
-      const codes: Record<string, string> = {
-        green: '\u001b[32m',
-        yellow: '\u001b[33m',
-        blue: '\u001b[34m',
-        red: '\u001b[31m',
-      };
-      const reset = '\u001b[0m';
-      return color && codes[color] ? `${codes[color]}${text}${reset}` : text;
-    };
-
-    // Attempt to show a simple banner
-    console.log(colorize('=== Abimongo CLI ===', 'blue'));
-  }
-  catch (e) { }
+    // Keep the bootstrap/install console banner plain so logs are easy to capture.
+    console.log('=== Abimongo CLI ===');
+  } catch (e) { }
+  // small helper to print green success messages (logger's colorByLevel has no 'success' level)
+  const success = (text: string) => {
+    const green = '\u001b[32m';
+    const reset = '\u001b[0m';
+    return `${green}${text}${reset}`;
+  };
   const program = new Command();
   program.name('abimongo-cli').description('Abimongo CLI (shim)').version('1.0.0');
 
@@ -60,6 +60,7 @@ export default function runCLI() {
     .option('--enable-logger', 'Enable Abimongo Logger', true)
     .option('--enable-gc', 'Enable garbage collector', false)
     .option('--install', 'Run package manager to install dependencies after init', false)
+    .option('--bootstrap', 'Attempt programmatic bootstrap/validation after init (opt-in)', false)
     .option('--mongo-uri <uri>', 'MongoDB connection URI', 'mongodb://localhost:27017')
     .option('--gc-cron <expr>', 'Garbage collector cron expression', '0 0 * * *')
     .action(async (projectName: string | undefined, opts: any) => {
@@ -187,7 +188,7 @@ export default function runCLI() {
         await fs.writeFile(path.join(srcDir, 'main.ts'), mainLines.join('\n'), 'utf8');
       } catch (e) {
         // Non-fatal if we can't write starter main
-        console.warn('Could not write src/main.ts starter:', String(e));
+        console.warn(`Could not write src/main.ts starter: ${String(e)}`);
       }
 
       // If user requested auto-install, detect package manager and run it
@@ -220,19 +221,19 @@ export default function runCLI() {
           } catch (e) { /* ignore stream write errors */ }
 
           if (installer.error) {
-            console.error('Package install process spawn failed:', installer.error);
+            console.error(`Package install process spawn failed: ${installer.error}`);
             process.exit(1);
           }
 
           if (installer.status === null || installer.status !== 0) {
-            console.error('Installer result indicates failure:', installer.status);
+            console.error(`Installer result indicates failure: ${installer.status}`);
             console.error(`Package install failed (exit ${installer.status}). Please run the install manually in ${target}.`);
             process.exit(installer.status ?? 1);
           }
 
           console.log('Dependencies installed.');
         } catch (err) {
-          console.error('Failed to run package manager install:', err);
+          console.error(`Failed to run package manager install: ${err}`);
           console.log(`Please cd ${name} and run pnpm install (or npm install).`);
           process.exit(1);
         }
@@ -243,40 +244,39 @@ export default function runCLI() {
         console.log('  # Customize abimongo.config.json as needed then start your app');
       }
 
-      // Primary path: try to programmatically initialize Abimongo using core API.
-      try {
-        console.log('\nBootstrapping Abimongo programmatically to validate configuration...');
-        // Normalize the written config to ensure expected shapes (avoid boolean vs object field mismatches)
+      // Programmatic bootstrap is opt-in: only run if user explicitly requests it.
+      if (opts.bootstrap) {
         try {
-          const raw = await fs.readJson(configPath);
-          const normalized = normalizeConfig(raw);
-          await fs.writeJson(configPath, normalized, { spaces: 2 });
-        } catch (e) {
-          console.warn('Failed to normalize config prior to bootstrap:', String(e));
-        }
-
-        // Use AbimongoBootstrap directly and point it at the generated config file
-        // Prefer the exported factory alias `initAbimongo` when generating starter projects.
-        // We still support creating AbimongoBootstrap directly where needed, but the
-        // starter `src/main.ts` will use `initAbimongo.create()` for a concise programmatic start.
-        const abimongo = new AbimongoBootstrap();
-        const cfgPathResolved = path.resolve(configPath);
-        await abimongo.initialize(cfgPathResolved);
-        // If initialization succeeded, print helpful status and then close any connections.
-        console.log('✅ Abimongo initialized successfully (connections established where possible).');
-        // Try to gracefully close mongo connection if exposed
-        try {
-          const client = abimongo.getMongoClient();
-          if (client && typeof client.disconnect === 'function') {
-            await client.disconnect();
+          console.log('\nBootstrapping Abimongo programmatically to validate configuration...');
+          // Normalize the written config to ensure expected shapes (avoid boolean vs object field mismatches)
+          try {
+            const raw = await fs.readJson(configPath);
+            const normalized = normalizeConfig(raw);
+            await fs.writeJson(configPath, normalized, { spaces: 2 });
+          } catch (e) {
+            console.warn(colorByLevel('warn', `Failed to normalize config prior to bootstrap: ${String(e)}`));
           }
-        } catch (e) {
-          // ignore cleanup errors
+
+          // Use AbimongoBootstrap directly and point it at the generated config file
+          const abimongo = new AbimongoBootstrap();
+          const cfgPathResolved = path.resolve(configPath);
+          await abimongo.initialize(cfgPathResolved);
+          console.log(success('✅ Abimongo initialized successfully (connections established where possible).'));
+          try {
+            const client = abimongo.getMongoClient();
+            if (client && typeof client.disconnect === 'function') {
+              await client.disconnect();
+            }
+          } catch (e) {
+            // ignore cleanup errors
+          }
+        } catch (err) {
+          console.warn(colorByLevel('warn', '⚠️  Abimongo programmatic initialization failed (this is non-fatal).'));
+          console.warn(colorByLevel('error', String(err)));
+          console.log(colorByLevel('info', `If you want to run it manually, cd ${name} and run node your-start-script after installing dependencies.`));
         }
-      } catch (err) {
-        console.warn('⚠️  Abimongo programmatic initialization failed (this is non-fatal).');
-        console.warn(String(err));
-        console.log(`If you want to run it manually, cd ${name} and run node your-start-script after installing dependencies.`);
+      } else {
+        console.log('\nProgrammatic bootstrap skipped by default. To validate the generated project now, re-run with --bootstrap');
       }
 
       process.exit(0);

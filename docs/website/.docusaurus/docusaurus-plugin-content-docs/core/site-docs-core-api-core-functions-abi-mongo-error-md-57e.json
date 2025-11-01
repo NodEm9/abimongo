@@ -1,0 +1,25 @@
+{
+  "id": "api/core/functions/AbiMongoError",
+  "title": "Function: AbiMongoError()",
+  "description": "AbiMongoError(TypeError, message, stack?, cause?): Error",
+  "source": "@site/docs/core/api/core/functions/AbiMongoError.md",
+  "sourceDirName": "api/core/functions",
+  "slug": "/api/core/functions/AbiMongoError",
+  "permalink": "/abimongo/core/api/core/functions/AbiMongoError",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "Enumeration: ErrorType",
+    "permalink": "/abimongo/core/api/core/enumerations/ErrorType"
+  },
+  "next": {
+    "title": "Function: GCSettings()",
+    "permalink": "/abimongo/core/api/core/functions/GCSettings"
+  }
+}

@@ -2,7 +2,7 @@
   "name": "@abimongo/core",
   "version": "1.0.0",
   "publishConfig": {
-  "registry": "http://localhost:4873/",
+    "registry": "http://localhost:4873/",
     "access": "public"
   },
   "description": "Enterprise-grade MongoDB ORM built on the official MongoDB driver.",
@@ -11,7 +11,7 @@
   "browser": "./dist/abimongo-core-browser.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "abimongo": "./dist/abimongo-core-cli.js"
+    "abimongo": "./bin/abimongo-core-cli.js"
   },
   "exports": {
     ".": {
@@ -128,6 +128,7 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.15.30",
     "@types/webpack": "5.28.5",
+    "globals": "^14.0.0",
     "axios": "^1.9.0",
     "babel-loader": "^10.0.0",
     "clean-webpack-plugin": "^4.0.0",
@@ -162,6 +163,6 @@
   },
   "engines": {
     "node": ">=20.11.0",
-    "npm": ">=10.19.0"
+    "pnpm": ">=10.19.0"
   }
 }

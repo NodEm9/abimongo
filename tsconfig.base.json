@@ -2,46 +2,44 @@
   "compilerOptions": {
     "target": "ES2021",
     "lib": [
-      "ESNext",
       "ES2021", 
-      "DOM",
+      "ES2022.Error",
+      "ES2022.Object",
+      "esnext.disposable",
       "DOM.Iterable", 
-      "DOM.AsyncIterable",
-      // "ESNext.Disposable"
+      "DOM"
       ],  
     "moduleDetection": "auto",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "declaration": true,
+    // No top-level `paths` mappings here to avoid pulling sibling package
+    // TypeScript sources into other packages' compilation units. Local
+    // development that prefers package source should use per-package
+    // webpack aliases (DEV-only) instead. Keeping this file plain avoids
+    // ts-loader/TypeScript program-listing issues in monorepo builds.
     "declarationMap": true,
     "esModuleInterop": true,
     "isolatedModules": true, 
+    "experimentalDecorators": true,
     "importHelpers": true,
-    "noEmitHelpers": true,
-    "sourceMap": true,
-    "allowJs": true, 
-    "checkJs": false,
-    "inlineSourceMap": false,                                                                                                                                    
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
+    "noEmitOnError": true,
+    "resolvePackageJsonExports": true,
     "resolveJsonModule": true, 
-    "noImplicitAny": false,  
-    // "noEmitOnError": true, 
-    // "noImplicitReturns": false, 
-    "noImplicitOverride": true, 
-    // "alwaysStrict": true,                      
+    "inlineSourceMap": false,                                                                                                                                    
+    "noImplicitAny": false,                            
     "strict": true,                                                                  
     "skipLibCheck": true, 
-    "jsx": "react-jsx",  
-    // "useUnknownInCatchVariables": false                            
+    "jsx": "react-jsx"                              
   },
-  "ts-node": {
-    "transpileOnly": true,
-    "compiler": "typescript-cached-transpile"
-  },
+  // "ts-node": {
+  //   "transpileOnly": true,
+  //   "compiler": "typescript-cached-transpile"
+  // },
   "include": [
-    "packages/*", 
-    "docs/*",
+    "packages/**/src/**/*", 
+    "docs/*", 
     ],
   "exclude": ["node_modules", "packages/core/examples", "packages/*/src/__test__/**"]
 }

@@ -1,0 +1,25 @@
+{
+  "id": "api/interfaces/AbimongoLoggerSettings",
+  "title": "AbimongoLoggerSettings",
+  "description": "@abimongo/core v1.0.0",
+  "source": "@site/docs/core/api/interfaces/AbimongoLoggerSettings.md",
+  "sourceDirName": "api/interfaces",
+  "slug": "/api/interfaces/AbimongoLoggerSettings",
+  "permalink": "/abimongo/core/api/interfaces/AbimongoLoggerSettings",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Emmanuel Nodolomwanyi",
+  "lastUpdatedAt": 1761875136000,
+  "frontMatter": {},
+  "sidebar": "core",
+  "previous": {
+    "title": "AbimongoGraphQLOptions",
+    "permalink": "/abimongo/core/api/interfaces/AbimongoGraphQLOptions"
+  },
+  "next": {
+    "title": "AbimongoModelOptions",
+    "permalink": "/abimongo/core/api/interfaces/AbimongoModelOptions"
+  }
+}

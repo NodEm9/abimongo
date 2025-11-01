@@ -21,7 +21,7 @@ jobs:
           corepack enable
           corepack prepare pnpm@10.19.0 --activate
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --prefer-workspace-packages
       - name: Run tests
         run: pnpm test
 
@@ -43,7 +43,8 @@ jobs:
           corepack enable
           corepack prepare pnpm@10.19.0 --activate
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --prefer-workspace-packages
+        
       - name: Build Docusaurus site
         working-directory: ./
         run: pnpm run docs:build
@@ -55,3 +56,6 @@ jobs:
           publish_branch: gh-pages
           keep_files: false
           commit_message: "chore(docs): deploy site from ${{ github.sha }}"
+        env: 
+         GH_TOKEN: ${{ secrets.GH_TOKEN }}
+				 

@@ -16,3 +16,7 @@ yarn-error.log*
 logs
 *.gz
 *.zip
+
+# Docusaurus build artifacts
+docs/website/build/
+docs/website/.docusaurus/

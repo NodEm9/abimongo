@@ -4,7 +4,9 @@ import type { Metric } from './types';
 type UseMetricsOpts = { url?: string; pollMs?: number | false };
 
 export function useMetrics(opts?: UseMetricsOpts) {
-	const url = opts?.url ?? '/api/metrics';
+	// Use a local static JSON during development for predictable demo data
+	const defaultUrl = process.env.NODE_ENV === 'development' ? '/api/metrics.json' : '/api/metrics';
+	const url = opts?.url ?? defaultUrl;
 	const pollMs = opts?.pollMs ?? 15000;
 
 	const [data, setData] = useState<Metric[] | null>(null);

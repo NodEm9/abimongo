@@ -1,0 +1,26 @@
+[
+	{
+		"id": "requests",
+		"label": "Requests / min",
+		"value": 124,
+		"unit": "r/min",
+		"delta": 3.5,
+		"description": "Average requests per minute"
+	},
+	{
+		"id": "errors",
+		"label": "Errors / min",
+		"value": 1,
+		"unit": "err/min",
+		"delta": -0.5,
+		"description": "Errors per minute"
+	},
+	{
+		"id": "cpu",
+		"label": "CPU",
+		"value": 37,
+		"unit": "%",
+		"delta": 1.2,
+		"description": "CPU usage"
+	}
+]

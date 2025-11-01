@@ -275,7 +275,7 @@ describe('AbimongoGraphQL', () => {
 	});
 
 	afterAll(async () => {
-		mockRedisClient.disconnect();
+		await mockRedisClient.disconnect();
 		abimongo = null as any; 
 		const { shutdownLogger } = require('@abimongo/logger');
 		await shutdownLogger();

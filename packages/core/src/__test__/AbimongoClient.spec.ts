@@ -24,6 +24,10 @@ describe('AbimongoClient', () => {
 		await driver.connect();
 	});
 
+	afterEach(() => {
+		jest.clearAllMocks();
+	});
+
 	it('should initialize MongoClient with correct URI', async () => {
 		const MongoClient = jest.fn().mockImplementation(async () => {
 			return await driver.connect()

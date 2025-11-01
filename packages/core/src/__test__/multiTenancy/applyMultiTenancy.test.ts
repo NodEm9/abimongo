@@ -88,6 +88,6 @@ describe('applyMultiTenancy', () => {
 
 	afterAll(async () => {
 		await shutdownLogger();
-		bufferedTransporter.stop();
+		await bufferedTransporter.stop();
 	});
 });

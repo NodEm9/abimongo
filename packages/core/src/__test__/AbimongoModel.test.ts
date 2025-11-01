@@ -762,8 +762,8 @@ describe('AbimongoModel.updateWithTransaction', () => {
 
 	afterAll(async () => {
 		// await bufferedTransporter.stop(); // or however you're exposing it
-		// const { shutdownLogger } = require('@abimongo/logger');
-		// await shutdownLogger();
+		const { shutdownLogger } = require('@abimongo/logger');
+		await shutdownLogger();
 	});
 
 });

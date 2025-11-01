@@ -173,7 +173,7 @@ export class AbimongoBootstrap {
     }
 
     // Register models if provided
-    this.model = new AbimongoModel < Document > ({
+    this.model = new AbimongoModel<Document>({
       collectionName: `${this.mongoClient.getCollection('default')}`,
       schema: this.schema,
       tenantId: this.config.multiTenant?.enabled
@@ -258,7 +258,7 @@ export class AbimongoBootstrap {
 
       // Register GC files
       this.gc.register(
-        this.mongoClient.getCollection < Document > (this.config.model?.collectionName || 'default'),
+        this.mongoClient.getCollection<Document>(this.config.model?.collectionName || 'default'),
         this.schema
       );
       console.info('✅ Garbage Collector files registered');
@@ -301,7 +301,7 @@ export class AbimongoBootstrap {
     } = {}
   ): Promise<T> {
     if (!redis) throw new Error('Redis is not initialized');
-    return await cacheWithRedis < T > (redis, key, fetcher, options);
+    return await cacheWithRedis<T>(redis, key, fetcher, options);
   }
 
   public async invalidateCache(tenantId: string, namespace?: string) {

@@ -3,7 +3,6 @@ import { MongoClient } from 'mongodb';
 import { AbimongoSchema, AbimongoModel } from '../../lib-core';
 import { AbimongoGC } from '../../gc/AbimongoGC';
 import { Document } from '../../types';
-import { shutdownLogger } from '@abimongo/logger';
 import { bufferedTransporter } from '../../utils';
 
 describe('AbimongoGC', () => {
@@ -52,7 +51,9 @@ describe('AbimongoGC', () => {
     expect(result?.deletedAt).not.toBeNull();
   });
   afterAll(async () => {
-    await client.close();
+    await client?.close();
+    // await bufferedTransporter.stop();
+    const shutdownLogger = require('@abimongo/logger')
     await shutdownLogger();
   });
 });

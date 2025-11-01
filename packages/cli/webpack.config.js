@@ -42,7 +42,18 @@ module.exports = {
     ]
   },
   externals: {
-    'fsevents': 'commonjs fsevents'
+    'fsevents': 'commonjs fsevents',
+    // Optional native modules pulled in by mongodb - keep as externals so
+    // the CLI bundle doesn't try to resolve optional native deps at build
+    // time. They are optional at runtime and should not fail the build.
+    'kerberos': 'commonjs kerberos',
+    '@mongodb-js/zstd': 'commonjs @mongodb-js/zstd',
+    '@aws-sdk/credential-providers': 'commonjs @aws-sdk/credential-providers',
+    'gcp-metadata': 'commonjs gcp-metadata',
+    'snappy': 'commonjs snappy',
+    'socks': 'commonjs socks',
+    'aws4': 'commonjs aws4',
+    'mongodb-client-encryption': 'commonjs mongodb-client-encryption'
   },
   plugins: [
     {

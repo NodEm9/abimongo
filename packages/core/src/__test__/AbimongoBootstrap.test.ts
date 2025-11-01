@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AbimongoBootstrap, initAbimongo } from '../lib-core';
-// import { bufferedTransporter } from '../utils'
+import { bufferedTransporter } from '../utils'
 
 
 
@@ -178,5 +178,11 @@ describe('AbimongoBootstrap', () => {
     const mockGraphQL = {};
     (app as any).graphql = mockGraphQL;
     expect(app.getGraphQL()).toBe(mockGraphQL);
+  });
+
+  afterAll(async () => {
+    await bufferedTransporter.stop();
+    const { shutdownLogger } = require('@abimongo/logger');
+    await shutdownLogger();
   });
 });

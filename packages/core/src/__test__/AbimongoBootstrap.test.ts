@@ -76,12 +76,6 @@ describe('AbimongoBootstrap', () => {
     spy.mockRestore();
   });
 
-  afterAll(() => {
-    // bufferedTransporter.stop(); // or however you're exposing it
-    const { shutdownLogger } = require('@abimongo/logger');
-    shutdownLogger();
-  });
-
   it('throws error if multi-tenancy is not enabled when calling registerMultiTenancy', async () => {
     const app = new AbimongoBootstrap();
     // Mock config to not enable multiTenant

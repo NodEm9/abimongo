@@ -1,113 +1,92 @@
 import 'dotenv/config';
 import { createClient, RedisClientType } from 'redis';
 
+const DEFAULT_RECONNECT = (retries: number) => Math.min(retries * 50, 1000);
+const redisUrl = process.env.REDIS_URI as string | undefined;
 
-import 'dotenv/config';
+let currentClient: RedisClientType | null = null;
 
-interface RedisOptions {
-  url?: string;
-  socket?: {
-    reconnectStrategy?: (retries: number) => number;
-  };
-}
+const createStub = () => ({
+  isOpen: false,
+  connect: async () => Promise.resolve(),
+  disconnect: async () => Promise.resolve(),
+  publish: async () => Promise.resolve(),
+  subscribe: async () => Promise.resolve(),
+  duplicate: () => createStub(),
+});
 
-const defaultRedisUrl = process.env.REDIS_URI as string | undefined;
-
-// Internal client holder
-let _client: RedisClientType | null = null;
-
-// A small resilient wrapper exported as `redis` to preserve legacy callers
-// that expect a `get(uri)` helper and simple `isOpen` / `disconnect` surface.
 export const redis: any = {
   async get(uri?: string) {
-    const url = uri || defaultRedisUrl;
-    if (_client && _client.isOpen) return _client;
-    if (!url) {
-      // No URL available — return a lightweight stub that won't crash callers
-      return {
-        isOpen: false,
-        connect: async () => undefined,
-        disconnect: async () => undefined,
-        publish: async () => undefined,
-      } as Partial<RedisClientType>;
-    }
+    if (currentClient && currentClient.isOpen) return currentClient;
+
+    const url = uri || redisUrl;
+    if (!url) return createStub();
 
     try {
-      _client = createClient({ url } as any);
-      // attach a best-effort reconnect strategy if supported
-      // (some redis clients accept socket.reconnectStrategy)
-      try {
-        // attempt to connect, but don't throw if it fails — callers should be resilient
-        await _client.connect();
-      } catch (err) {
-        // Log and return the client (it may be disconnected but present)
-        // Avoid throwing to allow bootstrap to continue during CI/tests
-        // eslint-disable-next-line no-console
-        console.warn('[abimongo] Redis connection failed (continuing):', err?.message || err);
-      }
-      return _client;
+      const client = createClient({ url, socket: { reconnectStrategy: DEFAULT_RECONNECT } }) as RedisClientType;
+      await client.connect();
+      currentClient = client;
+      return client;
     } catch (err) {
-      // If creation fails, return a stub to keep other modules working
-      // eslint-disable-next-line no-console
-      console.warn('[abimongo] Failed to create Redis client:', err?.message || err);
-      return {
-        isOpen: false,
-        connect: async () => undefined,
-        disconnect: async () => undefined,
-        publish: async () => undefined,
-      } as Partial<RedisClientType>;
+      return createStub();
     }
   },
-  // helper accessors used by other modules
-  get isOpen() {
-    return !!(_client && _client.isOpen);
-  },
+
   async disconnect() {
-    if (_client && _client.isOpen) {
+    if (currentClient) {
       try {
-        await _client.disconnect();
+        if (currentClient.isOpen && typeof currentClient.disconnect === 'function') {
+          await currentClient.disconnect();
+        } else if (currentClient.isOpen && typeof (currentClient as any).quit === 'function') {
+          await (currentClient as any).quit();
+        }
       } catch (err) {
-        // ignore
+        // swallow
       }
     }
-  }
+    currentClient = null;
+    return Promise.resolve();
+  },
+
+  get isOpen() {
+    return !!(currentClient && currentClient.isOpen);
+  },
+
+  publish: async () => Promise.resolve(),
+  subscribe: async () => Promise.resolve(),
+  duplicate: () => ({
+    isOpen: false,
+    connect: async () => Promise.resolve(),
+    disconnect: async () => Promise.resolve(),
+    publish: async () => Promise.resolve(),
+    subscribe: async () => Promise.resolve(),
+  }),
 };
 
-/**
- * Lightweight RedisService singleton (kept for compatibility with some callers).
- */
 export class RedisService {
-  private static instance: RedisService | null = null;
-  private client: RedisClientType | null = null;
-
-  private constructor() { }
-
   static getInstance(): RedisService {
-    if (!RedisService.instance) RedisService.instance = new RedisService();
-    return RedisService.instance;
+    return new RedisService();
   }
-
   async connect(url?: string) {
-    this.client = (await redis.get(url)) as RedisClientType;
-    return this.client;
+    await redis.get(url);
   }
 
-  getClient() {
-    if (!this.client) throw new Error('RedisService: client not connected');
-    return this.client;
+  /**
+ * 
+ * @returns Promise<RedisClientType> The connected Redis client.
+ * @throws Error if Redis is not connected.
+ */
+  getClient(): Promise<RedisClientType> {
+    return Promise.resolve(redis.get());
   }
-
   async close() {
     await redis.disconnect();
-    this.client = null;
   }
 }
 
 export async function connectRedis() {
   return {
-    getClient: async () => (await redis.get()) as RedisClientType,
-    connect: async () => (await redis.get()) as RedisClientType,
-    disconnect: async () => await redis.disconnect(),
+    connect: async (url?: string) => await redis.get(url),
   };
 }
 

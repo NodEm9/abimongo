@@ -1,0 +1,20 @@
+{
+  "projectName": "abimongo-cli-test",
+  "mongoUri": "mongodb://localhost:27017",
+  "logger": {
+    "enabled": true
+  },
+  "graphql": {
+    "enabled": false
+  },
+  "features": {
+    "useRedisCache": false
+  },
+  "advanced": {
+    "garbageCollector": {
+      "enabled": false,
+      "logResults": true
+    },
+    "gcCron": "0 0 * * *"
+  }
+}

@@ -1,4 +1,4 @@
-import { AbimongoModel, AbimongoSchema,AbimongoClient  } from "../lib-core";
+import { AbimongoModel, AbimongoSchema, AbimongoClient } from "../lib-core";
 import { ClientSession, Collection, Db, MongoClient, ObjectId } from "mongodb";
 import { bufferedTransporter } from "../utils";
 
@@ -420,7 +420,7 @@ describe('AbimongoModel', () => {
 
 			// Assert
 			// expect(model.init).toHaveBeenCalledTimes(1);
-			expect(mockCollection.insertMany).toHaveBeenCalledWith(docs, expect.any(Object));
+			expect(await mockCollection.insertMany).toHaveBeenCalledWith(docs, expect.any(Object));
 		})
 	})
 
@@ -545,7 +545,7 @@ describe('AbimongoModel', () => {
 
 			await model.populateOne(mockPopulate(), `name`, model);
 
-			expect(mockCollection.findOne).toHaveBeenCalled();
+			expect(await mockCollection.findOne).toHaveBeenCalled();
 		})
 	})
 
@@ -644,10 +644,10 @@ describe('AbimongoModel', () => {
 		})
 	})
 
-	afterAll(() => {
-		// bufferedTransporter.stop(); 
+	afterAll(async () => {
+		await bufferedTransporter.stop();
 		const { shutdownLogger } = require('@abimongo/logger');
-		shutdownLogger();
+		await shutdownLogger();
 	});
 
 })

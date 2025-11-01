@@ -5,6 +5,7 @@ import { TenantContext } from '../../tanancy/TenantContext';
 import { createModel } from '../../utils/builders/createModel';
 import { ensureModelNameSafe } from '../../utils/ensureModelNameSafe';
 import { AbimongoSchema } from '../../lib-core';
+import { bufferedTransporter } from '../../utils';
 
 jest.mock('../../tanancy/MultiTenantManager');
 jest.mock('../../tanancy/TenantContext');
@@ -63,4 +64,11 @@ describe('getTenantModel', () => {
 		await getTenantModel({ modelName, schema: fakeSchema, tenantId: '' as any });
 		expect(TenantContext.getTenantId).toHaveBeenCalled();
 	});
+
+		afterAll(async () => {
+			jest.resetAllMocks();
+			await bufferedTransporter?.stop();
+			const shutdownLogger = require('@abimongo/logger').shutdownLogger;
+			await shutdownLogger();
+		});
 });

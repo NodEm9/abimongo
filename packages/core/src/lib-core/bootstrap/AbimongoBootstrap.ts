@@ -1,4 +1,4 @@
-import { loadAbimongoConfig } from '../../config/loadAbimongoConfig';
+import { loadAbimongoConfig } from '../../config';
 import { AbimongoConfig } from '../../types/AbimongoConfig';
 import { Document } from '../../types/document';
 import { setupLogger, logger } from '@abimongo/logger';
@@ -125,8 +125,13 @@ export class AbimongoBootstrap {
    * @param configFilePath - Optional path to a custom configuration file.
    * If not provided, it defaults to 'abimongo.config.json'.
    */
-  public async initialize(configFilePath?: string): Promise<void> {
-    this.config = await loadAbimongoConfig(configFilePath);
+  public async initialize(configFilePathOrObject?: string | AbimongoConfig): Promise<void> {
+    // allow passing either a path to a config file or a config object
+    if (configFilePathOrObject && typeof configFilePathOrObject === 'object') {
+      this.config = configFilePathOrObject as AbimongoConfig;
+    } else {
+      this.config = await loadAbimongoConfig(configFilePathOrObject as string | undefined);
+    }
     if (this.config.logger?.enabled) {
       const loggerConfig = this.config.logger ?? { enabled: false }
       // Cast to any to satisfy overloads where advanced 

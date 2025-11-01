@@ -64,6 +64,11 @@ describe('schema', () => {
 			// Act & Assert
 			expect(() => schema.validate(invalidDoc)).toThrow('Validation failed for field: age');
 		});
+
+		afterAll(async () => {
+			const { shutdownLogger } = require('@abimongo/logger');
+			await shutdownLogger();
+		});
 	});
 
 	describe('index', () => {
@@ -109,6 +114,11 @@ describe('schema', () => {
 			// Assert
 			expect(testClass.indexes).toHaveLength(1);
 			expect(testClass.indexes[0]).toEqual({ fields, options: undefined });
+		});
+
+		afterAll(async () => {
+			const { shutdownLogger } = require('@abimongo/logger');
+			await shutdownLogger();
 		});
 	});
 
@@ -281,7 +291,7 @@ describe('schema', () => {
 	});
 
 	afterAll(async () => {
-		schema = null as any; 
+		schema = null as any;
 		await bufferedTransporter.stop();
 		const { shutdownLogger } = require('@abimongo/logger');
 		await shutdownLogger();

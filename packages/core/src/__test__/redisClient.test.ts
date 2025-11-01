@@ -16,10 +16,12 @@ jest.mock('redis', () => ({
 }));
 
 import { redis } from '../redis-manager/redisClient';
+// debug info when tests run in CI/local
+console.log('DEBUG: redis export keys:', typeof redis, Object.keys(redis || {}));
 
-describe('redis wrapper', () => {
-	afterEach(() => {
-		jest.clearAllMocks();
+describe('redis wrapper',() => {
+	afterEach( async () => {
+		await jest.clearAllMocks();
 	});
 
 	it('returns a stub or client object when createClient/connect fails', async () => {

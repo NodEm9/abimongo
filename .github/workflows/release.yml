@@ -18,7 +18,7 @@ jobs:
 
     strategy:
      matrix:
-       node-version: [22.x]
+       node-version: [20.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,17 +32,22 @@ jobs:
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org/'
 
+      - name: Setup pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.19.0 --activate
+
       - name: Install (workspaces)
-        run: npm ci
+        run: pnpm install --frozen-lockfile --prefer-workspace-packages
 
       - name: Lint
-        run: npm run lint
+        run: pnpm run lint
 
       - name: Test
-        run: npm run test
+        run: pnpm run test
 
       - name:  Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Save dist artifacts (optional)
         uses: actions/upload-artifact@v4
@@ -71,11 +76,16 @@ jobs:
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org/'
 
+      - name: Setup pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.19.0 --activate
+
       - name: Install
-        run: npm ci
+        run: pnpm install --frozen-lockfile --prefer-workspace-packages
 
       - name: Build (ensure dist exists before publish)
-        run: npm run build
+        run: pnpm run build
 
       - name: Create Release PR or Publish
         uses: changesets/action@v1
@@ -95,7 +105,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
      matrix:
-      node-version: [22.x]
+      node-version: [20.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -108,11 +118,16 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
+      - name: Setup pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.19.0 --activate
+
       - name: Install
-        run: npm ci
+        run: pnpm install --frozen-lockfile --prefer-workspace-packages
 
       - name: Build docs (TypeDoc)
-        run: npm run api:docs && npm run docs:build
+        run: pnpm run api:docs && npm run docs:build
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

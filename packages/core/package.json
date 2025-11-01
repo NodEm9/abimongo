@@ -1,6 +1,6 @@
 {
   "name": "@abimongo/core",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "publishConfig": {
     "registry": "http://localhost:4873/",
     "access": "public"
@@ -11,7 +11,7 @@
   "browser": "./dist/abimongo-core-browser.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "abimongo": "./bin/abimongo-core-cli.js"
+    "abimongo": "./bin/abimongo"
   },
   "exports": {
     ".": {
@@ -73,7 +73,7 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "@abimongo/logger": "workspace:^1.0.0",
+    "@abimongo/logger": "1.0.0",
     "@babel/runtime": "^7.27.1",
     "commander": "^14.0.2",
     "docusaurus": "^0.0.2",

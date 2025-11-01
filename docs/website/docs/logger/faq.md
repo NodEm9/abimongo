@@ -46,6 +46,12 @@ If tests create background tasks (e.g., buffered transports, timers, or external
 
 The core and logger packages use the same logging abstraction. Core components will call the logger for important lifecycle events (connection, errors, GC runs, etc.), so configuring the logger at app start provides consistent logs across packages.
 
+## How does the logger behave when running the CLI or one-off scripts?
+
+When the `abimongo` CLI (shipped inside `@abimongo/core`) runs, a small wrapper sets an environment guard so the logger will not register process-level SIGINT/SIGTERM handlers. This prevents the CLI from being prematurely shut down by signal handlers that are intended for long-running services.
+
+If you embed the logger inside long-running processes (servers, workers), normal signal handling and graceful shutdown behavior remain unchanged. For test suites, prefer calling `shutdownLogger()` in teardown hooks or set the environment variable `ABIMONGO_DISABLE_SIGNAL_HANDLERS=1` to keep the logger from registering handlers.
+
 ## How can I add a custom transport?
 
 Provide an object implementing the transport interface expected by the logger (usually `log(level, message, meta)`, `flush()` and `close()` where applicable). Pass it to the logger configuration when initializing.

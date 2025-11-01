@@ -60,6 +60,22 @@ Notes on optional installs
 
 During scaffolding the CLI can offer to install `@abimongo/core` and `@abimongo/logger` into the generated project. If you accept, those packages will be added as project dependencies; otherwise the scaffold will include usage notes so you can add them later.
 
+CLI changes (note)
+
+- `@abimongo/core` now ships a top-level binary named `abimongo`. You can run the core scaffolder directly via npx:
+
+```bash
+npx abimongo init
+```
+
+- By default the scaffolder will NOT run package manager installs. This keeps the CLI fast and safe for CI and offline environments. If you want the scaffold to auto-install dependencies into the generated project pass `--install`.
+
+```bash
+npx abimongo init --install
+```
+
+- The CLI sets an environment guard so the logger and other long-running subsystems do not register process-level signal handlers when the binary is run as a one-off process. This prevents early shutdowns and makes the CLI safer to invoke from other tools or test harnesses.
+
 Documentation guidance
 
 - This package contains minimal docs because it does not expose programmable runtime APIs that need reference documentation. For API-level documentation, consult the `@abimongo/core` and `@abimongo/logger` packages.

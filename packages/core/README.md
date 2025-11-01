@@ -188,9 +188,19 @@
     The accompanying CLI accelerates project setup and scaffolding of models, schemas and GraphQL components.
 
     ```bash
-    npx abimongo-core my-app-name
-    # with flags
-    npx abimongo-core my-app-name --graphql --multi-tenant --logger
+    # Run the CLI without installing globally (recommended):
+    npx abimongo init my-app-name
+
+    # Example: scaffold with GraphQL, multi-tenant and logger support (no installs by default):
+    npx abimongo init my-app-name --with-graphql --multi-tenant --logger
+
+    # If you want the scaffold to auto-install dependencies into the generated project, pass `--install`:
+    npx abimongo init my-app-name --with-graphql --multi-tenant --logger --install
+
+    # Notes:
+    # - By default the scaffold does NOT run `npm`/`pnpm` installs. This keeps scaffolding fast and CI-friendly.
+    # - Use `--install` to opt into installing `@abimongo/core` and `@abimongo/logger` into the generated project.
+    # - The `abimongo` binary is provided by `@abimongo/core` and is safe to run via `npx` or after installing the package locally.
     ```
 
     Flags will toggle features in the generated `abimongo.config.json`. If you omit a flag you can still enable features later by editing the config.

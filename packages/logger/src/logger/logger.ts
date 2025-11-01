@@ -177,7 +177,9 @@ export const logger = new AbimongoLogger({
   flushSize: 20,
 });
 
-if (process.env.NODE_ENV === 'production') {
+const _skipSignalHandlers = process.env.ABIMONGO_DISABLE_SIGNAL_HANDLERS === '1';
+
+if (!_skipSignalHandlers && process.env.NODE_ENV === 'production') {
   process.on('SIGINT', async () => {
     console.log('Received SIGINT. Shutting down logger...');
     await logger.shutdown();
@@ -195,7 +197,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-if (process.env.NODE_ENV === 'development') {
+if (!_skipSignalHandlers && process.env.NODE_ENV === 'development') {
   process.on('SIGINT', async () => {
     console.log('Received SIGINT. Flushing logs...');
     await logger.flushAll();

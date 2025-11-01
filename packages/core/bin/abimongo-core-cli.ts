@@ -4,10 +4,9 @@ import { generateProject } from '../src/init-cli/generate.project';
 
 export default function runBootstrapCLI() {
 	const program = new Command();
-	let appName!: string;
- 
+
 	program
-		.name(appName ? 'abimongo-app' : '')
+		.name('abimongo')
 		.description('CLI to generate Abimongo projects')
 		.option('--with-graphql', 'Include GraphQL setup')
 		.option('--with-redis', 'Include Redis caching setup')
@@ -16,9 +15,12 @@ export default function runBootstrapCLI() {
 		.option('--uri <mongodbUri>', 'MongoDB connection URI')
 		.option('--rbac', 'Enable Role-Based Access Control (RBAC)')
 		.option('--with-garbage-collector', 'Enable garbage collector manager')
+		.option('--install', 'Auto-install dependencies during scaffold')
 		.argument('<projectName>', 'Name of the project')
 		.version('1.0.0', '-v, --version', 'Output the current version of the CLI')
 		.action((projectName, options) => {
+			console.log('[abimongo CLI] Invoking generateProject with:', { projectName, options });
+			// cast to any to avoid a tight type-check here; generateProject expects a flexible config shape
 			generateProject({
 				projectName,
 				graphql: { enabled: options.withGraphql },
@@ -27,10 +29,15 @@ export default function runBootstrapCLI() {
 				multiTenant: options.multiTenant,
 				advanced: {
 					garbageCollector: options.withGarbageCollector,
+					autoInstall: Boolean(options.install),
 				},
 				mongoUri: options.uri,
 			});
 		});
 
 	program.parse(process.argv);
+}
+
+if (require.main === module) {
+	runBootstrapCLI();
 }

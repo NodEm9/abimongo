@@ -899,35 +899,6 @@
       "breadcrumbs": true
     },
     "cli": {
-      "path": "/abimongo/cli",
-      "versions": [
-        {
-          "name": "current",
-          "label": "Next",
-          "isLast": true,
-          "path": "/abimongo/cli",
-          "mainDocId": "intro",
-          "docs": [
-            {
-              "id": "intro",
-              "path": "/abimongo/cli/intro",
-              "sidebar": "cli"
-            }
-          ],
-          "draftIds": [],
-          "sidebars": {
-            "cli": {
-              "link": {
-                "path": "/abimongo/cli/intro",
-                "label": "intro"
-              }
-            }
-          }
-        }
-      ],
-      "breadcrumbs": true
-    },
-    "create": {
       "path": "/abimongo/create",
       "versions": [
         {

@@ -2,21 +2,20 @@
 	"name": "@abimongo/cli",
 	"version": "1.0.0",
 	"publishConfig": {
-		"registry": "http://localhost:4873/",
 		"access": "public"
 	},
-	"main": "dist/bin/abimongo_cli.js",
-	"types": "dist/bin/abimongo_cli.d.ts",
+	"main": "dist/abimongo_cli.js",
+	"types": "dist/abimongo_cli.d.ts",
 	"bin": {
-		"abimongo-cli": "./dist/bin/abimongo_cli.js"
+		"abimongo-cli": "./dist/abimongo_cli.js"
 	},
-  "exports": {
-      ".": {
-      "import": "./dist/bin/abimongo_cli.js",
-      "require": "./dist/bin/abimongo_cli.js",
-      "types": "./dist/bin/abimongo_cli.d.ts"
-    }
-  },
+	"exports": {
+		".": {
+			"import": "./dist/abimongo_cli.js",
+			"require": "./dist/abimongo_cli.js",
+			"types": "./dist/abimongo_cli.d.ts"
+		}
+	},
 	"files": [
 		"dist",
 		"bin",
@@ -32,9 +31,9 @@
 		"publish": " pnpm --recursive publish --no-git-checks"
 	},
 	"dependencies": {
-		"@abimongo/core": "workspace:^1.0.0",
-		"@abimongo/create": "workspace:^1.0.0",
-		"@abimongo/logger": "workspace:^1.0.0",
+		"@abimongo/core": "1.0.1",
+		"@abimongo/create": "1.0.1",
+		"@abimongo/logger": "1.0.0",
 		"commander": "^14.0.2"
 	},
 	"engines": {

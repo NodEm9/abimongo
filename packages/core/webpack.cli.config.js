@@ -25,19 +25,6 @@ module.exports = {
 				aliasFields: ['browser', 'module'],
 			},
 		},
-		// fallback: {
-		// 	// Provide fallbacks for Node.js core modules
-		// 	fs: false,
-		// 	kerberos: false,
-		// 	"@mongodb-js/zstd": false,
-		// 	'@aws-sdk/credential-providers': false,
-		// 	'@aws-sdk/signature-v4-crt': false,
-		// 	'gcp-metadata': false,
-		// 	'snappy': false,
-		// 	'socks': false,
-		// 	'aws4': false,
-		// 	'mongodb-client-encryption': false,
-		// },
 		plugins: [
 			new TsconfigPathsPlugin({
 				configFile: path.resolve(__dirname, 'tsconfig.json'),

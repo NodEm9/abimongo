@@ -142,16 +142,6 @@ export class AbimongoBootstrap {
     }
 
 
-    // const loggerConfig = this.config.logger ?? { enabled: false };
-    // this.logger = setupLogger(loggerConfig as any); // Cast to any to satisfy LoggerConfig type
-    // this.logger?.info('📝 Logger initialized');
-
-    // if (this.config.logger?.enabled) {
-    //   const loggerConfig = this.config.logger ?? { enabled: false }
-    //   const loggerConfg = loggerConfig.enabled ? setupLogger(this.config.logger) : logger;
-    //   this.logger = loggerConfg;
-    //   console.info(' Logger initialized');
-    // }
     // Redis setup (if enabled)
     if (this.config.features?.useRedisCache && this.config.features.redisUri) {
       await redis.get(this.config.features.redisUri);
@@ -238,12 +228,6 @@ export class AbimongoBootstrap {
         // const { scheduleGarbageCollector } = await import('../../gc/').ts;
         scheduleGarbageCollector(cronExpr);
       }
-
-      // if (typeof window === 'undefined') {
-      //   const { scheduleGarbageCollector } = require('../../gc');
-      //   scheduleGarbageCollector(cronExpr);
-      //   console.info(`[ABIMONGO] 🚮 Garbage Collector scheduled with "${cronExpr}"`);
-      // }
 
       const { gcCron } = this.config.advanced;
       if (!gcCron) {

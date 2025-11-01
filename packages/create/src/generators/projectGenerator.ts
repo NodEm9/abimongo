@@ -1,12 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import chalk from 'chalk';
 import { handleMERNStack } from '../templates/mern/handleMERNStack';
 import { handleNextApp } from '../templates/next/handleNextApp';
 import { handleGraphQLAPI } from '../templates/graphql-api/handleGraphQLAPI';
 import { handleRestAPI } from '../templates/rest-api/handleRestAPI';
 import { ProjectChoices } from '../utils/types';
-
+import { colorize } from '../utils/colorize';
 
 /**
  * Generates a new project based on the provided choices.
@@ -20,14 +19,14 @@ export async function generateProject(choices: ProjectChoices) {
 
   // Check if the project folder already exists
   if (fs.existsSync(projectRoot)) {
-    console.log(chalk.red(`❌ Folder ${projectName} already exists.`));
+    console.log(colorize(`❌ Folder ${projectName} already exists.`, 'red'));
     return;
   }
 
   // Create the project folder
   fs.mkdirSync(projectRoot, { recursive: true });
   writeDefaultAbimongoConfig(projectRoot);
-  console.log(chalk.blue(`Creating ${projectType} project: ${projectName}`));
+  console.log(colorize(`Creating ${projectType} project: ${projectName}`, 'blue'));
 
   // Handle project generation based on the project type
   switch (projectType) {
@@ -40,10 +39,10 @@ export async function generateProject(choices: ProjectChoices) {
     case 'GraphQL API':
       return await handleGraphQLAPI(projectName, { useTypeScript, useAbimongo, includeLogger });
     default:
-      console.log(chalk.red(`Unknown or Invalid project type: ${projectType}`));
+      console.log(colorize(`Unknown or Invalid project type: ${projectType}`, 'red'));
   }
   // Log success message
-  console.log(chalk.green(` ${projectType} project "${projectName}" created successfully.`));
+  console.log(colorize(` ${projectType} project "${projectName}" created successfully.`, 'green'));
 };
 
 

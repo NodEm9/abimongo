@@ -17,8 +17,8 @@ import {
 	AbimongoModelRegistry,
 	AbiMongoError
 } from '../utils';
-import chalk from 'chalk';
-
+import { colorize } from '../utils/color-palatte';
+	
 
 const abimongoSymbol = Symbol.for('abimongo:default');
 const abimongoClientSymbol = Symbol.for('abimongo:client');
@@ -208,7 +208,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 		const tenantIds = this.tenantDBs.size > 0 ? [...this.tenantDBs.keys()] : [];
 		// Ensure the first tenant DB is initialized
 		await this.getDatabase(tenantIds[0], this.defaultUri).catch((error) => {
-			console.log(chalk.red('[error]: Error retrieving tenant databases:'), error);
+			console.log(colorize('[error]: Error retrieving tenant databases:', 'red'), error);
 		});
 		const foundInstances = this.instances.size > 0 ? [...this.instances.values()] : [];
 		console.log(`[info]: Found ${foundInstances.length} tenant DB instances: ${foundInstances.map(db => db.databaseName).join(', ')}`);

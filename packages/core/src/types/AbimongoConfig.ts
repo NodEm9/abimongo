@@ -13,7 +13,7 @@ export interface AbimongoLoggerSettings extends LoggerConfig {
   colorize?: LoggerConfig['colorize'];
   transports?: LoggerConfig['transports'];
   json?: boolean;
-  formatOptions?:  LoggerConfig['formatOptions'];
+  formatOptions?: LoggerConfig['formatOptions'];
   excludedSources?: LoggerConfig['excludedSources'];
   hooks?: LoggerConfig['hooks'];
   enrichMetadata?: LoggerConfig['enrichMetadata'];
@@ -54,6 +54,7 @@ export interface AbimongoConfig {
     redisUri?: string;
   };
   advanced?: {
+    autoInstall?: boolean;
     circuitBreaker?: {
       enabled?: boolean;
       retryAttempts?: number;
@@ -114,6 +115,7 @@ export interface ProjectOptions {
     logInterval?: number; // in milliseconds
   },
   advanced?: {
+    autoInstall?: boolean;
     circuitBreaker?: {
       enabled?: boolean;
       retryAttempts?: number;

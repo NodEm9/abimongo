@@ -66,9 +66,8 @@ export async function run() {
 // 			};
 // 		}
 // 	})
-//     console.log('🚀 GraphQL server is running.');
+//   
 //     // Optionally mount it to Express or other framework
-
 //     console.log('🚀 Server ready at http://localhost:4000/graphql');
 // }
 

@@ -2,9 +2,8 @@ import fs from 'fs-extra';
 import path from 'path';
 import { AbimongoConfig } from '../../types';
 import { execSync } from 'child_process';
-import { colorByLevel } from '@abimongo/logger';
+import { colorize } from '../../utils/color-palatte';
 import { MAIN_TS_CONTENT } from '../core/main';
-import { findPackageJSON } from 'module';
 
 
 export async function generateAppStructure(projectRoot: string, options: AbimongoConfig) {
@@ -72,7 +71,7 @@ export const resolvers = {
 };
 `)
     fs.writeFileSync(path.join(graphqlDir, 'graphQL.ts'),
-      `import { bootstrap } from '../core/AbimongoBootstrap';
+      `import { bootstrap } from '../core/initAbimongo';
 // You can use AbimongoGraphQL to setup your GraphQL server
 // but here everthing is already made available in the bootstrap file.
 // For more information, visit: https://github.com/NodEm9/abimongo/core/features/AbimongoGraphQL , https://github.com/NodEm9/abimongo/core/abimongo-bootstrap/AbimongoBootstrap
@@ -159,15 +158,29 @@ const graphql = app.getGraphQL();
     )
   );
 
-  
+
   await fs.writeJson(path.join(projectRoot, 'package.json'), packageJson, { spaces: 2 });
 
   // execSync(`${getPackageManagerCommand(pkgManagerProps)} @abimongo/core @abimongo/logger mongodb, { cwd: projectRoot, stdio: 'inherit' });
-  execSync(`npm install express mongodb`, { cwd: projectRoot, stdio: 'inherit' });
-  console.log(colorByLevel('info', `[Installing dependencies]: Installing dependencies...`));
+  // By default we do NOT run npm/yarn installs during scaffolding because
+  // running a package manager here may block (network, registry) and will
+  // make `npx abimongo` slower or fail in offline/test environments.
+  // If consumers want automatic install, pass `advanced.autoInstall = true`
+  // in the options (not enabled by default).
+  if (options.advanced && (options.advanced as any).autoInstall) {
+    try {
+      execSync(`npm install express mongodb`, { cwd: projectRoot, stdio: 'inherit' });
+      console.log(colorize(`[Installing dependencies]: Installed runtime dependencies.`, 'green'));
 
-execSync(`npm install -D typescript ts-node @types/node`, { cwd: projectRoot, stdio: 'inherit' });
-  console.log(colorByLevel('info', `[Installing dev dependencies]: Installing dev dependencies...`));
+      execSync(`npm install -D typescript ts-node @types/node`, { cwd: projectRoot, stdio: 'inherit' });
+      console.log(colorize(`[Installing dev dependencies]: Installed dev dependencies.`, 'green'));
+    } catch (err) {
+      console.log(colorize(`⚠️  Dependency installation failed or was interrupted. Skipping install.`, 'yellow'));
+    }
+  } else {
+    console.log(colorize(`[Skipping install]: To auto-install dependencies during scaffold set advanced.autoInstall=true in options.`, 'blue'));
+    console.log(colorize(`[Next steps]: cd ${projectRoot} && npm install`, 'blue'));
+  }
 
   // Create .gitignore
   const gitignoreContent = `node_modules
@@ -176,6 +189,6 @@ lib
 .store
 .env
 `;
-  await fs.writeFile(path.join(".", '.gitignore'), gitignoreContent);
+  await fs.writeFile(path.join(projectRoot, '.gitignore'), gitignoreContent);
 }
 

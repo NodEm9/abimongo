@@ -1,7 +1,7 @@
 // src/cli/commands/handlers/handleMERNStack.ts
 import fs from 'fs-extra';
 import path from 'path';
-import chalk from 'chalk';
+import { colorize } from '../../utils/colorize';
 import { execSync } from 'child_process';
 import { TemplateOptions } from '../../utils/types';
 
@@ -23,12 +23,12 @@ export async function handleMERNStack(projectName: string, options: TemplateOpti
   fs.ensureDirSync(serverDir);
 
   // 2. Setup React frontend
-  console.log(chalk.yellow(' Setting up React frontend...'));
+  console.log(colorize(' Setting up React frontend...', 'yellow'));
   const reactTemplate = useTypeScript ? '--template typescript' : '';
   execSync(`npx create-react-app ${clientDir} ${reactTemplate}`, { stdio: 'inherit' });
 
   // 3. Setup Express backend
-  console.log(chalk.yellow('Setting up Express backend...'));
+  console.log(colorize('Setting up Express backend...', 'yellow'));
 
   const expressIndex = `import express from 'express';
 
@@ -142,5 +142,5 @@ module.exports = { formatResponse };`;
   }
 
   // 8. Final message
-  console.log(chalk.green('\nMERN Stack project setup complete!\n'));
+  console.log(colorize('\nMERN Stack project setup complete!\n', 'green'));
 }

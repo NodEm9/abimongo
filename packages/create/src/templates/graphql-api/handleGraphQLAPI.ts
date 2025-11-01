@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
-import chalk from 'chalk';
+import { colorize } from '../../utils/colorize';
 import { execSync } from 'child_process';
 import { TemplateOptions } from '../../utils/types';
 
@@ -20,7 +20,7 @@ export async function handleGraphQLAPI(
   const rootDir = path.resolve(process.cwd(), projectName);
   const srcDir = path.join(rootDir, 'src');
 
-  console.log(chalk.cyan(`\nCreating GraphQL API project in ${rootDir}...\n`));
+  console.log(colorize(`\nCreating GraphQL API project in ${rootDir}...\n`, 'cyan'));
   fs.ensureDirSync(srcDir);
 
   // Step 1: Write entry file
@@ -96,7 +96,7 @@ module.exports = { createConnection };
   const coreDeps = `express cors dotenv express-graphql graphql${options.useAbimongo ?
     ' @abimongo/core' : ''}${options.includeLogger ? ' @abimongo/create' : ''}`;
   execSync(`npm install ${coreDeps}`, { cwd: rootDir, stdio: 'inherit' });
-  console.log(chalk.green('\n Installing dependencies...'));
+  console.log(colorize('\n Installing dependencies...', 'green'));
 
   if (options.useTypeScript) {
     execSync(`npm install -D typescript ts-node @types/express @types/node @types/express-graphql`, {
@@ -119,7 +119,7 @@ module.exports = { createConnection };
   };
 
 
-  console.log(chalk.green('\nGraphQL API project setup complete!'));
+  console.log(colorize('\nGraphQL API project setup complete!', 'green'));
 };
 
 

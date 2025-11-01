@@ -1,801 +1,827 @@
 {
-  "/abimongo/markdown-page-aa6": {
-    "__comp": "1f391b9e",
+  "/abimongo/__docusaurus/debug-2a5": {
+    "__comp": "__comp---theme-debug-config-23-a-2ff",
     "__context": {
-      "plugin": "a7456010"
+      "plugin": "plugin---abimongo-docusaurus-debugb-38-04b"
+    }
+  },
+  "/abimongo/__docusaurus/debug/config-9a5": {
+    "__comp": "__comp---theme-debug-config-23-a-2ff",
+    "__context": {
+      "plugin": "plugin---abimongo-docusaurus-debugb-38-04b"
+    }
+  },
+  "/abimongo/__docusaurus/debug/content-fe1": {
+    "__comp": "__comp---theme-debug-contentba-8-ce7",
+    "__context": {
+      "plugin": "plugin---abimongo-docusaurus-debugb-38-04b"
     },
-    "content": "393be207"
+    "__props": "__props---abimongo-docusaurus-debug-content-6-f-3-d9b"
   },
-  "/abimongo/cli-221": {
-    "__comp": "5e95c892",
+  "/abimongo/__docusaurus/debug/globalData-d7a": {
+    "__comp": "__comp---theme-debug-global-dataede-0fa",
     "__context": {
-      "plugin": "19622068"
+      "plugin": "plugin---abimongo-docusaurus-debugb-38-04b"
     }
   },
-  "/abimongo/cli-dc0": {
-    "__comp": "a7bd4aaa",
-    "__props": "fb222686"
-  },
-  "/abimongo/cli-679": {
-    "__comp": "a94703ab"
-  },
-  "/abimongo/cli/intro-2c1": {
-    "__comp": "17896441",
-    "content": "08c490b2"
-  },
-  "/abimongo/core-236": {
-    "__comp": "5e95c892",
+  "/abimongo/__docusaurus/debug/metadata-f74": {
+    "__comp": "__comp---theme-debug-site-metadata-68-e-3d4",
     "__context": {
-      "plugin": "becf4242"
+      "plugin": "plugin---abimongo-docusaurus-debugb-38-04b"
     }
   },
-  "/abimongo/core-9f5": {
-    "__comp": "a7bd4aaa",
-    "__props": "cc07396d"
+  "/abimongo/__docusaurus/debug/registry-658": {
+    "__comp": "__comp---theme-debug-registry-679-501",
+    "__context": {
+      "plugin": "plugin---abimongo-docusaurus-debugb-38-04b"
+    }
   },
-  "/abimongo/core-98d": {
-    "__comp": "a94703ab"
+  "/abimongo/__docusaurus/debug/routes-0b3": {
+    "__comp": "__comp---theme-debug-routes-946-699",
+    "__context": {
+      "plugin": "plugin---abimongo-docusaurus-debugb-38-04b"
+    }
   },
-  "/abimongo/core/abimongo-bootstrap-624": {
-    "__comp": "17896441",
-    "content": "bcad4e97"
+  "/abimongo/markdown-page-aa6": {
+    "__comp": "__comp---theme-mdx-page-1-f-3-b90",
+    "__context": {
+      "plugin": "plugin---abimongo-markdown-pagea-74-742"
+    },
+    "content": "content---abimongo-markdown-page-393-19c"
   },
-  "/abimongo/core/abimongo-bootstrap/AbimongoBootstrap-fea": {
-    "__comp": "17896441",
-    "content": "8e75d408"
+  "/abimongo/core-715": {
+    "__comp": "__comp---theme-docs-root-5-e-9-0b6",
+    "__context": {
+      "plugin": "plugin---abimongo-corebec-eff"
+    }
   },
-  "/abimongo/core/api-4cd": {
-    "__comp": "17896441",
-    "content": "0b905831"
+  "/abimongo/core-0d2": {
+    "__comp": "__comp---theme-doc-version-roota-7-b-5de",
+    "__props": "__props---abimongo-corecc-0-f20"
   },
-  "/abimongo/core/api/classes/Abimongo-30d": {
-    "__comp": "17896441",
-    "content": "b1690b62"
+  "/abimongo/core-233": {
+    "__comp": "__comp---theme-doc-roota-94-67a"
   },
-  "/abimongo/core/api/classes/AbimongoBootstrap-fa2": {
-    "__comp": "17896441",
-    "content": "82ef59e2"
+  "/abimongo/core/abimongo-bootstrap-df9": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-abimongo-bootstrapbca-fd3"
   },
-  "/abimongo/core/api/classes/AbimongoClient-f3d": {
-    "__comp": "17896441",
-    "content": "fdca90bc"
+  "/abimongo/core/abimongo-bootstrap/AbimongoBootstrap-5eb": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-abimongo-bootstrap-abimongo-bootstrap-8-e-7-d36"
   },
-  "/abimongo/core/api/classes/AbimongoGC-430": {
-    "__comp": "17896441",
-    "content": "239a1147"
+  "/abimongo/core/api-cba": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-0-b-9-c25"
   },
-  "/abimongo/core/api/classes/AbimongoGraphQL-54f": {
-    "__comp": "17896441",
-    "content": "0b4cfe29"
+  "/abimongo/core/api/classes/Abimongo-1a6": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-classes-abimongob-16-569"
   },
-  "/abimongo/core/api/classes/AbimongoModel-d55": {
-    "__comp": "17896441",
-    "content": "fe314b37"
+  "/abimongo/core/api/classes/AbimongoBootstrap-bee": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-classes-abimongo-bootstrap-82-e-cd9"
   },
-  "/abimongo/core/api/classes/AbimongoSchema-8fd": {
-    "__comp": "17896441",
-    "content": "47d76ebf"
+  "/abimongo/core/api/classes/AbimongoClient-591": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-classes-abimongo-clientfdc-1da"
   },
-  "/abimongo/core/api/classes/AuthService-77f": {
-    "__comp": "17896441",
-    "content": "ec6fbdeb"
+  "/abimongo/core/api/classes/AbimongoGC-212": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-classes-abimongo-gc-239-635"
   },
-  "/abimongo/core/api/classes/initAbimongo-f91": {
-    "__comp": "17896441",
-    "content": "87f230eb"
+  "/abimongo/core/api/classes/AbimongoGraphQL-9ea": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-classes-abimongo-graph-ql-0-b-4-a7f"
   },
-  "/abimongo/core/api/classes/MultiTenantManager-8aa": {
-    "__comp": "17896441",
-    "content": "c06fb6bc"
+  "/abimongo/core/api/classes/AbimongoModel-978": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-classes-abimongo-modelfe-3-24a"
   },
-  "/abimongo/core/api/classes/RedisService-355": {
-    "__comp": "17896441",
-    "content": "6e630ea8"
+  "/abimongo/core/api/classes/AbimongoSchema-418": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-classes-abimongo-schema-47-d-331"
   },
-  "/abimongo/core/api/classes/Schema-252": {
-    "__comp": "17896441",
-    "content": "e57be289"
+  "/abimongo/core/api/classes/AuthService-7a4": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-classes-auth-serviceec-6-9f8"
   },
-  "/abimongo/core/api/classes/TenantContext-7dd": {
-    "__comp": "17896441",
-    "content": "b7652213"
+  "/abimongo/core/api/classes/initAbimongo-a91": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-classes-init-abimongo-87-f-a39"
   },
-  "/abimongo/core/api/enumerations/ErrorType-db9": {
-    "__comp": "17896441",
-    "content": "4e8ab251"
+  "/abimongo/core/api/classes/MultiTenantManager-07c": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-classes-multi-tenant-managerc-06-64f"
   },
-  "/abimongo/core/api/functions/AbiMongoError-f09": {
-    "__comp": "17896441",
-    "content": "48526800"
+  "/abimongo/core/api/classes/RedisService-98e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-classes-redis-service-6-e-6-5af"
   },
-  "/abimongo/core/api/functions/applyMultiTenancy-c57": {
-    "__comp": "17896441",
-    "content": "a811378a"
+  "/abimongo/core/api/classes/Schema-ab6": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-classes-schemae-57-6e4"
   },
-  "/abimongo/core/api/functions/authorize-361": {
-    "__comp": "17896441",
-    "content": "c41dbba3"
+  "/abimongo/core/api/classes/TenantContext-6ed": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-classes-tenant-contextb-76-516"
   },
-  "/abimongo/core/api/functions/cacheWithRedis-37f": {
-    "__comp": "17896441",
-    "content": "baf4cd4b"
+  "/abimongo/core/api/enumerations/ErrorType-fc5": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-enumerations-error-type-4-e-8-879"
   },
-  "/abimongo/core/api/functions/castId-530": {
-    "__comp": "17896441",
-    "content": "f29f14c5"
+  "/abimongo/core/api/functions/AbiMongoError-54c": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-abi-mongo-error-485-d3f"
   },
-  "/abimongo/core/api/functions/checkPermission-64e": {
-    "__comp": "17896441",
-    "content": "6f50b51d"
+  "/abimongo/core/api/functions/applyMultiTenancy-b51": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-apply-multi-tenancya-81-b6f"
   },
-  "/abimongo/core/api/functions/colourize-1d1": {
-    "__comp": "17896441",
-    "content": "5c6a07e6"
+  "/abimongo/core/api/functions/authorize-bed": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-authorizec-41-517"
   },
-  "/abimongo/core/api/functions/connectRedis-a94": {
-    "__comp": "17896441",
-    "content": "d841bb6d"
+  "/abimongo/core/api/functions/cacheWithRedis-f85": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-cache-with-redisbaf-285"
   },
-  "/abimongo/core/api/functions/createModel-004": {
-    "__comp": "17896441",
-    "content": "fea0abff"
+  "/abimongo/core/api/functions/castId-4d9": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-cast-idf-29-ffb"
   },
-  "/abimongo/core/api/functions/createSchema-f91": {
-    "__comp": "17896441",
-    "content": "950ccb76"
+  "/abimongo/core/api/functions/checkPermission-b76": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-check-permission-6-f-5-969"
   },
-  "/abimongo/core/api/functions/describeEvent-410": {
-    "__comp": "17896441",
-    "content": "8eebbf9a"
+  "/abimongo/core/api/functions/colourize-88e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-colourize-5-c-6-2e5"
   },
-  "/abimongo/core/api/functions/enforceRBAC-07b": {
-    "__comp": "17896441",
-    "content": "d3028654"
+  "/abimongo/core/api/functions/connectRedis-7fc": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-connect-redisd-84-f0d"
   },
-  "/abimongo/core/api/functions/ensureModelNameSafe-448": {
-    "__comp": "17896441",
-    "content": "85b10618"
+  "/abimongo/core/api/functions/createModel-2e8": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-create-modelfea-d8e"
   },
-  "/abimongo/core/api/functions/foldersAndFiles-6e5": {
-    "__comp": "17896441",
-    "content": "518f8d6c"
+  "/abimongo/core/api/functions/createSchema-7ff": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-create-schema-950-19c"
   },
-  "/abimongo/core/api/functions/formatDuration-d23": {
-    "__comp": "17896441",
-    "content": "1d6120e1"
+  "/abimongo/core/api/functions/describeEvent-3cc": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-describe-event-8-ee-df4"
   },
-  "/abimongo/core/api/functions/GCSettings-a0f": {
-    "__comp": "17896441",
-    "content": "05f05558"
+  "/abimongo/core/api/functions/enforceRBAC-939": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-enforce-rba-cd-30-ea5"
   },
-  "/abimongo/core/api/functions/generateProject-409": {
-    "__comp": "17896441",
-    "content": "98924159"
+  "/abimongo/core/api/functions/ensureModelNameSafe-699": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-ensure-model-name-safe-85-b-8c8"
   },
-  "/abimongo/core/api/functions/generateProjectWithConfig-0be": {
-    "__comp": "17896441",
-    "content": "63ec006c"
+  "/abimongo/core/api/functions/foldersAndFiles-c12": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-folders-and-files-518-45a"
   },
-  "/abimongo/core/api/functions/getCachedData-ea9": {
-    "__comp": "17896441",
-    "content": "22b50f30"
+  "/abimongo/core/api/functions/formatDuration-e30": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-format-duration-1-d-6-6ec"
   },
-  "/abimongo/core/api/functions/getEventOptions-69a": {
-    "__comp": "17896441",
-    "content": "ba856243"
+  "/abimongo/core/api/functions/GCSettings-b5d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-gc-settings-05-f-eb5"
   },
-  "/abimongo/core/api/functions/getEventType-d9f": {
-    "__comp": "17896441",
-    "content": "62e7c845"
+  "/abimongo/core/api/functions/generateProject-59f": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-generate-project-989-2e9"
   },
-  "/abimongo/core/api/functions/getModelFilesFromPath-5f2": {
-    "__comp": "17896441",
-    "content": "c3db9bbf"
+  "/abimongo/core/api/functions/generateProjectWithConfig-6ea": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-generate-project-with-config-63-e-f72"
   },
-  "/abimongo/core/api/functions/getOriginalResolver-219": {
-    "__comp": "17896441",
-    "content": "9a74439b"
+  "/abimongo/core/api/functions/getCachedData-bbb": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-get-cached-data-22-b-2df"
   },
-  "/abimongo/core/api/functions/getRBACAction-677": {
-    "__comp": "17896441",
-    "content": "de5c5105"
+  "/abimongo/core/api/functions/getEventOptions-479": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-get-event-optionsba-8-f0d"
   },
-  "/abimongo/core/api/functions/getTenantDB-c6c": {
-    "__comp": "17896441",
-    "content": "a6c7ae97"
+  "/abimongo/core/api/functions/getEventType-0fa": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-get-event-type-62-e-9f8"
   },
-  "/abimongo/core/api/functions/getTenantModel-b9e": {
-    "__comp": "17896441",
-    "content": "24782939"
+  "/abimongo/core/api/functions/getModelFilesFromPath-07e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-get-model-files-from-pathc-3-d-6c5"
   },
-  "/abimongo/core/api/functions/initializeGraphQL-922": {
-    "__comp": "17896441",
-    "content": "6cf40786"
+  "/abimongo/core/api/functions/getOriginalResolver-93d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-get-original-resolver-9-a-7-d72"
   },
-  "/abimongo/core/api/functions/initializeRedis-eb2": {
-    "__comp": "17896441",
-    "content": "cd3a282f"
+  "/abimongo/core/api/functions/getRBACAction-6ce": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-get-rbac-actionde-5-abb"
   },
-  "/abimongo/core/api/functions/initMultiTenancy-8fb": {
-    "__comp": "17896441",
-    "content": "a8a022f7"
+  "/abimongo/core/api/functions/getTenantDB-94b": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-get-tenant-d-ba-6-c-cc3"
   },
-  "/abimongo/core/api/functions/invalidateTenantCache-6c1": {
-    "__comp": "17896441",
-    "content": "3a4977b9"
+  "/abimongo/core/api/functions/getTenantModel-56c": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-get-tenant-model-247-914"
   },
-  "/abimongo/core/api/functions/isObjectId-114": {
-    "__comp": "17896441",
-    "content": "d388f5ea"
+  "/abimongo/core/api/functions/initializeGraphQL-193": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-initialize-graph-ql-6-cf-26f"
+  },
+  "/abimongo/core/api/functions/initializeRedis-3a0": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-initialize-rediscd-3-496"
+  },
+  "/abimongo/core/api/functions/initMultiTenancy-9dd": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-init-multi-tenancya-8-a-b2b"
+  },
+  "/abimongo/core/api/functions/invalidateTenantCache-560": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-invalidate-tenant-cache-3-a-4-436"
+  },
+  "/abimongo/core/api/functions/isObjectId-6bf": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-is-object-idd-38-d60"
   },
   "/abimongo/core/api/functions/isValidDuration-741": {
-    "__comp": "17896441",
-    "content": "3e7d6bfc"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-is-valid-duration-3-e-7-475"
   },
-  "/abimongo/core/api/functions/isValidObjectId-165": {
-    "__comp": "17896441",
-    "content": "7feba21a"
+  "/abimongo/core/api/functions/isValidObjectId-088": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-is-valid-object-id-7-fe-4e3"
   },
-  "/abimongo/core/api/functions/loadAbimongoConfig-362": {
-    "__comp": "17896441",
-    "content": "ba42b6f2"
+  "/abimongo/core/api/functions/loadAbimongoConfig-f93": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-load-abimongo-configba-4-217"
   },
-  "/abimongo/core/api/functions/loadModelsFromPath-c54": {
-    "__comp": "17896441",
-    "content": "955352da"
+  "/abimongo/core/api/functions/loadModelsFromPath-c3f": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-load-models-from-path-955-cda"
   },
-  "/abimongo/core/api/functions/logDefaultEvent-e6e": {
-    "__comp": "17896441",
-    "content": "4ade27eb"
+  "/abimongo/core/api/functions/logDefaultEvent-8d2": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-log-default-event-4-ad-6a4"
   },
-  "/abimongo/core/api/functions/logEvent-ad7": {
-    "__comp": "17896441",
-    "content": "40cf7aff"
+  "/abimongo/core/api/functions/logEvent-169": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-log-event-40-c-faf"
   },
-  "/abimongo/core/api/functions/parseDuration-ba9": {
-    "__comp": "17896441",
-    "content": "aa6b5b0e"
+  "/abimongo/core/api/functions/parseDuration-f4b": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-parse-durationaa-6-ef5"
   },
-  "/abimongo/core/api/functions/setCachedData-bf0": {
-    "__comp": "17896441",
-    "content": "cacc6f0f"
+  "/abimongo/core/api/functions/setCachedData-1db": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-set-cached-datacac-86c"
   },
-  "/abimongo/core/api/functions/setLogger-222": {
-    "__comp": "17896441",
-    "content": "52a6fe1c"
+  "/abimongo/core/api/functions/setLogger-a09": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-functions-set-logger-52-a-ec3"
   },
-  "/abimongo/core/api/interfaces/AbimongoClientConfig-a68": {
-    "__comp": "17896441",
-    "content": "a1011583"
+  "/abimongo/core/api/interfaces/AbimongoClientConfig-1d4": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-interfaces-abimongo-client-configa-10-3f0"
   },
-  "/abimongo/core/api/interfaces/AbimongoClientOptions-c49": {
-    "__comp": "17896441",
-    "content": "305737ff"
+  "/abimongo/core/api/interfaces/AbimongoClientOptions-72d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-interfaces-abimongo-client-options-305-9ad"
   },
-  "/abimongo/core/api/interfaces/AbimongoClientType-115": {
-    "__comp": "17896441",
-    "content": "89c336d3"
+  "/abimongo/core/api/interfaces/AbimongoClientType-3f9": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-interfaces-abimongo-client-type-89-c-b5a"
   },
-  "/abimongo/core/api/interfaces/AbimongoConfig-abd": {
-    "__comp": "17896441",
-    "content": "32e51542"
+  "/abimongo/core/api/interfaces/AbimongoConfig-253": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-interfaces-abimongo-config-32-e-e41"
   },
-  "/abimongo/core/api/interfaces/AbimongoConfigFile-724": {
-    "__comp": "17896441",
-    "content": "efbc2a36"
+  "/abimongo/core/api/interfaces/AbimongoConfigFile-0b2": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-interfaces-abimongo-config-fileefb-efb"
   },
-  "/abimongo/core/api/interfaces/AbimongoGraphQLOptions-22c": {
-    "__comp": "17896441",
-    "content": "20f1a3db"
+  "/abimongo/core/api/interfaces/AbimongoGraphQLOptions-d46": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-interfaces-abimongo-graph-ql-options-20-f-b16"
   },
-  "/abimongo/core/api/interfaces/AbimongoLoggerSettings-979": {
-    "__comp": "17896441",
-    "content": "7ebbba46"
+  "/abimongo/core/api/interfaces/AbimongoLoggerSettings-e96": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-interfaces-abimongo-logger-settings-7-eb-b4d"
   },
-  "/abimongo/core/api/interfaces/AbimongoModelOptions-bd2": {
-    "__comp": "17896441",
-    "content": "3a4b64de"
+  "/abimongo/core/api/interfaces/AbimongoModelOptions-a64": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-interfaces-abimongo-model-options-3-a-4-648"
   },
-  "/abimongo/core/api/interfaces/AbimongoPlugin-5b7": {
-    "__comp": "17896441",
-    "content": "d8938cd9"
+  "/abimongo/core/api/interfaces/AbimongoPlugin-827": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-interfaces-abimongo-plugind-89-d45"
   },
-  "/abimongo/core/api/interfaces/ILogger-1ac": {
-    "__comp": "17896441",
-    "content": "879a0e09"
+  "/abimongo/core/api/interfaces/ILogger-15c": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-interfaces-i-logger-879-af0"
   },
-  "/abimongo/core/api/interfaces/InitMultiTenancyOptions-5e2": {
-    "__comp": "17896441",
-    "content": "d5ee4c0c"
+  "/abimongo/core/api/interfaces/InitMultiTenancyOptions-3d3": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-interfaces-init-multi-tenancy-optionsd-5-e-42a"
   },
-  "/abimongo/core/api/interfaces/NoOpLogger-c6c": {
-    "__comp": "17896441",
-    "content": "4fe12143"
+  "/abimongo/core/api/interfaces/NoOpLogger-b0a": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-interfaces-no-op-logger-4-fe-a28"
   },
-  "/abimongo/core/api/interfaces/ProjectOptions-987": {
-    "__comp": "17896441",
-    "content": "39179914"
+  "/abimongo/core/api/interfaces/ProjectOptions-2a6": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-interfaces-project-options-391-d1c"
   },
-  "/abimongo/core/api/interfaces/Relationship-671": {
-    "__comp": "17896441",
-    "content": "e04f82b0"
+  "/abimongo/core/api/interfaces/Relationship-766": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-interfaces-relationshipe-04-fa0"
   },
-  "/abimongo/core/api/type-aliases/Document-729": {
-    "__comp": "17896441",
-    "content": "5d6a87b2"
+  "/abimongo/core/api/type-aliases/Document-f7e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-type-aliases-document-5-d-6-115"
   },
-  "/abimongo/core/api/type-aliases/EventType-70f": {
-    "__comp": "17896441",
-    "content": "6adfc2c3"
+  "/abimongo/core/api/type-aliases/EventType-3f3": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-type-aliases-event-type-6-ad-79a"
   },
-  "/abimongo/core/api/type-aliases/GCConfig-bf6": {
-    "__comp": "17896441",
-    "content": "8421bd16"
+  "/abimongo/core/api/type-aliases/GCConfig-2ca": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-type-aliases-gc-config-842-283"
   },
-  "/abimongo/core/api/type-aliases/GetTanantModelParams-146": {
-    "__comp": "17896441",
-    "content": "76a344ef"
+  "/abimongo/core/api/type-aliases/GetTanantModelParams-d05": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-type-aliases-get-tanant-model-params-76-a-9aa"
   },
-  "/abimongo/core/api/type-aliases/HookFunction-9a9": {
-    "__comp": "17896441",
-    "content": "f1c7fc82"
+  "/abimongo/core/api/type-aliases/HookFunction-9a5": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-type-aliases-hook-functionf-1-c-728"
   },
-  "/abimongo/core/api/type-aliases/Permission-6a8": {
-    "__comp": "17896441",
-    "content": "ca5890ae"
+  "/abimongo/core/api/type-aliases/Permission-85a": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-type-aliases-permissionca-5-df9"
   },
-  "/abimongo/core/api/type-aliases/Role-b50": {
-    "__comp": "17896441",
-    "content": "606d46b9"
+  "/abimongo/core/api/type-aliases/Role-a76": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-type-aliases-role-606-1b0"
   },
-  "/abimongo/core/api/type-aliases/SchemaDefinition-99c": {
-    "__comp": "17896441",
-    "content": "91927b81"
+  "/abimongo/core/api/type-aliases/SchemaDefinition-92a": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-type-aliases-schema-definition-919-a2b"
   },
-  "/abimongo/core/api/type-aliases/User-0fe": {
-    "__comp": "17896441",
-    "content": "614748ae"
+  "/abimongo/core/api/type-aliases/User-194": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-type-aliases-user-614-940"
   },
-  "/abimongo/core/api/variables/abimongo-731": {
-    "__comp": "17896441",
-    "content": "399c43eb"
+  "/abimongo/core/api/variables/abimongo-842": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-abimongo-399-319"
   },
-  "/abimongo/core/api/variables/AbimongoModelRegistry-116": {
-    "__comp": "17896441",
-    "content": "4f634bcb"
+  "/abimongo/core/api/variables/AbimongoModelRegistry-fca": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-abimongo-model-registry-4-f-6-05a"
   },
-  "/abimongo/core/api/variables/abimongoSymbol-83c": {
-    "__comp": "17896441",
-    "content": "c9d8d86e"
+  "/abimongo/core/api/variables/abimongoSymbol-62e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-abimongo-symbolc-9-d-6ac"
   },
-  "/abimongo/core/api/variables/bufferedTransporter-968": {
-    "__comp": "17896441",
-    "content": "bec6f4e9"
+  "/abimongo/core/api/variables/bufferedTransporter-93a": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-buffered-transporterbec-83f"
   },
-  "/abimongo/core/api/variables/DB_CHANGE_EVENT-9d2": {
-    "__comp": "17896441",
-    "content": "cf901fb7"
+  "/abimongo/core/api/variables/DB_CHANGE_EVENT-2e7": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-db-change-even-tcf-9-915"
   },
-  "/abimongo/core/api/variables/DOCUMENT_DELETED_EVENT-06e": {
-    "__comp": "17896441",
-    "content": "bb05fea5"
+  "/abimongo/core/api/variables/DOCUMENT_DELETED_EVENT-a7d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-document-deleted-even-tbb-0-61d"
   },
-  "/abimongo/core/api/variables/DOCUMENT_INSERTED_EVENT-e79": {
-    "__comp": "17896441",
-    "content": "0a76cf69"
+  "/abimongo/core/api/variables/DOCUMENT_INSERTED_EVENT-230": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-document-inserted-event-0-a-7-4f5"
   },
-  "/abimongo/core/api/variables/DOCUMENT_UPDATED_EVENT-98f": {
-    "__comp": "17896441",
-    "content": "4e964735"
+  "/abimongo/core/api/variables/DOCUMENT_UPDATED_EVENT-f76": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-document-updated-event-4-e-9-9a2"
   },
-  "/abimongo/core/api/variables/elasticTransport-128": {
-    "__comp": "17896441",
-    "content": "4f7ffd0e"
+  "/abimongo/core/api/variables/elasticTransport-1bc": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-elastic-transport-4-f-7-2ac"
   },
-  "/abimongo/core/api/variables/eventTypes-048": {
-    "__comp": "17896441",
-    "content": "c4069a08"
+  "/abimongo/core/api/variables/eventTypes-af0": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-event-typesc-40-fe5"
   },
-  "/abimongo/core/api/variables/logger-3b3": {
-    "__comp": "17896441",
-    "content": "86518f66"
+  "/abimongo/core/api/variables/logger-c44": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-logger-865-2d2"
   },
-  "/abimongo/core/api/variables/lokiTransport-08f": {
-    "__comp": "17896441",
-    "content": "23a5e3b6"
+  "/abimongo/core/api/variables/lokiTransport-2ed": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-loki-transport-23-a-ffc"
   },
-  "/abimongo/core/api/variables/now-efc": {
-    "__comp": "17896441",
-    "content": "5830aab9"
+  "/abimongo/core/api/variables/now-412": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-now-583-6cd"
   },
-  "/abimongo/core/api/variables/objectIdSymbol-dcd": {
-    "__comp": "17896441",
-    "content": "3a7147ec"
+  "/abimongo/core/api/variables/objectIdSymbol-672": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-object-id-symbol-3-a-7-96b"
   },
-  "/abimongo/core/api/variables/redis-95b": {
-    "__comp": "17896441",
-    "content": "641edc34"
+  "/abimongo/core/api/variables/redis-530": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-redis-641-45e"
   },
-  "/abimongo/core/api/variables/rolePermissions-1f2": {
-    "__comp": "17896441",
-    "content": "088fef91"
+  "/abimongo/core/api/variables/rolePermissions-ac1": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-role-permissions-088-413"
   },
-  "/abimongo/core/api/variables/SchemaType-42c": {
-    "__comp": "17896441",
-    "content": "4d847524"
+  "/abimongo/core/api/variables/SchemaType-e21": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-schema-type-4-d-8-b22"
   },
-  "/abimongo/core/api/variables/schemaTypeSymbol-8de": {
-    "__comp": "17896441",
-    "content": "1301b41b"
+  "/abimongo/core/api/variables/schemaTypeSymbol-9ca": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-api-variables-schema-type-symbol-130-415"
   },
-  "/abimongo/core/core-concepts/AbimongoClient-2b6": {
-    "__comp": "17896441",
-    "content": "fb043976"
+  "/abimongo/core/core-concepts/AbimongoClient-1c0": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-core-concepts-abimongo-clientfb-0-5f9"
   },
-  "/abimongo/core/core-concepts/AbimongoModel-776": {
-    "__comp": "17896441",
-    "content": "1395ad7c"
+  "/abimongo/core/core-concepts/AbimongoModel-a61": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-core-concepts-abimongo-model-139-33e"
   },
-  "/abimongo/core/core-concepts/AbimongoSchema-264": {
-    "__comp": "17896441",
-    "content": "fb796bbb"
+  "/abimongo/core/core-concepts/AbimongoSchema-eb9": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-core-concepts-abimongo-schemafb-7-51d"
   },
-  "/abimongo/core/core-concepts/MultiTenancy-285": {
-    "__comp": "17896441",
-    "content": "6b9fa6ca"
+  "/abimongo/core/core-concepts/MultiTenancy-47b": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-core-concepts-multi-tenancy-6-b-9-d17"
   },
-  "/abimongo/core/core/log-changes-796": {
-    "__comp": "17896441",
-    "content": "a886a294"
+  "/abimongo/core/core/log-changes-4ca": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-core-log-changesa-88-3b1"
   },
-  "/abimongo/core/faq-6b6": {
-    "__comp": "17896441",
-    "content": "6752273b"
+  "/abimongo/core/faq-14e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-faq-675-cb0"
   },
-  "/abimongo/core/features/AbimongoGraphQL-6e2": {
-    "__comp": "17896441",
-    "content": "c4f75c9e"
+  "/abimongo/core/features/AbimongoGraphQL-5f9": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-features-abimongo-graph-q-lc-4-f-0c3"
   },
-  "/abimongo/core/features/Caching-453": {
-    "__comp": "17896441",
-    "content": "94e0c8cf"
+  "/abimongo/core/features/Caching-52e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-features-caching-94-e-7c7"
   },
-  "/abimongo/core/features/rbac-c7e": {
-    "__comp": "17896441",
-    "content": "a7d41684"
+  "/abimongo/core/features/rbac-323": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-features-rbaca-7-d-25e"
   },
-  "/abimongo/core/features/redis-338": {
-    "__comp": "17896441",
-    "content": "6ce17b8b"
+  "/abimongo/core/features/redis-8a1": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-features-redis-6-ce-b32"
   },
-  "/abimongo/core/getting-started/gettting-started-1e3": {
-    "__comp": "17896441",
-    "content": "604677bf"
+  "/abimongo/core/getting-started/gettting-started-31f": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-getting-started-gettting-started-604-f1d"
   },
-  "/abimongo/core/getting-started/installation-421": {
-    "__comp": "17896441",
-    "content": "bbf8c54c"
+  "/abimongo/core/getting-started/installation-63a": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-getting-started-installationbbf-f81"
   },
-  "/abimongo/core/intro-598": {
-    "__comp": "17896441",
-    "content": "3724ddc1"
+  "/abimongo/core/intro-8cc": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-core-intro-372-44a"
   },
-  "/abimongo/create-a9a": {
-    "__comp": "5e95c892",
+  "/abimongo/create-6f2": {
+    "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
-      "plugin": "116851b4"
+      "plugin": "plugin---abimongo-create-196-726"
     }
   },
-  "/abimongo/create-da0": {
-    "__comp": "a7bd4aaa",
-    "__props": "6f20796d"
+  "/abimongo/create-abc": {
+    "__comp": "__comp---theme-doc-version-roota-7-b-5de",
+    "__props": "__props---abimongo-create-67-a-08c"
   },
-  "/abimongo/create-d28": {
-    "__comp": "a94703ab"
+  "/abimongo/create-b8f": {
+    "__comp": "__comp---theme-doc-roota-94-67a"
   },
-  "/abimongo/create/abimongo-cli-8fd": {
-    "__comp": "17896441",
-    "content": "a60844c1"
+  "/abimongo/create/abimongo-cli-b84": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-create-abimongo-clia-60-59e"
   },
-  "/abimongo/create/intro-d6e": {
-    "__comp": "17896441",
-    "content": "10504b84"
+  "/abimongo/create/intro-d5e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-create-intro-105-4b1"
   },
-  "/abimongo/logger-0f3": {
-    "__comp": "5e95c892",
+  "/abimongo/logger-ce9": {
+    "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
-      "plugin": "a75b3841"
+      "plugin": "plugin---abimongo-loggera-75-f85"
     }
   },
-  "/abimongo/logger-af8": {
-    "__comp": "a7bd4aaa",
-    "__props": "a6337205"
+  "/abimongo/logger-37c": {
+    "__comp": "__comp---theme-doc-version-roota-7-b-5de",
+    "__props": "__props---abimongo-loggera-63-6c3"
   },
-  "/abimongo/logger-9c1": {
-    "__comp": "a94703ab"
+  "/abimongo/logger-513": {
+    "__comp": "__comp---theme-doc-roota-94-67a"
   },
-  "/abimongo/logger/api-f56": {
-    "__comp": "17896441",
-    "content": "40ed1c14"
+  "/abimongo/logger/api-e6e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-40-e-bf0"
   },
-  "/abimongo/logger/api/classes/AbimongoLogger-2a4": {
-    "__comp": "17896441",
-    "content": "a571d32c"
+  "/abimongo/logger/api/classes/AbimongoLogger-f96": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-classes-abimongo-loggera-57-607"
   },
-  "/abimongo/logger/api/classes/AdvancedRollingFileTransporter-7ef": {
-    "__comp": "17896441",
-    "content": "9cb6c8a9"
+  "/abimongo/logger/api/classes/AdvancedRollingFileTransporter-eee": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-classes-advanced-rolling-file-transporter-9-cb-2ad"
   },
-  "/abimongo/logger/api/classes/AsyncBatchTransporter-52b": {
-    "__comp": "17896441",
-    "content": "d6a6a317"
+  "/abimongo/logger/api/classes/AsyncBatchTransporter-6fe": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-classes-async-batch-transporterd-6-a-f90"
   },
-  "/abimongo/logger/api/classes/BufferedTransporter-aae": {
-    "__comp": "17896441",
-    "content": "88d024b0"
+  "/abimongo/logger/api/classes/BufferedTransporter-5fe": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-classes-buffered-transporter-88-d-1ae"
   },
-  "/abimongo/logger/api/classes/FileTransporter-f97": {
-    "__comp": "17896441",
-    "content": "25b9f867"
+  "/abimongo/logger/api/classes/FileTransporter-183": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-classes-file-transporter-25-b-f65"
   },
-  "/abimongo/logger/api/classes/Logger-b61": {
-    "__comp": "17896441",
-    "content": "4105e30e"
+  "/abimongo/logger/api/classes/Logger-930": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-classes-logger-410-c85"
   },
-  "/abimongo/logger/api/classes/MetricsTracker-582": {
-    "__comp": "17896441",
-    "content": "d279fe61"
+  "/abimongo/logger/api/classes/MetricsTracker-42e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-classes-metrics-trackerd-27-d11"
   },
-  "/abimongo/logger/api/classes/NoOpLogger-983": {
-    "__comp": "17896441",
-    "content": "9b63f6a5"
+  "/abimongo/logger/api/classes/NoOpLogger-ec8": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-classes-no-op-logger-9-b-6-a94"
   },
-  "/abimongo/logger/api/functions/clearAllTimers-2aa": {
-    "__comp": "17896441",
-    "content": "3aa3cfd0"
+  "/abimongo/logger/api/functions/clearAllTimers-e92": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-clear-all-timers-3-aa-5c6"
   },
-  "/abimongo/logger/api/functions/colorByLevel-5be": {
-    "__comp": "17896441",
-    "content": "71f95ac0"
+  "/abimongo/logger/api/functions/colorByLevel-ae3": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-color-by-level-71-f-6fd"
   },
-  "/abimongo/logger/api/functions/consoleTransport-004": {
-    "__comp": "17896441",
-    "content": "ac634ed1"
+  "/abimongo/logger/api/functions/consoleTransport-5f3": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-console-transportac-6-f9c"
   },
-  "/abimongo/logger/api/functions/createCircuitBreaker-4b0": {
-    "__comp": "17896441",
-    "content": "f3702150"
+  "/abimongo/logger/api/functions/createCircuitBreaker-b4b": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-create-circuit-breakerf-37-c8a"
   },
-  "/abimongo/logger/api/functions/createElasticTransport-892": {
-    "__comp": "17896441",
-    "content": "13f3490f"
+  "/abimongo/logger/api/functions/createElasticTransport-43b": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-create-elastic-transport-13-f-452"
   },
-  "/abimongo/logger/api/functions/createFileTransporter-254": {
-    "__comp": "17896441",
-    "content": "2b9b1c74"
+  "/abimongo/logger/api/functions/createFileTransporter-5ea": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-create-file-transporter-2-b-9-df0"
   },
-  "/abimongo/logger/api/functions/createHttpTransport-da2": {
-    "__comp": "17896441",
-    "content": "b8d90765"
+  "/abimongo/logger/api/functions/createHttpTransport-f48": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-create-http-transportb-8-d-a13"
   },
-  "/abimongo/logger/api/functions/createLogger-160": {
-    "__comp": "17896441",
-    "content": "d607cb49"
+  "/abimongo/logger/api/functions/createLogger-60e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-create-loggerd-60-a14"
   },
-  "/abimongo/logger/api/functions/createLokiTransport-99a": {
-    "__comp": "17896441",
-    "content": "385a2ff0"
+  "/abimongo/logger/api/functions/createLokiTransport-b6e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-create-loki-transport-385-4dc"
   },
-  "/abimongo/logger/api/functions/createResilientTransporter-b51": {
-    "__comp": "17896441",
-    "content": "dfd8f3b1"
+  "/abimongo/logger/api/functions/createResilientTransporter-a08": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-create-resilient-transporterdfd-8fe"
   },
-  "/abimongo/logger/api/functions/createRotatingFileTransporter-e7b": {
-    "__comp": "17896441",
-    "content": "117882bd"
+  "/abimongo/logger/api/functions/createRotatingFileTransporter-d98": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-create-rotating-file-transporter-117-cad"
   },
-  "/abimongo/logger/api/functions/formatConsole-027": {
-    "__comp": "17896441",
-    "content": "56da1b13"
+  "/abimongo/logger/api/functions/formatConsole-690": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-format-console-56-d-780"
   },
-  "/abimongo/logger/api/functions/formatError-74f": {
-    "__comp": "17896441",
-    "content": "88fceacd"
+  "/abimongo/logger/api/functions/formatError-252": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-format-error-88-f-26a"
   },
-  "/abimongo/logger/api/functions/formatJSON-726": {
-    "__comp": "17896441",
-    "content": "5363ae6a"
+  "/abimongo/logger/api/functions/formatJSON-c83": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-format-json-536-1a0"
   },
-  "/abimongo/logger/api/functions/formatMsg-481": {
-    "__comp": "17896441",
-    "content": "788e166f"
+  "/abimongo/logger/api/functions/formatMsg-508": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-format-msg-788-b67"
   },
-  "/abimongo/logger/api/functions/getLogLevel-0ec": {
-    "__comp": "17896441",
-    "content": "c3591cd1"
+  "/abimongo/logger/api/functions/getLogLevel-a61": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-get-log-levelc-35-2c8"
   },
-  "/abimongo/logger/api/functions/getLogLevelPriority-d8b": {
-    "__comp": "17896441",
-    "content": "9ca3d69a"
+  "/abimongo/logger/api/functions/getLogLevelPriority-bff": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-get-log-level-priority-9-ca-d58"
   },
-  "/abimongo/logger/api/functions/isLogLevel-abf": {
-    "__comp": "17896441",
-    "content": "61a87e6b"
+  "/abimongo/logger/api/functions/isLogLevel-8b8": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-is-log-level-61-a-502"
   },
-  "/abimongo/logger/api/functions/now-c71": {
-    "__comp": "17896441",
-    "content": "46e80bb9"
+  "/abimongo/logger/api/functions/now-426": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-now-46-e-2e3"
   },
-  "/abimongo/logger/api/functions/registerInterval-4d4": {
-    "__comp": "17896441",
-    "content": "071249fd"
+  "/abimongo/logger/api/functions/registerInterval-1f4": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-register-interval-071-f00"
   },
-  "/abimongo/logger/api/functions/registerTimeout-08a": {
-    "__comp": "17896441",
-    "content": "c49403db"
+  "/abimongo/logger/api/functions/registerTimeout-368": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-register-timeoutc-49-66d"
   },
-  "/abimongo/logger/api/functions/retryWithBackoff-31a": {
-    "__comp": "17896441",
-    "content": "955e1754"
+  "/abimongo/logger/api/functions/retryWithBackoff-ee9": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-retry-with-backoff-955-376"
   },
-  "/abimongo/logger/api/functions/setupLogger-94c": {
-    "__comp": "17896441",
-    "content": "2b195ce7"
+  "/abimongo/logger/api/functions/setupLogger-0bd": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-setup-logger-2-b-1-1b2"
   },
-  "/abimongo/logger/api/functions/shouldLog-791": {
-    "__comp": "17896441",
-    "content": "13f985a2"
+  "/abimongo/logger/api/functions/shouldLog-ba5": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-functions-should-log-13-f-1f4"
   },
-  "/abimongo/logger/api/interfaces/AsyncBatchTransporterOptions-5ed": {
-    "__comp": "17896441",
-    "content": "a6a8896e"
+  "/abimongo/logger/api/interfaces/AsyncBatchTransporterOptions-7ef": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-interfaces-async-batch-transporter-optionsa-6-a-5b7"
   },
-  "/abimongo/logger/api/interfaces/FormatOptions-900": {
-    "__comp": "17896441",
-    "content": "fab25154"
+  "/abimongo/logger/api/interfaces/FormatOptions-827": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-interfaces-format-optionsfab-1ba"
   },
-  "/abimongo/logger/api/interfaces/ILogger-f60": {
-    "__comp": "17896441",
-    "content": "55107f62"
+  "/abimongo/logger/api/interfaces/ILogger-ad2": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-interfaces-i-logger-551-304"
   },
-  "/abimongo/logger/api/interfaces/LogEntry-b90": {
-    "__comp": "17896441",
-    "content": "ba067637"
+  "/abimongo/logger/api/interfaces/LogEntry-5a3": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-interfaces-log-entryba-0-702"
   },
-  "/abimongo/logger/api/interfaces/LoggerConfig-b7f": {
-    "__comp": "17896441",
-    "content": "71a989c8"
+  "/abimongo/logger/api/interfaces/LoggerConfig-67d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-interfaces-logger-config-71-a-627"
   },
-  "/abimongo/logger/api/interfaces/LoggerFormatOptions-857": {
-    "__comp": "17896441",
-    "content": "5e11ba8c"
+  "/abimongo/logger/api/interfaces/LoggerFormatOptions-e51": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-interfaces-logger-format-options-5-e-1-78a"
   },
-  "/abimongo/logger/api/interfaces/LoggerHooks-b2e": {
-    "__comp": "17896441",
-    "content": "6e81bf28"
+  "/abimongo/logger/api/interfaces/LoggerHooks-492": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-interfaces-logger-hooks-6-e-8-ad7"
   },
-  "/abimongo/logger/api/interfaces/LoggerTransporter-430": {
-    "__comp": "17896441",
-    "content": "886bfe5d"
+  "/abimongo/logger/api/interfaces/LoggerTransporter-f32": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-interfaces-logger-transporter-886-3ac"
   },
-  "/abimongo/logger/api/interfaces/LogMeta-df1": {
-    "__comp": "17896441",
-    "content": "3f2d70c7"
+  "/abimongo/logger/api/interfaces/LogMeta-7bc": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-interfaces-log-meta-3-f-2-b0e"
   },
-  "/abimongo/logger/api/interfaces/LogTransport-724": {
-    "__comp": "17896441",
-    "content": "8e93c4af"
+  "/abimongo/logger/api/interfaces/LogTransport-08d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-interfaces-log-transport-8-e-9-46a"
   },
-  "/abimongo/logger/api/interfaces/MetricsSnapshot-4f8": {
-    "__comp": "17896441",
-    "content": "ab9223fe"
+  "/abimongo/logger/api/interfaces/MetricsSnapshot-365": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-interfaces-metrics-snapshotab-9-cf1"
   },
-  "/abimongo/logger/api/interfaces/RotatingFileTransporterOptions-ce1": {
-    "__comp": "17896441",
-    "content": "5c9a723e"
+  "/abimongo/logger/api/interfaces/RotatingFileTransporterOptions-caa": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-interfaces-rotating-file-transporter-options-5-c-9-bc1"
   },
-  "/abimongo/logger/api/interfaces/Transporter-11c": {
-    "__comp": "17896441",
-    "content": "8ec942c4"
+  "/abimongo/logger/api/interfaces/Transporter-622": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-interfaces-transporter-8-ec-a22"
   },
-  "/abimongo/logger/api/type-aliases/AbimongoConfig-064": {
-    "__comp": "17896441",
-    "content": "f85f19cd"
+  "/abimongo/logger/api/type-aliases/AbimongoConfig-afc": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-type-aliases-abimongo-configf-85-ba6"
   },
-  "/abimongo/logger/api/type-aliases/LogLevel-144": {
-    "__comp": "17896441",
-    "content": "e1ae37e3"
+  "/abimongo/logger/api/type-aliases/LogLevel-4ce": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-type-aliases-log-levele-1-a-556"
   },
-  "/abimongo/logger/api/type-aliases/RemoteTransporter-36e": {
-    "__comp": "17896441",
-    "content": "af544a4f"
+  "/abimongo/logger/api/type-aliases/RemoteTransporter-ecf": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-type-aliases-remote-transporteraf-5-ec8"
   },
-  "/abimongo/logger/api/variables/DefaultLogger-aa6": {
-    "__comp": "17896441",
-    "content": "3cb8616e"
+  "/abimongo/logger/api/variables/DefaultLogger-b16": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-variables-default-logger-3-cb-23b"
   },
-  "/abimongo/logger/api/variables/LOG_LEVELS-443": {
-    "__comp": "17896441",
-    "content": "f3f38d04"
+  "/abimongo/logger/api/variables/LOG_LEVELS-910": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-variables-log-level-sf-3-f-1a8"
   },
-  "/abimongo/logger/api/variables/logger-5cf": {
-    "__comp": "17896441",
-    "content": "53581c3d"
+  "/abimongo/logger/api/variables/logger-ded": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-api-variables-logger-535-b22"
   },
-  "/abimongo/logger/faq-6be": {
-    "__comp": "17896441",
-    "content": "90667ebb"
+  "/abimongo/logger/faq-ba6": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-faq-906-7b8"
   },
-  "/abimongo/logger/intro-894": {
-    "__comp": "17896441",
-    "content": "babe4a16"
+  "/abimongo/logger/intro-915": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-introbab-b27"
   },
-  "/abimongo/logger/logger/consumption-ace": {
-    "__comp": "17896441",
-    "content": "b377d9f9"
+  "/abimongo/logger/logger/consumption-660": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-logger-consumptionb-37-408"
   },
-  "/abimongo/logger/logger/getting-started-9bb": {
-    "__comp": "17896441",
-    "content": "f1f9d1b7"
+  "/abimongo/logger/logger/getting-started-2f5": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-logger-getting-startedf-1-f-63a"
   },
-  "/abimongo/logger/logger/logger-guides-d6f": {
-    "__comp": "17896441",
-    "content": "3d19a519"
+  "/abimongo/logger/logger/logger-guides-220": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-logger-logger-guides-3-d-1-ad1"
   },
-  "/abimongo/logger/logger/transports-da7": {
-    "__comp": "17896441",
-    "content": "427e4860"
+  "/abimongo/logger/logger/transports-714": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-logger-transports-427-30f"
   },
-  "/abimongo/logger/metrics-tracer-c93": {
-    "__comp": "17896441",
-    "content": "89239bfa"
+  "/abimongo/logger/metrics-tracer-0f2": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-logger-metrics-tracer-892-ad7"
   },
-  "/abimongo/tutorials-389": {
-    "__comp": "5e95c892",
+  "/abimongo/tutorials-93e": {
+    "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
-      "plugin": "6d204b8a"
+      "plugin": "plugin---abimongo-tutorials-6-d-2-547"
     }
   },
-  "/abimongo/tutorials-828": {
-    "__comp": "a7bd4aaa",
-    "__props": "4263e259"
+  "/abimongo/tutorials-e5d": {
+    "__comp": "__comp---theme-doc-version-roota-7-b-5de",
+    "__props": "__props---abimongo-tutorials-426-84d"
   },
-  "/abimongo/tutorials-6d9": {
-    "__comp": "a94703ab"
+  "/abimongo/tutorials-6f3": {
+    "__comp": "__comp---theme-doc-roota-94-67a"
   },
-  "/abimongo/tutorials/core_tutotrials/abimongo-express-3b1": {
-    "__comp": "17896441",
-    "content": "3bf0225a"
+  "/abimongo/tutorials/core_tutotrials/abimongo-express-6db": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-tutorials-core-tutotrials-abimongo-express-3-bf-e0d"
   },
-  "/abimongo/tutorials/core_tutotrials/abimongo-graphql-083": {
-    "__comp": "17896441",
-    "content": "25a33dbf"
+  "/abimongo/tutorials/core_tutotrials/abimongo-graphql-a14": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-tutorials-core-tutotrials-abimongo-graphql-25-a-2cf"
   },
-  "/abimongo/tutorials/core_tutotrials/abimongo-multitenancy-8d8": {
-    "__comp": "17896441",
-    "content": "9cb52b47"
+  "/abimongo/tutorials/core_tutotrials/abimongo-multitenancy-33e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-tutorials-core-tutotrials-abimongo-multitenancy-9-cb-866"
   },
-  "/abimongo/tutorials/core_tutotrials/core-tutorials-821": {
-    "__comp": "17896441",
-    "content": "8f344e38"
+  "/abimongo/tutorials/core_tutotrials/core-tutorials-77a": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-tutorials-core-tutotrials-core-tutorials-8-f-3-0d0"
   },
-  "/abimongo/tutorials/create-tutorials-0d4": {
-    "__comp": "17896441",
-    "content": "d1ed633b"
+  "/abimongo/tutorials/create-tutorials-dbe": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-tutorials-create-tutorialsd-1-e-54d"
   },
-  "/abimongo/tutorials/intro-dde": {
-    "__comp": "17896441",
-    "content": "29c1edfa"
+  "/abimongo/tutorials/intro-3dd": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-tutorials-intro-29-c-2ac"
   },
-  "/abimongo/tutorials/logger-tutorials-c47": {
-    "__comp": "17896441",
-    "content": "2d1282d1"
+  "/abimongo/tutorials/logger-tutorials-6e5": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---abimongo-tutorials-logger-tutorials-2-d-1-0a0"
   },
   "/abimongo/-3bc": {
-    "__comp": "1df93b7f",
+    "__comp": "__comp---site-src-pages-index-tsx-1-df-d3e",
     "__context": {
-      "plugin": "a7456010"
+      "plugin": "plugin---abimongo-markdown-pagea-74-742"
     },
-    "config": "5e9f5e1a"
+    "config": "config---abimongo-5-e-9-94e"
   }
 }

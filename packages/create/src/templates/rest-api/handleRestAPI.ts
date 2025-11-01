@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
-import chalk from 'chalk';
+import { colorize } from '../../utils/colorize';
 import { execSync } from 'child_process';
 import { TemplateOptions } from '../../utils/types';
 
@@ -26,7 +26,7 @@ export async function handleRestAPI(
   const srcDir = path.join(rootDir, 'src');
   const README_FILE = path.join(rootDir, 'README.md');
 
-  console.log(chalk.cyan(`\n Creating REST API project in ${rootDir}...\n`));
+  console.log(colorize(`\n Creating REST API project in ${rootDir}...\n`, 'cyan'));
   fs.ensureDirSync(srcDir);
 
   // Step 1: Write entry file
@@ -126,17 +126,17 @@ This project is licensed under the Apache-2.0 License.
     }, null, 2));
   }
 
-  console.log(chalk.green('\n✔ REST API project setup complete!'));
-  console.log(chalk.green(`✔ REST API project "${projectName}" created successfully.`));
+  console.log(colorize('\n✔ REST API project setup complete!', 'green'));
+  console.log(colorize(`✔ REST API project "${projectName}" created successfully.`, 'green'));
   console.log('=====','Packages installed:','=====');
-  console.log(chalk.blueBright(`- Abimongo Core (if selected)`));
-  console.log(chalk.blueBright(`- Abimongo Logger (if selected)`));
-  console.log(chalk.blueBright(`- express`));
-  console.log(chalk.blueBright(`- cors`));
+  console.log(colorize(`- Abimongo Core (if selected)`, 'lightBlue'));
+  console.log(colorize(`- Abimongo Logger (if selected)`, 'lightBlue'));
+  console.log(colorize(`- express`, 'lightBlue'));
+  console.log(colorize(`- cors`, 'lightBlue'));
   console.log('\nNext Steps:');
-  console.log(chalk.blueBright(`- cd ${projectName}`));
-  console.log(chalk.blueBright(`- npm run dev`));
-  console.log(chalk.blueBright(`- Customize your Abimongo powered REST API from there.`));
+  console.log(colorize(`- cd ${projectName}`, 'lightBlue'));
+  console.log(colorize(`- npm run dev`, 'lightBlue'));
+  console.log(colorize(`- Customize your Abimongo powered REST API from there.`, 'lightBlue'));
 };
 
 

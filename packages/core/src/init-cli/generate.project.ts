@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import fs from 'fs-extra'
 import path from 'path';
-import chalk from 'chalk';
 import {
   DEFAULT_CONFIG_CONTENT,
   generateMainTS,
@@ -11,6 +10,7 @@ import {
 } from '../templates';
 import { foldersAndFiles } from '../utils';
 import { AbimongoConfig, ProjectOptions } from '../types';
+import { colorize } from '../utils/color-palatte';
 
 
 export async function generateProject(options: AbimongoConfig) {
@@ -19,9 +19,9 @@ export async function generateProject(options: AbimongoConfig) {
 
   const interval = setInterval(() => {
     // Keep the process alive
-    console.log(chalk.blue(`[Preparing Process]: \nGenerating project at - ${projectRoot}`));
+    console.log(colorize(`[Preparing Process]: \nGenerating project at - ${projectRoot}`, 'green'));
   }, 300);
-  console.log(chalk.blue.bold('[Process Started]: This may take a few moments...'));
+  console.log(colorize('[Process Started]: This may take a few moments...', 'green'));
   clearInterval(interval);
 
   await generateAppStructure(projectRoot, options);
@@ -29,7 +29,7 @@ export async function generateProject(options: AbimongoConfig) {
   const configPath = path.join(projectRoot, 'abimongo.config.json');
   const configContent = DEFAULT_CONFIG_CONTENT(options);
   await fs.writeFile(configPath, configContent, 'utf8');
-  console.log(chalk.green(`✓ [Config file]: Config generated - abimongo.config.json`));
+  console.log(colorize(`✓ [Config file]: Config generated - abimongo.config.json`, 'green'));
 
 
   // Create src directory if it doesn't exist
@@ -39,7 +39,7 @@ export async function generateProject(options: AbimongoConfig) {
   const mainTSPath = path.join(projectRoot, 'src', 'main.ts');
   const mainTSContent = generateMainTS(options);
   await fs.outputFile(mainTSPath, mainTSContent);
-  console.log(chalk.green(`✓ [Entry point]: Entry point created - src/main.ts`));
+  console.log(colorize(`✓ [Entry point]: Entry point created - src/main.ts`, 'blue'));
 
   const completedFilePath = path.join(projectRoot, 'PROJECT_GENERATION_COMPLETED.txt');
 
@@ -48,7 +48,7 @@ export async function generateProject(options: AbimongoConfig) {
   generatedFiles();
   await fs.writeFile(completedFilePath, `${foldersAndFiles()}`, 'utf8');
 
-  console.log(chalk.green.bold('[Completed]: \nProject generation completed successfully!'));
+  console.log(colorize('[Completed]: \nProject generation completed successfully!', 'green'));
   process.exit(0);
 }
 
@@ -84,9 +84,9 @@ function setupGarbageCollector(config: AbimongoConfig, projectRoot: string) {
     path.join(scriptsDir, 'runGC.ts'),
     generateGCRunner()
   );
-  console.log(chalk.green(`✓ [Garbage Collector]: 🧹 GC Manager and Runner scripts created.`));
+  console.log(colorize(`✓ [Garbage Collector]: 🧹 GC Manager and Runner scripts created.`, 'green'));
   if (config.advanced?.garbageCollector.enabled) {
-    console.log(chalk.green(`✓ [Garbage Collector]: 🧹 GC is enabled.`));
+    console.log(colorize(`✓ [Garbage Collector]: 🧹 GC is enabled.`, 'green'));
   }
 }
 

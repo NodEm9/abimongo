@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
-import chalk from 'chalk';
+import { colorize } from '../../utils/colorize';
 import { execSync } from 'child_process';
 import { TemplateOptions } from '../../utils/types';
 
@@ -15,7 +15,7 @@ export async function handleNextApp(projectName: string, options: TemplateOption
   const ext = useTypeScript ? 'ts' : 'js';
   const rootDir = path.resolve(process.cwd(), projectName);
 
-  console.log(chalk.cyan(`\n⚙️ Creating Next.js app in ${rootDir}...\n`));
+  console.log(colorize(`\n⚙️ Creating Next.js app in ${rootDir}...\n`, 'cyan'));
 
   // 1. Create Next.js app
   const createCommand = `npx create-next-app@latest ${projectName} ${useTypeScript ? '--typescript' : ''} --no-tailwind --eslint`;
@@ -111,20 +111,20 @@ module.exports = { respondSuccess };`;
 
   // 6. Install Abimongo Core
   if (useAbimongo) {
-    console.log(chalk.yellow('Installing @abimongo/core...'));
+    console.log(colorize('Installing @abimongo/core...', 'yellow'));
     execSync(`npm install @abimongo/core`, { cwd: rootDir, stdio: 'inherit' });
   }
   if(includeLogger && !useAbimongo) {
-    console.log(chalk.yellow('Installing @abimongo/logger...'));
+    console.log(colorize('Installing @abimongo/logger...', 'yellow'));
     execSync(`npm install @abimongo/logger`, { cwd: rootDir, stdio: 'inherit' });
   }
   // 7. Final message
   if(useAbimongo) {
-    console.log(chalk.green('Abimongo Core installed successfully!'));
+    console.log(colorize('Abimongo Core installed successfully!', 'green'));
   }
   if(includeLogger && !useAbimongo) {
-    console.log(chalk.green('Abimongo Logger installed successfully!'));
+    console.log(colorize('Abimongo Logger installed successfully!', 'green'));
   }
 
-  console.log(chalk.green('\nNext.js app setup complete!\n'));
+  console.log(colorize('\nNext.js app setup complete!\n', 'green'));
 };

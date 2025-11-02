@@ -40,15 +40,12 @@ jobs:
           node-version: '20'
           cache: pnpm  # requires pnpm-lock.yaml at repo root
 
-      # Make pnpm available and pinned to 10.20.0
-      - uses: pnpm/action-setup@v4
-        with:
-         version: 10.20.0       # or omit to read from packageManager
-         run_install: false
-
+      - run: corepack enable
+      - run: corepack prepare pnpm@10.20.0 --activate   # or your exact version
+      - run: pnpm -v                                     # should print 10.20.0
+    
       - name: Install deps
-        run: pnpm install --frozen-lockfile --prefer-workspace-packages
-      - run: pnpm -v     
+        run: pnpm install --frozen-lockfile --link-workspace-packages    
 
       - name: Lint
         run: pnpm run lint
@@ -87,15 +84,12 @@ jobs:
           cache-dependency-path: ../../pnpm-lock.yaml
           registry-url: 'https://registry.npmjs.org/'
 
-      # Make pnpm available and pinned to 10.20.0
-      - uses: pnpm/action-setup@v4
-        with:
-         version: 10.20.0       # or omit to read from packageManager
-         run_install: false
+      - run: corepack enable
+      - run: corepack prepare pnpm@10.20.0 --activate   # or your exact version
+      - run: pnpm -v                                     # should print 10.20.0
 
       - name: Install deps
         run: pnpm install --frozen-lockfile --prefer-workspace-packages
-      - run: pnpm -v                            # should print 10.20.0
 
       - name: Build (ensure dist exists before publish)
         run: pnpm run build

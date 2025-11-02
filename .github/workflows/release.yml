@@ -54,7 +54,7 @@ jobs:
       # Install workspace deps (single root lockfile)
       # If you DON'T have a lock yet, use --no-frozen-lockfile
       - name: Install
-        run: pnpm install --frozen-lockfile --link-workspace-packages 
+        run: pnpm install --no--frozen-lockfile --link-workspace-packages 
 
       - name: Lint
         run: pnpm run lint
@@ -104,7 +104,7 @@ jobs:
       # Install workspace deps (single root lockfile)
       # If you DON'T have a lock yet, use --no-frozen-lockfile
       - name: Install
-        run: pnpm install --frozen-lockfile --link-workspace-packages
+        run: pnpm install --no--frozen-lockfile --link-workspace-packages
 
       - name: Build (ensure dist exists before publish)
         run: pnpm run build
@@ -155,7 +155,7 @@ jobs:
       # Install workspace deps (single root lockfile)
       # If you DON'T have a lock yet, use --no-frozen-lockfile
       - name: Install
-        run: pnpm install --frozen-lockfile --link-workspace-packages
+        run: pnpm install --no--frozen-lockfile --link-workspace-packages
 
       - name: Build docs (TypeDoc + Docusaurus)
         run: pnpm run api:docs && pnpm run docs:build

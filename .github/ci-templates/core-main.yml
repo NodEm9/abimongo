@@ -56,7 +56,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
@@ -76,15 +76,15 @@ jobs:
       - name: Build with Webpack
         run: |
           pnpm install
-          pnpm run build
+          pnpm run -r build
 
       - name: Verify Build Output
         run: |
-          if [ ! -f ./src/bin/abimongo-core.node.js ] && [ ! -f ./src/bin/abimongo-core-vli.js ]; then
-            echo "Build failed: abimongo-core.node.js or abimongo-core.js not found!"
+          if [ ! -f ./src/bin/abimongo-core.js ] && [ ! -f ./src/bin/abimongo-core-cli.js ]; then
+            echo "Build failed: abimongo-core.js or abimongo-core-cli.js not found!"
             exit 1
           fi
-          echo "Build succeeded: abimongo-core.node.js and abimongo-core-cli.js exists."
+          echo "Build succeeded: abimongo-core.js and abimongo-core-cli.js exists."
       
       # - name: Upload Coverage Report
       #   uses: codecov/codecov-action@v4
@@ -106,7 +106,7 @@ jobs:
 
       - name: Cleanup Old Runs
         run: |
-          gh run list --limit 10 | awk '/abimongo/core/ {print $1}' | xargs -I {} gh run delete {} --confirm
+          gh run list --limit 10 | awk '/abimongo/ {print $1}' | xargs -I {} gh run delete {} --confirm
         env:
           GI_TOKEN: ${{ secrets.GH_TOKEN }}
     
@@ -154,7 +154,7 @@ jobs:
           git push origin main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
+          GH_TOKEM: ${{ secrets.GH_TOKEN }}
       - name: Fetch all tags for versioning
         run: git fetch --tags --force
 
@@ -176,6 +176,7 @@ jobs:
           git push origin main 
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
       
       # - name: Clear Pnpm Cache 
       #   run: |

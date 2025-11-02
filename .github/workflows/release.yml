@@ -25,28 +25,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node  ${{ matrix.node-version }}
+      - name: Setup 
         uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org/'
-      
-      
-      - run: corepack enable         # makes pnpm/yarn via Corepack available
-      - run: corepack install        # installs the exact pnpm from packageManager
+         node-version: 20
+         cache: 'pnpm'
 
-      # sanity check
-      - run: pnpm -v
-
-      - run: pnpm install            # uses cache if pnpm-lock.yaml is at repo root
-      - run: pnpm -r build           # monorepo example
-      - run: pnpm -r test
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 10.19.0
+      - run: corepack enable
+      - run: corepack install
 
       - name: Install (workspaces)
         run: pnpm install --frozen-lockfile --prefer-workspace-packages
@@ -88,23 +75,11 @@ jobs:
           registry-url: 'https://registry.npmjs.org/'
 
       
-      - run: corepack enable         # makes pnpm/yarn via Corepack available
-      - run: corepack install        # installs the exact pnpm from packageManager
-
-      # sanity check
-      - run: pnpm -v
-
-      - run: pnpm install            # uses cache if pnpm-lock.yaml is at repo root
-      - run: pnpm -r build           # monorepo example
-      - run: pnpm -r test
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 10.19.0
+      - run: corepack enable       
+      - run: corepack install        
 
       - name: Install
-        run: pnpm install --prefer-workspace-packages
+        run: pnpm install --frozen-lockfile --prefer-workspace-packages
 
       - name: Build (ensure dist exists before publish)
         run: pnpm run build
@@ -119,53 +94,29 @@ jobs:
           commit: "chore(release): publish new versions"
           title: "chore(release): publish new versions"
         env:
+          2FACTOR_TOKEN: ${{ secrets.NPM_2FACTOR_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
   docs:
-    name: Build & Deploy Docs
-    needs: [build-test] # you can switch to [release] if you want docs only after a publish
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     runs-on: ubuntu-latest
-    strategy:
-     matrix:
-      node-version: [20.x]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+
+      # build your site into docs/website/build
+      - uses: actions/setup-node@v4
         with:
-          fetch-depth: 0
+          node-version: 20
+          cache: pnpm
+      - run: corepack enable && corepack install
+      - run: pnpm install --frozen-lockfile --prefer-workspace-packages
+      - run: pnpm run api:docs && pnpm run docs:build
 
-      - name: Setup Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 10.19.0
-
-      - name: Install
-        run: pnpm install --prefer-workspace-packages
-
-      - name: Build docs (TypeDoc)
-        run: pnpm run api:docs && npm run docs:build
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload docs artifact
-        uses: actions/upload-pages-artifact@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: docs/website/build
-
-
-      # - name: Deploy to GitHub Pages (alternative)
-      #   uses: actions/deploy-pages@v4
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/website/build
-          publish_branch: gh-pages
+      - id: deploy
+        uses: actions/deploy-pages@v4

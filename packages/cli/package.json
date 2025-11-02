@@ -38,7 +38,7 @@
 	},
 	"engines": {
 		"node": ">=20.11.0",
-		"pnpm": "10.19.0"
+		"pnpm": ">=10.20.0"
 	},
 	"license": "ISC",
 	"description": "CLI tooling for Abimongo (shim + scaffold command).",

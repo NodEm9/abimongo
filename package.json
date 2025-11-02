@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
-  "packageManager": "pnpm@10.19.0",
+  "packageManager": "pnpm@10.20.0+sha256.47a3352808501b8d1ef20112273b6a5dcfa53d28a55bcce36d268e878bd6bfe9",
   "workspaces": [
     "packages/*"
   ],
@@ -48,7 +48,7 @@
   "homepage": "https://github.com/NodEm9/abimongo#readme",
   "engines": {
     "node": ">=20.11.0",
-    "pnpm": ">=10.19.0"
+    "pnpm": ">=10.20.0"
   },
   "devDependencies": {
     "@abimongo/core": "1.0.3",

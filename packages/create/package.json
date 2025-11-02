@@ -55,6 +55,7 @@
     "@types/node": "^22.18.12",
     "@types/webpack": "^5.28.5",
     "ts-loader": "^9.5.2",
+    "eslint": "^9.23.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "webpack": "^5.99.5",

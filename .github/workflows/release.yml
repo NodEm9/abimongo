@@ -39,6 +39,14 @@ jobs:
         with:
           node-version: '20'
           cache: pnpm  # requires pnpm-lock.yaml at repo root
+      
+      # --- Diagnostics + Corepack activation ---
+      - name: Show Node env
+        run: |
+          node -p "process.versions"
+          which node
+          echo "Shell: $SHELL"
+
 
       - run: corepack enable
       - run: corepack prepare pnpm@10.20.0 --activate   # or your exact version
@@ -82,6 +90,13 @@ jobs:
           node-version: '20'
           cache: pnpm
           registry-url: 'https://registry.npmjs.org/'
+      
+           # --- Diagnostics + Corepack activation ---
+      - name: Show Node env
+        run: |
+          node -p "process.versions"
+          which node
+          echo "Shell: $SHELL"
 
       - run: corepack enable
       - run: corepack prepare pnpm@10.20.0 --activate   # or your exact version
@@ -125,6 +140,13 @@ jobs:
         with:
           node-version: '20'
           cache: 'pnpm'
+        
+        # --- Diagnostics + Corepack activation ---
+      - name: Show Node env
+        run: |
+          node -p "process.versions"
+          which node
+          echo "Shell: $SHELL"
 
       - run: corepack enable
       - run: corepack prepare pnpm@10.20.0 --activate   # or your exact version

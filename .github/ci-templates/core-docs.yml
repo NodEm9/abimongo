@@ -22,15 +22,18 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
-      - name: Setup Node
+      - name: Setup Node + cache (pnpm)
         uses: actions/setup-node@v4
         with:
-          node-version:  ${{ matrix.node-version }}
+          node-version: '20'
+          cache: pnpm  # requires pnpm-lock.yaml at repo root
 
-      - name: Install Dependencies
-        run: pnpm install
-
+      - run: corepack enable
+      - run: corepack prepare pnpm@10.20.0 --activate   # or your exact version
+      - run: pnpm -v                                     # should print 10.20.0
+    
+      - name: Install deps
+        run: pnpm install --frozen-lockfile --link-workspace-packages   
       - name: 🛠️ Generate Docs 
         run: npx typedoc --entryPoints src/index.ts --tsconfig tsconfig.json
 

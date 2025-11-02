@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MultiTenantManager } from '../../tanancy/MultiTenantManager';
 import { MongoClient } from 'mongodb';
-// import { bufferedTransporter } from '../../utils';
+import { shutdownLogger } from '@abimongo/logger';
 
 
 jest.mock('mongodb', () => {
@@ -82,8 +81,6 @@ describe('MultiTenantManager', () => {
 	});
 	afterAll(async () => {
 		jest.resetAllMocks();
-		// await bufferedTransporter.stop();
-		const shutdownLogger = require('@abimongo/logger').shutdownLogger;
 		await shutdownLogger();
 	});
 });

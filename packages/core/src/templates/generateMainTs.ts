@@ -1,4 +1,4 @@
-import { ProjectOptions, AbimongoConfig } from '../types/AbimongoConfig'
+import { AbimongoConfig } from '../types/AbimongoConfig'
 
 
 export function generateMainTS(options: AbimongoConfig): string {

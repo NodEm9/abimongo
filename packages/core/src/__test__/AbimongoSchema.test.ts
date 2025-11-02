@@ -2,6 +2,7 @@ import { Collection } from "mongodb";
 import { AbimongoSchema } from "../lib-core";
 import { Document, Relationship, SchemaDefinition } from "../types";
 import { bufferedTransporter } from "../utils";
+import { shutdownLogger } from '@abimongo/logger';
 
 
 
@@ -10,7 +11,6 @@ describe('AbimongoSchema', () => {
 		expect(AbimongoSchema).toBeDefined();
 	});
 	afterAll(async () => {
-		const { shutdownLogger } = require('@abimongo/logger');
 		await shutdownLogger();
 	});
 });
@@ -66,7 +66,6 @@ describe('schema', () => {
 		});
 
 		afterAll(async () => {
-			const { shutdownLogger } = require('@abimongo/logger');
 			await shutdownLogger();
 		});
 	});
@@ -117,7 +116,6 @@ describe('schema', () => {
 		});
 
 		afterAll(async () => {
-			const { shutdownLogger } = require('@abimongo/logger');
 			await shutdownLogger();
 		});
 	});
@@ -293,7 +291,6 @@ describe('schema', () => {
 	afterAll(async () => {
 		schema = null as any;
 		await bufferedTransporter.stop();
-		const { shutdownLogger } = require('@abimongo/logger');
 		await shutdownLogger();
 	});
 

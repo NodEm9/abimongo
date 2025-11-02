@@ -1,7 +1,6 @@
 import path from 'path';
 import {
   BufferedTransporter,
-  AdvancedRollingFileTransporter,
   createRotatingFileTransporter
 } from '../transports';
 import { MetricsTracker, clearAllTimers, formatMsg } from '../utils';
@@ -17,6 +16,7 @@ interface LoggerOptions {
   flushInterval?: number;
   flushSize?: number;
   colorize?: boolean;
+  compress?: boolean;
 }
 
 interface LogMeta {
@@ -90,7 +90,7 @@ export class AbimongoLogger {
         frequency: 'daily',
         maxSize: 5 * 1024 * 1024, // 10 MB 
         backupCount: 5,
-        compress: true || false,
+        compress: this.options.compress ? true : false,
         flushInterval: this.options.flushInterval
       })
 

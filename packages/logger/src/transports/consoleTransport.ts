@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { LogLevel, Transporter } from '../types';
 import { colorByLevel } from '../logger';
 import { formatConsole, now } from '../utils'; 

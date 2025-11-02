@@ -175,7 +175,7 @@ const graphql = app.getGraphQL();
       execSync(`npm install -D typescript ts-node @types/node`, { cwd: projectRoot, stdio: 'inherit' });
       console.log(colorize(`[Installing dev dependencies]: Installed dev dependencies.`, 'green'));
     } catch (err) {
-      console.log(colorize(`⚠️  Dependency installation failed or was interrupted. Skipping install.`, 'yellow'));
+      console.log(colorize(`⚠️  Dependency installation failed or was interrupted. Skipping install.`, 'yellow'), err);
     }
   } else {
     console.log(colorize(`[Skipping install]: To auto-install dependencies during scaffold set advanced.autoInstall=true in options.`, 'blue'));

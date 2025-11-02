@@ -1,5 +1,4 @@
 import { AbimongoModel } from "../lib-core";
-import { Document } from "../types";
 
 const modelRegistry = new Set<AbimongoModel<any>>();
 
@@ -57,13 +56,18 @@ export const AbimongoModelRegistry = {
 };
 
 
+/**
+ * Array to keep track of registered models for testing purposes.
+ */
 const registeredModels: AbimongoModel<any>[] = [];
 
- function registerModel(model: AbimongoModel<any>) {
-  registeredModels.push(model);
+/**
+ * Clears the model registry for testing purposes. 
+ * @param {AbimongoModel<any>} model - The model to register.
+ */
+export function clearModelRegistryForTests() {
+  for (const model of registeredModels) {
+    AbimongoModelRegistry.unregisterModel(model);
+  }
+  registeredModels.length = 0;
 }
-
- function getRegisteredModels(): AbimongoModel<any[]>[] {
-  return registeredModels;
-}
-

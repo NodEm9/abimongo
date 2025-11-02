@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 import { Command } from 'commander';
 import { spawn, spawnSync } from 'child_process';
 import path from 'path';

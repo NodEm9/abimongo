@@ -41,7 +41,7 @@ describe('createLogger', () => {
 
 	it('should not log messages below the configured level', () => {
 		config.level = 'warn';
-		const logger = createLogger(config);
+		createLogger(config);
 
 		expect(mockTransport.write).not.toHaveBeenCalled();
 		expect(mockLogger.info).not.toHaveBeenCalled();

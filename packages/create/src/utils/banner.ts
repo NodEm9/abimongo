@@ -12,7 +12,8 @@ export function showBanner() {
     console.log(colorize(banner, 'cyan'));
   } catch (error) {
     console.warn(
-      colorize('⚠️ Figlet font not found or failed to load. Displaying fallback banner.', 'yellow')
+      colorize('⚠️ Figlet font not found or failed to load. Displaying fallback banner.', 'yellow'),
+      error
     );
     console.log(colorize('=== Abimongo CLI ===', 'cyan'));
   }

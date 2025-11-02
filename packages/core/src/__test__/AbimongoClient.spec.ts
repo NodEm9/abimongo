@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { shutdownLogger } from "@abimongo/logger";
+
 // Prevent real logger transports from starting timers during tests by mocking
 // the '@abimongo/logger' module before other imports run.
 jest.mock('@abimongo/logger', () => ({
@@ -706,7 +707,6 @@ describe('AbimongoClient', () => {
 		// Clean up any resources if necessary
 		driver = null as any; // Clear the driver instance
 		jest.clearAllMocks();
-		const { shutdownLogger } = require('@abimongo/logger');
 		await shutdownLogger();
 	});
 	afterEach(() => {

@@ -14,7 +14,7 @@ export interface RotatingFileTransporterOptions {
 
 
 // Initialize metrics tracker
-let transport: Map<string, BufferedTransporter> = new Map()
+const transport: Map<string, BufferedTransporter> = new Map()
 
 /**
  * Creates a rotating file transporter for logging.

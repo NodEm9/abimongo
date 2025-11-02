@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getTenantModel } from '../../tanancy/TenantModelResolver';
 import { MultiTenantManager } from '../../tanancy/MultiTenantManager';
 import { TenantContext } from '../../tanancy/TenantContext';
@@ -6,6 +5,7 @@ import { createModel } from '../../utils/builders/createModel';
 import { ensureModelNameSafe } from '../../utils/ensureModelNameSafe';
 import { AbimongoSchema } from '../../lib-core';
 import { bufferedTransporter } from '../../utils';
+import { shutdownLogger } from '@abimongo/logger';
 
 jest.mock('../../tanancy/MultiTenantManager');
 jest.mock('../../tanancy/TenantContext');
@@ -68,7 +68,6 @@ describe('getTenantModel', () => {
 		afterAll(async () => {
 			jest.resetAllMocks();
 			await bufferedTransporter?.stop();
-			const shutdownLogger = require('@abimongo/logger').shutdownLogger;
 			await shutdownLogger();
 		});
 });

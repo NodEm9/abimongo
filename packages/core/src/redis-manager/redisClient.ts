@@ -41,7 +41,7 @@ export const redis: any = {
           await (currentClient as any).quit();
         }
       } catch (err) {
-        // swallow
+        // swallow errors on disconnect
       }
     }
     currentClient = null;

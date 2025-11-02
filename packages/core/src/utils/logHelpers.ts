@@ -4,7 +4,6 @@ import {
 	createLokiTransport,
 	createResilientTransporter,
 	createRotatingFileTransporter,  
-	FileTransporter,
 } from '@abimongo/logger';  
 
 

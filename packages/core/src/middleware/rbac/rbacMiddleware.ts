@@ -10,7 +10,7 @@ declare module "express-serve-static-core" {
 };
 
 
-const tenantCache: Map<string, any> = new Map();
+// const tenantCache: Map<string, any> = new Map();
 
 /**
  * Check if a user has a specific permission

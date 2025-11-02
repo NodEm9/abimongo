@@ -3,7 +3,7 @@ import { AbimongoGraphQL } from '../graphql/AbimongoGraphQL';
 import { invalidateTenantCache } from '../middleware/rbac/rbacMiddleware';
 import { connectRedis } from '../redis-manager';
 import { bufferedTransporter } from '../utils';
-
+import { shutdownLogger } from '@abimongo/logger';
 
 
 jest.mock('../redis-manager/redisClient');
@@ -279,7 +279,6 @@ describe('AbimongoGraphQL', () => {
 		await mockRedisClient.disconnect();
 		abimongo = null as any;
 		await bufferedTransporter.stop();
-		const { shutdownLogger } = require('@abimongo/logger');
 		await shutdownLogger();
 	});
 

@@ -1,6 +1,7 @@
 /* Integration test: ensure AbimongoBootstrap.initialize completes when Redis is absent.
 	 This test mocks the Redis layer to simulate an unreachable Redis server and
 	 verifies that initialize() resolves (doesn't hang or throw). */
+import { shutdownLogger } from '@abimongo/logger';
 
 jest.setTimeout(20000);
 
@@ -68,7 +69,6 @@ describe('AbimongoBootstrap (integration) - redis absent', () => {
 		await expect(bootstrap.shutdown()).resolves.not.toThrow();
 	});
 	afterAll(async () => {
-		const shutdownLogger = require('@abimongo/logger').shutdownLogger;
 		await shutdownLogger();
 	})
 });

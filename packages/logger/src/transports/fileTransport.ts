@@ -1,4 +1,3 @@
-// src/transporters/FileTransporter.ts
 import * as fs from 'fs';
 import { now } from '../utils';
 import { Transporter, LogLevel, LogEntry } from '../types';

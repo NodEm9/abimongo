@@ -2,7 +2,7 @@ import { consoleTransport } from "../transports";
 
 
 describe("consoleTransport", () => {
-	const mockWrite = jest.fn();
+	// const mockWrite = jest.fn();
 
 	beforeEach(() => {
 		jest.clearAllMocks();
@@ -20,7 +20,7 @@ describe("consoleTransport", () => {
 	it("should write messages to the console with color", async () => {
 		const transport = consoleTransport(false);
 		const color = { blue: (text: string) => text }
-		let logMessageWithColor = await transport.write("Test message 1","info");
+		const logMessageWithColor = await transport.write("Test message 1","info");
 		const msgColor = color.blue(`${logMessageWithColor}`);
 		expect(msgColor).toBeDefined();
 	});

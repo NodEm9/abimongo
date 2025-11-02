@@ -9,11 +9,11 @@ import { shutdownLogger } from '@abimongo/logger';
  * tiny in-memory mock of the MongoDB collection API used by the GC.
  */
 describe('AbimongoGC (mocked DB)', () => {
-  let gc = new AbimongoGC({ interval: '1s' });
+  const gc = new AbimongoGC({ interval: '1s' });
 
   // Simple in-memory collection mock
   function createFakeCollection(name = 'posts') {
-    let docs: any[] = [];
+    const docs: any[] = [];
     return {
       collectionName: name,
       async insertOne(doc: any) {

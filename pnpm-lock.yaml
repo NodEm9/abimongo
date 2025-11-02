@@ -42,6 +42,9 @@ importers:
       '@docusaurus/types':
         specifier: ^3.9.2
         version: 3.9.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@eslint/js':
+        specifier: ^9.39.0
+        version: 9.39.0
       '@types/node':
         specifier: ^24.8.1
         version: 24.9.2
@@ -93,6 +96,9 @@ importers:
       typescript-cached-transpile:
         specifier: ^0.0.6
         version: 0.0.6(typescript@5.9.3)
+      typescript-eslint:
+        specifier: 8.30.1
+        version: 8.30.1(eslint@9.39.0(jiti@1.21.7))(typescript@5.9.3)
 
   packages/cli:
     dependencies:
@@ -402,9 +408,18 @@ importers:
       '@types/webpack':
         specifier: ^5.28.5
         version: 5.28.5(webpack-cli@6.0.1(webpack@5.102.1))
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^8.46.2
+        version: 8.46.2(@typescript-eslint/parser@8.46.2(eslint@9.39.0(jiti@1.21.7))(typescript@5.9.3))(eslint@9.39.0(jiti@1.21.7))(typescript@5.9.3)
+      '@typescript-eslint/parser':
+        specifier: ^8.46.2
+        version: 8.46.2(eslint@9.39.0(jiti@1.21.7))(typescript@5.9.3)
       eslint:
         specifier: ^9.23.0
         version: 9.39.0(jiti@1.21.7)
+      eslint-config-prettier:
+        specifier: ^10.1.8
+        version: 10.1.8(eslint@9.39.0(jiti@1.21.7))
       ts-loader:
         specifier: ^9.5.2
         version: 9.5.4(typescript@5.9.3)(webpack@5.102.1)

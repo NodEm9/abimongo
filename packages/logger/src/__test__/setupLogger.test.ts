@@ -1,4 +1,4 @@
- import { setupLogger } from '../logger';
+import { setupLogger } from '../logger';
 
 describe('setupLogger', () => {
   let mockTransporter: { write: jest.Mock };

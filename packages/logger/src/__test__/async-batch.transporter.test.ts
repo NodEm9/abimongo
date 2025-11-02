@@ -131,7 +131,7 @@ describe('AsyncBatchTransporter', () => {
 
 	it('should return true if timer is equal to setInterval ', () => {
 		const timer = transporter['timer'];
-		let setInterval = jest.fn().mockReturnValue(timer);
+		const setInterval = jest.fn().mockReturnValue(timer);
 		expect(timer).toBeDefined();
 		expect(timer).toEqual(setInterval(() => transporter.flush(), transporter['flushInterval']));
 	});

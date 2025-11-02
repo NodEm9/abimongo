@@ -12,7 +12,8 @@ export function showBanner() {
     console.log(colorByLevel('info', banner));
   } catch (error) {
     console.warn(
-      colorByLevel('warn', 'Figlet font not found or failed to load. Displaying fallback banner.')
+      colorByLevel('warn', 'Figlet font not found or failed to load. Displaying fallback banner.'),
+      error
     );
     console.log(colorByLevel('info', '=== Abimongo Core CLI ==='));
   }

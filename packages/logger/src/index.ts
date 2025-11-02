@@ -3,8 +3,7 @@
  * Defines and exports the core Logger functionality, transports, and utilities.
  * @module Logger
  */
-import { createLogger } from './logger';
-import { AbimongoConfig } from './types';
+import { createLogger } from './logger';;
 
 
 declare global {

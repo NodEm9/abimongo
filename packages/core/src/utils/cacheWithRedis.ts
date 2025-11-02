@@ -1,5 +1,3 @@
-// import { logger } from '../config';
-import { RedisClientType } from 'redis';
 import { redis } from '../redis-manager';
 
 /**

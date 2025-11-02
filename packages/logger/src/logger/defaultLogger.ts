@@ -1,6 +1,5 @@
 import { LogLevel, LogMeta } from '../types';
 
-
 export const DefaultLogger = {
   log: (level: LogLevel, message: string, meta?: LogMeta) => { },
   trace: (...args: any[]) => { },

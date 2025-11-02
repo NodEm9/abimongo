@@ -1,6 +1,7 @@
 import { AbimongoModel, AbimongoSchema, AbimongoClient } from "../lib-core";
 import { ClientSession, Collection, Db, MongoClient, ObjectId } from "mongodb";
 import { bufferedTransporter } from "../utils";
+import { shutdownLogger } from '@abimongo/logger';
 
 
 type MockTenantDB = {
@@ -28,7 +29,6 @@ jest.mock('redis', () => {
 
 
 describe('AbimongoModel', () => {
-	const tenantId = jest.fn();
 	const collectionName = 'users';
 
 	let model: AbimongoModel<TestDocument>;
@@ -646,7 +646,6 @@ describe('AbimongoModel', () => {
 
 	afterAll(async () => {
 		await bufferedTransporter.stop();
-		const { shutdownLogger } = require('@abimongo/logger');
 		await shutdownLogger();
 	});
 
@@ -761,8 +760,6 @@ describe('AbimongoModel.updateWithTransaction', () => {
 	});
 
 	afterAll(async () => {
-		// await bufferedTransporter.stop(); // or however you're exposing it
-		const { shutdownLogger } = require('@abimongo/logger');
 		await shutdownLogger();
 	});
 

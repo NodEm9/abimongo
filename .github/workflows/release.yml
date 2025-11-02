@@ -3,7 +3,13 @@ name: CI • Publish • Docs
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+       - 'tests/**'
+       - 'examples/**'
+       - 'log/abimongo.log'
+       - 'records.json'
   workflow_dispatch:
+
 
 # Permissions required by:
 # - changesets/action (creates PR/commits)
@@ -58,6 +64,8 @@ jobs:
           name: abimongo-dist
           path: packages/**/dist
           retention-days: 7
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
   release:
     name: Publish to npm (Changesets)
@@ -74,13 +82,18 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
+          cache: pnpm
+          cache-dependency-path: ./pnpm-lock.yaml
           registry-url: 'https://registry.npmjs.org/'
 
+      # Make pnpm available and pinned to 10.19.0
       - name: Enable Corepack
         run: corepack enable
+      - run: corepack prepare pnpm@10.19.0 --activate   # more explicit than `corepack install`
       - name: Install package managers via Corepack
         run: corepack install
+      - run: pnpm -v                                    # should print 10.19.0
+        
 
       - name: Install deps
         run: pnpm install --frozen-lockfile --prefer-workspace-packages

@@ -33,9 +33,9 @@ jobs:
           registry-url: 'https://registry.npmjs.org/'
 
       - name: Setup pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@10.19.0 --activate
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.19.0
 
       - name: Install (workspaces)
         run: pnpm install --frozen-lockfile --prefer-workspace-packages
@@ -77,9 +77,9 @@ jobs:
           registry-url: 'https://registry.npmjs.org/'
 
       - name: Setup pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@10.19.0 --activate
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.19.0
 
       - name: Install
         run: pnpm install --frozen-lockfile --prefer-workspace-packages
@@ -119,9 +119,9 @@ jobs:
           cache: 'pnpm'
 
       - name: Setup pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@10.19.0 --activate
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.19.0
 
       - name: Install
         run: pnpm install --frozen-lockfile --prefer-workspace-packages

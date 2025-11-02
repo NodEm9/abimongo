@@ -56,8 +56,12 @@
     "@docusaurus/preset-classic": "^3.9.2",
     "@docusaurus/types": "^3.9.2",
     "@types/node": "^24.8.1",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@typescript-eslint/parser": "^8.46.2",
     "docusaurus": "^0.0.2",
     "docusaurus-plugin-typedoc": "^1.4.2",
+    "eslint": "^9.39.0",
+    "eslint-config-prettier": "^10.1.8",
     "gh-pages": "^6.3.0",
     "highlight.js": "^11.11.1",
     "react": "^19.2.0",
@@ -68,6 +72,7 @@
     "typedoc-plugin-markdown": "^4.9.0",
     "typescript": "^5.9.3",
     "typescript-cached-transpile": "^0.0.6"
+    
   },
   "dependencies": {
     "@abimongo/cli": "workspace:*",

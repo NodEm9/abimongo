@@ -22,7 +22,7 @@ jobs:
           corepack prepare pnpm@10.20.0 --activate
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --prefer-workspace-packages
+        run: pnpm install --no--frozen-lockfile --prefer-workspace-packages
       - name: Run tests
         run: pnpm test
 
@@ -44,7 +44,7 @@ jobs:
           corepack enable
           corepack prepare pnpm@10.20.0 --activate
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --prefer-workspace-packages
+        run: pnpm install --no--frozen-lockfile --prefer-workspace-packages
         
       - name: Build Docusaurus site
         working-directory: ./

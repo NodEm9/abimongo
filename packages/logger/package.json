@@ -27,6 +27,11 @@
     },
     "./package.json": "./package.json"
   },
+    "release": {
+    "branches": [
+      "main"
+    ]
+  },
   "scripts": {
     "start": "ts-node src/index.ts",
     "dev": "ts-node --project tsconfig.json src/index.ts",
@@ -36,8 +41,9 @@
     "release": "pnpm changeset version && pnpm install && pnpm build && changeset publish",
     "typedoc": "typedoc --options typedoc.json",
     "clean": "rimraf dist",
+    "prepublishOnly": "pnpm run build",
     "prepack": "pnpm build",
-    "publish": "pnpm --recursive publish --tag latest --no-git-checks"
+    "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks"
   },
   "keywords": [
     "abimongo",

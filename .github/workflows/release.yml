@@ -39,19 +39,12 @@ jobs:
         with:
           node-version: '20'
           cache: pnpm  # requires pnpm-lock.yaml at repo root
-          cache-dependency-path: ../../pnpm-lock.yaml
 
       # Make pnpm available and pinned to 10.20.0
       - uses: pnpm/action-setup@v4
         with:
          version: 10.20.0       # or omit to read from packageManager
          run_install: false
-
-      # Use Corepack to get pnpm that matches "packageManager" in package.json
-      # - name: Enable Corepack
-      #   run: corepack enable
-      # - name: Install package managers via Corepack
-      #   run: corepack install
 
       - name: Install deps
         run: pnpm install --frozen-lockfile --prefer-workspace-packages
@@ -99,13 +92,6 @@ jobs:
         with:
          version: 10.20.0       # or omit to read from packageManager
          run_install: false
-      # - name: Enable Corepack
-      #   run: corepack enable
-      # - run: corepack prepare pnpm@10.20.0 --activate   # more explicit than `corepack install`
-      # # - name: Install package managers via Corepack
-      # #   run: corepack install
-      # - run: pnpm -v                                    # should print 10.20.0
-        
 
       - name: Install deps
         run: pnpm install --frozen-lockfile --prefer-workspace-packages

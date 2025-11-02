@@ -30,8 +30,14 @@
     "lint": "eslint src",
     "changeset": "pnpm run changeset",
     "release": "pnpm changeset version",
+    "prepublishOnly": "pnpm run build",
     "prepack": "pnpm build",
-    "publish": "pnpm --recursive publish --tag latest --no-git-checks"
+    "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
   },
   "keywords": [],
   "author": "Emmanuel Nodolomwanyi",
@@ -55,7 +61,7 @@
     "webpack-cli": "^6.0.1"
   },
   "dependencies": {
-    "@abimongo/logger": "1.0.0",
+    "@abimongo/logger": "workspace:*",
     "commander": "^14.0.2",
     "figlet": "^1.8.1",
     "fs-extra": "^11.3.2",

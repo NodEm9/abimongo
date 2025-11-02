@@ -49,8 +49,9 @@
     "docusaurus:build": "cd website && pnpm docusaurus build",
     "docusaurus:start": "cd website && pnpm docusaurus start",
     "docusaurus:deploy": "cd website && pnpm docusaurus deploy",
+    "prepublishOnly": "pnpm run build",
     "prepack": "pnpm build",
-    "publish": "pnpm --recursive publish --tag latest --no-git-checks"
+    "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks"
   },
   "release": {
     "branches": [
@@ -72,7 +73,7 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "@abimongo/logger": "1.0.0",
+    "@abimongo/logger": "workspace:*",
     "@babel/runtime": "^7.27.1",
     "commander": "^14.0.2",
     "docusaurus": "^0.0.2",

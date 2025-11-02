@@ -103,8 +103,8 @@ export default function runCLI() {
           dev: "node index.js"
         },
         dependencies: {
-          '@abimongo/core': 'workspace:^1.0.0',
-          '@abimongo/logger': 'workspace:^1.0.0'
+          '@abimongo/core': 'workspace:*',
+          '@abimongo/logger': 'workspace:*'
         }
       };
       await fs.writeJson(path.join(target, 'package.json'), pkg, { spaces: 2 });

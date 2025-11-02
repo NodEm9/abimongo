@@ -11,7 +11,7 @@ const program = new Command();
 
 function initProject() {
   program
-    .name('abimongo-cli')
+    .name('abimongo-create')
     .description('CLI to generate and manage yout favorite framework projects')
     .version('1.0.0');
 

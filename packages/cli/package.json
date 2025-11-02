@@ -1,8 +1,9 @@
 {
 	"name": "@abimongo/cli",
 	"version": "1.0.0",
+	"private": true,
 	"publishConfig": {
-		"access": "public"
+		"access": "restricted"
 	},
 	"main": "dist/abimongo_cli.js",
 	"types": "dist/abimongo_cli.d.ts",
@@ -30,10 +31,15 @@
 		"prepack": "pnpm build",
 		"publish": " pnpm --recursive publish --no-git-checks"
 	},
+	"release": {
+		"branches": [
+			"main"
+		]
+	},
 	"dependencies": {
-		"@abimongo/core": "1.0.1",
-		"@abimongo/create": "1.0.1",
-		"@abimongo/logger": "1.0.0",
+		"@abimongo/logger": "workspace:*",
+		"@abimongo/core": "workspace:*",
+		"@abimongo/create": "workspace:*",
 		"commander": "^14.0.2"
 	},
 	"engines": {

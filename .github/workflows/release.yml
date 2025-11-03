@@ -114,6 +114,9 @@ jobs:
       - name: Build (ensure dist exists before publish)
         run: pnpm run build
 
+      - name: Prepare Changesets config (use GH adapter when GH_TOKEN available)
+        run: node ./scripts/set-changeset-changelog.js
+
       - name: Create Release PR or Publish (Changesets)
         uses: changesets/action@v1
         with:

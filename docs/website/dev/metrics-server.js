@@ -171,10 +171,7 @@ function _pruneSigintListenersKeep(keep) {
   }
 }
 
-tryInitDb().catch(() => { }).then(() => {
-  // prune again after DB init; some libs register signal handlers during init
-  _pruneSigintListenersKeep(_onSigint);
-});
+tryInitDb().catch(() => { });
 
 load();
 

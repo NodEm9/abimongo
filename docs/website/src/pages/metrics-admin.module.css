@@ -2,6 +2,9 @@
 	padding: 24px;
 	max-width: 1100px;
 	margin: 0 auto;
+	box-sizing: border-box;
+	width: 100%;
+	min-width: 0;
 }
 
 .controls {
@@ -15,6 +18,8 @@
 	border: 1px solid #e5e7eb;
 	border-radius: 8px;
 	overflow: hidden;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .gridHeader {
@@ -33,10 +38,12 @@
 	padding: 12px;
 	align-items: center;
 	border-top: 1px solid #f3f4f6;
+	min-width: 0;
 }
 
 .cell {
 	display: block;
+	min-width: 0;
 }
 
 .monospace {
@@ -92,5 +99,10 @@
 
 	input {
 		width: 100% !important;
+	}
+
+	.input {
+		width: 100%;
+		box-sizing: border-box;
 	}
 }

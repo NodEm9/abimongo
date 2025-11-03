@@ -75,13 +75,13 @@ export default function MetricsAdmin() {
             <div key={m.id} className={styles.gridRow}>
               <div className={`${styles.cell} ${styles.monospace}`} data-label="ID">{m.id}</div>
               <div className={styles.cell} data-label="Label">
-                <input value={m.label || ''} onChange={(e) => updateMetric(m.id, { label: e.target.value })} style={{ width: '98%' }} />
+                <input className={styles.input} value={m.label || ''} onChange={(e) => updateMetric(m.id, { label: e.target.value })} />
               </div>
               <div className={styles.cell} data-label="Value">
-                <input value={String(m.value ?? '')} onChange={(e) => updateMetric(m.id, { value: isNaN(Number(e.target.value)) ? e.target.value : Number(e.target.value) })} style={{ width: '98%' }} />
+                <input className={styles.input} value={String(m.value ?? '')} onChange={(e) => updateMetric(m.id, { value: isNaN(Number(e.target.value)) ? e.target.value : Number(e.target.value) })} />
               </div>
               <div className={styles.cell} data-label="Unit">
-                <input value={m.unit || ''} onChange={(e) => updateMetric(m.id, { unit: e.target.value })} style={{ width: '98%' }} />
+                <input className={styles.input} value={m.unit || ''} onChange={(e) => updateMetric(m.id, { unit: e.target.value })} />
               </div>
               <div className={styles.cell} data-label="Actions">
                 <div className={styles.actions}>

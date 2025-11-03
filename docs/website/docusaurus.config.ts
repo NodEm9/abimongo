@@ -191,16 +191,8 @@ const config: Config = {
 		},
 	} satisfies Preset.ThemeConfig,
 
-	// @ts-expect-error - devServer proxy is helpful during local docs development to forward /api to the metrics server
-	devServer: {
-		proxy: {
-			'/api': {
-				target: 'http://localhost:9003',
-				changeOrigin: true,
-				secure: false,
-			},
-		},
-	},
+	// NOTE: devServer proxy removed because Docusaurus config does not accept this field.
+	// Use a local reverse proxy or set iframe to the metrics server URL directly during development.
 };
 
 export default config;

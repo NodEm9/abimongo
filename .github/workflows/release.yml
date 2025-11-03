@@ -65,6 +65,9 @@ jobs:
       - name: Build
         run: pnpm run build
 
+      - name: Build workspaces (ensures logger before core)
+        run: pnpm run build:ordered
+
       - name: Save dist artifacts (optional)
         uses: actions/upload-artifact@v4
         with:
@@ -160,6 +163,9 @@ jobs:
       # If you DON'T have a lock yet, use --no-frozen-lockfile
       - name: Install
         run: pnpm install --no-frozen-lockfile --link-workspace-packages
+
+      - name: Build workspaces (ensures logger before core)
+        run: pnpm run build:ordered
 
       - name: Build docs (TypeDoc + Docusaurus)
         run: pnpm run api:docs 

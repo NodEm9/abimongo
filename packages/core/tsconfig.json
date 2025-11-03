@@ -5,7 +5,10 @@
     "outDir": "./dist",                                                                                                                                                                     
     "composite": true,
     "declaration": true,  
-    "resolveJsonModule": true                             
+    "resolveJsonModule": true,  
+    "paths": {
+      "@abimongo/logger": ["../logger/src/index.ts"] // Path mapping for local package
+      }                          
   },
   "include": [
     "index.ts",

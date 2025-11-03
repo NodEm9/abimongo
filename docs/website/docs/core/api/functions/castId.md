@@ -8,7 +8,7 @@
 
 > **castId**(`inputId?`): `ObjectId`
 
-Defined in: [core/src/utils/castId.ts:48](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/utils/castId.ts#L48)
+Defined in: [core/src/utils/castId.ts:48](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/utils/castId.ts#L48)
 
 ## Parameters
 

@@ -6,7 +6,7 @@
 
 > **colorByLevel**(`level`, `message`): `string`
 
-Defined in: [logger/colorizer.ts:11](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/logger/colorizer.ts#L11)
+Defined in: [logger/colorizer.ts:11](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/logger/colorizer.ts#L11)
 
 Colorizes a log message based on its level.
 

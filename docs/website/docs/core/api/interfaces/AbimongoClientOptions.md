@@ -6,7 +6,7 @@
 
 # Interface: AbimongoClientOptions
 
-Defined in: [core/src/types/abimongo.client.type.ts:29](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/types/abimongo.client.type.ts#L29)
+Defined in: [core/src/types/abimongo.client.type.ts:29](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/types/abimongo.client.type.ts#L29)
 
 Options for configuring the AbimongoClient.
 
@@ -16,7 +16,7 @@ Options for configuring the AbimongoClient.
 
 > `optional` **client**: `MongoClient`
 
-Defined in: [core/src/types/abimongo.client.type.ts:43](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/types/abimongo.client.type.ts#L43)
+Defined in: [core/src/types/abimongo.client.type.ts:43](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/types/abimongo.client.type.ts#L43)
 
 An optional MongoClient instance.
 
@@ -26,7 +26,7 @@ An optional MongoClient instance.
 
 > `optional` **collectionName**: `string`
 
-Defined in: [core/src/types/abimongo.client.type.ts:38](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/types/abimongo.client.type.ts#L38)
+Defined in: [core/src/types/abimongo.client.type.ts:38](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/types/abimongo.client.type.ts#L38)
 
 The name of the collection to use.
 
@@ -36,7 +36,7 @@ The name of the collection to use.
 
 > `optional` **config**: [`AbimongoConfig`](AbimongoConfig.md)
 
-Defined in: [core/src/types/abimongo.client.type.ts:48](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/types/abimongo.client.type.ts#L48)
+Defined in: [core/src/types/abimongo.client.type.ts:48](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/types/abimongo.client.type.ts#L48)
 
 Optional configuration for Abimongo.
 
@@ -46,6 +46,6 @@ Optional configuration for Abimongo.
 
 > `optional` **dbName**: `string`
 
-Defined in: [core/src/types/abimongo.client.type.ts:33](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/types/abimongo.client.type.ts#L33)
+Defined in: [core/src/types/abimongo.client.type.ts:33](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/types/abimongo.client.type.ts#L33)
 
 The name of the database to connect to.

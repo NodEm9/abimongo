@@ -8,7 +8,7 @@
 
 > **createSchema**\<`T`\>(`schema`): [`AbimongoSchema`](../classes/AbimongoSchema.md)\<`T`\>
 
-Defined in: [core/src/utils/builders/schema.ts:23](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/utils/builders/schema.ts#L23)
+Defined in: [core/src/utils/builders/schema.ts:23](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/utils/builders/schema.ts#L23)
 
 Creates a new AbimongoSchema instance with the provided schema definition.
 

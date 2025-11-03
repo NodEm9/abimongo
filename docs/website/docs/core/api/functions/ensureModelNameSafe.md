@@ -8,7 +8,7 @@
 
 > **ensureModelNameSafe**(`modelName`): `string`
 
-Defined in: [core/src/utils/ensureModelNameSafe.ts:11](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/utils/ensureModelNameSafe.ts#L11)
+Defined in: [core/src/utils/ensureModelNameSafe.ts:11](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/utils/ensureModelNameSafe.ts#L11)
 
 Ensures that the provided model name is a valid, non-empty string.
 Throws an error if the model name is invalid.

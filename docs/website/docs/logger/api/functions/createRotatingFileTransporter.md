@@ -6,7 +6,7 @@
 
 > **createRotatingFileTransporter**(`options?`): [`BufferedTransporter`](../classes/BufferedTransporter.md) \| \{ `close`: () => `Promise`\<`void`\>; `flush`: () => `Promise`\<`void`\>; `write`: (`message`) => `Promise`\<`void`\>; \}
 
-Defined in: [transports/rotating.transporter.ts:38](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/transports/rotating.transporter.ts#L38)
+Defined in: [transports/rotating.transporter.ts:38](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/transports/rotating.transporter.ts#L38)
 
 Creates a rotating file transporter for logging.
 

@@ -4,7 +4,7 @@
 
 # Interface: Transporter
 
-Defined in: [types/logger.types.ts:12](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/logger.types.ts#L12)
+Defined in: [types/logger.types.ts:12](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/types/logger.types.ts#L12)
 
 ## Methods
 
@@ -12,7 +12,7 @@ Defined in: [types/logger.types.ts:12](https://github.com/NodEm9/abimongo/blob/9
 
 > `optional` **close**(): `void`
 
-Defined in: [types/logger.types.ts:15](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/logger.types.ts#L15)
+Defined in: [types/logger.types.ts:15](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/types/logger.types.ts#L15)
 
 #### Returns
 
@@ -24,7 +24,7 @@ Defined in: [types/logger.types.ts:15](https://github.com/NodEm9/abimongo/blob/9
 
 > `optional` **flush**(): `Promise`\<`void`\>
 
-Defined in: [types/logger.types.ts:14](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/logger.types.ts#L14)
+Defined in: [types/logger.types.ts:14](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/types/logger.types.ts#L14)
 
 #### Returns
 
@@ -36,7 +36,7 @@ Defined in: [types/logger.types.ts:14](https://github.com/NodEm9/abimongo/blob/9
 
 > **write**(`message`, `level?`, `meta?`): `Promise`\<`void`\>
 
-Defined in: [types/logger.types.ts:13](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/logger.types.ts#L13)
+Defined in: [types/logger.types.ts:13](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/types/logger.types.ts#L13)
 
 #### Parameters
 

@@ -8,7 +8,7 @@
 
 > **setLogger**(`loggerConfig`): `ILogger`
 
-Defined in: [core/src/utils/logger.ts:9](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/utils/logger.ts#L9)
+Defined in: [core/src/utils/logger.ts:9](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/utils/logger.ts#L9)
 
 Initialize and return the project logger.
 This function is defensive about the shape of the passed config so callers

@@ -8,7 +8,7 @@
 
 > **HookFunction** = (`data`) => `Promise`\<`void`\>
 
-Defined in: [core/src/types/schema.type.ts:24](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/types/schema.type.ts#L24)
+Defined in: [core/src/types/schema.type.ts:24](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/types/schema.type.ts#L24)
 
 Represents a hook function for middleware.
 

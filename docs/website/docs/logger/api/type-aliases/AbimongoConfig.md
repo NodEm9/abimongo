@@ -6,7 +6,7 @@
 
 > **AbimongoConfig** = `object`
 
-Defined in: [types/abimongoConfig.ts:13](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/abimongoConfig.ts#L13)
+Defined in: [types/abimongoConfig.ts:13](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/types/abimongoConfig.ts#L13)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [types/abimongoConfig.ts:13](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **circuitBreaker**: `object`
 
-Defined in: [types/abimongoConfig.ts:14](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/abimongoConfig.ts#L14)
+Defined in: [types/abimongoConfig.ts:14](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/types/abimongoConfig.ts#L14)
 
 #### enabled?
 
@@ -34,7 +34,7 @@ Defined in: [types/abimongoConfig.ts:14](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **garbageCollector**: `object`
 
-Defined in: [types/abimongoConfig.ts:19](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/abimongoConfig.ts#L19)
+Defined in: [types/abimongoConfig.ts:19](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/types/abimongoConfig.ts#L19)
 
 #### enabled?
 

@@ -9,7 +9,7 @@ type FeatureItem = {
   title: string;
   Svg: React.ComponentType<React.ComponentProps<'svg'>>;
   description: ReactNode;
-}; 
+};
 
 
 const FeatureList: FeatureItem[] = [
@@ -25,9 +25,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Focus on What Matters',
-    Svg: window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? require('../../../static/img/focus_glass-dark.svg').default
-      : require('../../../static/img/focus_glass-light.svg').default,
+    Svg: require('../../../static/img/focus_glass-dark.svg').default,
     description: (
       <>
         With Abimongo you can focus on your business logic and let the library handle
@@ -73,11 +71,11 @@ export default function HomepageFeatures(): ReactNode {
         <div>
           <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Why Choose Abimongo?</h2>
         </div>
-        <div className="row">
-          {FeatureList.map((props, idx) => (
-            <Feature key={idx} {...props} />
-          ))}
-        </div>
+          <div className="row">
+            {FeatureList.map((props, idx) => (
+              <Feature key={idx} {...props} />
+            ))}
+          </div>
       </div>
     </section>
   );

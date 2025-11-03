@@ -8,7 +8,7 @@
 
 > **getOriginalResolver**(`resolver`): `any`
 
-Defined in: [core/src/middleware/rbac/rbacMiddleware.ts:243](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/middleware/rbac/rbacMiddleware.ts#L243)
+Defined in: [core/src/middleware/rbac/rbacMiddleware.ts:243](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/middleware/rbac/rbacMiddleware.ts#L243)
 
 Get the original resolver function from a wrapped resolver
 

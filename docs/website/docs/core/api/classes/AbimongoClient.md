@@ -6,7 +6,7 @@
 
 # Class: AbimongoClient
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:40](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L40)
+Defined in: [core/src/lib-core/AbimongoClient.ts:40](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L40)
 
 AbimongoClient is a MongoDB client wrapper that provides a simplified interface for connecting to and interacting with MongoDB databases.
 It supports multi-tenancy, connection pooling, and error handling.
@@ -51,7 +51,7 @@ An optional logger instance for logging messages.
 
 > **new AbimongoClient**(`uri`, `_options?`): `AbimongoClient`
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:52](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L52)
+Defined in: [core/src/lib-core/AbimongoClient.ts:52](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L52)
 
 #### Parameters
 
@@ -73,7 +73,7 @@ Defined in: [core/src/lib-core/AbimongoClient.ts:52](https://github.com/NodEm9/a
 
 > `optional` **\_options**: [`AbimongoClientOptions`](../interfaces/AbimongoClientOptions.md)
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:54](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L54)
+Defined in: [core/src/lib-core/AbimongoClient.ts:54](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L54)
 
 ***
 
@@ -81,7 +81,7 @@ Defined in: [core/src/lib-core/AbimongoClient.ts:54](https://github.com/NodEm9/a
 
 > **uri**: `string` = `AbimongoClient.defaultUri`
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:53](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L53)
+Defined in: [core/src/lib-core/AbimongoClient.ts:53](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L53)
 
 The MongoDB connection URI.
 
@@ -97,7 +97,7 @@ The MongoDB connection URI.
 
 > **get** **client**(): `MongoClient`
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:264](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L264)
+Defined in: [core/src/lib-core/AbimongoClient.ts:264](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L264)
 
 Gets the current MongoClient instance.
 
@@ -121,7 +121,7 @@ An optional MongoClient instance.
 
 > **get** **db**(): `Db`
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:245](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L245)
+Defined in: [core/src/lib-core/AbimongoClient.ts:245](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L245)
 
 Gets the current database instance.
 
@@ -141,7 +141,7 @@ The connected database instance.
 
 > **close**(): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:455](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L455)
+Defined in: [core/src/lib-core/AbimongoClient.ts:455](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L455)
 
 Closes the MongoDB client connection.
 
@@ -157,7 +157,7 @@ A promise that resolves when the client is closed.
 
 > **collection**\<`T`\>(`name`): `Collection`\<`T`\>
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:319](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L319)
+Defined in: [core/src/lib-core/AbimongoClient.ts:319](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L319)
 
 Retrieves a MongoDB collection by name.
 
@@ -191,7 +191,7 @@ If the database connection is not established.
 
 > **connect**(): `Promise`\<`Db`\>
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:291](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L291)
+Defined in: [core/src/lib-core/AbimongoClient.ts:291](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L291)
 
 Establishes a connection to the MongoDB database.
 
@@ -207,7 +207,7 @@ A promise that resolves to the connected database instance.
 
 > **connectDb**(`uri`, `options?`): `Promise`\<`AbimongoClient`\>
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:108](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L108)
+Defined in: [core/src/lib-core/AbimongoClient.ts:108](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L108)
 
 Connects to the MongoDB database using the provided URI and options.
 
@@ -241,7 +241,7 @@ If the URI is not provided.
 
 > **disconnect**(): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:443](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L443)
+Defined in: [core/src/lib-core/AbimongoClient.ts:443](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L443)
 
 Disconnects from the MongoDB database.
 
@@ -257,7 +257,7 @@ A promise that resolves when the client is disconnected.
 
 > **dropCollection**(): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:408](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L408)
+Defined in: [core/src/lib-core/AbimongoClient.ts:408](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L408)
 
 Drops the specified collection from the database.
 
@@ -273,7 +273,7 @@ A promise that resolves when the collection is dropped.
 
 > **dropDatabase**(): `Promise`\<`boolean`\>
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:418](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L418)
+Defined in: [core/src/lib-core/AbimongoClient.ts:418](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L418)
 
 Drops the entire database.
 
@@ -289,7 +289,7 @@ A promise that resolves to `true` if the database is dropped successfully, `fals
 
 > **getClusterInfo**(): `Promise`\<\{ `setName?`: `string`; `type`: `string`; \}\>
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:349](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L349)
+Defined in: [core/src/lib-core/AbimongoClient.ts:349](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L349)
 
 Retrieves information about the MongoDB cluster type (e.g., standalone, replica set, sharded).
 
@@ -305,7 +305,7 @@ A promise that resolves to an object containing the cluster type and set name (i
 
 > **getCollection**\<`T`\>(`name`): `Collection`\<`T`\>
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:336](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L336)
+Defined in: [core/src/lib-core/AbimongoClient.ts:336](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L336)
 
 Retrieves a MongoDB collection by name, defaulting to the collection specified in the options if not provided.
 
@@ -339,7 +339,7 @@ If the database connection is not established.
 
 > **isConnected**(): `boolean`
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:463](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L463)
+Defined in: [core/src/lib-core/AbimongoClient.ts:463](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L463)
 
 Checks if the MongoDB client is connected.
 
@@ -355,7 +355,7 @@ Checks if the MongoDB client is connected.
 
 > **useCollection**(`collectionName`): `Promise`\<`Collection`\<`any`\>\>
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:391](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L391)
+Defined in: [core/src/lib-core/AbimongoClient.ts:391](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L391)
 
 Switches to a different collection at runtime.
 
@@ -383,7 +383,7 @@ If the client is not initialized or the collection name is not provided.
 
 > **useDatabase**(`dbName`): `Promise`\<\{ `client`: `MongoClient`; `db`: `Db`; \}\>
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:371](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L371)
+Defined in: [core/src/lib-core/AbimongoClient.ts:371](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L371)
 
 Switches to a different database at runtime (e.g., for multi-tenancy).
 
@@ -411,7 +411,7 @@ If the client is not initialized or the database name is not provided.
 
 > **validateUri**(`uri`): `void`
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:273](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L273)
+Defined in: [core/src/lib-core/AbimongoClient.ts:273](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L273)
 
 Validates the MongoDB URI to ensure it starts with "mongodb://" or "mongodb+srv://".
 
@@ -437,7 +437,7 @@ If the URI is invalid.
 
 > `static` **getAllTenantDBs**(): `Promise`\<`Db`[]\>
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:207](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L207)
+Defined in: [core/src/lib-core/AbimongoClient.ts:207](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L207)
 
 #### Returns
 
@@ -449,7 +449,7 @@ Defined in: [core/src/lib-core/AbimongoClient.ts:207](https://github.com/NodEm9/
 
 > `static` **getDatabase**(`tenantId`, `uri`): `Promise`\<\{ `client`: `MongoClient`; `db`: `Db`; \}\>
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:132](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L132)
+Defined in: [core/src/lib-core/AbimongoClient.ts:132](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L132)
 
 Retrieves the database connection for a specific tenant.
 
@@ -483,7 +483,7 @@ If the MongoClient instance is undefined.
 
 > `static` **getRegisteredModel**(`modelName`, `tenantId`, `schema?`): [`GetTanantModelParams`](../type-aliases/GetTanantModelParams.md)\<`Db`\> & `object`
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:218](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L218)
+Defined in: [core/src/lib-core/AbimongoClient.ts:218](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L218)
 
 #### Parameters
 
@@ -509,7 +509,7 @@ Defined in: [core/src/lib-core/AbimongoClient.ts:218](https://github.com/NodEm9/
 
 > `static` **getTenantDB**(`tenantId`): `Db`
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:186](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L186)
+Defined in: [core/src/lib-core/AbimongoClient.ts:186](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L186)
 
 Retrieves the database connection for a specific tenant.
 
@@ -537,7 +537,7 @@ If the MongoClient instance is undefined.
 
 > `static` **handleTopologyEvent**(`event`): `void`
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:490](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L490)
+Defined in: [core/src/lib-core/AbimongoClient.ts:490](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L490)
 
 Handles MongoDB topology events (e.g., opening, closing).
 
@@ -559,7 +559,7 @@ The topology event to handle.
 
 > `static` **init**(): `string` \| `Db`
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:77](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L77)
+Defined in: [core/src/lib-core/AbimongoClient.ts:77](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L77)
 
 #### Returns
 
@@ -571,7 +571,7 @@ Defined in: [core/src/lib-core/AbimongoClient.ts:77](https://github.com/NodEm9/a
 
 > `static` **runGlobalGC**(): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoClient.ts:234](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/AbimongoClient.ts#L234)
+Defined in: [core/src/lib-core/AbimongoClient.ts:234](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoClient.ts#L234)
 
 #### Returns
 

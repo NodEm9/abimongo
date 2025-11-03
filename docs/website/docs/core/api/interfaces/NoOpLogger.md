@@ -6,7 +6,7 @@
 
 # Interface: NoOpLogger
 
-Defined in: [core/src/types/logger.types.ts:2](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/types/logger.types.ts#L2)
+Defined in: [core/src/types/logger.types.ts:2](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/types/logger.types.ts#L2)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [core/src/types/logger.types.ts:2](https://github.com/NodEm9/abimong
 
 > **debug**: (`message`) => `void`
 
-Defined in: [core/src/types/logger.types.ts:7](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/types/logger.types.ts#L7)
+Defined in: [core/src/types/logger.types.ts:7](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/types/logger.types.ts#L7)
 
 #### Parameters
 
@@ -32,7 +32,7 @@ Defined in: [core/src/types/logger.types.ts:7](https://github.com/NodEm9/abimong
 
 > **error**: (`message`) => `void`
 
-Defined in: [core/src/types/logger.types.ts:5](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/types/logger.types.ts#L5)
+Defined in: [core/src/types/logger.types.ts:5](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/types/logger.types.ts#L5)
 
 #### Parameters
 
@@ -50,7 +50,7 @@ Defined in: [core/src/types/logger.types.ts:5](https://github.com/NodEm9/abimong
 
 > **fatal**: (`message`) => `void`
 
-Defined in: [core/src/types/logger.types.ts:6](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/types/logger.types.ts#L6)
+Defined in: [core/src/types/logger.types.ts:6](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/types/logger.types.ts#L6)
 
 #### Parameters
 
@@ -68,7 +68,7 @@ Defined in: [core/src/types/logger.types.ts:6](https://github.com/NodEm9/abimong
 
 > **info**: (`message`) => `void`
 
-Defined in: [core/src/types/logger.types.ts:3](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/types/logger.types.ts#L3)
+Defined in: [core/src/types/logger.types.ts:3](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/types/logger.types.ts#L3)
 
 #### Parameters
 
@@ -86,7 +86,7 @@ Defined in: [core/src/types/logger.types.ts:3](https://github.com/NodEm9/abimong
 
 > **warn**: (`message`) => `void`
 
-Defined in: [core/src/types/logger.types.ts:4](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/types/logger.types.ts#L4)
+Defined in: [core/src/types/logger.types.ts:4](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/types/logger.types.ts#L4)
 
 #### Parameters
 

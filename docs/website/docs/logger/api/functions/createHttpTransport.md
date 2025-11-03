@@ -6,7 +6,7 @@
 
 > **createHttpTransport**(`url`): [`RemoteTransporter`](../type-aliases/RemoteTransporter.md)
 
-Defined in: [transports/remote.transport.ts:10](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/transports/remote.transport.ts#L10)
+Defined in: [transports/remote.transport.ts:10](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/transports/remote.transport.ts#L10)
 
 Creates an HTTP remote transporter that sends log messages to a specified URL via HTTP POST requests.
 

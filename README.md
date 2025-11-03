@@ -1,4 +1,8 @@
 # Abimongo
+ 
+ @abimong/core ![npm version](https://img.shields.io/npm/v/@abimongo/core.svg) | @abimongo/logger ![npm version](https://img.shields.io/npm/v/@abimongo/logger.svg) 
+ @abimongo/create  ![npm version](https://img.shields.io/npm/v/@abimongo/create.svg)
+
 
 Abimongo is a set of packages that provide a TypeScript-first ODM/ORM and developer tooling for MongoDB.
 
@@ -9,3 +13,22 @@ Release note (today)
 - The core logger has an environment guard so the CLI wrapper can disable process-level signal handlers during scaffold runs (prevents early shutdown in embedded contexts).
 
 See `packages/core/README.md` and the docs site for full CLI and scaffolding guidance.
+
+## Packages
+
+| Package | Version | npm |
+|---|---:|---|
+| @abimongo/core | 1.1.1 | [npm](https://www.npmjs.com/package/@abimongo/core) |
+| @abimongo/logger | 1.1.1 | [npm](https://www.npmjs.com/package/@abimongo/logger) |
+| @abimongo/create | 1.0.1 | [npm](https://www.npmjs.com/package/@abimongo/create) |
+
+## Docs
+
+The documentation site is published to GitHub Pages. If you just updated the logo, build and deploy completed locally — the site lives at the repository Pages URL.
+
+## Quick checks I ran
+
+- Confirmed published versions on npm: `core@1.1.1`, `logger@1.1.1`, `create@1.0.1`.
+- Built the docs locally and generated static files at `docs/website/build`.
+
+If you want, I can also add dynamic npm version badges (shields) and link the docs URL directly — tell me if you want badges in this README and in package READMEs.

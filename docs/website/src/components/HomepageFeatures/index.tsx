@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-import type { JSX, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
@@ -9,13 +9,16 @@ type FeatureItem = {
   title: string;
   Svg: React.ComponentType<React.ComponentProps<'svg'>>;
   description: ReactNode;
-  // allow optional key when spread into JSX (React may add it at runtime)
-  key?: React.Key;
+  // stable id used for React list keys
+  id?: string;
+  // allow extra props (e.g., key) to be passed without TypeScript errors when used in JSX
+  [k: string]: any;
 };
 
 
 const FeatureList: FeatureItem[] = [
   {
+    id: 'easy-to-use',
     title: 'Easy to Use',
     Svg: require('../../../static/img/abimongo_logo_main.svg').default,
     description: (
@@ -26,6 +29,7 @@ const FeatureList: FeatureItem[] = [
     )
   },
   {
+    id: 'focus-on-what-matters',
     title: 'Focus on What Matters',
     Svg: require('../../../static/img/focus-glass-6.svg').default,
     description: (
@@ -38,6 +42,7 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
+    id: 'built-for-performance',
     title: 'Built for Performance',
     Svg: require('../../../static/img/web-performance.svg').default,
     description: (
@@ -74,8 +79,8 @@ export default function HomepageFeatures(): ReactNode {
           <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Why Choose Abimongo?</h2>
         </div>
         <div className="row">
-          {FeatureList.map(({ title, Svg, description }) => (
-            <Feature key={title} {...{ title, Svg, description }} />
+          {FeatureList.map(({ id, title, Svg, description }, idx) => (
+            <Feature key={id ?? `${title}-${idx}`} title={title} Svg={Svg} description={description} />
           ))}
         </div>
       </div>

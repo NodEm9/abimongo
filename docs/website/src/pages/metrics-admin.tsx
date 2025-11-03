@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '@theme/Layout';
 
-// Use `any` here so the page compiles under the site's TS setup without extra JSX lib config.
-type Metric = any;
+type Metric = { id: string; label?: string; value?: any; unit?: string; delta?: number };
 
 export default function MetricsAdmin() {
-  const [metrics, setMetrics] = useState<Metric[] | null>(null);
-  const [text, setText] = useState('');
+  const [metrics, setMetrics] = useState<Metric[]>([]);
   const [resp, setResp] = useState<string>('Ready');
   const [loading, setLoading] = useState(false);
 
@@ -16,12 +14,10 @@ export default function MetricsAdmin() {
       const r = await fetch('/api/metrics');
       if (!r.ok) throw new Error(String(r.status));
       const j = await r.json();
-      setMetrics(j);
-      setText(JSON.stringify(j, null, 2));
-      setResp(`Loaded ${Array.isArray(j) ? j.length : Object.keys(j).length} metrics`);
+      setMetrics(Array.isArray(j) ? j : []);
+      setResp(`Loaded ${Array.isArray(j) ? j.length : 0} metrics`);
     } catch (e: any) {
-      setMetrics(null);
-      setText('[]');
+      setMetrics([]);
       setResp('Error: ' + (e?.message || String(e)));
     } finally { setLoading(false); }
   }
@@ -30,46 +26,73 @@ export default function MetricsAdmin() {
 
   async function saveAll() {
     try {
-      const parsed = JSON.parse(text);
-      const r = await fetch('/api/metrics', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(parsed) });
+      const r = await fetch('/api/metrics', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(metrics) });
       const j = await r.json();
       setResp(JSON.stringify(j));
       await refresh();
     } catch (e: any) { setResp('Error: ' + (e?.message || String(e))); }
   }
 
-  async function postSingle(raw: string) {
+  async function saveOne(m: Metric) {
     try {
-      const parsed = JSON.parse(raw);
-      const r = await fetch('/api/metrics', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(parsed) });
+      const r = await fetch('/api/metrics', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(m) });
       const j = await r.json();
       setResp(JSON.stringify(j));
       await refresh();
     } catch (e: any) { setResp('Error: ' + (e?.message || String(e))); }
+  }
+
+  function updateMetric(id: string, patch: Partial<Metric>) {
+    setMetrics((prev) => prev.map((m) => m.id === id ? { ...m, ...patch } : m));
+  }
+
+  function deleteMetric(id: string) {
+    setMetrics((prev) => prev.filter((m) => m.id !== id));
   }
 
   return (
     <Layout title="Metrics Admin">
-      <div style={{ padding: 24, maxWidth: 1000, margin: '0 auto' }}>
+      <div style={{ padding: 24, maxWidth: 1100, margin: '0 auto' }}>
         <h1>Metrics Admin</h1>
-        <p>View and edit metrics for the docs dashboard. Works with the local metrics dev server.</p>
+        <p style={{ color: '#6b7280' }}>View and edit metrics for the docs dashboard. Works with the local metrics dev server.</p>
 
-        <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-          <button onClick={refresh} disabled={loading}>Refresh</button>
+        <div style={{ display: 'flex', gap: 8, margin: '16px 0 20px' }}>
+          <button onClick={refresh} disabled={loading} aria-busy={loading}>Refresh</button>
           <button onClick={saveAll}>Save All</button>
-          <button onClick={() => { setText(JSON.stringify([{ id: 'requests_total', label: 'Total Requests', value: 123456, unit: 'req', delta: 12 }], null, 2)); }}>Load Sample</button>
+          <button onClick={() => setMetrics([{ id: 'requests_total', label: 'Total Requests', value: 123456, unit: 'req', delta: 12 }])}>Load Sample</button>
         </div>
 
-        <textarea value={text} onChange={(e) => setText(e.target.value)} rows={14} style={{ width: '100%', fontFamily: 'monospace', fontSize: 13, padding: 12 }} />
-
-        <h2>Quick POST single metric</h2>
-        <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-          <input id="singleMetric" defaultValue='{"id":"active","label":"Active","value":10}' style={{ flex: 1 }} />
-          <button onClick={() => postSingle((document.getElementById('singleMetric') as HTMLInputElement).value)}>POST</button>
+        <div style={{ border: '1px solid #e5e7eb', borderRadius: 8, overflow: 'hidden' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 120px 100px 120px', gap: 8, padding: 12, background: '#f9fafb', fontWeight: 600 }}>
+            <div>ID</div>
+            <div>Label</div>
+            <div>Value</div>
+            <div>Unit</div>
+            <div>Actions</div>
+          </div>
+          {metrics.map((m) => (
+            <div key={m.id} style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 120px 100px 120px', gap: 8, padding: 12, alignItems: 'center' }}>
+              <div style={{ fontFamily: 'monospace' }}>{m.id}</div>
+              <div>
+                <input value={m.label || ''} onChange={(e) => updateMetric(m.id, { label: e.target.value })} style={{ width: '98%' }} />
+              </div>
+              <div>
+                <input value={String(m.value ?? '')} onChange={(e) => updateMetric(m.id, { value: isNaN(Number(e.target.value)) ? e.target.value : Number(e.target.value) })} style={{ width: '98%' }} />
+              </div>
+              <div>
+                <input value={m.unit || ''} onChange={(e) => updateMetric(m.id, { unit: e.target.value })} style={{ width: '98%' }} />
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button onClick={() => saveOne(m)}>Save</button>
+                <button onClick={() => { deleteMetric(m.id); setResp('Deleted ' + m.id); }}>Delete</button>
+              </div>
+            </div>
+          ))}
+          {metrics.length === 0 && <div style={{ padding: 20, color: '#6b7280' }}>No metrics found. Click Refresh or Load Sample.</div>}
         </div>
 
-        <h2>Response</h2>
-        <pre style={{ background: 'rgba(0,0,0,0.04)', padding: 12, borderRadius: 6 }}>{resp}</pre>
+        <h2 style={{ marginTop: 20 }}>Raw Response</h2>
+        <pre style={{ background: 'rgba(0,0,0,0.03)', padding: 12, borderRadius: 6, maxHeight: 240, overflow: 'auto' }}>{resp}</pre>
       </div>
     </Layout>
   );

@@ -1,10 +1,21 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@2.3.0/schema.json",
-  "changelog": ["@changesets/changelog-github", { "repo": "https://github.com/NodEm9/abimongo" }],
+  "changelog": [
+    "@changesets/changelog-github",
+    {
+      "repo": "https://github.com/NodEm9/abimongo"
+    }
+  ],
   "commit": false,
-  "linked": [["@abimongo/core", "@abimongo/logger", "@abimongo/cli"]],
+  "linked": [
+    [
+      "@abimongo/core",
+      "@abimongo/logger",
+      "@abimongo/cli"
+    ]
+  ],
   "access": "public",
   "baseBranch": "main",
-  "updateInternalDependencies": "always",
+  "updateInternalDependencies": "patch",
   "ignore": []
 }

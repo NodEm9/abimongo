@@ -128,7 +128,7 @@ const config: Config = {
 			title: 'Abimongo',
 			logo: {
 				alt: 'Abimongo Logo',
-				src: 'img/abimongo-logo-v1.svg',
+				src: 'img/abimongo-logo_1.svg',
 			},
 			items: [
 				{ to: '/core/intro', label: 'Core', position: 'left' },

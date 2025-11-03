@@ -18,7 +18,7 @@ permissions:
   contents: write
   pages: write
   id-token: write
-  pull-requests: read 
+  pull-requests: write
 
 concurrency:
   # Avoid concurrent deploys to GitHub Pages
@@ -125,8 +125,9 @@ jobs:
           commit: "chore(release): publish new versions"
           title: "chore(release): publish new versions"
         env:
+          # Prefer a user-provided personal token (secrets.GH_TOKEN) if present, otherwise fall back to the workflow token
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           2FACTOR_AUTH_TOKEN: ${{ secrets.NPM_2FACTOR_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }} # <-- add this secret in repo settings
 

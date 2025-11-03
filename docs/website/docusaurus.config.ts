@@ -21,7 +21,11 @@ const config: Config = {
 			'classic',
 			{
 				docs: false,         // we'll mount multiple docs plugins below
-				blog: false,
+				blog: {
+					showReadingTime: true,
+					path: './blog',
+					routeBasePath: 'blog',
+				},
 				theme: { customCss: require.resolve('./src/css/custom.css') },
 			} satisfies Preset.Options,
 		],
@@ -135,6 +139,7 @@ const config: Config = {
 				{ to: '/core/intro', label: 'Core', position: 'left' },
 				{ to: '/logger/intro', label: 'Logger', position: 'left' },
 				{ to: '/create/intro', label: 'Cli', position: 'left' },
+				{ to: '/blog', label: 'Blog', position: 'left' },
 				{ to: '/tutorials/intro', label: 'Tutorials', position: 'left' },
 				{ href: 'https://github.com/NodEm9/abimongo', label: 'GitHub', position: 'right' },
 			],

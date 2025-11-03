@@ -121,6 +121,7 @@ jobs:
           commit: "chore(release): publish new versions"
           title: "chore(release): publish new versions"
         env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           2FACTOR_AUTH_TOKEN: ${{ secrets.NPM_2FACTOR_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }} # <-- add this secret in repo settings
 

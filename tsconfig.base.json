@@ -21,6 +21,9 @@
     "declarationMap": true,
     "esModuleInterop": true,
     "isolatedModules": true, 
+    "paths": {
+      "@abimongo/logger": ["./packages/logger"]
+    },
     "experimentalDecorators": true,
     "importHelpers": true,
     "forceConsistentCasingInFileNames": true,

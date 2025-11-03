@@ -36,9 +36,9 @@
 		]
 	},
 	"dependencies": {
-		"@abimongo/logger": "workspace:*",
-		"@abimongo/core": "workspace:*",
-		"@abimongo/create": "workspace:*",
+		"@abimongo/logger": "1.1.1",
+		"@abimongo/core": "1.1.1",
+		"@abimongo/create": "1.0.1",
 		"commander": "^14.0.2"
 	},
 	"engines": {

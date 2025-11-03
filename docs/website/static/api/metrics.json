@@ -1,26 +1,63 @@
 [
-	{
-		"id": "requests",
-		"label": "Requests / min",
-		"value": 124,
-		"unit": "r/min",
-		"delta": 3.5,
-		"description": "Average requests per minute"
-	},
-	{
-		"id": "errors",
-		"label": "Errors / min",
-		"value": 1,
-		"unit": "err/min",
-		"delta": -0.5,
-		"description": "Errors per minute"
-	},
-	{
-		"id": "cpu",
-		"label": "CPU",
-		"value": 37,
-		"unit": "%",
-		"delta": 1.2,
-		"description": "CPU usage"
-	}
+  {
+    "_id": "690916230d65fcc2a01bfb39",
+    "id": "npm",
+    "delta": 1.2,
+    "description": "NPM download",
+    "label": "NPM",
+    "unit": "%",
+    "value": 102
+  },
+  {
+    "_id": "690916fc0d65fcc2a01bfb3a",
+    "id": "active_tenants",
+    "description": "Number of tenants with recent activity",
+    "label": "Active Tenants",
+    "value": 42
+  },
+  {
+    "_id": "690917370d65fcc2a01bfb3b",
+    "id": "cpu",
+    "delta": 1.2,
+    "description": "CPU usage",
+    "label": "CPU",
+    "unit": "%",
+    "value": 37
+  },
+  {
+    "_id": "690917550d65fcc2a01bfb3c",
+    "id": "requests",
+    "delta": 3.5,
+    "description": "Average requests per minute",
+    "label": "Requests / min",
+    "unit": "r/min",
+    "value": 124
+  },
+  {
+    "_id": "6909179c0d65fcc2a01bfb3d",
+    "id": "errors",
+    "delta": -0.5,
+    "description": "Errors per minute",
+    "label": "Errors / min",
+    "unit": "err/min",
+    "value": 1
+  },
+  {
+    "_id": "690917c10d65fcc2a01bfb3e",
+    "id": "latency_p95",
+    "delta": -8,
+    "description": "95th percentile request latency in milliseconds",
+    "label": "P95 Latency",
+    "unit": "ms",
+    "value": 325
+  },
+  {
+    "_id": "690917d10d65fcc2a01bfb3f",
+    "id": "requests_total",
+    "delta": 12,
+    "description": "Total number of handled requests",
+    "label": "Total Requests",
+    "unit": "req",
+    "value": 123456
+  }
 ]

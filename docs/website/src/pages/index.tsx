@@ -25,9 +25,9 @@ function HomepageHeader() {
             <div className={styles.buttons}>
               <Link
                 className={styles.buttonHero}
-                to="/core/api/">
+                to="/tutorials/core_tutotrials/core-tutorials">
                 <span>
-                  Go To Abimongo API Reference 📖
+                  Go To Tutorials 📖
                 </span>
                 <span>What's New?</span>
               </Link>

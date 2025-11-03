@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Metrics Admin — Abimongo</title>
+	<style>
+		body {
+			font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+			padding: 24px;
+			background: #071226;
+			color: #e6eef6
+		}
+
+		.container {
+			max-width: 900px;
+			margin: 0 auto
+		}
+
+		h1 {
+			margin-bottom: 8px
+		}
+
+		pre {
+			background: rgba(255, 255, 255, 0.03);
+			padding: 12px;
+			border-radius: 6px;
+			overflow: auto
+		}
+
+		.row {
+			display: flex;
+			gap: 8px;
+			margin-bottom: 8px
+		}
+
+		button {
+			background: #118ab2;
+			color: white;
+			border: none;
+			padding: 8px 12px;
+			border-radius: 6px
+		}
+
+		input,
+		textarea {
+			width: 100%;
+			padding: 8px;
+			border-radius: 6px;
+			border: 1px solid rgba(255, 255, 255, 0.06);
+			background: transparent;
+			color: inherit
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<h1>Metrics Admin</h1>
+		<p>View and edit metrics for the docs dashboard. This is a local dev tool.</p>
+
+		<div class="row">
+			<button id="refresh">Refresh</button>
+			<button id="save">Save All</button>
+			<button id="replaceSample">Replace with Sample</button>
+		</div>
+
+		<textarea id="metricsText" rows="12"></textarea>
+
+		<h2>Quick POST single metric</h2>
+		<div class="row">
+			<input id="singleMetric" placeholder='{"id":"active","label":"Active","value":10}' />
+			<button id="postSingle">POST</button>
+		</div>
+
+		<h2>Response</h2>
+		<pre id="resp">Ready</pre>
+	</div>
+
+	<script>
+		const base = location.origin;
+		async function refresh() {
+			const r = await fetch('/api/metrics');
+			const json = await r.json();
+			document.getElementById('metricsText').value = JSON.stringify(json, null, 2);
+			document.getElementById('resp').textContent = 'Loaded ' + (Array.isArray(json) ? json.length : Object.keys(json).length) + ' metrics';
+		}
+		document.getElementById('refresh').onclick = refresh;
+		document.getElementById('save').onclick = async () => {
+			try {
+				const txt = document.getElementById('metricsText').value;
+				const parsed = JSON.parse(txt);
+				const r = await fetch('/api/metrics', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(parsed) });
+				const j = await r.json(); document.getElementById('resp').textContent = JSON.stringify(j);
+			} catch (e) { document.getElementById('resp').textContent = 'Error: ' + e.message }
+		};
+		document.getElementById('postSingle').onclick = async () => {
+			try {
+				const v = document.getElementById('singleMetric').value;
+				const parsed = JSON.parse(v);
+				const r = await fetch('/api/metrics', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(parsed) });
+				const j = await r.json(); document.getElementById('resp').textContent = JSON.stringify(j);
+				await refresh();
+			} catch (e) { document.getElementById('resp').textContent = 'Error: ' + e.message }
+		};
+		document.getElementById('replaceSample').onclick = async () => {
+			const sample = [
+				{ id: 'requests_total', label: 'Total Requests', value: 123456, unit: 'req', delta: 12 },
+				{ id: 'latency_p95', label: 'P95 Latency', value: 325, unit: 'ms', delta: -8 },
+				{ id: 'error_rate', label: 'Error Rate', value: '0.6%', delta: -0.1 }
+			];
+			const r = await fetch('/api/metrics', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(sample) });
+			const j = await r.json(); document.getElementById('resp').textContent = JSON.stringify(j);
+			await refresh();
+		};
+		// initial
+		refresh();
+	</script>
+</body>
+
+</html>

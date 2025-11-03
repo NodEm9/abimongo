@@ -1,12 +1,16 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import type { Metric } from './types';
 
 type UseMetricsOpts = { url?: string; pollMs?: number | false };
 
 export function useMetrics(opts?: UseMetricsOpts) {
-	// Use a local static JSON during development for predictable demo data
-	const defaultUrl = process.env.NODE_ENV === 'development' ? '/api/metrics.json' : '/api/metrics';
-	const url = opts?.url ?? defaultUrl;
+	// Build API paths relative to the site's base URL so they work on GitHub Pages
+	const base = useBaseUrl('/');
+	// Primary API (real endpoint) and a static JSON fallback we ship with the site
+	const primaryUrl = opts?.url ?? (process.env.NODE_ENV === 'development' ? `${base}api/metrics.json` : `${base}api/metrics`);
+	const fallbackUrl = `${base}api/metrics.json`;
+	const url = primaryUrl;
 	const pollMs = opts?.pollMs ?? 15000;
 
 	const [data, setData] = useState<Metric[] | null>(null);
@@ -17,11 +21,49 @@ export function useMetrics(opts?: UseMetricsOpts) {
 	const fetchOnce = useCallback(async () => {
 		setLoading(true);
 		try {
-			const res = await fetch(url);
-			if (!res.ok) throw new Error(`Fetch ${url} failed: ${res.status}`);
+			// Try the primary endpoint first
+			let res = await fetch(url);
+			if (!res.ok) {
+				console.warn(`Primary metrics endpoint ${url} returned ${res.status}. Trying fallback ${fallbackUrl}`);
+				res = await fetch(fallbackUrl);
+			}
+
+			// If content-type isn't JSON try the fallback (static file)
+			let contentType = String(res.headers.get('content-type') ?? '').toLowerCase();
+			if (!contentType.includes('application/json')) {
+				console.warn(`Metrics endpoint returned content-type=${contentType}. Attempting fallback ${fallbackUrl}`);
+				const res2 = await fetch(fallbackUrl);
+				contentType = String(res2.headers.get('content-type') ?? '').toLowerCase();
+				if (!res2.ok || !contentType.includes('application/json')) {
+					const txt = await res.text();
+					throw new Error(`Expected JSON from ${url} or ${fallbackUrl}, got ${contentType || 'unknown'}: ${txt.slice(0, 200)}`);
+				}
+				// use res2
+				res = res2;
+			}
 			const json = await res.json();
+			// Normalize API responses: allow an array of metrics or an object keyed by id
+			let normalized: Metric[] = [];
+			if (Array.isArray(json)) {
+				normalized = json as Metric[];
+			} else if (json && typeof json === 'object') {
+				// Convert object map -> array of Metric objects
+				normalized = Object.entries(json).map(([k, v]) => {
+					if (v && typeof v === 'object') {
+						return {
+							id: (v as any).id ?? k,
+							label: (v as any).label ?? k,
+							value: (v as any).value ?? (typeof v === 'number' || typeof v === 'string' ? (v as any) : ''),
+							unit: (v as any).unit,
+							delta: (v as any).delta,
+							description: (v as any).description,
+						};
+					}
+					return { id: k, label: k, value: String(v) } as Metric;
+				});
+			}
 			if (mounted.current) {
-				setData(json as Metric[]);
+				setData(normalized);
 				setError(null);
 			}
 		} catch (e) {

@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 import path from 'path';
 
 
-const config: Config = { 
+const config: Config = {
 	title: 'Abimongo',
 	url: 'https://nodem9.github.io',
 	baseUrl: '/abimongo/',
@@ -190,6 +190,17 @@ const config: Config = {
 			darkTheme: prismThemes.dracula,
 		},
 	} satisfies Preset.ThemeConfig,
+
+	// @ts-expect-error - devServer proxy is helpful during local docs development to forward /api to the metrics server
+	devServer: {
+		proxy: {
+			'/api': {
+				target: 'http://localhost:9003',
+				changeOrigin: true,
+				secure: false,
+			},
+		},
+	},
 };
 
 export default config;

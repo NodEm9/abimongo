@@ -1,0 +1,14 @@
+---
+title: Metrics Admin
+slug: /metrics-admin
+---
+
+## Metrics Admin
+
+This page embeds the local admin UI for editing metrics. It is intended for local development only and will load the admin UI served by the metrics dev server at `/admin.html`.
+
+<div style={{width: '100%', height: '80vh'}}>
+  <iframe src="/admin.html" style={{width: '100%', height: '100%', border: 'none'}} title="Metrics Admin"></iframe>
+</div>
+
+> Note: During local development Docusaurus is configured to proxy `/api` requests to the metrics server (see `docusaurus.config.ts`).

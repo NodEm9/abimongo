@@ -9,6 +9,8 @@ type FeatureItem = {
   title: string;
   Svg: React.ComponentType<React.ComponentProps<'svg'>>;
   description: ReactNode;
+  // allow optional key when spread into JSX (React may add it at runtime)
+  key?: React.Key;
 };
 
 
@@ -20,8 +22,8 @@ const FeatureList: FeatureItem[] = [
       <>
         Abimongo is a MongoDB ODM for TypeScript and JavaScript. It is designed to be easy to use, flexible, and powerful.
         With Abimongo, you can define schemas, models, and relationships between collections, as well as perform CRUD operations and complex queries with ease.
-      </> 
-    ),
+      </>
+    )
   },
   {
     title: 'Focus on What Matters',
@@ -71,11 +73,11 @@ export default function HomepageFeatures(): ReactNode {
         <div>
           <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Why Choose Abimongo?</h2>
         </div>
-          <div className="row">
-            {FeatureList.map((props, idx) => (
-              <Feature key={idx} {...props} />
-            ))}
-          </div>
+        <div className="row">
+          {FeatureList.map(({ title, Svg, description }) => (
+            <Feature key={title} {...{ title, Svg, description }} />
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import styles from './styles.module.css';
-import clsx from 'clsx';
 import MetricCard from './MetricCard';
 import { useMetrics } from './useMetrics';
 import type { Metric } from './types';
@@ -16,7 +15,7 @@ export default function LogDashboard(): ReactNode {
         const parsed = JSON.parse(e.data);
         setLogs((prev) => [...prev.slice(-100), parsed]);
         console.log(`Received log: ${parsed.message}`, { tenant: parsed.tenant });
-      } catch (err) {
+      } catch {
         // ignore malformed
       }
     };
@@ -24,7 +23,7 @@ export default function LogDashboard(): ReactNode {
   }, []);
 
   // metrics area
-  const { data: metrics, loading, error, refresh } = useMetrics({ pollMs: 15000 });
+  const { data: metrics, loading, error } = useMetrics({ pollMs: 15000 });
 
   return (
     <div className={styles.dashboard}>
@@ -38,23 +37,27 @@ export default function LogDashboard(): ReactNode {
             [1, 2, 3].map((i) => <div key={i} className={styles.metricCard}>Loading…</div>)
           )}
 
-          {error && <div role="alert">Metrics failed to load: {String(error?.message ?? error)}</div>}
+          {error && <div role="alert" className={styles.errorBox}>Metrics failed to load: {String(error?.message ?? error)}</div>}
 
-          {metrics && metrics.length > 0 &&
-            metrics.map((m: Metric) => <MetricCard key={m.id} metric={m} loading={false} />)}
+          {metrics && metrics.length > 0 ? (
+            metrics.map((m: Metric) => <MetricCard key={m.id} metric={m} loading={false} />)
+          ) : (
+            !loading && !error && <div className={styles.emptyState}>No metrics available</div>
+          )}
         </div>
       </section>
 
-      <section aria-label="Live logs">
-        <p className={styles.content}>
-          <strong>Abinod Design:</strong> Realtime log stream from Abimongo server.
-        </p>
-
-        {logs.map((log, i) => (
-          <div key={i}>
-            <span style={{ color: '#ff0' }}>[{log.tenant}]</span> {log.message}
-          </div>
-        ))}
+      <section aria-label="Live logs" className={styles.logsSection}>
+        <div className={styles.logsHeader}><strong>Live Logs</strong> <span className={styles.logsSub}>Realtime stream from Abimongo server</span></div>
+        <div className={styles.logsBox} role="log">
+          {logs.length === 0 && <div className={styles.emptyState}>No live logs yet</div>}
+          {logs.map((log, i) => (
+            <div key={i} className={styles.logRow}>
+              <span className={styles.logTenant}>[{log.tenant}]</span>
+              <span className={styles.logMessage}>{log.message}</span>
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );

@@ -76,6 +76,12 @@ jobs:
             npm ci
           fi
 
+      - name: Build all workspace packages (fast-path)
+        if: ${{ inputs.package_manager == 'pnpm' }}
+        run: |
+          # Build all workspace packages so their dist outputs exist for dependent package builds
+          pnpm -w -r run build
+
       - name: Build package
         run: |
           if [ ! -f "${{ inputs.package_path }}/package.json" ]; then
@@ -97,6 +103,9 @@ jobs:
 
       - name: Publish package (or dry-run)
         env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          2FACTOR_AUTH_TOKEN: ${{ secrets.NPM_2FACTOR_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then

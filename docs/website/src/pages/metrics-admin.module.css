@@ -7,6 +7,11 @@
 	min-width: 0;
 }
 
+/* ensure children don't cause overflow due to padding/margins */
+.container * {
+	box-sizing: border-box;
+}
+
 .controls {
 	display: flex;
 	gap: 8px;
@@ -84,6 +89,7 @@
 		align-items: stretch;
 		gap: 6px;
 		padding: 6px 0;
+		width: 100%;
 	}
 
 	.cell:before {
@@ -97,6 +103,23 @@
 
 	.input {
 		width: 100% !important;
+	}
+
+	/* make action buttons stack and fill width on very small screens */
+	.actions {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.actions button {
+		width: 100%;
+	}
+
+	/* ensure raw response pre fills available width */
+	.respPre {
+		width: 100%;
+		box-sizing: border-box;
 	}
 
 	.input {

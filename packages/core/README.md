@@ -1,6 +1,6 @@
 # @abimongo/core
 
-  ![npm version](https://img.shields.io/npm/v/abimongo_core.svg)
+  ![npm version](https://img.shields.io/npm/v/@abimongo/core.svg)
   <!-- (https://www.npmjs.com/package/abimongo_core) -->
 
   A production-ready, TypeScript-first ORM/ODM for MongoDB built on the official MongoDB Node.js driver. @abimongo/core focuses on developer ergonomics, multi-tenant support, caching, and first-class GraphQL integration while keeping the API small and extensible.

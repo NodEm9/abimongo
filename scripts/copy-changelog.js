@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-require-imports */
 /*
  Copies packages/core/CHANGELOG.md (or packages/core/CHANGELOG) into
 docs/website/docs/core/logChanges.md so Docusaurus can include it.

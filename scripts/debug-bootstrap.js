@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-require-imports */
 const path = require('path');
 const core = require(path.resolve(__dirname, '..', 'packages', 'core', 'dist', 'abimongo-core.js'));
 (async () => {

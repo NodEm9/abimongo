@@ -1,6 +1,6 @@
 {
   "name": "@abimongo/logger",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "publishConfig": {
     "access": "public"
   },
@@ -27,7 +27,7 @@
     },
     "./package.json": "./package.json"
   },
-    "release": {
+  "release": {
     "branches": [
       "main"
     ]

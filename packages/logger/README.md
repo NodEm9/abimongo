@@ -1,4 +1,9 @@
-<!-- # abimongo_logger ![NPM Version](https://img.shields.io/npm/v/abimongo_utils?style=flat-square&logo=slugs.md%20file&logoSize=100) -->
+
+# abimongo_logger
+
+ ![npm version](https://img.shields.io/npm/v/@abimongo/logger.svg)
+ ![Release workflow](https://github.com/NodEm9/abimongo/actions/workflows/release.yml/badge.svg)
+
 
 A modular utility library for Node.js projects, starting with a robust, extensible logger utility. This library is designed to be expanded with additional utilities over time, making it a central toolkit for your backend applications.
 

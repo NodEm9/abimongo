@@ -32,3 +32,12 @@ The documentation site is published to GitHub Pages. If you just updated the log
 - Built the docs locally and generated static files at `docs/website/build`.
 
 If you want, I can also add dynamic npm version badges (shields) and link the docs URL directly — tell me if you want badges in this README and in package READMEs.
+
+### Badges
+
+![Release workflow](https://github.com/NodEm9/abimongo/actions/workflows/release.yml/badge.svg)
+![Docs deploy workflow](https://github.com/NodEm9/abimongo/actions/workflows/docs-deploy.yml/badge.svg)
+![npm (core)](https://img.shields.io/npm/v/@abimongo/core.svg)
+![npm (logger)](https://img.shields.io/npm/v/@abimongo/logger.svg)
+![npm (create)](https://img.shields.io/npm/v/@abimongo/create.svg)
+![Docs (GitHub Pages)](https://img.shields.io/website?label=docs&url=https%3A%2F%2Fnodem9.github.io%2Fabimongo%2F)

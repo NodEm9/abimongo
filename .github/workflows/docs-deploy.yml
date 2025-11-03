@@ -23,6 +23,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-workspace-packages
+      - name: Build workspace packages
+        run: pnpm -w -r build
       - name: Run tests
         run: pnpm test
 
@@ -46,7 +48,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-workspace-packages
-        
+      - name: Build workspace packages
+        run: pnpm -w -r build
+
       - name: Build Docusaurus site
         working-directory: ./
         run: pnpm run docs:build

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 const path = require('path');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const webpack = require('webpack');
@@ -7,7 +6,7 @@ const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
 	mode: 'production',
-	entry: './browser.ts',
+	entry: './src/browser.ts',
 	target: 'web',
 	output: {
 		filename: 'abimongo-core-browser.js',

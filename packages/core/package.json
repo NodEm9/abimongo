@@ -10,7 +10,7 @@
   "browser": "./dist/abimongo-core-browser.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "abimongo": "./bin/abimongo"
+    "abimongo": "./dist/abimongo-core-cli.js"
   },
   "exports": {
     ".": {

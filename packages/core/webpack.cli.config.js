@@ -7,7 +7,7 @@ const nodeExternals = require('webpack-node-externals');
 module.exports = {
 	mode: 'production',
 	target: 'node',
-	entry: './bin/abimongo-core-cli.ts',
+	entry: './src/bin/abimongo-core-cli.ts',
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		filename: 'abimongo-core-cli.js',

@@ -1,21 +1,16 @@
 {
   "extends": "../../tsconfig.base.json", // Inherit common settings
   "compilerOptions": {                                                                                   
-    "rootDir": "./",
+    "rootDir": "./src",
     "outDir": "./dist",                                                                                                                                                                     
     "composite": true,
     "declaration": true,  
-    "resolveJsonModule": true,  
-    "paths": {
-      "@abimongo/logger": ["../logger/src/index.ts"] // Path mapping for local package
-      }                          
+    "resolveJsonModule": true,                           
   },
   "include": [
-    "index.ts",
-    "src/**/*.ts",
-    "./bin/abimongo-core-cli.ts",
-    "browser.ts",
-    "src/**/*.json"
+    "src",
+    "src/**/*.json",
+    "package.json"
   ],
   "references": [
     { "path": "../logger" }, // Reference to other local packages

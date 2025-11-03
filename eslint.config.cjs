@@ -4,7 +4,7 @@ const js = require('@eslint/js')
 // import tseslint from 'typescript-eslint'
 const tseslint = require('typescript-eslint')
 
-export default [
+module.exports = [
   // Monorepo-wide ignores
   {
     ignores: ['**/dist/**', '**/build/**', '**/.next/**', '**/coverage/**'],

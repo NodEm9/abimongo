@@ -122,6 +122,49 @@
 		box-sizing: border-box;
 	}
 
+
+	/* Debug helpers (toggle via page button) */
+	.debugRoot * {
+		outline: none !important;
+	}
+
+	.debugBadge {
+		position: absolute;
+		right: 6px;
+		top: 6px;
+		background: rgba(0, 0, 0, 0.7);
+		color: #fff;
+		font-size: 11px;
+		padding: 2px 6px;
+		border-radius: 4px;
+		z-index: 9999;
+	}
+
+	.debugElem {
+		position: relative !important;
+	}
+
+	@media (max-width: 420px) {
+
+		/* aggressive width forcing for smallest phones (override theme) */
+		.container,
+		.panel,
+		.gridRow,
+		.cell {
+			width: 100% !important;
+			min-width: 0 !important;
+			box-sizing: border-box !important;
+		}
+
+		.gridRow {
+			display: block !important;
+		}
+
+		.actions button {
+			width: 100% !important;
+		}
+	}
+
 	.input {
 		width: 100%;
 		box-sizing: border-box;

@@ -8,6 +8,7 @@ export default function MetricsAdmin() {
   const [metrics, setMetrics] = useState<Metric[]>([]);
   const [resp, setResp] = useState<string>('Ready');
   const [loading, setLoading] = useState(false);
+  const [showDebug, setShowDebug] = useState(false);
 
   async function refresh() {
     setLoading(true);
@@ -24,6 +25,31 @@ export default function MetricsAdmin() {
   }
 
   useEffect(() => { refresh(); }, []);
+
+  useEffect(() => {
+    if (!showDebug) return;
+    // annotate key elements with size badges
+    const sel = ['.container', '.panel', '.gridRow'];
+    const created: HTMLElement[] = [];
+    sel.forEach((s) => {
+      document.querySelectorAll(s).forEach((el) => {
+        const e = el as HTMLElement;
+        e.classList.add('debugElem');
+        const badge = document.createElement('span');
+        badge.className = 'debugBadge';
+        function update() { badge.textContent = e.offsetWidth + 'px'; }
+        update();
+        created.push(badge);
+        e.appendChild(badge);
+        window.addEventListener('resize', update);
+      });
+    });
+    return () => {
+      // cleanup badges
+      document.querySelectorAll('.debugBadge').forEach((b) => b.remove());
+      document.querySelectorAll('.debugElem').forEach((el) => el.classList.remove('debugElem'));
+    };
+  }, [showDebug]);
 
   async function saveAll() {
     try {
@@ -61,6 +87,7 @@ export default function MetricsAdmin() {
           <button onClick={refresh} disabled={loading} aria-busy={loading}>Refresh</button>
           <button onClick={saveAll}>Save All</button>
           <button onClick={() => setMetrics([{ id: 'requests_total', label: 'Total Requests', value: 123456, unit: 'req', delta: 12 }])}>Load Sample</button>
+          <button onClick={() => setShowDebug((v) => !v)} aria-pressed={showDebug}>{showDebug ? 'Hide Debug' : 'Show Debug'}</button>
         </div>
 
         <div className={styles.panel}>

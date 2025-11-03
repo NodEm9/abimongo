@@ -1,8 +1,8 @@
 // eslint.config.mjs
-import js from '@eslint/js'
-// const js = require('@eslint/js')
-import tseslint from 'typescript-eslint'
-// const tseslint = require('typescript-eslint')
+// import js from '@eslint/js'
+const js = require('@eslint/js')
+// import tseslint from 'typescript-eslint'
+const tseslint = require('typescript-eslint')
 
 export default [
   // Monorepo-wide ignores

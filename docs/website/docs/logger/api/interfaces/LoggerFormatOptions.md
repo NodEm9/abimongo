@@ -4,7 +4,7 @@
 
 # Interface: LoggerFormatOptions
 
-Defined in: [types/logger.types.ts:40](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/types/logger.types.ts#L40)
+Defined in: [types/logger.types.ts:40](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/logger.types.ts#L40)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [types/logger.types.ts:40](https://github.com/NodEm9/abimongo/blob/7
 
 > `optional` **colorize**: `boolean`
 
-Defined in: [types/logger.types.ts:42](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/types/logger.types.ts#L42)
+Defined in: [types/logger.types.ts:42](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/logger.types.ts#L42)
 
 ***
 
@@ -20,7 +20,7 @@ Defined in: [types/logger.types.ts:42](https://github.com/NodEm9/abimongo/blob/7
 
 > `optional` **json**: `boolean`
 
-Defined in: [types/logger.types.ts:44](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/types/logger.types.ts#L44)
+Defined in: [types/logger.types.ts:44](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/logger.types.ts#L44)
 
 ***
 
@@ -28,7 +28,7 @@ Defined in: [types/logger.types.ts:44](https://github.com/NodEm9/abimongo/blob/7
 
 > `optional` **prefix**: `string`
 
-Defined in: [types/logger.types.ts:45](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/types/logger.types.ts#L45)
+Defined in: [types/logger.types.ts:45](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/logger.types.ts#L45)
 
 ***
 
@@ -36,7 +36,7 @@ Defined in: [types/logger.types.ts:45](https://github.com/NodEm9/abimongo/blob/7
 
 > `optional` **source**: `string`
 
-Defined in: [types/logger.types.ts:43](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/types/logger.types.ts#L43)
+Defined in: [types/logger.types.ts:43](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/logger.types.ts#L43)
 
 ***
 
@@ -44,4 +44,4 @@ Defined in: [types/logger.types.ts:43](https://github.com/NodEm9/abimongo/blob/7
 
 > `optional` **timestamp**: `boolean` \| () => `string`
 
-Defined in: [types/logger.types.ts:41](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/types/logger.types.ts#L41)
+Defined in: [types/logger.types.ts:41](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/logger.types.ts#L41)

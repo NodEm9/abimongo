@@ -6,7 +6,7 @@
 
 > **createCircuitBreaker**\<`T`\>(`fn`, `failureThreshold`, `cooldownPeriod`): (...`args`) => `Promise`\<`ReturnType`\<`T`\>\>
 
-Defined in: [utils/circuitBreaker/circuitBreaker.ts:8](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/utils/circuitBreaker/circuitBreaker.ts#L8)
+Defined in: [utils/circuitBreaker/circuitBreaker.ts:8](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/utils/circuitBreaker/circuitBreaker.ts#L8)
 
 Creates a circuit breaker for a given asynchronous function.
 

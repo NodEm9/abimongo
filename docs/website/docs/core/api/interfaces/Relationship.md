@@ -6,7 +6,7 @@
 
 # Interface: Relationship\<T\>
 
-Defined in: [packages/core/src/types/abimongo.mode.type.ts:64](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.mode.type.ts#L64)
+Defined in: [core/src/types/abimongo.mode.type.ts:64](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/types/abimongo.mode.type.ts#L64)
 
 Represents a relationship between collections in MongoDB.
 
@@ -24,7 +24,7 @@ The type of the document in the collection.
 
 > **localField**: keyof `T`
 
-Defined in: [packages/core/src/types/abimongo.mode.type.ts:73](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.mode.type.ts#L73)
+Defined in: [core/src/types/abimongo.mode.type.ts:73](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/types/abimongo.mode.type.ts#L73)
 
 The field in the current document that holds the reference.
 
@@ -34,6 +34,6 @@ The field in the current document that holds the reference.
 
 > **ref**: `string`
 
-Defined in: [packages/core/src/types/abimongo.mode.type.ts:68](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/types/abimongo.mode.type.ts#L68)
+Defined in: [core/src/types/abimongo.mode.type.ts:68](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/types/abimongo.mode.type.ts#L68)
 
 The name of the referenced collection.

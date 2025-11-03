@@ -4,7 +4,7 @@
 
 # Class: AbimongoLogger
 
-Defined in: [logger/logger.ts:43](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/logger.ts#L43)
+Defined in: [logger/logger.ts:43](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/logger/logger.ts#L43)
 
 AbimongoLogger is a custom logger that supports multiple tenants,
 file-based logging with daily rotation, and metrics tracking.
@@ -31,7 +31,7 @@ redisUrl: 'redis://localhost:6379',
 
 > **new AbimongoLogger**(`options`): `AbimongoLogger`
 
-Defined in: [logger/logger.ts:48](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/logger.ts#L48)
+Defined in: [logger/logger.ts:48](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/logger/logger.ts#L48)
 
 #### Parameters
 
@@ -49,7 +49,7 @@ Defined in: [logger/logger.ts:48](https://github.com/NodEm9/abimongo/blob/74ddf9
 
 > **close**(): `Promise`\<`void`\>
 
-Defined in: [logger/logger.ts:141](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/logger.ts#L141)
+Defined in: [logger/logger.ts:141](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/logger/logger.ts#L141)
 
 #### Returns
 
@@ -61,7 +61,7 @@ Defined in: [logger/logger.ts:141](https://github.com/NodEm9/abimongo/blob/74ddf
 
 > **flushAll**(): `Promise`\<`void`\>
 
-Defined in: [logger/logger.ts:125](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/logger.ts#L125)
+Defined in: [logger/logger.ts:125](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/logger/logger.ts#L125)
 
 #### Returns
 
@@ -73,7 +73,7 @@ Defined in: [logger/logger.ts:125](https://github.com/NodEm9/abimongo/blob/74ddf
 
 > **getMetrics**(): [`MetricsTracker`](MetricsTracker.md)
 
-Defined in: [logger/logger.ts:158](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/logger.ts#L158)
+Defined in: [logger/logger.ts:158](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/logger/logger.ts#L158)
 
 #### Returns
 
@@ -85,7 +85,7 @@ Defined in: [logger/logger.ts:158](https://github.com/NodEm9/abimongo/blob/74ddf
 
 > **log**(`message`, `level`, `meta`): `Promise`\<`void`\>
 
-Defined in: [logger/logger.ts:69](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/logger.ts#L69)
+Defined in: [logger/logger.ts:69](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/logger/logger.ts#L69)
 
 Logs a message with the specified level and metadata.
 
@@ -119,7 +119,7 @@ Additional metadata for the log entry.
 
 > **shutdown**(): `Promise`\<`void`\>
 
-Defined in: [logger/logger.ts:150](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/logger.ts#L150)
+Defined in: [logger/logger.ts:150](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/logger/logger.ts#L150)
 
 #### Returns
 
@@ -131,7 +131,7 @@ Defined in: [logger/logger.ts:150](https://github.com/NodEm9/abimongo/blob/74ddf
 
 > **startTrackingMetrics**(`interval`): [`MetricsTracker`](MetricsTracker.md)
 
-Defined in: [logger/logger.ts:131](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/logger.ts#L131)
+Defined in: [logger/logger.ts:131](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/logger/logger.ts#L131)
 
 #### Parameters
 
@@ -149,7 +149,7 @@ Defined in: [logger/logger.ts:131](https://github.com/NodEm9/abimongo/blob/74ddf
 
 > **stopTrackingMetrics**(): `void`
 
-Defined in: [logger/logger.ts:136](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/logger.ts#L136)
+Defined in: [logger/logger.ts:136](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/logger/logger.ts#L136)
 
 #### Returns
 

@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 import path from 'path';
 
 
-const config: Config = {
+const config: Config = { 
 	title: 'Abimongo',
 	url: 'https://nodem9.github.io',
 	baseUrl: '/abimongo/',

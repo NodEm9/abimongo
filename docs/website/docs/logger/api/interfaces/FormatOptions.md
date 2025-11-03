@@ -4,7 +4,7 @@
 
 # Interface: FormatOptions
 
-Defined in: [types/logger.types.ts:60](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/types/logger.types.ts#L60)
+Defined in: [types/logger.types.ts:60](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/logger.types.ts#L60)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [types/logger.types.ts:60](https://github.com/NodEm9/abimongo/blob/7
 
 > `optional` **colorize**: `boolean`
 
-Defined in: [types/logger.types.ts:61](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/types/logger.types.ts#L61)
+Defined in: [types/logger.types.ts:61](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/logger.types.ts#L61)
 
 ***
 
@@ -20,4 +20,4 @@ Defined in: [types/logger.types.ts:61](https://github.com/NodEm9/abimongo/blob/7
 
 > `optional` **format**: `"json"` \| `"text"`
 
-Defined in: [types/logger.types.ts:62](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/types/logger.types.ts#L62)
+Defined in: [types/logger.types.ts:62](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/logger.types.ts#L62)

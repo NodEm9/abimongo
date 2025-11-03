@@ -8,7 +8,7 @@
 
 > **cacheWithRedis**\<`T`\>(`client`, `key`, `fetcher`, `options`): `Promise`\<`T`\>
 
-Defined in: [packages/core/src/utils/cacheWithRedis.ts:29](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/cacheWithRedis.ts#L29)
+Defined in: [core/src/utils/cacheWithRedis.ts:27](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/utils/cacheWithRedis.ts#L27)
 
 Caches a value in Redis with optional tenant and namespace scoping.
 If the value is not found in cache, it runs the provided fetcher function
@@ -24,7 +24,7 @@ to get the value, caches it, and then returns it.
 
 ### client
 
-`RedisClientType`
+`any`
 
 ### key
 

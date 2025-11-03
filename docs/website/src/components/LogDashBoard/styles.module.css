@@ -25,7 +25,7 @@
 	align-items: center;
 	justify-content: center;
 	color: #ffff;
-	font-size: larger;
+	font-size: 16px;
 	box-sizing: border-box;
 	box-shadow: 4px 4px 10px rgba(255, 255, 255, 0.846);
 }
@@ -33,12 +33,11 @@
 .codeSnippet {
 	/* prettier glassy background + subtle gradient animation */
 	background: linear-gradient(135deg, rgba(10, 16, 32, 0.85), rgba(24, 30, 48, 0.86));
-	padding: 28px;
+	padding: 20px;
 	border-radius: 12px;
-	margin: 40px 0;
+	margin: 0;
 	box-shadow: 0 10px 30px rgba(2, 6, 23, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.02);
 	place-items: center;
-	border: 1px solid rgba(255, 255, 255, 0.03);
 	backdrop-filter: blur(6px) saturate(120%);
 }
 

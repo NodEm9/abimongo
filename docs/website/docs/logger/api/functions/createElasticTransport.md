@@ -6,7 +6,7 @@
 
 > **createElasticTransport**(`url`, `index`): [`RemoteTransporter`](../type-aliases/RemoteTransporter.md)
 
-Defined in: [transports/remote.transport.ts:27](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/transports/remote.transport.ts#L27)
+Defined in: [transports/remote.transport.ts:27](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/transports/remote.transport.ts#L27)
 
 Creates an ElasticSearch transporter that sends log messages to a specified ElasticSearch index.
 

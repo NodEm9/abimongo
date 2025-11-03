@@ -6,7 +6,7 @@
 
 > **getLogLevelPriority**(`level`): `number`
 
-Defined in: [logger/levels.ts:43](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/levels.ts#L43)
+Defined in: [logger/levels.ts:43](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/logger/levels.ts#L43)
 
 Retrieves the numeric priority of a given log level.
 

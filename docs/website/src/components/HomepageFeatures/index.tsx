@@ -11,6 +11,7 @@ type FeatureItem = {
   description: ReactNode;
 }; 
 
+
 const FeatureList: FeatureItem[] = [
   {
     title: 'Easy to Use',
@@ -24,7 +25,9 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Focus on What Matters',
-    Svg: require('../../../static/img/focus-glass-1.svg').default,
+    Svg: window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? require('../../../static/img/focus_glass-dark.svg').default
+      : require('../../../static/img/focus_glass-light.svg').default,
     description: (
       <>
         With Abimongo you can focus on your business logic and let the library handle

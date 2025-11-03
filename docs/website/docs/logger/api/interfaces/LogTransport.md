@@ -4,7 +4,7 @@
 
 # Interface: LogTransport
 
-Defined in: [types/logger.types.ts:36](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/types/logger.types.ts#L36)
+Defined in: [types/logger.types.ts:36](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/logger.types.ts#L36)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [types/logger.types.ts:36](https://github.com/NodEm9/abimongo/blob/7
 
 > **log**: (`level`, `message`, `meta?`) => `void`
 
-Defined in: [types/logger.types.ts:37](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/types/logger.types.ts#L37)
+Defined in: [types/logger.types.ts:37](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/types/logger.types.ts#L37)
 
 #### Parameters
 

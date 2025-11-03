@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable no-undef */
 (async function () {
 	try {
 		const { AbimongoBootstrap } = require('./packages/core/dist/abimongo-core.js');

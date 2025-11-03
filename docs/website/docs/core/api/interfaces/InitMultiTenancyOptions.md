@@ -6,7 +6,7 @@
 
 # Interface: InitMultiTenancyOptions
 
-Defined in: [packages/core/src/tanancy/init/initMultiTenancy.ts:5](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/tanancy/init/initMultiTenancy.ts#L5)
+Defined in: [core/src/tanancy/init/initMultiTenancy.ts:5](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/tanancy/init/initMultiTenancy.ts#L5)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [packages/core/src/tanancy/init/initMultiTenancy.ts:5](https://githu
 
 > `optional` **config**: [`AbimongoLoggerSettings`](AbimongoLoggerSettings.md)
 
-Defined in: [packages/core/src/tanancy/init/initMultiTenancy.ts:7](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/tanancy/init/initMultiTenancy.ts#L7)
+Defined in: [core/src/tanancy/init/initMultiTenancy.ts:7](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/tanancy/init/initMultiTenancy.ts#L7)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [packages/core/src/tanancy/init/initMultiTenancy.ts:7](https://githu
 
 > `optional` **lazy**: `boolean`
 
-Defined in: [packages/core/src/tanancy/init/initMultiTenancy.ts:6](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/tanancy/init/initMultiTenancy.ts#L6)
+Defined in: [core/src/tanancy/init/initMultiTenancy.ts:6](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/tanancy/init/initMultiTenancy.ts#L6)

@@ -14,12 +14,12 @@
     "browser.ts",
     "src/**/*.json"
   ],
+  "references": [
+    { "path": "../logger" }, // Reference to other local packages
+  ],
   "exclude": [
     "./node_modules",
     "./examples",
     "**/__tests__/**"
-  ],
-  "references": [
-    { "path": "../logger" }, // Reference to other local packages
   ],
 }

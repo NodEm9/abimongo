@@ -6,7 +6,7 @@
 
 # Class: MultiTenantManager
 
-Defined in: [packages/core/src/tanancy/MultiTenantManager.ts:11](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/tanancy/MultiTenantManager.ts#L11)
+Defined in: [core/src/tanancy/MultiTenantManager.ts:11](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/tanancy/MultiTenantManager.ts#L11)
 
 Manages multi-tenancy by handling tenant-specific MongoDB connections.
 Provides methods for registering tenants, retrieving clients, and supporting lazy connections.
@@ -17,7 +17,7 @@ Provides methods for registering tenants, retrieving clients, and supporting laz
 
 > **new MultiTenantManager**(): `MultiTenantManager`
 
-Defined in: [packages/core/src/tanancy/MultiTenantManager.ts:15](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/tanancy/MultiTenantManager.ts#L15)
+Defined in: [core/src/tanancy/MultiTenantManager.ts:15](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/tanancy/MultiTenantManager.ts#L15)
 
 #### Returns
 
@@ -29,7 +29,7 @@ Defined in: [packages/core/src/tanancy/MultiTenantManager.ts:15](https://github.
 
 > `static` **getAllConnectedTenants**(): `string`[]
 
-Defined in: [packages/core/src/tanancy/MultiTenantManager.ts:86](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/tanancy/MultiTenantManager.ts#L86)
+Defined in: [core/src/tanancy/MultiTenantManager.ts:86](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/tanancy/MultiTenantManager.ts#L86)
 
 #### Returns
 
@@ -41,7 +41,7 @@ Defined in: [packages/core/src/tanancy/MultiTenantManager.ts:86](https://github.
 
 > `static` **getClient**(`tenantId`): `Promise`\<`MongoClient` \| `null`\>
 
-Defined in: [packages/core/src/tanancy/MultiTenantManager.ts:67](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/tanancy/MultiTenantManager.ts#L67)
+Defined in: [core/src/tanancy/MultiTenantManager.ts:67](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/tanancy/MultiTenantManager.ts#L67)
 
 Retrieves the MongoClient instance for a specific tenant.
 If the tenant is registered for lazy connection, it establishes the connection before returning the client.
@@ -66,7 +66,7 @@ A promise that resolves to the MongoClient instance or `null` if the tenant is n
 
 > `static` **getConnectedTenant**(): `string`
 
-Defined in: [packages/core/src/tanancy/MultiTenantManager.ts:82](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/tanancy/MultiTenantManager.ts#L82)
+Defined in: [core/src/tanancy/MultiTenantManager.ts:82](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/tanancy/MultiTenantManager.ts#L82)
 
 #### Returns
 
@@ -78,7 +78,7 @@ Defined in: [packages/core/src/tanancy/MultiTenantManager.ts:82](https://github.
 
 > `static` **hasTenant**(`tenantId`): `boolean`
 
-Defined in: [packages/core/src/tanancy/MultiTenantManager.ts:22](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/tanancy/MultiTenantManager.ts#L22)
+Defined in: [core/src/tanancy/MultiTenantManager.ts:22](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/tanancy/MultiTenantManager.ts#L22)
 
 Checks if a tenant is already registered.
 
@@ -102,7 +102,7 @@ The ID of the tenant to check.
 
 > `static` **registerLazyTenant**(`tenantId`, `uri`, `logger?`): `void`
 
-Defined in: [packages/core/src/tanancy/MultiTenantManager.ts:34](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/tanancy/MultiTenantManager.ts#L34)
+Defined in: [core/src/tanancy/MultiTenantManager.ts:34](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/tanancy/MultiTenantManager.ts#L34)
 
 Registers a tenant with the given ID and MongoDB URI for lazy connection.
 Lazy connections are established only when the tenant is accessed for the first time.
@@ -137,7 +137,7 @@ Optional logger for logging messages.
 
 > `static` **registerTenant**(`tenantId`, `uri`): `Promise`\<`MongoClient`\>
 
-Defined in: [packages/core/src/tanancy/MultiTenantManager.ts:51](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/tanancy/MultiTenantManager.ts#L51)
+Defined in: [core/src/tanancy/MultiTenantManager.ts:51](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/tanancy/MultiTenantManager.ts#L51)
 
 Registers a tenant with the given ID and MongoDB URI.
 If the tenant is already registered, it returns the existing client.

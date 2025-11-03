@@ -6,9 +6,7 @@
 
 # Class: initAbimongo
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrapFactory.ts:26](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrapFactory.ts#L26)
-
-## Remark
+Defined in: [core/src/lib-core/bootstrap/AbimongoBootstrapFactory.ts:24](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/bootstrap/AbimongoBootstrapFactory.ts#L24)
 
 Factory class to create an instance of AbimongoBootstrap.
 This class encapsulates the logic for initializing the Abimongo application stack,
@@ -31,17 +29,9 @@ abimongo.getRedisClient();
 const abimongo = await AbimongoBootstrapFactory.create(customConfig);
 ```
 
-## Static
-
-- This method is static and can be called without instantiating the factory class.
-
 ## Param
 
 Optional configuration object for Abimongo.
-
-## Method
-
-create
 
 ## Constructors
 
@@ -59,7 +49,7 @@ create
 
 > `static` **create**(`config?`): `Promise`\<[`AbimongoBootstrap`](AbimongoBootstrap.md)\>
 
-Defined in: [packages/core/src/lib-core/bootstrap/AbimongoBootstrapFactory.ts:27](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/lib-core/bootstrap/AbimongoBootstrapFactory.ts#L27)
+Defined in: [core/src/lib-core/bootstrap/AbimongoBootstrapFactory.ts:25](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/lib-core/bootstrap/AbimongoBootstrapFactory.ts#L25)
 
 #### Parameters
 

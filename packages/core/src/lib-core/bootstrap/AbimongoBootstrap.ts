@@ -13,7 +13,7 @@ import { AbimongoModel } from '../AbimongoModelFactory';
 import { AbimongoSchema, Schema } from '../AbimongoSchema';
 import { AbimongoGC } from '../../gc';
 import { scheduleGarbageCollector } from '../../gc/gcCron.node';
-import { colorByLevel } from '@abimongo/logger';
+import { colorize } from '../../utils/color-palatte';
 
 
 const isNode = typeof process !== 'undefined' && process.versions?.node;
@@ -144,7 +144,7 @@ export class AbimongoBootstrap {
     // Redis setup (if enabled)
     if (this.config.features?.useRedisCache && this.config.features.redisUri) {
       await redis.get(this.config.features.redisUri);
-      console.info(colorByLevel('info', 'Redis connected'));
+      console.info(colorize('Redis connected', 'blue'));
     }
 
     // Mongo setup (always required)
@@ -154,16 +154,16 @@ export class AbimongoBootstrap {
         dbName: this.config.projectName || undefined,
       });
     await this.mongoClient.connect();
-    console.info(colorByLevel('info', 'MongoDB connected via AbimongoClient'));
+    console.info(colorize('MongoDB connected via AbimongoClient', 'blue'));
 
     // Register schema if provided
     this.schema = new Schema(typeof this.config.schema === 'object'
       ? this.config.schema : {});
     if (this.config.schema) {
       this.schema.registerSchema(this.config.schema);
-      console.info(colorByLevel('info', 'Schema registered'));
+      console.info(colorize('Schema registered', 'blue'));
     } else {
-      console.info(colorByLevel('warn', 'No schema provided, using default schema'));
+      console.info(colorize('No schema provided, using default schema', 'yellow'));
     }
 
     // Register models if provided
@@ -188,7 +188,7 @@ export class AbimongoBootstrap {
     if (this.config.model) {
       // for (const modelConfig of [this.config.model]) {
       this.model.registerModel(this.config.model);
-      console.info(colorByLevel('info', `Model registered: ${this.config.model.collectionName}`));
+      console.info(colorize(`Model registered: ${this.config.model.collectionName}`, 'blue'));
       // }
     }
 
@@ -201,7 +201,7 @@ export class AbimongoBootstrap {
           initOptions: this.config.multiTenant.initOptions || {},
         }
       ).catch((error) => {
-        console.error(colorByLevel('error', `❌ Error initializing multi-tenancy: ${error}`));
+        console.error(colorize(`❌ Error initializing multi-tenancy: ${error}`, 'red'));
       });
     }
 
@@ -212,8 +212,8 @@ export class AbimongoBootstrap {
         this.config.features?.typeDefs || '',
         this.config.features?.resolvers || {},
       );
-      console.info(colorByLevel('info', 'GraphQL schema generated'));
-      console.info(colorByLevel('info', 'GraphQL initialized'));
+      console.info(colorize('GraphQL schema generated', 'blue'));
+      console.info(colorize('GraphQL initialized', 'blue'));
     }
 
     for (const hook of this.onConnectHooks) {
@@ -276,7 +276,7 @@ export class AbimongoBootstrap {
         initOptions: this.config.multiTenant?.initOptions || {},
       }
     )
-    console.log(colorByLevel('info', `Multi-tenancy initialized for tenant: ${tenants}`));
+    console.log(colorize(`Multi-tenancy initialized for tenant: ${tenants}`, 'blue'));
   }
   public async cache<T>(
     key: string,

@@ -13,19 +13,20 @@
   box-shadow: 16px 20px 60px rgba(0, 0, 0, 0.3);
   background: linear-gradient(155deg, #4000FF 0%, #11D419 100%);
 }
+
 .buttonHero {
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
-    width:32rem;
-    padding: 0.5rem;
-    border-radius: 8px;
-    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-wrap: wrap;
-    font-weight: 500;
-    justify-content: center;
-    cursor: pointer;
-  }
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  width: 32rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-wrap: wrap;
+  font-weight: 500;
+  justify-content: center;
+  cursor: pointer;
+}
 
 @media screen and (max-width: 996px) {
   .heroBanner {
@@ -33,6 +34,7 @@
   }
 
   .heroBanner .heroAndSnippet {
+    grid-template-columns: auto;
     flex-direction: column;
     gap: 1rem;
     padding: 0;
@@ -45,8 +47,7 @@
     justify-content: center;
   }
 
-  .buttonHero
-  {
+  .buttonHero {
     background-color: rgb(89, 175, 2);
     width: 100%;
     color: rgb(255, 255, 255);
@@ -68,7 +69,9 @@
 }
 
 .heroAndSnippet {
-  display: flex;
+  display: grid;
+  grid-template-columns: 40% auto;
+  align-items: stretch;
   justify-content: space-between;
   gap: 22rem;
 }

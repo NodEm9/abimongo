@@ -8,7 +8,7 @@
 
 > **loadModelsFromPath**(`dirPath`): `Promise`\<`any`[]\>
 
-Defined in: [packages/core/src/utils/modelLoader.ts:23](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/modelLoader.ts#L23)
+Defined in: [core/src/utils/modelLoader.ts:24](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/utils/modelLoader.ts#L24)
 
 ## Parameters
 

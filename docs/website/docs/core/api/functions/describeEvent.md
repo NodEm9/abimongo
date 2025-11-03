@@ -8,7 +8,7 @@
 
 > **describeEvent**(`eventType`): `string`
 
-Defined in: [packages/core/src/utils/eventOptions.ts:64](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/eventOptions.ts#L64)
+Defined in: [core/src/utils/eventOptions.ts:64](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/utils/eventOptions.ts#L64)
 
 Returns a human-readable description for the given event type.
 

@@ -1,7 +1,7 @@
 import * as cron from 'node-cron';
 import { runGarbageCollectorOnAllModels } from './gcManager';
 import { AbimongoModelRegistry } from '../utils';
-import { colorByLevel } from '@abimongo/logger';
+import { colorize } from '../utils/color-palatte';
 
 
 /**
@@ -10,15 +10,15 @@ import { colorByLevel } from '@abimongo/logger';
  */
 export function scheduleGarbageCollector(cronExpr = '0 * * * *') {
   cron.schedule(cronExpr, async () => {
-    console.log(colorByLevel('info', `[GC] Running garbage collector at ${new Date().toISOString()}`));
+    console.log(colorize(`[GC] Running garbage collector at ${new Date().toISOString()}`, 'blue'));
     const models = AbimongoModelRegistry.getAllModels();
     
     for (const model of models) {
       try {
-        console.log(colorByLevel('info', `[GC] 🔁 Running GC on all registered models...`));
+        console.log(colorize(`[GC] 🔁 Running GC on all registered models...`, 'blue'));
         await runGarbageCollectorOnAllModels();
       } catch (e) {
-        console.error(colorByLevel('error', `[GC] Error running GC for model ${model.collectionName}`), e);
+        console.error(colorize(`[GC] Error running GC for model ${model.collectionName}`, 'red'), e);
       }
     }
   });

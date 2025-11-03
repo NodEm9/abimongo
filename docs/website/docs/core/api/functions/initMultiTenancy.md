@@ -8,7 +8,7 @@
 
 > **initMultiTenancy**(`tenants`, `options?`): `Promise`\<`void`\>
 
-Defined in: [packages/core/src/tanancy/init/initMultiTenancy.ts:31](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/tanancy/init/initMultiTenancy.ts#L31)
+Defined in: [core/src/tanancy/init/initMultiTenancy.ts:31](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/tanancy/init/initMultiTenancy.ts#L31)
 
 Initializes multi-tenancy by registering tenants with their respective MongoDB URIs.
 Supports both lazy (on-demand) and eager connection strategies.

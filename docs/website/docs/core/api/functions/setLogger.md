@@ -8,18 +8,17 @@
 
 > **setLogger**(`loggerConfig`): `ILogger`
 
-Defined in: [packages/core/src/utils/logger.ts:10](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/logger.ts#L10)
+Defined in: [core/src/utils/logger.ts:9](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/utils/logger.ts#L9)
 
-Initializes the logger with the provided configuration.
-If no configuration is provided, it uses default settings.
+Initialize and return the project logger.
+This function is defensive about the shape of the passed config so callers
+can pass booleans or partial objects without causing runtime errors.
 
 ## Parameters
 
 ### loggerConfig
 
-Configuration for the logger.
-
-[`AbimongoLoggerSettings`](../interfaces/AbimongoLoggerSettings.md) & `object` | `undefined`
+`Partial`\<[`AbimongoLoggerSettings`](../interfaces/AbimongoLoggerSettings.md) & `object` \| `undefined`\> = `{}`
 
 ## Returns
 

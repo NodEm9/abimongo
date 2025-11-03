@@ -8,7 +8,7 @@
 
 > `const` **bufferedTransporter**: `BufferedTransporter`
 
-Defined in: [packages/core/src/utils/logHelpers.ts:48](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/logHelpers.ts#L48)
+Defined in: [core/src/utils/logHelpers.ts:47](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/utils/logHelpers.ts#L47)
 
 Creates a resilient transporter that retries failed log writes with exponential backoff.
 This is useful for ensuring that logs are not lost due to temporary issues.

@@ -4,7 +4,7 @@ import { spawn, spawnSync } from 'child_process';
 import path from 'path';
 import fs from 'fs-extra';
 import { AbimongoBootstrap } from '@abimongo/core';
-import { colorByLevel } from '@abimongo/logger';
+import { colorize } from '../../core/src/utils/color-palatte';
 
 // Instead of requiring the create package (which may execute its CLI
 // on import), spawn the create CLI as a child process when delegating
@@ -255,7 +255,7 @@ export default function runCLI() {
             const normalized = normalizeConfig(raw);
             await fs.writeJson(configPath, normalized, { spaces: 2 });
           } catch (e) {
-            console.warn(colorByLevel('warn', `Failed to normalize config prior to bootstrap: ${String(e)}`));
+            console.warn(colorize(`Failed to normalize config prior to bootstrap: ${String(e)}`, 'yellow'));
           }
 
           // Use AbimongoBootstrap directly and point it at the generated config file
@@ -272,9 +272,9 @@ export default function runCLI() {
             // ignore cleanup errors
           }
         } catch (err) {
-          console.warn(colorByLevel('warn', '⚠️  Abimongo programmatic initialization failed (this is non-fatal).'));
-          console.warn(colorByLevel('error', String(err)));
-          console.log(colorByLevel('info', `If you want to run it manually, cd ${name} and run node your-start-script after installing dependencies.`));
+          console.warn(colorize('⚠️  Abimongo programmatic initialization failed (this is non-fatal).', 'yellow'));
+          console.warn(colorize(String(err), 'yellow'));
+          console.log(colorize(`If you want to run it manually, cd ${name} and run node your-start-script after installing dependencies.`, 'blue'));
         }
       } else {
         console.log('\nProgrammatic bootstrap skipped by default. To validate the generated project now, re-run with --bootstrap');

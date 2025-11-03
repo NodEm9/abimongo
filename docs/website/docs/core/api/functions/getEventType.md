@@ -8,7 +8,7 @@
 
 > **getEventType**(`options`): [`EventType`](../type-aliases/EventType.md) \| `null`
 
-Defined in: [packages/core/src/utils/eventOptions.ts:47](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/utils/eventOptions.ts#L47)
+Defined in: [core/src/utils/eventOptions.ts:47](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/utils/eventOptions.ts#L47)
 
 Returns the event type based on the options provided.
 

@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { colorByLevel } from '@abimongo/logger';
+import { colorize } from './color-palatte';
 
 
 type GeneratedFolderAndFile = {
@@ -21,11 +21,11 @@ const generatedFiles = () => {
   ]
   
   // Log all generated files
-  console.log(colorByLevel('info', '\n[Generated Files]:'));
+  console.log(colorize('\n[Generated Files]:', 'blue'));
   
   allFiles.forEach(file => {
     if (fs.existsSync(file.path)) {
-      const colorConsole = colorByLevel( 'info', `- ${file.name}`)
+      const colorConsole = colorize(`- ${file.name}`, 'blue');
       console.log(colorConsole);
     }
   });
@@ -39,10 +39,10 @@ const generatedFolders = () => {
     { name: 'scripts/', path: path.join(projectRoot, 'scripts') },
   ]
   // Log all generated folders
-  console.log(colorByLevel( 'info', '\n[Generated Folders]:'));
+  console.log(colorize('\n[Generated Folders]:', 'blue'));
   allFolders.forEach(folder => {
     if (fs.existsSync(folder.path)) {
-      console.log(colorByLevel( 'info', `- ${folder.name}`));
+      console.log(colorize(`- ${folder.name}`, 'blue'));
     }
   });
 }

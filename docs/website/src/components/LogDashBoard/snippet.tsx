@@ -1,17 +1,8 @@
 import SnippetAnimated from './snippetAnimated';
 
-
-
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.css';
 
-const LINES: string[] = [
-	"const userSchema = new AbimongoSchema<T>(Record<string, any>)",
-	"const UserModel = AbimongoModel<T>('User', userSchema);",
-	"const user = await UserModel.create({ name: 'Alice', age: 30 });",
-	"await user.save();",
-	"const foundUser = await UserModel.findOne({ name: 'Alice' });",
-];
 
 const PER_WORD_MS = 80; // per-word reveal delay (ms)
 const BETWEEN_LINES_MS = 220; // pause between lines

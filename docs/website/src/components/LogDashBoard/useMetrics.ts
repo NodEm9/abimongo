@@ -20,15 +20,18 @@ export function useMetrics(opts?: UseMetricsOpts) {
 			const res = await fetch(url);
 			if (!res.ok) throw new Error(`Fetch ${url} failed: ${res.status}`);
 			const json = await res.json();
-			if (!mounted.current) return;
-			setData(json as Metric[]);
-			setError(null);
+			if (mounted.current) {
+				setData(json as Metric[]);
+				setError(null);
+			}
 		} catch (e) {
-			if (!mounted.current) return;
-			setError(e as Error);
+			if (mounted.current) {
+				setError(e as Error);
+			}
 		} finally {
-			if (!mounted.current) return;
-			setLoading(false);
+			if (mounted.current) {
+				setLoading(false);
+			}
 		}
 	}, [url]);
 

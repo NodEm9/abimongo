@@ -6,7 +6,7 @@
 
 > **createLogger**(`config`, `abimongoConfig?`): [`ILogger`](../interfaces/ILogger.md)
 
-Defined in: [logger/loggerFactory.ts:16](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/logger/src/logger/loggerFactory.ts#L16)
+Defined in: [logger/loggerFactory.ts:16](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/logger/src/logger/loggerFactory.ts#L16)
 
 Creates a logger instance based on the provided configuration.
 

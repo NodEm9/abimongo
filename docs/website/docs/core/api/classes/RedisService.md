@@ -6,27 +6,17 @@
 
 # Class: RedisService
 
-Defined in: [packages/core/src/redis-manager/redisClient.ts:42](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/redis-manager/redisClient.ts#L42)
+Defined in: [core/src/redis-manager/redisClient.ts:66](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/redis-manager/redisClient.ts#L66)
 
-Singleton RedisService to manage Redis connections.
-Ensures a single instance is used throughout the application.
-Handles connection, disconnection, and client retrieval.
-Automatically connects to Redis on instantiation.
-*
+## Constructors
 
-## Example
+### Constructor
 
-```ts
-const redisService = RedisService.getInstance();
-await redisService.connect('redis://localhost:6379');
-const client = redisService.getClient();
-// Use the client for Redis operations
-await redisService.disconnect();
-```
+> **new RedisService**(): `RedisService`
 
-## Params
+#### Returns
 
-options RedisOptions - Configuration options for Redis connection.
+`RedisService`
 
 ## Methods
 
@@ -34,7 +24,7 @@ options RedisOptions - Configuration options for Redis connection.
 
 > **close**(): `Promise`\<`void`\>
 
-Defined in: [packages/core/src/redis-manager/redisClient.ts:96](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/redis-manager/redisClient.ts#L96)
+Defined in: [core/src/redis-manager/redisClient.ts:82](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/redis-manager/redisClient.ts#L82)
 
 #### Returns
 
@@ -44,19 +34,19 @@ Defined in: [packages/core/src/redis-manager/redisClient.ts:96](https://github.c
 
 ### connect()
 
-> **connect**(): `Promise`\<`void`\>
+> **connect**(`url?`): `Promise`\<`void`\>
 
-Defined in: [packages/core/src/redis-manager/redisClient.ts:76](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/redis-manager/redisClient.ts#L76)
+Defined in: [core/src/redis-manager/redisClient.ts:70](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/redis-manager/redisClient.ts#L70)
 
-Connect to the Redis server.
+#### Parameters
+
+##### url?
+
+`string`
 
 #### Returns
 
 `Promise`\<`void`\>
-
-```ts
-Promise<void>
-```
 
 ***
 
@@ -64,7 +54,7 @@ Promise<void>
 
 > **getClient**(): `Promise`\<`RedisClientType`\>
 
-Defined in: [packages/core/src/redis-manager/redisClient.ts:89](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/redis-manager/redisClient.ts#L89)
+Defined in: [core/src/redis-manager/redisClient.ts:79](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/redis-manager/redisClient.ts#L79)
 
 #### Returns
 
@@ -84,12 +74,8 @@ Error if Redis is not connected.
 
 > `static` **getInstance**(): `RedisService`
 
-Defined in: [packages/core/src/redis-manager/redisClient.ts:57](https://github.com/NodEm9/abimongo/blob/74ddf916fd0dabd5605ec9e93270fa7374534976/packages/core/src/redis-manager/redisClient.ts#L57)
-
-Get the singleton instance of RedisService.
+Defined in: [core/src/redis-manager/redisClient.ts:67](https://github.com/NodEm9/abimongo/blob/92ef7804233d51622a6ea273a61b19df4330e687/packages/core/src/redis-manager/redisClient.ts#L67)
 
 #### Returns
 
 `RedisService`
-
-RedisService The singleton RedisService instance.

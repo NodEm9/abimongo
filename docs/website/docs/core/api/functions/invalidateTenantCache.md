@@ -8,7 +8,7 @@
 
 > **invalidateTenantCache**(`tenantId`, `role`): `Promise`\<`void`\>
 
-Defined in: [core/src/middleware/rbac/rbacMiddleware.ts:159](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/middleware/rbac/rbacMiddleware.ts#L159)
+Defined in: [core/src/middleware/rbac/rbacMiddleware.ts:159](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/middleware/rbac/rbacMiddleware.ts#L159)
 
 Invalidate the cache for a specific tenant and role
 
@@ -44,4 +44,3 @@ If there is an issue with the Redis operation
 ```ts
 // Invalidate cache for tenant 'tenant123' with role 'admin'
 await invalidateTenantCache('tenant123', 'admin');
-```

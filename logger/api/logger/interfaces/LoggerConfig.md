@@ -1,6 +1,6 @@
 # Interface: LoggerConfig
 
-Defined in: [types/abimongoConfig.ts:26](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/types/abimongoConfig.ts#L26)
+Defined in: [types/abimongoConfig.ts:26](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/types/abimongoConfig.ts#L26)
 
 ## Properties
 
@@ -8,7 +8,7 @@ Defined in: [types/abimongoConfig.ts:26](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **circuitBreaker**: `object`
 
-Defined in: [types/abimongoConfig.ts:37](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/types/abimongoConfig.ts#L37)
+Defined in: [types/abimongoConfig.ts:37](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/types/abimongoConfig.ts#L37)
 
 #### enabled?
 
@@ -28,7 +28,7 @@ Defined in: [types/abimongoConfig.ts:37](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **colorize**: `boolean`
 
-Defined in: [types/abimongoConfig.ts:29](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/types/abimongoConfig.ts#L29)
+Defined in: [types/abimongoConfig.ts:29](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/types/abimongoConfig.ts#L29)
 
 ***
 
@@ -36,7 +36,7 @@ Defined in: [types/abimongoConfig.ts:29](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **compressLogFiles**: `object`
 
-Defined in: [types/abimongoConfig.ts:43](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/types/abimongoConfig.ts#L43)
+Defined in: [types/abimongoConfig.ts:43](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/types/abimongoConfig.ts#L43)
 
 #### enabled?
 
@@ -48,7 +48,7 @@ Defined in: [types/abimongoConfig.ts:43](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **enableMetrics**: `object`
 
-Defined in: [types/abimongoConfig.ts:39](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/types/abimongoConfig.ts#L39)
+Defined in: [types/abimongoConfig.ts:39](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/types/abimongoConfig.ts#L39)
 
 #### enabled?
 
@@ -64,7 +64,7 @@ Defined in: [types/abimongoConfig.ts:39](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **enrichMetadata**: (`meta`) => `Record`\<`string`, `any`\>
 
-Defined in: [types/abimongoConfig.ts:35](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/types/abimongoConfig.ts#L35)
+Defined in: [types/abimongoConfig.ts:35](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/types/abimongoConfig.ts#L35)
 
 #### Parameters
 
@@ -82,7 +82,7 @@ Defined in: [types/abimongoConfig.ts:35](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **excludedSources**: `string`[]
 
-Defined in: [types/abimongoConfig.ts:32](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/types/abimongoConfig.ts#L32)
+Defined in: [types/abimongoConfig.ts:32](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/types/abimongoConfig.ts#L32)
 
 ***
 
@@ -90,7 +90,7 @@ Defined in: [types/abimongoConfig.ts:32](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **formatOptions**: [`LoggerFormatOptions`](LoggerFormatOptions.md)
 
-Defined in: [types/abimongoConfig.ts:33](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/types/abimongoConfig.ts#L33)
+Defined in: [types/abimongoConfig.ts:33](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/types/abimongoConfig.ts#L33)
 
 ***
 
@@ -98,7 +98,7 @@ Defined in: [types/abimongoConfig.ts:33](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **garbageCollector**: `object`
 
-Defined in: [types/abimongoConfig.ts:38](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/types/abimongoConfig.ts#L38)
+Defined in: [types/abimongoConfig.ts:38](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/types/abimongoConfig.ts#L38)
 
 #### enabled?
 
@@ -118,7 +118,7 @@ Defined in: [types/abimongoConfig.ts:38](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **hooks**: [`LoggerHooks`](LoggerHooks.md)
 
-Defined in: [types/abimongoConfig.ts:34](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/types/abimongoConfig.ts#L34)
+Defined in: [types/abimongoConfig.ts:34](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/types/abimongoConfig.ts#L34)
 
 ***
 
@@ -126,7 +126,7 @@ Defined in: [types/abimongoConfig.ts:34](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **json**: `boolean`
 
-Defined in: [types/abimongoConfig.ts:30](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/types/abimongoConfig.ts#L30)
+Defined in: [types/abimongoConfig.ts:30](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/types/abimongoConfig.ts#L30)
 
 ***
 
@@ -134,7 +134,7 @@ Defined in: [types/abimongoConfig.ts:30](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **level**: [`LogLevel`](../type-aliases/LogLevel.md)
 
-Defined in: [types/abimongoConfig.ts:28](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/types/abimongoConfig.ts#L28)
+Defined in: [types/abimongoConfig.ts:28](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/types/abimongoConfig.ts#L28)
 
 ***
 
@@ -142,7 +142,7 @@ Defined in: [types/abimongoConfig.ts:28](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **logger**: [`ILogger`](ILogger.md)
 
-Defined in: [types/abimongoConfig.ts:27](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/types/abimongoConfig.ts#L27)
+Defined in: [types/abimongoConfig.ts:27](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/types/abimongoConfig.ts#L27)
 
 ***
 
@@ -150,7 +150,7 @@ Defined in: [types/abimongoConfig.ts:27](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **shouldLog**: (`level`, `meta?`) => `boolean`
 
-Defined in: [types/abimongoConfig.ts:36](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/types/abimongoConfig.ts#L36)
+Defined in: [types/abimongoConfig.ts:36](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/types/abimongoConfig.ts#L36)
 
 #### Parameters
 
@@ -172,4 +172,4 @@ Defined in: [types/abimongoConfig.ts:36](https://github.com/NodEm9/abimongo/blob
 
 > `optional` **transports**: ([`Transporter`](Transporter.md) \| [`RemoteTransporter`](../type-aliases/RemoteTransporter.md))[]
 
-Defined in: [types/abimongoConfig.ts:31](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/types/abimongoConfig.ts#L31)
+Defined in: [types/abimongoConfig.ts:31](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/types/abimongoConfig.ts#L31)

@@ -6,7 +6,7 @@
 
 > `const` **logger**: [`AbimongoLogger`](../classes/AbimongoLogger.md)
 
-Defined in: [logger/logger.ts:172](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/logger/logger.ts#L172)
+Defined in: [logger/logger.ts:172](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/logger/logger.ts#L172)
 
 Singleton instance of AbimongoLogger for application-wide use.
 Configured to log in JSON format, stream to Redis, and flush logs every 2 seconds or after 20 entries.
@@ -18,4 +18,3 @@ Adjust the configuration as needed for your application.
 import { logger } from './logger';
 logger.log('This is an info message', 'info', { tenantId: 'tenant1' });
 logger.log('This is an error message', 'error', { tenantId: 'tenant2' });
-```

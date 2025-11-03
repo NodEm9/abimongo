@@ -1,6 +1,6 @@
 # Class: TenantContext
 
-Defined in: [core/src/tanancy/TenantContext.ts:9](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/tanancy/TenantContext.ts#L9)
+Defined in: [core/src/tanancy/TenantContext.ts:9](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/tanancy/TenantContext.ts#L9)
 
 Provides a thread-safe context for managing tenant-specific data using `AsyncLocalStorage`.
 This is useful for multi-tenant applications where the current tenant needs to be tracked across asynchronous operations.
@@ -21,7 +21,7 @@ This is useful for multi-tenant applications where the current tenant needs to b
 
 > `static` **clear**(): `void`
 
-Defined in: [core/src/tanancy/TenantContext.ts:39](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/tanancy/TenantContext.ts#L39)
+Defined in: [core/src/tanancy/TenantContext.ts:39](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/tanancy/TenantContext.ts#L39)
 
 Clears the tenant ID from the current context.
 
@@ -35,7 +35,7 @@ Clears the tenant ID from the current context.
 
 > `static` **getTenantId**(): `string` \| `undefined`
 
-Defined in: [core/src/tanancy/TenantContext.ts:32](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/tanancy/TenantContext.ts#L32)
+Defined in: [core/src/tanancy/TenantContext.ts:32](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/tanancy/TenantContext.ts#L32)
 
 Retrieves the tenant ID from the current context.
 
@@ -51,7 +51,7 @@ The tenant ID, or `undefined` if no tenant ID is set.
 
 > `static` **run**(`tenantId`, `callback`): `void`
 
-Defined in: [core/src/tanancy/TenantContext.ts:15](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/tanancy/TenantContext.ts#L15)
+Defined in: [core/src/tanancy/TenantContext.ts:15](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/tanancy/TenantContext.ts#L15)
 
 Runs a callback function within a specific tenant context.
 
@@ -79,7 +79,7 @@ The callback function to execute within the tenant context.
 
 > `static` **setTenantId**(`tenantId`): `void`
 
-Defined in: [core/src/tanancy/TenantContext.ts:23](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/tanancy/TenantContext.ts#L23)
+Defined in: [core/src/tanancy/TenantContext.ts:23](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/tanancy/TenantContext.ts#L23)
 
 Sets the tenant ID in the current context.
 

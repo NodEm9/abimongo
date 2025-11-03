@@ -8,7 +8,7 @@
 
 > **checkPermission**(`role`, `permission`): `Promise`\<`boolean`\>
 
-Defined in: [core/src/middleware/rbac/rbacMiddleware.ts:28](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/middleware/rbac/rbacMiddleware.ts#L28)
+Defined in: [core/src/middleware/rbac/rbacMiddleware.ts:28](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/middleware/rbac/rbacMiddleware.ts#L28)
 
 Check if a user has a specific permission
 
@@ -41,4 +41,3 @@ if (hasPermission) {
 } else {
 // User does not have permission to create a user
 }
-```

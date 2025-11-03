@@ -1,6 +1,6 @@
 # Interface: ProjectOptions
 
-Defined in: [core/src/types/AbimongoConfig.ts:81](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/AbimongoConfig.ts#L81)
+Defined in: [core/src/types/AbimongoConfig.ts:81](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/AbimongoConfig.ts#L81)
 
 ## Properties
 
@@ -8,7 +8,7 @@ Defined in: [core/src/types/AbimongoConfig.ts:81](https://github.com/NodEm9/abim
 
 > `optional` **advanced**: `object`
 
-Defined in: [core/src/types/AbimongoConfig.ts:117](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/AbimongoConfig.ts#L117)
+Defined in: [core/src/types/AbimongoConfig.ts:117](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/AbimongoConfig.ts#L117)
 
 #### autoInstall?
 
@@ -52,7 +52,7 @@ Defined in: [core/src/types/AbimongoConfig.ts:117](https://github.com/NodEm9/abi
 
 > `optional` **compressLogFiles**: `object`
 
-Defined in: [core/src/types/AbimongoConfig.ts:110](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/AbimongoConfig.ts#L110)
+Defined in: [core/src/types/AbimongoConfig.ts:110](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/AbimongoConfig.ts#L110)
 
 #### enabled?
 
@@ -64,7 +64,7 @@ Defined in: [core/src/types/AbimongoConfig.ts:110](https://github.com/NodEm9/abi
 
 > `optional` **enableMetrics**: `object`
 
-Defined in: [core/src/types/AbimongoConfig.ts:113](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/AbimongoConfig.ts#L113)
+Defined in: [core/src/types/AbimongoConfig.ts:113](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/AbimongoConfig.ts#L113)
 
 #### enabled?
 
@@ -80,7 +80,7 @@ Defined in: [core/src/types/AbimongoConfig.ts:113](https://github.com/NodEm9/abi
 
 > `optional` **features**: `object`
 
-Defined in: [core/src/types/AbimongoConfig.ts:102](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/AbimongoConfig.ts#L102)
+Defined in: [core/src/types/AbimongoConfig.ts:102](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/AbimongoConfig.ts#L102)
 
 #### models?
 
@@ -112,7 +112,7 @@ Defined in: [core/src/types/AbimongoConfig.ts:102](https://github.com/NodEm9/abi
 
 > `optional` **graphql**: `object`
 
-Defined in: [core/src/types/AbimongoConfig.ts:96](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/AbimongoConfig.ts#L96)
+Defined in: [core/src/types/AbimongoConfig.ts:96](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/AbimongoConfig.ts#L96)
 
 #### enabled?
 
@@ -136,7 +136,7 @@ Defined in: [core/src/types/AbimongoConfig.ts:96](https://github.com/NodEm9/abim
 
 > `optional` **logger**: [`AbimongoLoggerSettings`](AbimongoLoggerSettings.md)
 
-Defined in: [core/src/types/AbimongoConfig.ts:95](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/AbimongoConfig.ts#L95)
+Defined in: [core/src/types/AbimongoConfig.ts:95](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/AbimongoConfig.ts#L95)
 
 ***
 
@@ -144,7 +144,7 @@ Defined in: [core/src/types/AbimongoConfig.ts:95](https://github.com/NodEm9/abim
 
 > `optional` **model**: [`AbimongoModelOptions`](AbimongoModelOptions.md)\<`any`\>
 
-Defined in: [core/src/types/AbimongoConfig.ts:84](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/AbimongoConfig.ts#L84)
+Defined in: [core/src/types/AbimongoConfig.ts:84](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/AbimongoConfig.ts#L84)
 
 ***
 
@@ -152,7 +152,7 @@ Defined in: [core/src/types/AbimongoConfig.ts:84](https://github.com/NodEm9/abim
 
 > `optional` **mongoUri**: `string`
 
-Defined in: [core/src/types/AbimongoConfig.ts:83](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/AbimongoConfig.ts#L83)
+Defined in: [core/src/types/AbimongoConfig.ts:83](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/AbimongoConfig.ts#L83)
 
 ***
 
@@ -160,7 +160,7 @@ Defined in: [core/src/types/AbimongoConfig.ts:83](https://github.com/NodEm9/abim
 
 > `optional` **multiTenant**: `object`
 
-Defined in: [core/src/types/AbimongoConfig.ts:86](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/AbimongoConfig.ts#L86)
+Defined in: [core/src/types/AbimongoConfig.ts:86](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/AbimongoConfig.ts#L86)
 
 #### enabled?
 
@@ -192,7 +192,7 @@ Defined in: [core/src/types/AbimongoConfig.ts:86](https://github.com/NodEm9/abim
 
 > `optional` **projectName**: `string`
 
-Defined in: [core/src/types/AbimongoConfig.ts:82](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/AbimongoConfig.ts#L82)
+Defined in: [core/src/types/AbimongoConfig.ts:82](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/AbimongoConfig.ts#L82)
 
 ***
 
@@ -200,4 +200,4 @@ Defined in: [core/src/types/AbimongoConfig.ts:82](https://github.com/NodEm9/abim
 
 > `optional` **schema**: [`SchemaDefinition`](../type-aliases/SchemaDefinition.md)\<[`Document`](../type-aliases/Document.md)\>
 
-Defined in: [core/src/types/AbimongoConfig.ts:85](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/AbimongoConfig.ts#L85)
+Defined in: [core/src/types/AbimongoConfig.ts:85](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/AbimongoConfig.ts#L85)

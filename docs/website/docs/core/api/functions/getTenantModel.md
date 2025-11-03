@@ -8,7 +8,7 @@
 
 > **getTenantModel**\<`T`\>(`param`): `Promise`\<`any`\>
 
-Defined in: [core/src/tanancy/TenantModelResolver.ts:56](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/tanancy/TenantModelResolver.ts#L56)
+Defined in: [core/src/tanancy/TenantModelResolver.ts:56](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/tanancy/TenantModelResolver.ts#L56)
 
 Resolves a tenant-specific model by creating or retrieving it from the cache.
 Ensures that each tenant has its own isolated model instance.
@@ -56,4 +56,3 @@ const productModel = await getTenantModel({
  schema: ProductSchema,
  tenantId: 'tenant456'
 });
-```

@@ -8,7 +8,7 @@
 
 > **GetTanantModelParams**\<`T`\> = `object`
 
-Defined in: [core/src/tanancy/TenantModelResolver.ts:12](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/tanancy/TenantModelResolver.ts#L12)
+Defined in: [core/src/tanancy/TenantModelResolver.ts:12](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/tanancy/TenantModelResolver.ts#L12)
 
 Parameters required to resolve a tenant-specific model.
 
@@ -26,7 +26,7 @@ The type of the document in the model.
 
 > **modelName**: `string`
 
-Defined in: [core/src/tanancy/TenantModelResolver.ts:16](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/tanancy/TenantModelResolver.ts#L16)
+Defined in: [core/src/tanancy/TenantModelResolver.ts:16](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/tanancy/TenantModelResolver.ts#L16)
 
 The name of the model to resolve.
 
@@ -36,7 +36,7 @@ The name of the model to resolve.
 
 > `optional` **schema**: [`AbimongoSchema`](../classes/AbimongoSchema.md)\<`T`\>
 
-Defined in: [core/src/tanancy/TenantModelResolver.ts:26](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/tanancy/TenantModelResolver.ts#L26)
+Defined in: [core/src/tanancy/TenantModelResolver.ts:26](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/tanancy/TenantModelResolver.ts#L26)
 
 The schema definition for the model (optional).
 
@@ -46,6 +46,6 @@ The schema definition for the model (optional).
 
 > **tenantId**: `string`
 
-Defined in: [core/src/tanancy/TenantModelResolver.ts:21](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/tanancy/TenantModelResolver.ts#L21)
+Defined in: [core/src/tanancy/TenantModelResolver.ts:21](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/tanancy/TenantModelResolver.ts#L21)
 
 The ID of the tenant for which the model is being resolved.

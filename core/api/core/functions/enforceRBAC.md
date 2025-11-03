@@ -2,7 +2,7 @@
 
 > **enforceRBAC**(`resolver`, `permission`): (`parent`, `args`, `context`, `info`) => `Promise`\<`any`\>
 
-Defined in: [core/src/middleware/rbac/rbacMiddleware.ts:201](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/middleware/rbac/rbacMiddleware.ts#L201)
+Defined in: [core/src/middleware/rbac/rbacMiddleware.ts:201](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/middleware/rbac/rbacMiddleware.ts#L201)
 
 Middleware to enforce RBAC (Role-Based Access Control) on GraphQL resolvers
 

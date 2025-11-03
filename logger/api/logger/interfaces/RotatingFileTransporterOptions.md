@@ -1,6 +1,6 @@
 # Interface: RotatingFileTransporterOptions
 
-Defined in: [transports/rotating.transporter.ts:6](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/transports/rotating.transporter.ts#L6)
+Defined in: [transports/rotating.transporter.ts:6](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/rotating.transporter.ts#L6)
 
 ## Properties
 
@@ -8,7 +8,7 @@ Defined in: [transports/rotating.transporter.ts:6](https://github.com/NodEm9/abi
 
 > `optional` **backupCount**: `number`
 
-Defined in: [transports/rotating.transporter.ts:9](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/transports/rotating.transporter.ts#L9)
+Defined in: [transports/rotating.transporter.ts:9](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/rotating.transporter.ts#L9)
 
 ***
 
@@ -16,7 +16,7 @@ Defined in: [transports/rotating.transporter.ts:9](https://github.com/NodEm9/abi
 
 > `optional` **compress**: `boolean`
 
-Defined in: [transports/rotating.transporter.ts:11](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/transports/rotating.transporter.ts#L11)
+Defined in: [transports/rotating.transporter.ts:11](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/rotating.transporter.ts#L11)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [transports/rotating.transporter.ts:11](https://github.com/NodEm9/ab
 
 > **filename**: `string`
 
-Defined in: [transports/rotating.transporter.ts:7](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/transports/rotating.transporter.ts#L7)
+Defined in: [transports/rotating.transporter.ts:7](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/rotating.transporter.ts#L7)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [transports/rotating.transporter.ts:7](https://github.com/NodEm9/abi
 
 > `optional` **flushInterval**: `number`
 
-Defined in: [transports/rotating.transporter.ts:12](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/transports/rotating.transporter.ts#L12)
+Defined in: [transports/rotating.transporter.ts:12](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/rotating.transporter.ts#L12)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [transports/rotating.transporter.ts:12](https://github.com/NodEm9/ab
 
 > `optional` **frequency**: `"daily"` \| `"hourly"`
 
-Defined in: [transports/rotating.transporter.ts:10](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/transports/rotating.transporter.ts#L10)
+Defined in: [transports/rotating.transporter.ts:10](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/rotating.transporter.ts#L10)
 
 ***
 
@@ -48,4 +48,4 @@ Defined in: [transports/rotating.transporter.ts:10](https://github.com/NodEm9/ab
 
 > `optional` **maxSize**: `number`
 
-Defined in: [transports/rotating.transporter.ts:8](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/transports/rotating.transporter.ts#L8)
+Defined in: [transports/rotating.transporter.ts:8](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/rotating.transporter.ts#L8)

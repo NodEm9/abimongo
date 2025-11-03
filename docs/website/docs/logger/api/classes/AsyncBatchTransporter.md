@@ -4,7 +4,7 @@
 
 # Class: AsyncBatchTransporter
 
-Defined in: [transports/async-batch.transporter.ts:29](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/transports/async-batch.transporter.ts#L29)
+Defined in: [transports/async-batch.transporter.ts:29](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/async-batch.transporter.ts#L29)
 
 AsyncBatchTransporter
 
@@ -35,7 +35,7 @@ transporter.stop(); // Stop the transporter when done
 
 > **new AsyncBatchTransporter**(`options`): `AsyncBatchTransporter`
 
-Defined in: [transports/async-batch.transporter.ts:37](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/transports/async-batch.transporter.ts#L37)
+Defined in: [transports/async-batch.transporter.ts:37](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/async-batch.transporter.ts#L37)
 
 #### Parameters
 
@@ -53,7 +53,7 @@ Defined in: [transports/async-batch.transporter.ts:37](https://github.com/NodEm9
 
 > **flush**(): `Promise`\<`void`\>
 
-Defined in: [transports/async-batch.transporter.ts:62](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/transports/async-batch.transporter.ts#L62)
+Defined in: [transports/async-batch.transporter.ts:62](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/async-batch.transporter.ts#L62)
 
 #### Returns
 
@@ -65,7 +65,7 @@ Defined in: [transports/async-batch.transporter.ts:62](https://github.com/NodEm9
 
 > **log**(`level`, `message`, `meta`): `void`
 
-Defined in: [transports/async-batch.transporter.ts:46](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/transports/async-batch.transporter.ts#L46)
+Defined in: [transports/async-batch.transporter.ts:46](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/async-batch.transporter.ts#L46)
 
 #### Parameters
 
@@ -91,7 +91,7 @@ Defined in: [transports/async-batch.transporter.ts:46](https://github.com/NodEm9
 
 > **stop**(): `void`
 
-Defined in: [transports/async-batch.transporter.ts:78](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/transports/async-batch.transporter.ts#L78)
+Defined in: [transports/async-batch.transporter.ts:78](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/async-batch.transporter.ts#L78)
 
 #### Returns
 

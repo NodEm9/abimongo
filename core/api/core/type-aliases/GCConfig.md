@@ -2,7 +2,7 @@
 
 > **GCConfig** = `object`
 
-Defined in: [core/src/types/GCConfig.ts:1](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/GCConfig.ts#L1)
+Defined in: [core/src/types/GCConfig.ts:1](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/GCConfig.ts#L1)
 
 ## Properties
 
@@ -10,7 +10,7 @@ Defined in: [core/src/types/GCConfig.ts:1](https://github.com/NodEm9/abimongo/bl
 
 > `optional` **archiveBeforeDelete**: `boolean`
 
-Defined in: [core/src/types/GCConfig.ts:5](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/GCConfig.ts#L5)
+Defined in: [core/src/types/GCConfig.ts:5](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/GCConfig.ts#L5)
 
 ***
 
@@ -18,7 +18,7 @@ Defined in: [core/src/types/GCConfig.ts:5](https://github.com/NodEm9/abimongo/bl
 
 > **expiresIn**: `string`
 
-Defined in: [core/src/types/GCConfig.ts:3](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/GCConfig.ts#L3)
+Defined in: [core/src/types/GCConfig.ts:3](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/GCConfig.ts#L3)
 
 ***
 
@@ -26,7 +26,7 @@ Defined in: [core/src/types/GCConfig.ts:3](https://github.com/NodEm9/abimongo/bl
 
 > `optional` **softDelete**: `boolean`
 
-Defined in: [core/src/types/GCConfig.ts:4](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/GCConfig.ts#L4)
+Defined in: [core/src/types/GCConfig.ts:4](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/GCConfig.ts#L4)
 
 ***
 
@@ -34,4 +34,4 @@ Defined in: [core/src/types/GCConfig.ts:4](https://github.com/NodEm9/abimongo/bl
 
 > **ttlField**: `string`
 
-Defined in: [core/src/types/GCConfig.ts:2](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/GCConfig.ts#L2)
+Defined in: [core/src/types/GCConfig.ts:2](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/GCConfig.ts#L2)

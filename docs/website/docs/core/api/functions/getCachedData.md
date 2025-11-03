@@ -8,7 +8,7 @@
 
 > **getCachedData**(`role`, `key`): `Promise`\<`any`\>
 
-Defined in: [core/src/middleware/rbac/rbacMiddleware.ts:83](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/middleware/rbac/rbacMiddleware.ts#L83)
+Defined in: [core/src/middleware/rbac/rbacMiddleware.ts:83](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/middleware/rbac/rbacMiddleware.ts#L83)
 
 Get cached data for a specific role and key
 
@@ -49,4 +49,3 @@ if (cachedPermissions) {
 } else {
  console.log('No cached permissions found');
 }
-```

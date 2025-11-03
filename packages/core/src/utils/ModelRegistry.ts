@@ -63,7 +63,7 @@ const registeredModels: AbimongoModel<any>[] = [];
 
 /**
  * Clears the model registry for testing purposes. 
- * @param {AbimongoModel<any>} model - The model to register.
+ * This function unregisters all models that were registered during tests.
  */
 export function clearModelRegistryForTests() {
   for (const model of registeredModels) {

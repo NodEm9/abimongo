@@ -6,7 +6,7 @@
 
 # Class: RedisService
 
-Defined in: [core/src/redis-manager/redisClient.ts:66](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/redis-manager/redisClient.ts#L66)
+Defined in: [core/src/redis-manager/redisClient.ts:66](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/redis-manager/redisClient.ts#L66)
 
 ## Constructors
 
@@ -24,7 +24,7 @@ Defined in: [core/src/redis-manager/redisClient.ts:66](https://github.com/NodEm9
 
 > **close**(): `Promise`\<`void`\>
 
-Defined in: [core/src/redis-manager/redisClient.ts:82](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/redis-manager/redisClient.ts#L82)
+Defined in: [core/src/redis-manager/redisClient.ts:82](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/redis-manager/redisClient.ts#L82)
 
 #### Returns
 
@@ -36,7 +36,7 @@ Defined in: [core/src/redis-manager/redisClient.ts:82](https://github.com/NodEm9
 
 > **connect**(`url?`): `Promise`\<`void`\>
 
-Defined in: [core/src/redis-manager/redisClient.ts:70](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/redis-manager/redisClient.ts#L70)
+Defined in: [core/src/redis-manager/redisClient.ts:70](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/redis-manager/redisClient.ts#L70)
 
 #### Parameters
 
@@ -54,15 +54,13 @@ Defined in: [core/src/redis-manager/redisClient.ts:70](https://github.com/NodEm9
 
 > **getClient**(): `Promise`\<`RedisClientType`\>
 
-Defined in: [core/src/redis-manager/redisClient.ts:79](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/redis-manager/redisClient.ts#L79)
+Defined in: [core/src/redis-manager/redisClient.ts:79](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/redis-manager/redisClient.ts#L79)
 
 #### Returns
 
 `Promise`\<`RedisClientType`\>
 
-```ts
-Promise<RedisClientType> The connected Redis client.
-```
+The connected Redis client.
 
 #### Throws
 
@@ -74,7 +72,7 @@ Error if Redis is not connected.
 
 > `static` **getInstance**(): `RedisService`
 
-Defined in: [core/src/redis-manager/redisClient.ts:67](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/redis-manager/redisClient.ts#L67)
+Defined in: [core/src/redis-manager/redisClient.ts:67](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/redis-manager/redisClient.ts#L67)
 
 #### Returns
 

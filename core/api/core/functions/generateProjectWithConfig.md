@@ -2,7 +2,7 @@
 
 > **generateProjectWithConfig**(`config`): `Promise`\<`void`\>
 
-Defined in: [core/src/init-cli/generate.project.ts:55](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/init-cli/generate.project.ts#L55)
+Defined in: [core/src/init-cli/generate.project.ts:55](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/init-cli/generate.project.ts#L55)
 
 ## Parameters
 

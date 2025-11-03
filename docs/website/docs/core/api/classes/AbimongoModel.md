@@ -6,7 +6,7 @@
 
 # Class: AbimongoModel\<T\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:41](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L41)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:41](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L41)
 
 Represents a model for MongoDB operations with support for schema validation, middleware, and multi-tenancy.
 
@@ -24,7 +24,7 @@ The type of the document in the collection.
 
 > **new AbimongoModel**\<`T`\>(`options`): `AbimongoModel`\<`T`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:52](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L52)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:52](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L52)
 
 #### Parameters
 
@@ -42,7 +42,7 @@ Defined in: [core/src/lib-core/AbimongoModelFactory.ts:52](https://github.com/No
 
 > **collectionName**: `string`
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:48](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L48)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:48](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L48)
 
 ## Accessors
 
@@ -52,7 +52,7 @@ Defined in: [core/src/lib-core/AbimongoModelFactory.ts:48](https://github.com/No
 
 > **get** **collection**(): `Collection`\<`T`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:200](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L200)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:200](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L200)
 
 Gets the MongoDB collection associated with this model.
 
@@ -70,7 +70,7 @@ The MongoDB collection.
 
 > **get** **schema**(): [`AbimongoSchema`](AbimongoSchema.md)\<`T`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:208](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L208)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:208](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L208)
 
 Gets the schema associated with this model.
 
@@ -86,7 +86,7 @@ The schema for the model.
 
 > **aggregate**\<`U`\>(`pipeline`, `options?`, `session?`): `Promise`\<`U`[]\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:679](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L679)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:679](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L679)
 
 Aggregates documents in the collection using a pipeline.
 
@@ -132,7 +132,7 @@ If the aggregation fails or the session cannot be started
 
 > **aggregateWithCache**(`pipeline`, `cacheKey`, `cacheDuration?`): `Promise`\<`T`[]\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:796](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L796)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:796](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L796)
 
 Aggregates documents in the collection using a pipeline with caching.
 
@@ -172,7 +172,7 @@ If the pipeline is not valid or the cache key is not a string.
 
 > **aggregateWithTransaction**\<`U`\>(`pipeline`, `options?`): `Promise`\<`U`[]\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:707](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L707)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:707](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L707)
 
 Aggregates documents in the collection using a pipeline with a transaction.
 
@@ -212,7 +212,7 @@ If the aggregation fails or the session cannot be started
 
 > **bulkInsert**(`docs`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:315](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L315)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:315](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L315)
 
 Performs a bulk insert of documents into the collection.
 
@@ -236,7 +236,7 @@ Resolves when the bulk insert is complete.
 
 > **bulkUpdate**(`updates`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:329](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L329)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:329](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L329)
 
 Performs a bulk update of multiple documents in the collection.
 
@@ -260,7 +260,7 @@ Resolves when the bulk update is complete.
 
 > **create**(`doc`): `Promise`\<`T`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:251](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L251)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:251](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L251)
 
 Creates a new document in the collection.
 
@@ -284,7 +284,7 @@ The created document with its `_id`.
 
 > **createIndex**(`fields`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:871](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L871)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:871](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L871)
 
 Creates an index on the specified fields in the collection.
 
@@ -308,7 +308,7 @@ Resolves when the index is created.
 
 > **deleteMany**(`filter`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:414](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L414)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:414](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L414)
 
 Deletes multiple documents from the collection.
 
@@ -332,7 +332,7 @@ Resolves when the documents are deleted.
 
 > **deleteOne**(`filter`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:398](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L398)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:398](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L398)
 
 Deletes a single document from the collection.
 
@@ -356,7 +356,7 @@ Resolves when the document is deleted.
 
 > **deleteSecure**(`filter`, `user`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:665](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L665)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:665](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L665)
 
 Deletes a document securely with user authorization.
 
@@ -386,7 +386,7 @@ Resolves when the document is deleted.
 
 > **deleteWithTransaction**(`filter`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:466](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L466)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:466](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L466)
 
 Deletes a document with a transaction.
 
@@ -410,7 +410,7 @@ Resolves when the document is deleted.
 
 > **dropIndex**(`indexName`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:882](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L882)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:882](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L882)
 
 Drops an index from the collection by its name.
 
@@ -434,7 +434,7 @@ Resolves when the index is dropped.
 
 > **find**(`filter?`): `Promise`\<`T`[]\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:271](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L271)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:271](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L271)
 
 Finds documents in the collection that match the filter.
 
@@ -458,7 +458,7 @@ An array of matching documents.
 
 > **findCached**(`key`): `Promise`\<`any`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:513](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L513)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:513](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L513)
 
 Finds a document in the cache by its key.
 
@@ -482,7 +482,7 @@ The cached result or `null` if not found.
 
 > **findOne**(`filter`): `Promise`\<`T` \| `null`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:285](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L285)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:285](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L285)
 
 Finds a single document in the collection that matches the filter.
 
@@ -510,7 +510,7 @@ If the filter is not a valid object.
 
 > **findOneAndDelete**(`filter`): `Promise`\<`T` \| `null`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:580](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L580)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:580](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L580)
 
 Finds a document and deletes it from the collection.
 
@@ -534,7 +534,7 @@ The deleted document or `null` if not found.
 
 > **findOneAndReplace**(`filter`, `replacement`): `Promise`\<`T` \| `null`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:592](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L592)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:592](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L592)
 
 Finds a document and replaces it with a new document.
 
@@ -564,7 +564,7 @@ The replaced document or `null` if not found.
 
 > **findOneAndUpdate**(`filter`, `update`): `Promise`\<`T` \| `null`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:569](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L569)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:569](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L569)
 
 Finds a document and updates it in the collection.
 
@@ -594,7 +594,7 @@ The updated document or `null` if not found.
 
 > **findOneAndUpsert**(`filter`, `update`): `Promise`\<`T` \| `null`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:604](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L604)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:604](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L604)
 
 Finds a document and upserts it (inserts if not found).
 
@@ -624,7 +624,7 @@ The updated or inserted document.
 
 > **findOneAndUpsertWithTransaction**(`filter`, `update`): `Promise`\<`T` \| `null`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:616](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L616)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:616](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L616)
 
 Finds a document and upserts it (inserts if not found) with a transaction.
 
@@ -654,7 +654,7 @@ The updated or inserted document.
 
 > **findOneAndUpsertWithTransactionSecure**(`filter`, `update`, `user`): `Promise`\<`T` \| `null`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:640](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L640)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:640](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L640)
 
 Finds a document and upserts it (inserts if not found) with a transaction and user authorization.
 
@@ -690,7 +690,7 @@ The updated or inserted document.
 
 > **getSchema**(): [`AbimongoSchema`](AbimongoSchema.md)\<`T`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:389](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L389)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:389](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L389)
 
 #### Returns
 
@@ -702,7 +702,7 @@ Defined in: [core/src/lib-core/AbimongoModelFactory.ts:389](https://github.com/N
 
 > **init**(): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:134](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L134)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:134](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L134)
 
 Initializes the database connection and collection.
 
@@ -720,7 +720,7 @@ If the collection name is not provided.
 
 > **invalidateDocumentCache**(`doc`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:965](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L965)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:965](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L965)
 
 Invalidates the cache for the specified document.
 
@@ -744,7 +744,7 @@ Resolves when the cache is invalidated.
 
 > **invalidateModelPattern**(`pattern`): `Promise`\<`number`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:950](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L950)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:950](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L950)
 
 Instance method to invalidate cache patterns for this model's tenant context.
 
@@ -768,7 +768,7 @@ Number of keys invalidated.
 
 > **off**(`event`, `listener`): `void`
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:123](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L123)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:123](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L123)
 
 #### Parameters
 
@@ -790,7 +790,7 @@ Defined in: [core/src/lib-core/AbimongoModelFactory.ts:123](https://github.com/N
 
 > **on**(`event`, `listener`): `void`
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:117](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L117)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:117](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L117)
 
 Subscribes to events emitted by the model.
 
@@ -818,7 +818,7 @@ The callback function to execute when the event is emitted.
 
 > **once**(`event`, `listener`): `void`
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:120](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L120)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:120](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L120)
 
 #### Parameters
 
@@ -840,7 +840,7 @@ Defined in: [core/src/lib-core/AbimongoModelFactory.ts:120](https://github.com/N
 
 > **paginatedFind**(`filter`, `pageSize`, `lastId?`): `Promise`\<`T`[]\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:840](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L840)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:840](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L840)
 
 Cursor-based pagination using _id comparison instead of skip.
 
@@ -877,7 +877,7 @@ This method uses the _id field for pagination, which is more efficient than usin
 
 > **populateMany**\<`K`\>(`doc`, `field`, `relatedModel`): `Promise`\<`T` & \{ \[key in string \| number \| symbol\]?: K\[\] \} \| `null`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:450](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L450)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:450](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L450)
 
 Populates a field in a document with an array of related documents.
 
@@ -919,7 +919,7 @@ The populated document.
 
 > **populateOne**\<`K`\>(`doc`, `field`, `relatedModel`): `Promise`\<`T` & \{ \[key in string \| number \| symbol\]?: K \} \| `null`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:432](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L432)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:432](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L432)
 
 Populates a single field in a document with data from a related model.
 
@@ -961,7 +961,7 @@ The populated document.
 
 > **registerModel**(`options`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:166](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L166)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:166](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L166)
 
 #### Parameters
 
@@ -979,7 +979,7 @@ Defined in: [core/src/lib-core/AbimongoModelFactory.ts:166](https://github.com/N
 
 > **removeListener**(`event`, `listener`): `void`
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:126](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L126)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:126](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L126)
 
 #### Parameters
 
@@ -1001,7 +1001,7 @@ Defined in: [core/src/lib-core/AbimongoModelFactory.ts:126](https://github.com/N
 
 > **runCommand**(`command`, ...`args`): `Promise`\<`any`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:1037](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L1037)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:1037](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L1037)
 
 Runs a custom command on the collection.
 
@@ -1031,7 +1031,7 @@ The result of the command.
 
 > **runGC**(): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:1047](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L1047)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:1047](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L1047)
 
 Runs the garbage collector for expired documents.
 
@@ -1047,7 +1047,7 @@ Resolves when the garbage collection is complete.
 
 > **runInTransaction**\<`T`\>(`operations`): `Promise`\<`T`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:755](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L755)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:755](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L755)
 
 #### Type Parameters
 
@@ -1071,7 +1071,7 @@ Defined in: [core/src/lib-core/AbimongoModelFactory.ts:755](https://github.com/N
 
 > **startAutoGC**(`intervalMs`): `void`
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:1077](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L1077)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:1077](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L1077)
 
 Starts the automatic garbage collection process.
 
@@ -1093,7 +1093,7 @@ The interval in milliseconds for the garbage collection to run.
 
 > **streamAggregation**\<`U`\>(`pipeline`, `options`): `Promise`\<`Readable` & `AsyncIterable`\<`U`, `any`, `any`\>\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:779](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L779)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:779](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L779)
 
 Streaming aggregation - returns a cursor for large datasets
 
@@ -1129,7 +1129,7 @@ Aggregation cursor for streaming results
 
 > **updateOne**(`filter`, `update`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:302](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L302)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:302](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L302)
 
 Updates a single document in the collection.
 
@@ -1159,7 +1159,7 @@ Resolves when the update is complete.
 
 > **updateWithTransaction**(`filter`, `update`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:492](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L492)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:492](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L492)
 
 Updates a document with a transaction.
 
@@ -1189,7 +1189,7 @@ Resolves when the document is updated.
 
 > **validate**(`doc`): `Promise`\<`T`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:217](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L217)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:217](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L217)
 
 Validates a document against the schema.
 
@@ -1213,7 +1213,7 @@ The validated document.
 
 > **warmCache**(`queries?`, `defaultTtl?`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:1120](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L1120)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:1120](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L1120)
 
 Pre-populates cache with frequently accessed data.
 
@@ -1241,7 +1241,7 @@ Resolves when cache warming is complete.
 
 > **watchChanges**(`callback`): `ChangeStream`\<`T`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:860](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L860)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:860](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L860)
 
 Watches changes in the collection using MongoDB Change Streams.
 
@@ -1265,7 +1265,7 @@ The change stream instance.
 
 > `static` **cacheResult**(`key`, `data`, `ttl?`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:532](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L532)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:532](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L532)
 
 Caches a result with a specified key and time-to-live (TTL).
 
@@ -1301,7 +1301,7 @@ Resolves when the data is cached.
 
 > `static` **clearCache**(`key`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:550](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L550)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:550](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L550)
 
 Clears a cached result by its key.
 
@@ -1325,7 +1325,7 @@ Resolves when the cache is cleared.
 
 > `static` **getCacheStats**(`tenantId?`): `Promise`\<`any`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:976](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L976)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:976](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L976)
 
 Retrieves cache statistics for monitoring and optimization.
 
@@ -1349,7 +1349,7 @@ Object containing cache statistics.
 
 > `static` **invalidatePattern**(`pattern`): `Promise`\<`number`\>
 
-Defined in: [core/src/lib-core/AbimongoModelFactory.ts:892](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/lib-core/AbimongoModelFactory.ts#L892)
+Defined in: [core/src/lib-core/AbimongoModelFactory.ts:892](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoModelFactory.ts#L892)
 
 Invalidates multiple cache entries matching a pattern.
 

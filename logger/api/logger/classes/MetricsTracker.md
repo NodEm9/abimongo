@@ -1,6 +1,6 @@
 # Class: MetricsTracker
 
-Defined in: [utils/MetricsTracker.ts:23](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/utils/MetricsTracker.ts#L23)
+Defined in: [utils/MetricsTracker.ts:23](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/utils/MetricsTracker.ts#L23)
 
 ## Constructors
 
@@ -8,7 +8,7 @@ Defined in: [utils/MetricsTracker.ts:23](https://github.com/NodEm9/abimongo/blob
 
 > **new MetricsTracker**(): `MetricsTracker`
 
-Defined in: [utils/MetricsTracker.ts:31](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/utils/MetricsTracker.ts#L31)
+Defined in: [utils/MetricsTracker.ts:31](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/utils/MetricsTracker.ts#L31)
 
 #### Returns
 
@@ -20,7 +20,7 @@ Defined in: [utils/MetricsTracker.ts:31](https://github.com/NodEm9/abimongo/blob
 
 > `static` **instance**: `MetricsTracker`
 
-Defined in: [utils/MetricsTracker.ts:29](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/utils/MetricsTracker.ts#L29)
+Defined in: [utils/MetricsTracker.ts:29](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/utils/MetricsTracker.ts#L29)
 
 ## Methods
 
@@ -28,7 +28,7 @@ Defined in: [utils/MetricsTracker.ts:29](https://github.com/NodEm9/abimongo/blob
 
 > **getSnapshot**(): [`MetricsSnapshot`](../interfaces/MetricsSnapshot.md)
 
-Defined in: [utils/MetricsTracker.ts:74](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/utils/MetricsTracker.ts#L74)
+Defined in: [utils/MetricsTracker.ts:74](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/utils/MetricsTracker.ts#L74)
 
 #### Returns
 
@@ -40,7 +40,7 @@ Defined in: [utils/MetricsTracker.ts:74](https://github.com/NodEm9/abimongo/blob
 
 > **isTrackingMetrics**(): `boolean`
 
-Defined in: [utils/MetricsTracker.ts:84](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/utils/MetricsTracker.ts#L84)
+Defined in: [utils/MetricsTracker.ts:84](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/utils/MetricsTracker.ts#L84)
 
 #### Returns
 
@@ -52,7 +52,7 @@ Defined in: [utils/MetricsTracker.ts:84](https://github.com/NodEm9/abimongo/blob
 
 > **start**(`interval`): `void`
 
-Defined in: [utils/MetricsTracker.ts:49](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/utils/MetricsTracker.ts#L49)
+Defined in: [utils/MetricsTracker.ts:49](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/utils/MetricsTracker.ts#L49)
 
 #### Parameters
 
@@ -70,7 +70,7 @@ Defined in: [utils/MetricsTracker.ts:49](https://github.com/NodEm9/abimongo/blob
 
 > **stop**(): `Promise`\<`void`\>
 
-Defined in: [utils/MetricsTracker.ts:59](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/utils/MetricsTracker.ts#L59)
+Defined in: [utils/MetricsTracker.ts:59](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/utils/MetricsTracker.ts#L59)
 
 #### Returns
 
@@ -82,7 +82,7 @@ Defined in: [utils/MetricsTracker.ts:59](https://github.com/NodEm9/abimongo/blob
 
 > **trackFlush**(): `void`
 
-Defined in: [utils/MetricsTracker.ts:41](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/utils/MetricsTracker.ts#L41)
+Defined in: [utils/MetricsTracker.ts:41](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/utils/MetricsTracker.ts#L41)
 
 #### Returns
 
@@ -94,7 +94,7 @@ Defined in: [utils/MetricsTracker.ts:41](https://github.com/NodEm9/abimongo/blob
 
 > **trackLog**(): `void`
 
-Defined in: [utils/MetricsTracker.ts:37](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/utils/MetricsTracker.ts#L37)
+Defined in: [utils/MetricsTracker.ts:37](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/utils/MetricsTracker.ts#L37)
 
 #### Returns
 
@@ -106,7 +106,7 @@ Defined in: [utils/MetricsTracker.ts:37](https://github.com/NodEm9/abimongo/blob
 
 > **trackRotation**(): `void`
 
-Defined in: [utils/MetricsTracker.ts:45](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/utils/MetricsTracker.ts#L45)
+Defined in: [utils/MetricsTracker.ts:45](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/utils/MetricsTracker.ts#L45)
 
 #### Returns
 

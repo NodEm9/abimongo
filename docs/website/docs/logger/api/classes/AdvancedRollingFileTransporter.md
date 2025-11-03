@@ -4,7 +4,7 @@
 
 # Class: AdvancedRollingFileTransporter
 
-Defined in: [transports/AdvancedRollingFileTransporter.ts:46](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/transports/AdvancedRollingFileTransporter.ts#L46)
+Defined in: [transports/AdvancedRollingFileTransporter.ts:46](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/AdvancedRollingFileTransporter.ts#L46)
 
 - AdvancedRollingFileTransporter
 
@@ -36,7 +36,7 @@ await transporter.close(); // Close the transporter when done
 
 > **new AdvancedRollingFileTransporter**(`options`): `AdvancedRollingFileTransporter`
 
-Defined in: [transports/AdvancedRollingFileTransporter.ts:54](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/transports/AdvancedRollingFileTransporter.ts#L54)
+Defined in: [transports/AdvancedRollingFileTransporter.ts:54](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/AdvancedRollingFileTransporter.ts#L54)
 
 #### Parameters
 
@@ -54,7 +54,7 @@ Defined in: [transports/AdvancedRollingFileTransporter.ts:54](https://github.com
 
 > **close**(): `Promise`\<`void`\>
 
-Defined in: [transports/AdvancedRollingFileTransporter.ts:230](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/transports/AdvancedRollingFileTransporter.ts#L230)
+Defined in: [transports/AdvancedRollingFileTransporter.ts:230](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/AdvancedRollingFileTransporter.ts#L230)
 
 #### Returns
 
@@ -66,7 +66,7 @@ Defined in: [transports/AdvancedRollingFileTransporter.ts:230](https://github.co
 
 > **ensureDirectoryExists**(): `void`
 
-Defined in: [transports/AdvancedRollingFileTransporter.ts:219](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/transports/AdvancedRollingFileTransporter.ts#L219)
+Defined in: [transports/AdvancedRollingFileTransporter.ts:219](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/AdvancedRollingFileTransporter.ts#L219)
 
 #### Returns
 
@@ -78,7 +78,7 @@ Defined in: [transports/AdvancedRollingFileTransporter.ts:219](https://github.co
 
 > **flush**(): `Promise`\<`void`\>
 
-Defined in: [transports/AdvancedRollingFileTransporter.ts:181](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/transports/AdvancedRollingFileTransporter.ts#L181)
+Defined in: [transports/AdvancedRollingFileTransporter.ts:181](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/AdvancedRollingFileTransporter.ts#L181)
 
 #### Returns
 
@@ -90,7 +90,7 @@ Defined in: [transports/AdvancedRollingFileTransporter.ts:181](https://github.co
 
 > **getLogDirectory**(): `string`
 
-Defined in: [transports/AdvancedRollingFileTransporter.ts:227](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/transports/AdvancedRollingFileTransporter.ts#L227)
+Defined in: [transports/AdvancedRollingFileTransporter.ts:227](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/AdvancedRollingFileTransporter.ts#L227)
 
 #### Returns
 
@@ -102,7 +102,7 @@ Defined in: [transports/AdvancedRollingFileTransporter.ts:227](https://github.co
 
 > **write**(`message`, `_level?`): `Promise`\<`void`\>
 
-Defined in: [transports/AdvancedRollingFileTransporter.ts:166](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/transports/AdvancedRollingFileTransporter.ts#L166)
+Defined in: [transports/AdvancedRollingFileTransporter.ts:166](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/AdvancedRollingFileTransporter.ts#L166)
 
 #### Parameters
 

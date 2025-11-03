@@ -1,6 +1,6 @@
 # Class: AbimongoSchema\<T\>
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:15](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L15)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:15](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L15)
 
 The AbimongoSchema class allows you to define a schema for your MongoDB documents, including custom validation, indexing, and relationships between collections.
 It also supports hooks for pre- and post-processing of documents, as well as virtual fields
@@ -21,7 +21,7 @@ It also supports hooks for pre- and post-processing of documents, as well as vir
 
 > **new AbimongoSchema**\<`T`\>(`schemaDefinition`): `AbimongoSchema`\<`T`\>
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:29](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L29)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:29](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L29)
 
 Creates an instance of AbimongoSchema.
 
@@ -43,7 +43,7 @@ The schema definition for the document.
 
 > **addHook**(`event`, `fn`): `void`
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:128](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L128)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:128](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L128)
 
 Adds a hook to be executed for a specific event.
 
@@ -71,7 +71,7 @@ The hook function to execute.
 
 > **addRelationship**(`ref`, `localField`): `void`
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:89](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L89)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:89](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L89)
 
 Adds a relationship to the schema.
 
@@ -99,7 +99,7 @@ The field in the current document that holds the reference.
 
 > **applyIndexes**(`collection`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:78](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L78)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:78](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L78)
 
 Applies all defined indexes to a MongoDB collection.
 
@@ -123,7 +123,7 @@ Resolves when all indexes are applied.
 
 > **applyVirtuals**(`doc`): `void`
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:114](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L114)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:114](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L114)
 
 Applies all virtual fields to a document.
 
@@ -145,7 +145,7 @@ The document to apply virtual fields to.
 
 > **executeHooks**(`event`, `data`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:139](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L139)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:139](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L139)
 
 Executes all hooks for a specific event.
 
@@ -175,7 +175,7 @@ Resolves when all hooks are executed.
 
 > **getGCConfig**(): [`GCConfig`](../type-aliases/GCConfig.md) \| `undefined`
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:208](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L208)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:208](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L208)
 
 #### Returns
 
@@ -187,7 +187,7 @@ Defined in: [core/src/lib-core/AbimongoSchema.ts:208](https://github.com/NodEm9/
 
 > **getHooks**(`action`): [`HookFunction`](../type-aliases/HookFunction.md)[]
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:164](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L164)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:164](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L164)
 
 Retrieves all hooks for a specific action.
 
@@ -211,7 +211,7 @@ An array of hook functions.
 
 > **getRelationships**(): [`Relationship`](../interfaces/Relationship.md)\<`any`\>[]
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:97](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L97)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:97](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L97)
 
 Retrieves all relationships defined in the schema.
 
@@ -227,7 +227,7 @@ An array of relationships.
 
 > **getSchema**(): [`SchemaDefinition`](../type-aliases/SchemaDefinition.md)\<`T`\>
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:37](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L37)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:37](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L37)
 
 Retrieves the schema definition.
 
@@ -243,7 +243,7 @@ The schema definition.
 
 > **index**(`fields`, `options?`): `void`
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:69](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L69)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:69](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L69)
 
 Adds an index to the schema.
 
@@ -271,7 +271,7 @@ Optional index options.
 
 > **post**(`action`, `fn`): `void`
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:173](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L173)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:173](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L173)
 
 Adds a post-hook for a specific action.
 
@@ -299,7 +299,7 @@ The hook function to execute after the action.
 
 > **pre**(`action`, `fn`): `void`
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:152](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L152)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:152](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L152)
 
 Adds a pre-hook for a specific action.
 
@@ -327,7 +327,7 @@ The hook function to execute before the action.
 
 > **registerSchema**(`schemaDefinition`): `void`
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:198](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L198)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:198](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L198)
 
 #### Parameters
 
@@ -345,7 +345,7 @@ Defined in: [core/src/lib-core/AbimongoSchema.ts:198](https://github.com/NodEm9/
 
 > **setGCConfig**(`config`): `this`
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:203](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L203)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:203](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L203)
 
 #### Parameters
 
@@ -363,7 +363,7 @@ Defined in: [core/src/lib-core/AbimongoSchema.ts:203](https://github.com/NodEm9/
 
 > **triggerMiddleware**(`action`, `data`): `Promise`\<`void`\>
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:186](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L186)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:186](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L186)
 
 Triggers middleware for a specific action.
 
@@ -393,7 +393,7 @@ Resolves when all middleware functions are executed.
 
 > **validate**(`doc`): `void`
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:55](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L55)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:55](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L55)
 
 Validates a document against the schema's custom validators.
 
@@ -419,7 +419,7 @@ If validation fails for any field.
 
 > **validator**(`field`, `fn`): `void`
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:46](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L46)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:46](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L46)
 
 Adds a custom validator for a specific field.
 
@@ -447,7 +447,7 @@ The validation function.
 
 > **virtual**(`name`, `getter`): `void`
 
-Defined in: [core/src/lib-core/AbimongoSchema.ts:106](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/lib-core/AbimongoSchema.ts#L106)
+Defined in: [core/src/lib-core/AbimongoSchema.ts:106](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/lib-core/AbimongoSchema.ts#L106)
 
 Adds a virtual field to the schema.
 

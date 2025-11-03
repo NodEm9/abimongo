@@ -8,7 +8,7 @@
 
 > **Document** = `object`
 
-Defined in: [core/src/types/document.ts:4](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/types/document.ts#L4)
+Defined in: [core/src/types/document.ts:4](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/document.ts#L4)
 
 Represents a generic document in MongoDB.
 

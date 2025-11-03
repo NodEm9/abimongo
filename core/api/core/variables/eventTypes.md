@@ -2,4 +2,4 @@
 
 > `const` **eventTypes**: [`EventType`](../type-aliases/EventType.md)[]
 
-Defined in: [core/src/types/event.type.ts:27](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/event.type.ts#L27)
+Defined in: [core/src/types/event.type.ts:27](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/event.type.ts#L27)

@@ -73,7 +73,7 @@ export class RedisService {
 
   /**
  * 
- * @returns Promise<`RedisClientType`> The connected Redis client.
+ * @returns {`Promise<RedisClientType>`} The connected Redis client.
  * @throws Error if Redis is not connected.
  */
   getClient(): Promise<RedisClientType> {

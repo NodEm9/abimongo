@@ -20,12 +20,12 @@ const FeatureList: FeatureItem[] = [
       <>
         Abimongo is a MongoDB ODM for TypeScript and JavaScript. It is designed to be easy to use, flexible, and powerful.
         With Abimongo, you can define schemas, models, and relationships between collections, as well as perform CRUD operations and complex queries with ease.
-      </>
+      </> 
     ),
   },
   {
     title: 'Focus on What Matters',
-    Svg: require('../../../static/img/focus_glass-dark.svg').default,
+    Svg: require('../../../static/img/focus-glass-6.svg').default,
     description: (
       <>
         With Abimongo you can focus on your business logic and let the library handle

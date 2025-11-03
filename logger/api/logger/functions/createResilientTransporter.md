@@ -2,7 +2,7 @@
 
 > **createResilientTransporter**(`baseTransporter`): [`RemoteTransporter`](../type-aliases/RemoteTransporter.md)
 
-Defined in: [transports/remote.transport.ts:68](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/transports/remote.transport.ts#L68)
+Defined in: [transports/remote.transport.ts:68](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/transports/remote.transport.ts#L68)
 
 Wraps a base RemoteTransporter with resilience features such as retries and circuit breaking.
 

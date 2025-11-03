@@ -1,6 +1,6 @@
 # Interface: MetricsSnapshot
 
-Defined in: [utils/MetricsTracker.ts:16](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/utils/MetricsTracker.ts#L16)
+Defined in: [utils/MetricsTracker.ts:16](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/utils/MetricsTracker.ts#L16)
 
 MetricsTracker is a utility class for tracking and reporting metrics related to logging operations.
 It tracks the total number of logs, flushed buffers, and rotations, and provides periodic snapshots.
@@ -24,7 +24,7 @@ metrics.stop(); // Stop tracking
 
 > **flushedBuffers**: `number`
 
-Defined in: [utils/MetricsTracker.ts:18](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/utils/MetricsTracker.ts#L18)
+Defined in: [utils/MetricsTracker.ts:18](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/utils/MetricsTracker.ts#L18)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [utils/MetricsTracker.ts:18](https://github.com/NodEm9/abimongo/blob
 
 > **logsPerMinute**: `number`
 
-Defined in: [utils/MetricsTracker.ts:20](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/utils/MetricsTracker.ts#L20)
+Defined in: [utils/MetricsTracker.ts:20](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/utils/MetricsTracker.ts#L20)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [utils/MetricsTracker.ts:20](https://github.com/NodEm9/abimongo/blob
 
 > **rotations**: `number`
 
-Defined in: [utils/MetricsTracker.ts:19](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/utils/MetricsTracker.ts#L19)
+Defined in: [utils/MetricsTracker.ts:19](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/utils/MetricsTracker.ts#L19)
 
 ***
 
@@ -48,4 +48,4 @@ Defined in: [utils/MetricsTracker.ts:19](https://github.com/NodEm9/abimongo/blob
 
 > **totalLogs**: `number`
 
-Defined in: [utils/MetricsTracker.ts:17](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/logger/src/utils/MetricsTracker.ts#L17)
+Defined in: [utils/MetricsTracker.ts:17](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/utils/MetricsTracker.ts#L17)

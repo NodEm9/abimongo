@@ -1,6 +1,6 @@
 # Interface: ILogger
 
-Defined in: [core/src/types/logger.types.ts:10](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/logger.types.ts#L10)
+Defined in: [core/src/types/logger.types.ts:10](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/logger.types.ts#L10)
 
 ## Methods
 
@@ -8,7 +8,7 @@ Defined in: [core/src/types/logger.types.ts:10](https://github.com/NodEm9/abimon
 
 > **debug**(`message`): `void`
 
-Defined in: [core/src/types/logger.types.ts:15](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/logger.types.ts#L15)
+Defined in: [core/src/types/logger.types.ts:15](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/logger.types.ts#L15)
 
 #### Parameters
 
@@ -26,7 +26,7 @@ Defined in: [core/src/types/logger.types.ts:15](https://github.com/NodEm9/abimon
 
 > **error**(`message`): `void`
 
-Defined in: [core/src/types/logger.types.ts:13](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/logger.types.ts#L13)
+Defined in: [core/src/types/logger.types.ts:13](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/logger.types.ts#L13)
 
 #### Parameters
 
@@ -44,7 +44,7 @@ Defined in: [core/src/types/logger.types.ts:13](https://github.com/NodEm9/abimon
 
 > **fatal**(`message`): `void`
 
-Defined in: [core/src/types/logger.types.ts:14](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/logger.types.ts#L14)
+Defined in: [core/src/types/logger.types.ts:14](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/logger.types.ts#L14)
 
 #### Parameters
 
@@ -62,7 +62,7 @@ Defined in: [core/src/types/logger.types.ts:14](https://github.com/NodEm9/abimon
 
 > **info**(`message`): `void`
 
-Defined in: [core/src/types/logger.types.ts:11](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/logger.types.ts#L11)
+Defined in: [core/src/types/logger.types.ts:11](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/logger.types.ts#L11)
 
 #### Parameters
 
@@ -80,7 +80,7 @@ Defined in: [core/src/types/logger.types.ts:11](https://github.com/NodEm9/abimon
 
 > **warn**(`message`): `void`
 
-Defined in: [core/src/types/logger.types.ts:12](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/logger.types.ts#L12)
+Defined in: [core/src/types/logger.types.ts:12](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/logger.types.ts#L12)
 
 #### Parameters
 

@@ -1,6 +1,6 @@
 # Class: AuthService
 
-Defined in: [core/src/utils/AuthUtils.ts:10](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/utils/AuthUtils.ts#L10)
+Defined in: [core/src/utils/AuthUtils.ts:10](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/utils/AuthUtils.ts#L10)
 
 ## Constructors
 
@@ -18,7 +18,7 @@ Defined in: [core/src/utils/AuthUtils.ts:10](https://github.com/NodEm9/abimongo/
 
 > `static` **generateRefreshToken**(`user`): `string`
 
-Defined in: [core/src/utils/AuthUtils.ts:17](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/utils/AuthUtils.ts#L17)
+Defined in: [core/src/utils/AuthUtils.ts:17](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/utils/AuthUtils.ts#L17)
 
 #### Parameters
 
@@ -42,7 +42,7 @@ Defined in: [core/src/utils/AuthUtils.ts:17](https://github.com/NodEm9/abimongo/
 
 > `static` **generateToken**(`user`): `string`
 
-Defined in: [core/src/utils/AuthUtils.ts:11](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/utils/AuthUtils.ts#L11)
+Defined in: [core/src/utils/AuthUtils.ts:11](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/utils/AuthUtils.ts#L11)
 
 #### Parameters
 
@@ -70,7 +70,7 @@ Defined in: [core/src/utils/AuthUtils.ts:11](https://github.com/NodEm9/abimongo/
 
 > `static` **verifyToken**(`token`): `string` \| `JwtPayload`
 
-Defined in: [core/src/utils/AuthUtils.ts:26](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/utils/AuthUtils.ts#L26)
+Defined in: [core/src/utils/AuthUtils.ts:26](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/utils/AuthUtils.ts#L26)
 
 #### Parameters
 

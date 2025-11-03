@@ -4,7 +4,7 @@
 
 # Class: Logger
 
-Defined in: [logger/setupLogger.ts:31](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/logger/setupLogger.ts#L31)
+Defined in: [logger/setupLogger.ts:31](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/logger/setupLogger.ts#L31)
 
 Logger class that provides a singleton instance of the logger.
 It can be initialized with a configuration object.
@@ -19,7 +19,7 @@ Logger.initialize(YourLoggerConfig);
 
 > **new Logger**(): `Logger`
 
-Defined in: [logger/setupLogger.ts:36](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/logger/setupLogger.ts#L36)
+Defined in: [logger/setupLogger.ts:36](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/logger/setupLogger.ts#L36)
 
 #### Returns
 
@@ -31,7 +31,7 @@ Defined in: [logger/setupLogger.ts:36](https://github.com/NodEm9/abimongo/blob/b
 
 > `static` **instance**: [`ILogger`](../interfaces/ILogger.md)
 
-Defined in: [logger/setupLogger.ts:33](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/logger/setupLogger.ts#L33)
+Defined in: [logger/setupLogger.ts:33](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/logger/setupLogger.ts#L33)
 
 ## Methods
 
@@ -39,7 +39,7 @@ Defined in: [logger/setupLogger.ts:33](https://github.com/NodEm9/abimongo/blob/b
 
 > `static` **initialize**(`config`): [`ILogger`](../interfaces/ILogger.md)
 
-Defined in: [logger/setupLogger.ts:44](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/logger/src/logger/setupLogger.ts#L44)
+Defined in: [logger/setupLogger.ts:44](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/logger/src/logger/setupLogger.ts#L44)
 
 #### Parameters
 

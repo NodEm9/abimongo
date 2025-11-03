@@ -1,6 +1,6 @@
 # Interface: AbimongoGraphQLOptions
 
-Defined in: [core/src/types/graphql.type.ts:2](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/graphql.type.ts#L2)
+Defined in: [core/src/types/graphql.type.ts:2](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/graphql.type.ts#L2)
 
 ## Properties
 
@@ -8,7 +8,7 @@ Defined in: [core/src/types/graphql.type.ts:2](https://github.com/NodEm9/abimong
 
 > `optional` **customResolvers**: `any`[]
 
-Defined in: [core/src/types/graphql.type.ts:6](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/graphql.type.ts#L6)
+Defined in: [core/src/types/graphql.type.ts:6](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/graphql.type.ts#L6)
 
 ***
 
@@ -16,7 +16,7 @@ Defined in: [core/src/types/graphql.type.ts:6](https://github.com/NodEm9/abimong
 
 > `optional` **customTypeDefs**: `string`[]
 
-Defined in: [core/src/types/graphql.type.ts:5](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/graphql.type.ts#L5)
+Defined in: [core/src/types/graphql.type.ts:5](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/graphql.type.ts#L5)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [core/src/types/graphql.type.ts:5](https://github.com/NodEm9/abimong
 
 > `optional` **defaultResolvers**: `any`[]
 
-Defined in: [core/src/types/graphql.type.ts:4](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/graphql.type.ts#L4)
+Defined in: [core/src/types/graphql.type.ts:4](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/graphql.type.ts#L4)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [core/src/types/graphql.type.ts:4](https://github.com/NodEm9/abimong
 
 > `optional` **enablePlayground**: `boolean`
 
-Defined in: [core/src/types/graphql.type.ts:7](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/graphql.type.ts#L7)
+Defined in: [core/src/types/graphql.type.ts:7](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/graphql.type.ts#L7)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [core/src/types/graphql.type.ts:7](https://github.com/NodEm9/abimong
 
 > `optional` **enableSubscriptions**: `boolean`
 
-Defined in: [core/src/types/graphql.type.ts:8](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/graphql.type.ts#L8)
+Defined in: [core/src/types/graphql.type.ts:8](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/graphql.type.ts#L8)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [core/src/types/graphql.type.ts:8](https://github.com/NodEm9/abimong
 
 > `optional` **schemaOutputPath**: `string`
 
-Defined in: [core/src/types/graphql.type.ts:9](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/graphql.type.ts#L9)
+Defined in: [core/src/types/graphql.type.ts:9](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/graphql.type.ts#L9)
 
 ***
 
@@ -56,4 +56,4 @@ Defined in: [core/src/types/graphql.type.ts:9](https://github.com/NodEm9/abimong
 
 > `optional` **useRedis**: `boolean`
 
-Defined in: [core/src/types/graphql.type.ts:3](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/types/graphql.type.ts#L3)
+Defined in: [core/src/types/graphql.type.ts:3](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/types/graphql.type.ts#L3)

@@ -6,7 +6,7 @@
 
 # Class: AbimongoGC
 
-Defined in: [core/src/gc/AbimongoGC.ts:23](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/gc/AbimongoGC.ts#L23)
+Defined in: [core/src/gc/AbimongoGC.ts:23](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/gc/AbimongoGC.ts#L23)
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [core/src/gc/AbimongoGC.ts:23](https://github.com/NodEm9/abimongo/bl
 
 > **new AbimongoGC**(`options`): `AbimongoGC`
 
-Defined in: [core/src/gc/AbimongoGC.ts:32](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/gc/AbimongoGC.ts#L32)
+Defined in: [core/src/gc/AbimongoGC.ts:32](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/gc/AbimongoGC.ts#L32)
 
 #### Parameters
 
@@ -32,7 +32,7 @@ Defined in: [core/src/gc/AbimongoGC.ts:32](https://github.com/NodEm9/abimongo/bl
 
 > **register**(`collection`, `schema`): `void`
 
-Defined in: [core/src/gc/AbimongoGC.ts:85](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/gc/AbimongoGC.ts#L85)
+Defined in: [core/src/gc/AbimongoGC.ts:85](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/gc/AbimongoGC.ts#L85)
 
 #### Parameters
 
@@ -54,7 +54,7 @@ Defined in: [core/src/gc/AbimongoGC.ts:85](https://github.com/NodEm9/abimongo/bl
 
 > **runOnce**(): `Promise`\<`void`\>
 
-Defined in: [core/src/gc/AbimongoGC.ts:101](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/gc/AbimongoGC.ts#L101)
+Defined in: [core/src/gc/AbimongoGC.ts:101](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/gc/AbimongoGC.ts#L101)
 
 #### Returns
 
@@ -66,7 +66,7 @@ Defined in: [core/src/gc/AbimongoGC.ts:101](https://github.com/NodEm9/abimongo/b
 
 > **start**(): `void`
 
-Defined in: [core/src/gc/AbimongoGC.ts:89](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/gc/AbimongoGC.ts#L89)
+Defined in: [core/src/gc/AbimongoGC.ts:89](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/gc/AbimongoGC.ts#L89)
 
 #### Returns
 
@@ -78,7 +78,7 @@ Defined in: [core/src/gc/AbimongoGC.ts:89](https://github.com/NodEm9/abimongo/bl
 
 > **stop**(): `void`
 
-Defined in: [core/src/gc/AbimongoGC.ts:95](https://github.com/NodEm9/abimongo/blob/b56d3e49490f7e6aca34ccfab09fd80573f057a5/packages/core/src/gc/AbimongoGC.ts#L95)
+Defined in: [core/src/gc/AbimongoGC.ts:95](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/gc/AbimongoGC.ts#L95)
 
 #### Returns
 

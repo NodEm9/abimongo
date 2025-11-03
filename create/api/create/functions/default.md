@@ -2,7 +2,7 @@
 
 > **default**(): `void`
 
-Defined in: [index.ts:12](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/create/src/index.ts#L12)
+Defined in: [index.ts:12](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/create/src/index.ts#L12)
 
 ## Returns
 

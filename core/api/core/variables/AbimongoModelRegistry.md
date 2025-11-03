@@ -2,7 +2,7 @@
 
 > `const` **AbimongoModelRegistry**: `object`
 
-Defined in: [core/src/utils/ModelRegistry.ts:9](https://github.com/NodEm9/abimongo/blob/3e138ae382a8e575025463fa0581dc3e88325be9/packages/core/src/utils/ModelRegistry.ts#L9)
+Defined in: [core/src/utils/ModelRegistry.ts:9](https://github.com/NodEm9/abimongo/blob/23b90ad9d93280ea8ebc9947a72a9ef2957d29c0/packages/core/src/utils/ModelRegistry.ts#L9)
 
 AbimongoModelRegistry is a utility to register and manage Abimongo models.
 It allows you to register models and retrieve all registered models.

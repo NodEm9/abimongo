@@ -1,0 +1,96 @@
+.container {
+	padding: 24px;
+	max-width: 1100px;
+	margin: 0 auto;
+}
+
+.controls {
+	display: flex;
+	gap: 8px;
+	margin: 16px 0 20px;
+	flex-wrap: wrap;
+}
+
+.panel {
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.gridHeader {
+	display: grid;
+	grid-template-columns: 1fr 2fr 120px 100px 120px;
+	gap: 8px;
+	padding: 12px;
+	background: #f9fafb;
+	font-weight: 600;
+}
+
+.gridRow {
+	display: grid;
+	grid-template-columns: 1fr 2fr 120px 100px 120px;
+	gap: 8px;
+	padding: 12px;
+	align-items: center;
+	border-top: 1px solid #f3f4f6;
+}
+
+.cell {
+	display: block;
+}
+
+.monospace {
+	font-family: monospace;
+	word-break: break-all;
+}
+
+.actions {
+	display: flex;
+	gap: 8px;
+}
+
+.respPre {
+	background: rgba(0, 0, 0, 0.03);
+	padding: 12px;
+	border-radius: 6px;
+	max-height: 240px;
+	overflow: auto;
+}
+
+/* Mobile responsiveness: collapse grid into stacked rows and show labels */
+@media (max-width: 640px) {
+
+	.gridHeader,
+	.gridRow {
+		grid-template-columns: 1fr;
+	}
+
+	.gridHeader {
+		display: none;
+		/* hide header on small screens to save space */
+	}
+
+	.gridRow {
+		padding: 12px;
+	}
+
+	.cell {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 8px;
+		padding: 6px 0;
+	}
+
+	.cell:before {
+		content: attr(data-label);
+		min-width: 90px;
+		color: #6b7280;
+		font-weight: 600;
+		flex-shrink: 0;
+	}
+
+	input {
+		width: 100% !important;
+	}
+}

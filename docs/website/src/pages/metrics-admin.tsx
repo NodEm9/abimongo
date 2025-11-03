@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '@theme/Layout';
+import styles from './metrics-admin.module.css';
 
 type Metric = { id: string; label?: string; value?: any; unit?: string; delta?: number };
 
@@ -52,18 +53,18 @@ export default function MetricsAdmin() {
 
   return (
     <Layout title="Metrics Admin">
-      <div style={{ padding: 24, maxWidth: 1100, margin: '0 auto' }}>
+      <div className={styles.container}>
         <h1>Metrics Admin</h1>
         <p style={{ color: '#6b7280' }}>View and edit metrics for the docs dashboard. Works with the local metrics dev server.</p>
 
-        <div style={{ display: 'flex', gap: 8, margin: '16px 0 20px' }}>
+        <div className={styles.controls}>
           <button onClick={refresh} disabled={loading} aria-busy={loading}>Refresh</button>
           <button onClick={saveAll}>Save All</button>
           <button onClick={() => setMetrics([{ id: 'requests_total', label: 'Total Requests', value: 123456, unit: 'req', delta: 12 }])}>Load Sample</button>
         </div>
 
-        <div style={{ border: '1px solid #e5e7eb', borderRadius: 8, overflow: 'hidden' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 120px 100px 120px', gap: 8, padding: 12, background: '#f9fafb', fontWeight: 600 }}>
+        <div className={styles.panel}>
+          <div className={styles.gridHeader}>
             <div>ID</div>
             <div>Label</div>
             <div>Value</div>
@@ -71,20 +72,22 @@ export default function MetricsAdmin() {
             <div>Actions</div>
           </div>
           {metrics.map((m) => (
-            <div key={m.id} style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 120px 100px 120px', gap: 8, padding: 12, alignItems: 'center' }}>
-              <div style={{ fontFamily: 'monospace' }}>{m.id}</div>
-              <div>
+            <div key={m.id} className={styles.gridRow}>
+              <div className={`${styles.cell} ${styles.monospace}`} data-label="ID">{m.id}</div>
+              <div className={styles.cell} data-label="Label">
                 <input value={m.label || ''} onChange={(e) => updateMetric(m.id, { label: e.target.value })} style={{ width: '98%' }} />
               </div>
-              <div>
+              <div className={styles.cell} data-label="Value">
                 <input value={String(m.value ?? '')} onChange={(e) => updateMetric(m.id, { value: isNaN(Number(e.target.value)) ? e.target.value : Number(e.target.value) })} style={{ width: '98%' }} />
               </div>
-              <div>
+              <div className={styles.cell} data-label="Unit">
                 <input value={m.unit || ''} onChange={(e) => updateMetric(m.id, { unit: e.target.value })} style={{ width: '98%' }} />
               </div>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <button onClick={() => saveOne(m)}>Save</button>
-                <button onClick={() => { deleteMetric(m.id); setResp('Deleted ' + m.id); }}>Delete</button>
+              <div className={styles.cell} data-label="Actions">
+                <div className={styles.actions}>
+                  <button onClick={() => saveOne(m)}>Save</button>
+                  <button onClick={() => { deleteMetric(m.id); setResp('Deleted ' + m.id); }}>Delete</button>
+                </div>
               </div>
             </div>
           ))}
@@ -92,7 +95,7 @@ export default function MetricsAdmin() {
         </div>
 
         <h2 style={{ marginTop: 20 }}>Raw Response</h2>
-        <pre style={{ background: 'rgba(0,0,0,0.03)', padding: 12, borderRadius: 6, maxHeight: 240, overflow: 'auto' }}>{resp}</pre>
+        <pre className={styles.respPre}>{resp}</pre>
       </div>
     </Layout>
   );

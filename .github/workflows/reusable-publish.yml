@@ -71,8 +71,7 @@ jobs:
         run: |
           if [ "${{ inputs.package_manager }}" = "pnpm" ]; then
             corepack enable
-            # install workspace deps and link workspace packages so package builds can resolve local workspaces
-            pnpm install --frozen-lockfile --link-workspace-packages
+            pnpm install --frozen-lockfile
           else
             npm ci
           fi
@@ -83,8 +82,7 @@ jobs:
             echo "Package not found at ${{ inputs.package_path }}" && exit 1
           fi
           if [ "${{ inputs.package_manager }}" = "pnpm" ]; then
-            # Run the package build from the workspace context so local workspace packages are linked
-            pnpm -w --filter "${{ inputs.package_name }}" run build --if-present
+            pnpm --prefix ${{ inputs.package_path }} run build --if-present
           else
             npm --prefix ${{ inputs.package_path }} run build --if-present
           fi

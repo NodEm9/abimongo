@@ -3,7 +3,7 @@ import styles from './dashboard.module.css';
 import MetricCard from './MetricCard';
 import { useMetrics } from './useMetrics';
 import type { Metric } from './types';
-import { fetchNpmDownloads } from './npmDownloads';
+// npm stats are provided by the dev metrics server at /api/npm-downloads
 
 export default function LogDashboard(): ReactNode {
   const [logs, setLogs] = useState<{ tenant: string; message: string }[]>([]);
@@ -27,20 +27,32 @@ export default function LogDashboard(): ReactNode {
   const { data: metrics, loading, error } = useMetrics({ pollMs: 15000 });
   const [npmMetrics, setNpmMetrics] = useState<Metric[] | null>(null);
 
-  // fetch npm download stats for our workspace packages and refresh periodically
+  // fetch npm download stats from the dev metrics server and refresh periodically
   useEffect(() => {
     let mounted = true;
-    const pkgs = ['@abimongo/core', '@abimongo/cli', '@abimongo/logger', '@abimongo/create'];
     async function load() {
       try {
-        const arr = await fetchNpmDownloads(pkgs);
-        if (mounted) setNpmMetrics(arr);
+        const r = await fetch('/api/npm-downloads');
+        if (!r.ok) throw new Error(String(r.status));
+        const j = await r.json();
+        // j: [{ package, week, month, year }]
+        const normalized: Metric[] = [];
+        for (const item of j) {
+          if (item.error) {
+            normalized.push({ id: `npm:${item.package}:error`, label: `${item.package} — npm stats`, value: item.error });
+            continue;
+          }
+          normalized.push({ id: `npm:${item.package}:week`, label: `${item.package} — last week`, value: item.week, unit: 'downloads' });
+          normalized.push({ id: `npm:${item.package}:month`, label: `${item.package} — last month`, value: item.month, unit: 'downloads' });
+          normalized.push({ id: `npm:${item.package}:year`, label: `${item.package} — last year`, value: item.year, unit: 'downloads' });
+        }
+        if (mounted) setNpmMetrics(normalized);
       } catch (e) {
         if (mounted) setNpmMetrics([{ id: 'npm:error', label: 'npm stats', value: (e as any)?.message ?? 'error' } as any]);
       }
     }
     load();
-    const id = window.setInterval(load, 60_000); // refresh every minute
+    const id = window.setInterval(load, 60_000);
     return () => { mounted = false; window.clearInterval(id); };
   }, []);
 

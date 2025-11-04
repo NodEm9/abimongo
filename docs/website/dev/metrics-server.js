@@ -267,5 +267,46 @@ const server = http.createServer(async (req, res) => {
   res.end('Not found');
 });
 
+// Add server-side npm downloads aggregation endpoint
+async function fetchNpmPoint(pkg, range) {
+  const safe = encodeURIComponent(pkg);
+  const url = `https://api.npmjs.org/downloads/point/${range}/${safe}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`npm API ${res.status}`);
+  const j = await res.json();
+  return (j && typeof j.downloads === 'number') ? j.downloads : 0;
+}
+
+server.on('request', async (req, res) => {
+  // This additional listener only handles the npm endpoint; let main handler process other routes.
+  try {
+    const { method, url } = req;
+    if (method === 'GET' && url && url.startsWith('/api/npm-downloads')) {
+      // optional query: ?packages=comma,separated
+      const u = new URL(req.url, `http://localhost:${PORT}`);
+      const qp = u.searchParams.get('packages');
+      const pkgs = qp ? qp.split(',').map(decodeURIComponent).filter(Boolean) : ['@abimongo/core', '@abimongo/cli', '@abimongo/logger', '@abimongo/create'];
+      const out = [];
+      await Promise.all(pkgs.map(async (p) => {
+        try {
+          const [week, month, year] = await Promise.all([
+            fetchNpmPoint(p, 'last-week'),
+            fetchNpmPoint(p, 'last-month'),
+            fetchNpmPoint(p, 'last-year'),
+          ]);
+          out.push({ package: p, week, month, year });
+        } catch (e) {
+          out.push({ package: p, error: String(e && e.message ? e.message : e) });
+        }
+      }));
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(out));
+      return;
+    }
+  } catch (err) {
+    // fall through to main handler
+  }
+});
+
 const PORT = process.env.METRICS_PORT || 9003;
 server.listen(PORT, () => console.log(`[metrics-server] Running on http://localhost:${PORT}`));

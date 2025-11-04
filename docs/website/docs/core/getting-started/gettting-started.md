@@ -135,7 +135,3 @@ Schemas support pre/post hooks and validation rules. Use `schema.pre('save', ...
 - [Multi-Tenancy: ](../core-concepts/MultiTenancy.md)
 - [Caching: ](../features/Caching.md)
 - [GraphQL integration:](../features/AbimongoGraphQL.md)
-
----
-
-If you want, I can now run a markdown-lint pass across the docs and fix any MDxxx issues, or continue updating other docs you point to.

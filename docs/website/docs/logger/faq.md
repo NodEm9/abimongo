@@ -73,13 +73,3 @@ Typical levels: `error`, `warn`, `info`, `verbose`, `debug`, `silly` (the logger
 ## Where can I find examples and API details?
 
 See `docs/logger/intro.md` for a quickstart and configuration examples. For usage in code, inspect the `@abimongo/logger` package source and its public API in the TypeScript declarations.
-
----
-
-If you'd like, I can:
-
-- Add one or two short runnable examples to this FAQ.
-- Add a short note about how to configure the logger for CI vs local development.
-- Run the docs build to verify the page renders.
-
-Let me know which of those you'd like me to do next.

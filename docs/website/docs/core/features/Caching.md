@@ -158,5 +158,3 @@ await AbimongoModel.invalidatePattern(`tenant:${tenantId}:users:*`);
 - Warm caches selectively and safely.
 - Monitor hit/miss ratios and memory; set alerts for regressions.
 - Make sure application logic remains correct when cache is cold or unavailable.
-
----

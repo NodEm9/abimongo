@@ -85,7 +85,3 @@ Troubleshooting
 
 - If a command doesn't match, run `npx @abimongo/create --help` to confirm the available commands and flags.
 - Run the CLI from your workspace root in monorepos so templates and shared config can be located.
-
-Next steps
-
-If you want, I can add one short page per important command (for example `init` and `generate`) that lists flags and a minimal example. Tell me which command to document next.

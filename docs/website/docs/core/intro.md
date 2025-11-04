@@ -31,7 +31,7 @@ const userSchema = new AbimongoSchema({
  email: { type: String, required: true, unique: true },
 });
 
-const User = AbimongoModel.create('User', userSchema);
+const User = new AbimongoModel('User', userSchema);
 
 await client.connect();
 await User.create({ name: 'Alice', email: 'alice@example.com' });
@@ -45,5 +45,3 @@ Note: see the Getting Started and AbimongoModel pages for more complete examples
 - Core concepts: [AbimongoClient](./core-concepts/AbimongoClient.md), [AbimongoModel](./core-concepts/AbimongoModel.md), [MultiTenancy](./core-concepts/MultiTenancy.md)
 - Features & patterns: ./features/Caching.md, ./features/AbimongoGraphQL.md, ./features/rbac.md
 - FAQ and troubleshooting: ./faq.md
-
-If you'd like a guided walkthrough (example app, Docker Compose, or GraphQL wiring), tell me which one and I will add a quickstart tutorial page.

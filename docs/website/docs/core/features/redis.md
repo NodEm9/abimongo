@@ -158,6 +158,3 @@ await client.publish(`DB_CHANGE_EVENT_users`, JSON.stringify({ documentInserted:
 
 See `packages/core/src/redis-manager/redisClient.ts` for the authoritative implementation. Other modules reference `redis` and `RedisService` directly (for example `AbimongoGraphQL`, middleware, and model utilities).
 
----
-
-If you'd like, I can run a repo-wide markdown-lint pass and fix any remaining MDxxx issues across docs, or proceed to reconcile `AbimongoModel.md` and `AbimongoClient.md` next.

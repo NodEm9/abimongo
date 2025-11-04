@@ -148,7 +148,3 @@ You can also run a small script (like the Quick start above) to exercise connect
 - Read the [Getting Started guide](./gettting-started.md) for a minimal application example.
 - Read [Multi-Tenancy](../core-concepts/MultiTenancy.md) if you plan to run per-tenant databases.
 - See [Redis integration](../features/redis.md) and [Caching](../features/Caching.md) for caching and pub/sub guidance.
-
----
-
-If you'd like, I can run a markdown-lint pass across the docs and fix any MDxxx issues or update the package README next.

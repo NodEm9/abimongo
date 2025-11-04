@@ -93,5 +93,3 @@ If you need help, open an issue on the project's GitHub and include:
 - A short description of the problem
 - Version of Node, MongoDB, and Redis (if relevant)
 - Minimal code sample to reproduce the issue
-
-I can also: (1) run a repo-wide markdown-lint pass and (2) inspect and propose fixes to the core webpack configuration if you'd like — tell me which next step you prefer.

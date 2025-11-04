@@ -167,10 +167,3 @@ app.post('/products', express.json(), async (req, res) => {
 
 app.listen(3000, () => console.log('listening'));
 ```
-
-This pattern keeps tenant isolation clear and centralizes cache keys per tenant so invalidation is straightforward after writes.
-
-Once you're happy with this example I can also:
-
-- Add a short test example that demonstrates cache hit/miss behavior for two tenants, or
-- Map this pattern to the `getTenantModel` helper if you prefer explicit tenant model resolution over `getModel()`.

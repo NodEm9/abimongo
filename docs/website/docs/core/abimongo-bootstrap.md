@@ -82,6 +82,3 @@ The logger initialization now:
   centralized connection via `RedisService`.
 - If you need to bypass automatic bootstrap entirely, do not pass `--bootstrap` to the CLI and
   ensure consumers call `AbimongoBootstrap.initialize()` explicitly when ready.
-
-If you'd like a deeper API-level documentation or code examples for `RedisService` /
-`getRedisClientForUrl()`, tell me which APIs you want documented and I'll add code snippets.

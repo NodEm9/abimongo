@@ -247,6 +247,35 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // server-side npm downloads aggregation endpoint
+  if (method === 'GET' && url && url.startsWith('/api/npm-downloads')) {
+    try {
+      // optional query: ?packages=comma,separated
+      const u = new URL(req.url, `http://localhost:${process.env.METRICS_PORT || 9003}`);
+      const qp = u.searchParams.get('packages');
+      const pkgs = qp ? qp.split(',').map(decodeURIComponent).filter(Boolean) : ['@abimongo/core', '@abimongo/cli', '@abimongo/logger', '@abimongo/create'];
+      const out = [];
+      await Promise.all(pkgs.map(async (p) => {
+        try {
+          const [week, month, year] = await Promise.all([
+            fetchNpmPoint(p, 'last-week'),
+            fetchNpmPoint(p, 'last-month'),
+            fetchNpmPoint(p, 'last-year'),
+          ]);
+          out.push({ package: p, week, month, year });
+        } catch (e) {
+          out.push({ package: p, error: String(e && e.message ? e.message : e) });
+        }
+      }));
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(out));
+      return;
+    } catch (err) {
+      // fall back to normal handler behavior
+      console.warn('[metrics-server] npm-downloads handler error:', err && err.message ? err.message : err);
+    }
+  }
+
   // serve a tiny admin UI file if present (convenience for local dev)
   if (method === 'GET' && (url === '/admin.html' || url === '/metrics-admin' || url === '/metrics-admin/')) {
     try {
@@ -277,36 +306,7 @@ async function fetchNpmPoint(pkg, range) {
   return (j && typeof j.downloads === 'number') ? j.downloads : 0;
 }
 
-server.on('request', async (req, res) => {
-  // This additional listener only handles the npm endpoint; let main handler process other routes.
-  try {
-    const { method, url } = req;
-    if (method === 'GET' && url && url.startsWith('/api/npm-downloads')) {
-      // optional query: ?packages=comma,separated
-      const u = new URL(req.url, `http://localhost:${PORT}`);
-      const qp = u.searchParams.get('packages');
-      const pkgs = qp ? qp.split(',').map(decodeURIComponent).filter(Boolean) : ['@abimongo/core', '@abimongo/cli', '@abimongo/logger', '@abimongo/create'];
-      const out = [];
-      await Promise.all(pkgs.map(async (p) => {
-        try {
-          const [week, month, year] = await Promise.all([
-            fetchNpmPoint(p, 'last-week'),
-            fetchNpmPoint(p, 'last-month'),
-            fetchNpmPoint(p, 'last-year'),
-          ]);
-          out.push({ package: p, week, month, year });
-        } catch (e) {
-          out.push({ package: p, error: String(e && e.message ? e.message : e) });
-        }
-      }));
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(out));
-      return;
-    }
-  } catch (err) {
-    // fall through to main handler
-  }
-});
+// (npm-downloads handler moved into the main request handler above)
 
 const PORT = process.env.METRICS_PORT || 9003;
 server.listen(PORT, () => console.log(`[metrics-server] Running on http://localhost:${PORT}`));

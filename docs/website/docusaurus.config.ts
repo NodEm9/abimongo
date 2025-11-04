@@ -133,7 +133,7 @@ const config: Config = {
 			logo: {
 				alt: 'Abimongo Logo',
 				// filename in repo is `Abimongo-Logo_1.svg` (case-sensitive on CI); use exact name
-				src: 'img/Abimongo-Logo_1.svg',
+				src: 'img/Abimongo-Logo-v1.svg',
 			},
 			items: [
 				{ to: '/core/intro', label: 'Core', position: 'left' },

@@ -31,7 +31,7 @@ const FeatureList: FeatureItem[] = [
   {
     id: 'focus-on-what-matters',
     title: 'Focus on What Matters',
-    Svg: require('../../../static/img/focus-glass-6.svg').default,
+    Svg: require('../../../static/img/focus-glass-v1.svg').default,
     description: (
       <>
         With Abimongo you can focus on your business logic and let the library handle

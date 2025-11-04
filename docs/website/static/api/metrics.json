@@ -5,18 +5,5 @@
     "value": 123456,
     "unit": "req",
     "delta": 12
-  },
-  {
-    "id": "latency_p95",
-    "label": "P95 Latency",
-    "value": 325,
-    "unit": "ms",
-    "delta": -8
-  },
-  {
-    "id": "error_rate",
-    "label": "Error Rate",
-    "value": "0.6%",
-    "delta": -0.1
   }
 ]

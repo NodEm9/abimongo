@@ -28,7 +28,7 @@
   cursor: pointer;
 }
 
-@media screen and (max-width: 996px) {
+@media screen and (max-width: 758px) {
   .heroBanner {
     padding: 1rem;
   }
@@ -60,10 +60,9 @@
 }
 
 .logDashboard {
-  display: flex;
   justify-content: center;
   align-items: center;
-  padding: 14rem;
+  padding: 2rem;
   height: 100vh;
   margin-bottom: 5rem;
 }

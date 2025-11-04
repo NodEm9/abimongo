@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styles from './styles.module.css';
+import styles from './dashboard.module.css';
 
 
 const LINES: string[] = [

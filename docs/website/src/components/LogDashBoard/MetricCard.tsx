@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metric } from './types';
-import styles from './styles.module.css';
+import styles from './dashboard.module.css';
 
 type Props = {
 	metric: Metric;

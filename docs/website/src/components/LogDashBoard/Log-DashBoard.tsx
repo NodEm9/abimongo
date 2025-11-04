@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import styles from './styles.module.css';
+import styles from './dashboard.module.css';
 import MetricCard from './MetricCard';
-import { useMetrics } from './useMetrics';
+import { useMetrics } from './useMetrics';  
 import type { Metric } from './types';
 
 export default function LogDashboard(): ReactNode {

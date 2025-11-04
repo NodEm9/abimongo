@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "pnpm --r run build",
+    "build": "pnpm run build:ordered",
     "build:ordered": "pnpm --filter @abimongo/logger build && pnpm --filter @abimongo/core build && pnpm --filter @abimongo/cli build && pnpm --filter @abimongo/create build",
     "test": "pnpm --recursive test",
     "lint": "pnpm -w exec eslint \"packages/**/src/**/*.{ts,tsx,js,jsx}\"",

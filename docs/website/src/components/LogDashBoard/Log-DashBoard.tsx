@@ -32,7 +32,13 @@ export default function LogDashboard(): ReactNode {
     let mounted = true;
     async function load() {
       try {
-        const r = await fetch('/api/npm-downloads');
+        // In local dev, call the metrics server directly to avoid relying on a Docusaurus dev proxy which
+        // may not be configured in this repo. In production/staging the relative path will be used so the
+        // deployed site can proxy or call a hosted metrics API.
+        const apiBase = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
+          ? 'http://localhost:9003'
+          : '';
+        const r = await fetch(`${apiBase}/api/npm-downloads`);
         if (!r.ok) throw new Error(String(r.status));
         const j = await r.json();
         // j: [{ package, week, month, year }]

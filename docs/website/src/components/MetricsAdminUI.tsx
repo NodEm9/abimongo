@@ -12,7 +12,10 @@ export default function MetricsAdminUI() {
   async function refresh() {
     setLoading(true);
     try {
-      const r = await fetch('/api/metrics');
+      const apiBase = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
+        ? 'http://localhost:9003'
+        : '';
+      const r = await fetch(`${apiBase}/api/metrics`);
       if (!r.ok) throw new Error(String(r.status));
       const j = await r.json();
       setMetrics(Array.isArray(j) ? j : []);
@@ -50,7 +53,10 @@ export default function MetricsAdminUI() {
 
   async function saveAll() {
     try {
-      const r = await fetch('/api/metrics', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(metrics) });
+      const apiBase = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
+        ? 'http://localhost:9003'
+        : '';
+      const r = await fetch(`${apiBase}/api/metrics`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(metrics) });
       const j = await r.json();
       setResp(JSON.stringify(j));
       await refresh();
@@ -59,7 +65,10 @@ export default function MetricsAdminUI() {
 
   async function saveOne(m: Metric) {
     try {
-      const r = await fetch('/api/metrics', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(m) });
+      const apiBase = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
+        ? 'http://localhost:9003'
+        : '';
+      const r = await fetch(`${apiBase}/api/metrics`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(m) });
       const j = await r.json();
       setResp(JSON.stringify(j));
       await refresh();

@@ -1,8 +1,9 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import styles from './dashboard.module.css';
 import MetricCard from './MetricCard';
-import { useMetrics } from './useMetrics';  
+import { useMetrics } from './useMetrics';
 import type { Metric } from './types';
+import { fetchNpmDownloads } from './npmDownloads';
 
 export default function LogDashboard(): ReactNode {
   const [logs, setLogs] = useState<{ tenant: string; message: string }[]>([]);
@@ -24,6 +25,24 @@ export default function LogDashboard(): ReactNode {
 
   // metrics area
   const { data: metrics, loading, error } = useMetrics({ pollMs: 15000 });
+  const [npmMetrics, setNpmMetrics] = useState<Metric[] | null>(null);
+
+  // fetch npm download stats for our workspace packages and refresh periodically
+  useEffect(() => {
+    let mounted = true;
+    const pkgs = ['@abimongo/core', '@abimongo/cli', '@abimongo/logger', '@abimongo/create'];
+    async function load() {
+      try {
+        const arr = await fetchNpmDownloads(pkgs);
+        if (mounted) setNpmMetrics(arr);
+      } catch (e) {
+        if (mounted) setNpmMetrics([{ id: 'npm:error', label: 'npm stats', value: (e as any)?.message ?? 'error' } as any]);
+      }
+    }
+    load();
+    const id = window.setInterval(load, 60_000); // refresh every minute
+    return () => { mounted = false; window.clearInterval(id); };
+  }, []);
 
   return (
     <div className={styles.dashboard}>
@@ -40,7 +59,8 @@ export default function LogDashboard(): ReactNode {
           {error && <div role="alert" className={styles.errorBox}>Metrics failed to load: {String(error?.message ?? error)}</div>}
 
           {metrics && metrics.length > 0 ? (
-            metrics.map((m: Metric) => <MetricCard key={m.id} metric={m} loading={false} />)
+            // combine core metrics with npm download metrics
+            ([...metrics, ...(npmMetrics ?? [])] as Metric[]).map((m: Metric) => <MetricCard key={m.id} metric={m} loading={false} />)
           ) : (
             !loading && !error && <div className={styles.emptyState}>No metrics available</div>
           )}

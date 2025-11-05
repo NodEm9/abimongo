@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState, useMemo } from 'react';
 import styles from './dashboard.module.css';
 import MetricCard from './MetricCard';
 import { useMetrics } from './useMetrics';
@@ -28,13 +28,13 @@ export default function LogDashboard(): ReactNode {
   const [npmMetrics, setNpmMetrics] = useState<Metric[] | null>(null);
 
   // fetch npm download stats from the dev metrics server and refresh periodically
+  // If the `/api/npm-downloads` endpoint is not available (production static site),
+  // fall back to synthesizing npm metrics from the snapshot `metrics` (if present).
   useEffect(() => {
     let mounted = true;
     async function load() {
       try {
-        // In local dev, call the metrics server directly to avoid relying on a Docusaurus dev proxy which
-        // may not be configured in this repo. In production/staging the relative path will be used so the
-        // deployed site can proxy or call a hosted metrics API.
+        // In local dev, call the metrics server directly to avoid relying on a Docusaurus dev proxy.
         const apiBase = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
           ? 'http://localhost:9003'
           : '';
@@ -54,13 +54,51 @@ export default function LogDashboard(): ReactNode {
         }
         if (mounted) setNpmMetrics(normalized);
       } catch (e) {
+        // Attempt to synthesize npm metrics from the snapshot `metrics` provided by useMetrics
+        try {
+          const synthesized: Record<string, { week?: any; month?: any; year?: any }> = {};
+          if (metrics && metrics.length > 0) {
+            for (const m of metrics) {
+              // expecting ids like "npm:@abimongo/core:week"
+              const parts = typeof m.id === 'string' ? m.id.split(':') : [];
+              if (parts.length === 3 && parts[0] === 'npm') {
+                const pkg = parts[1];
+                const range = parts[2];
+                synthesized[pkg] = synthesized[pkg] || {};
+                synthesized[pkg][range] = m.value;
+              }
+            }
+          }
+          const normalized: Metric[] = [];
+          for (const [pkg, obj] of Object.entries(synthesized)) {
+            if (obj.week !== undefined) normalized.push({ id: `npm:${pkg}:week`, label: `${pkg} — last week`, value: obj.week, unit: 'downloads' });
+            if (obj.month !== undefined) normalized.push({ id: `npm:${pkg}:month`, label: `${pkg} — last month`, value: obj.month, unit: 'downloads' });
+            if (obj.year !== undefined) normalized.push({ id: `npm:${pkg}:year`, label: `${pkg} — last year`, value: obj.year, unit: 'downloads' });
+          }
+          if (normalized.length > 0) {
+            if (mounted) setNpmMetrics(normalized);
+            return;
+          }
+        } catch {
+          // fall through to set error below
+        }
+
         if (mounted) setNpmMetrics([{ id: 'npm:error', label: 'npm stats', value: (e as any)?.message ?? 'error' } as any]);
       }
     }
+    // initial load
     load();
-    const id = window.setInterval(load, 60_000);
-    return () => { mounted = false; window.clearInterval(id); };
-  }, []);
+    // periodic refresh
+    const timer = window.setInterval(load, 60_000);
+    return () => { mounted = false; window.clearInterval(timer); };
+  }, [metrics]);
+
+  const combinedMetrics = useMemo(() => {
+    if (!metrics) return npmMetrics ?? [];
+    const seen = new Set<string>(metrics.map((m) => String(m.id)));
+    const additions = (npmMetrics ?? []).filter((m) => !seen.has(String(m.id)));
+    return [...metrics, ...additions] as Metric[];
+  }, [metrics, npmMetrics]);
 
   return (
     <div className={styles.dashboard}>
@@ -77,8 +115,8 @@ export default function LogDashboard(): ReactNode {
           {error && <div role="alert" className={styles.errorBox}>Metrics failed to load: {String(error?.message ?? error)}</div>}
 
           {metrics && metrics.length > 0 ? (
-            // combine core metrics with npm download metrics
-            ([...metrics, ...(npmMetrics ?? [])] as Metric[]).map((m: Metric) => <MetricCard key={m.id} metric={m} loading={false} />)
+            // combined metrics (core + npm snapshot/fallback)
+            combinedMetrics.map((m: Metric) => <MetricCard key={m.id} metric={m} loading={false} />)
           ) : (
             !loading && !error && <div className={styles.emptyState}>No metrics available</div>
           )}

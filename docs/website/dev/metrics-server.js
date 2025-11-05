@@ -89,6 +89,20 @@ let useDb = false;
 let dbClient = null;
 let metricsCollection = null;
 
+// Small simulator for demo metrics when METRICS_SIMULATE=1
+function generateSimulatedMetrics() {
+  // Use time-based pseudo-random walk for believable values
+  const t = Math.floor(Date.now() / 1000);
+  const baseLatency = 200; // ms
+  const jitter = (Math.sin(t / 60) + 1) * 50; // slow oscillation
+  const p95 = Math.max(20, Math.round(baseLatency + jitter + (Math.sin(t / 13) * 30)));
+  const errorRate = Math.max(0, (0.2 + Math.abs(Math.sin(t / 37)) * 1.2)).toFixed(2) + '%';
+  return [
+    { id: 'latency_p95', label: 'P95 Latency', value: p95, unit: 'ms', delta: Math.round((Math.sin(t / 17) * 10)) },
+    { id: 'error_rate', label: 'Error Rate', value: errorRate, delta: Number((Math.sin(t / 23) * 0.1).toFixed(2)) },
+  ];
+}
+
 async function tryInitDb() {
   const uri = process.env.MONGO_URI || process.env.MONGODB_URI;
   console.log('[metrics-server] tryInitDb - checking for MONGO_URI');
@@ -177,6 +191,17 @@ load();
 
 const server = http.createServer(async (req, res) => {
   const { method, url } = req;
+  // Basic CORS handling so the dev metrics server can be called directly from the browser
+  // (Docusaurus runs on another origin during dev). This is intentionally permissive for local dev.
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (method === 'OPTIONS') {
+    // Preflight
+    res.writeHead(204);
+    res.end();
+    return;
+  }
   // accept both /api/metrics and /api/metrics.json
   if (method === 'GET' && (url === '/api/metrics' || url === '/api/metrics.json')) {
     try {
@@ -189,8 +214,20 @@ const server = http.createServer(async (req, res) => {
     } catch (err) {
       console.warn('[metrics-server] DB read error:', err?.message || err);
     }
+    // If simulation is enabled, append simulated metrics to the stored metrics (do not persist simulated data)
+    const simulate = process.env.METRICS_SIMULATE === '1' || process.env.METRICS_SIMULATE === 'true';
+    const out = Array.isArray(metrics) ? metrics.slice() : [];
+    if (simulate) {
+      try {
+        const sim = generateSimulatedMetrics();
+        // only append simulated metrics if not already present in the stored metrics by id
+        for (const s of sim) {
+          if (!out.find((m) => m.id === s.id)) out.push(s);
+        }
+      } catch (e) { console.warn('[metrics-server] simulation error', e && e.message ? e.message : e); }
+    }
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(metrics));
+    res.end(JSON.stringify(out));
     return;
   }
 

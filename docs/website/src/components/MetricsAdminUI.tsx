@@ -85,6 +85,12 @@ export default function MetricsAdminUI() {
 
   return (
     <div className={styles.container}>
+      {/* Production / snapshot notice */}
+      {typeof window !== 'undefined' && !(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && (
+        <div style={{ background: '#fff7ed', padding: '8px 12px', borderRadius: 6, marginBottom: 12, color: '#92400e' }}>
+          This admin UI is disabled in production; the public docs show a read-only snapshot of metrics updated by CI.
+        </div>
+      )}
       <h1>Metrics Admin</h1>
       <p style={{ color: '#6b7280' }}>View and edit metrics for the docs dashboard. Works with the local metrics dev server.</p>
 

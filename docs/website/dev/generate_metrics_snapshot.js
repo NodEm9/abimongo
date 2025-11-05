@@ -15,6 +15,7 @@ const path = require('path');
 
 const PKGS = ['@abimongo/core', '@abimongo/cli', '@abimongo/logger', '@abimongo/create'];
 const OUT = path.resolve(__dirname, '..', 'static', 'api', 'metrics.json');
+const OUT_NPM = path.resolve(__dirname, '..', 'static', 'api', 'npm-downloads.json');
 
 function fetchNpmPoint(pkg, range) {
 	const safe = encodeURIComponent(pkg);
@@ -33,29 +34,53 @@ function fetchNpmPoint(pkg, range) {
 	});
 }
 
+async function fetchAllRanges(pkg) {
+	const ranges = ['last-week', 'last-month', 'last-year'];
+	const out = { package: pkg };
+	for (const r of ranges) {
+		try {
+			out[r === 'last-week' ? 'week' : r === 'last-month' ? 'month' : 'year'] = await fetchNpmPoint(pkg, r);
+		} catch (e) {
+			out.error = String(e && e.message ? e.message : e);
+			out.week = out.week || 0;
+			out.month = out.month || 0;
+			out.year = out.year || 0;
+		}
+	}
+	return out;
+}
+
 async function run() {
 	const results = [];
 	let totalWeek = 0;
 	for (const p of PKGS) {
 		try {
-			const week = await fetchNpmPoint(p, 'last-week');
-			results.push({ package: p, week });
-			totalWeek += Number(week || 0);
+			const r = await fetchAllRanges(p);
+			results.push(r);
+			totalWeek += Number(r.week || 0);
 		} catch (e) {
-			results.push({ package: p, week: 0, error: String(e && e.message ? e.message : e) });
+			results.push({ package: p, week: 0, month: 0, year: 0, error: String(e && e.message ? e.message : e) });
 		}
 	}
+
 	const metrics = [];
 	metrics.push({ id: 'requests_total', label: 'Total Requests (weekly downloads)', value: totalWeek, unit: 'downloads' });
 	metrics.push({ id: 'snapshot_ts', label: 'Snapshot Timestamp', value: new Date().toISOString() });
-	// Optionally include per-package data as metrics
+	// include per-package data as metrics (week/month/year)
 	for (const r of results) {
 		metrics.push({ id: `npm:${r.package}:week`, label: `${r.package} - last week`, value: r.week });
+		metrics.push({ id: `npm:${r.package}:month`, label: `${r.package} - last month`, value: r.month });
+		metrics.push({ id: `npm:${r.package}:year`, label: `${r.package} - last year`, value: r.year });
 	}
+
+	// also write a convenience endpoint-shaped JSON for static sites to fetch directly
+	const npmDownloadsShape = results.map((r) => ({ package: r.package, week: r.week, month: r.month, year: r.year, error: r.error }));
 
 	fs.mkdirSync(path.dirname(OUT), { recursive: true });
 	fs.writeFileSync(OUT, JSON.stringify(metrics, null, 2), 'utf8');
+	fs.writeFileSync(OUT_NPM, JSON.stringify(npmDownloadsShape, null, 2), 'utf8');
 	console.log('Wrote snapshot to', OUT);
+	console.log('Wrote npm-downloads to', OUT_NPM);
 }
 
 run().catch((err) => { console.error(err); process.exit(1); });

@@ -1,5 +1,5 @@
-.dashboard { 
-width: 1400px;
+.dashboard {
+	width: 1400px;
 	background: linear-gradient(180deg, #0f1724 0%, #071226 100%);
 	color: #e6eef6;
 	margin: 0 auto;
@@ -240,10 +240,10 @@ width: 1400px;
 }
 
 @media screen and (max-width: 758px) {
-	.dashboard
-	{
-	width: 100%;
-		padding: 1rem;
+	.dashboard {
+		width: 100%;
+		padding: 0.7rem;
+		height: auto;
 	}
 
 	.metricsGrid {

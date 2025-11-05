@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable no-restricted-syntax, @typescript-eslint/no-var-requires */
 /* Small runner that launches the metrics server, dev-proxy and then docusaurus start.
   Run from repo root: node docs/website/dev/run-dev.js

@@ -154,13 +154,6 @@ export default function runCLI() {
         const mainLines: string[] = [];
         mainLines.push("import { initAbimongo } from '@abimongo/core';");
         mainLines.push('');
-        // minimal color helper used in starter
-        mainLines.push('function colorByLevel(level: string, text: string) {');
-        mainLines.push("  const codes: Record<string,string> = { info: '\\u001b[32m', warn: '\\u001b[33m', error: '\\u001b[31m' }; ");
-        mainLines.push("  const reset = '\\u001b[0m';");
-        mainLines.push('  return (codes[level] || "") + text + reset;');
-        mainLines.push('}');
-        mainLines.push('');
         mainLines.push('async function start() {');
         mainLines.push('  const app = await initAbimongo.create();');
         mainLines.push('  const db = app.getMongoClient();');

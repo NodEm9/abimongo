@@ -35,7 +35,20 @@ export const MetricCard: React.FC<Props> = ({ metric, loading, error }) => {
 				{metric.label}
 			</div>
 			<div className={styles.metricValue}>
-				{typeof metric.value === 'number' ? new Intl.NumberFormat().format(metric.value) : metric.value}
+				{
+					(() => {
+						if (typeof metric.value === 'number') return new Intl.NumberFormat().format(metric.value);
+						if (typeof metric.value === 'string') {
+							// If this looks like an ISO timestamp, format it nicely for humans
+							const maybeDate = new Date(metric.value);
+							if (!Number.isNaN(maybeDate.getTime()) && metric.value.includes('T')) {
+								return new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(maybeDate);
+							}
+							return metric.value;
+						}
+						return String(metric.value ?? '');
+					})()
+				}
 				{metric.unit ? ` ${metric.unit}` : ''}
 			</div>
 			{delta !== undefined && <div className={deltaClass}>{delta > 0 ? `▲ ${delta}` : `▼ ${Math.abs(delta)}`}</div>}

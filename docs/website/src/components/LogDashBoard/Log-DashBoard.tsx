@@ -1,4 +1,5 @@
 import React, { ReactNode, useEffect, useState, useMemo } from 'react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './dashboard.module.css';
 import MetricCard from './MetricCard';
 import { useMetrics } from './useMetrics';
@@ -26,6 +27,7 @@ export default function LogDashboard(): ReactNode {
   // metrics area
   const { data: metrics, loading, error } = useMetrics({ pollMs: 15000 });
   const [npmMetrics, setNpmMetrics] = useState<Metric[] | null>(null);
+  const base = useBaseUrl('/');
 
   // fetch npm download stats from the dev metrics server and refresh periodically
   // If the `/api/npm-downloads` endpoint is not available (production static site),
@@ -35,12 +37,23 @@ export default function LogDashboard(): ReactNode {
     async function load() {
       try {
         // In local dev, call the metrics server directly to avoid relying on a Docusaurus dev proxy.
-        const apiBase = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
-          ? 'http://localhost:9003'
-          : '';
-        const r = await fetch(`${apiBase}/api/npm-downloads`);
-        if (!r.ok) throw new Error(String(r.status));
-        const j = await r.json();
+        const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+        const apiBase = isLocal ? 'http://localhost:9003' : '';
+
+        let j: any = null;
+        if (isLocal) {
+          const r = await fetch(`${apiBase}/api/npm-downloads`);
+          if (!r.ok) throw new Error(String(r.status));
+          j = await r.json();
+        } else {
+          // In production (static site), prefer the committed static file npm-downloads.json
+          const r = await fetch(`${base}api/npm-downloads.json`);
+          if (r.ok) {
+            j = await r.json();
+          } else {
+            throw new Error('npm-downloads.json not available');
+          }
+        }
         // j: [{ package, week, month, year }]
         const normalized: Metric[] = [];
         for (const item of j) {

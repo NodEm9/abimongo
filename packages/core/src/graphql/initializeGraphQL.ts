@@ -4,7 +4,6 @@ import { AbimongoConfig } from '../types';
 /**
  * Initializes GraphQL with optional custom type definitions and resolvers.
  * Sets up Redis subscription for GraphQL messages.
- *
  * @param {string[]} customTypeDefs - Optional custom GraphQL type definitions.
  * @param {any[]} customResolvers - Optional custom GraphQL resolvers.
  * @returns {Promise<GraphQLSchema>} The generated GraphQL schema.
@@ -40,37 +39,26 @@ export async function initializeGraphQL(customTypeDefs: string = "", customResol
   // "GraphQLSchema from another module or realm" runtime error when
   // using Apollo or other GraphQL servers.
   try {
-    // require here to avoid bundling or static analysis differences
-    // and to inspect the consumer's resolved graphql at runtime.
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const consumerGraphql = require('graphql');
-    if (schema && schema.constructor !== consumerGraphql.GraphQLSchema) {
-      const resolved = (function tryResolve() {
-        try {
-          // eslint-disable-next-line @typescript-eslint/no-var-requires
-          return require.resolve('graphql');
-        } catch (e) {
-          return 'unknown';
-        }
-      })();
-
+    // Use dynamic import to inspect the consumer's resolved `graphql` implementation at runtime.
+    // Dynamic import avoids static `require()` calls and satisfies lint rules that forbid require-style imports.
+    const consumerGraphql = await import('graphql');
+    if (schema && schema.constructor !== (consumerGraphql as any).GraphQLSchema) {
+      // Detected a mismatch between the schema constructor used to build `schema` and the
+      // consumer's graphql package. This often indicates multiple copies/realms of `graphql`.
       throw new Error([
         '[Abimongo] Detected multiple copies/realms of `graphql` at runtime.',
-        `GraphQL resolved from: ${resolved}`,
         'This causes the GraphQLSchema constructor to differ between modules and produces the',
         'error: "GraphQLSchema from another module or realm" when starting Apollo or similar servers.',
         'Common fixes:',
-        '  * Ensure your application (consumer) has `graphql@16.11.0` installed as a dependency.',
-        '  * Add an `overrides` (pnpm) or `resolutions` (yarn) entry in your project to pin `graphql` to 16.11.0.',
+        '  * Ensure your application (consumer) has a single pinned `graphql` dependency (e.g., 16.x).',
+        '  * Add an `overrides` (pnpm) or `resolutions` (yarn) entry in your project to pin `graphql` to a single version.',
         '  * Do NOT install `graphql` inside the abimongo package workspace when developing locally — install it in the consuming app (parent folder).',
-        '  * If you are using a local workspace or file: install, prefer running the app from a parent folder where the consumer app has `graphql` installed so module resolution is canonical.',
-        'If you need help, run: node -e "console.log(require.resolve(\'graphql\'))" in your app to see which copy is being used.'
+        '  * If you are using a local workspace or file: run the app from the parent folder where the consumer app has `graphql` installed so module resolution is canonical.',
       ].join('\n'));
     }
   } catch (err: any) {
-    // If require('graphql') fails for some reason, don't hide the original schema — just warn.
+    // If dynamic import fails or the compatibility check throws, warn and continue.
     // We still return the schema so downstream callers can decide, but surface the warning.
-    // eslint-disable-next-line no-console
     console.warn('[Abimongo] Could not validate graphql constructor compatibility:', err && err.message ? err.message : err);
   }
 

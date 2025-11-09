@@ -9,6 +9,21 @@ A modular utility library for Node.js projects, starting with a robust, extensib
 
 ---
 
+## Release Notes — v2.0.0
+
+Released: 2025-11-09
+
+- Major bump to `@abimongo/logger` -> **2.0.0**.
+- Fix: GraphQL-related issues in the core package have been addressed so consumers using Abimongo Core will not encounter runtime logging errors related to transport shapes.
+- Fix: Improved robustness when consumers configure transports (defensive checks to avoid runtime TypeError when a transport entry is undefined).
+- Fix: Buffered -> file transport flush behavior improved so buffered logs reach the file transport promptly.
+- Misc: Docs, metrics card updates, and packaging improvements.
+
+Upgrade notes:
+- This is a major release. Please test in staging before upgrading production.
+- If you previously passed transport factory references, ensure you follow the transport API: pass either an instantiated transport object (has `.write` or `.log`) or a function-style transporter (`async (message, meta) => ...`) as appropriate.
+
+
 ## Features
 
 - **Advanced Logger Utility**  

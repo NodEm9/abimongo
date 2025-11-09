@@ -4,6 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 import path from 'path';
 
 
+
 const config: Config = {
 	title: 'Abimongo',
 	url: 'https://nodem9.github.io',
@@ -129,12 +130,14 @@ const config: Config = {
 			// 'weight': '700',
 		},
 		navbar: {
-			title: 'Abimongo',
-			logo: {
-				alt: 'Abimongo Logo',
-				// filename in repo is `Abimongo-Logo_1.svg` (case-sensitive on CI); use exact name
-				src: 'img/Abimongo-Logo-v1.svg',
-			},
+					// title: 'Abimongo',
+					logo: {
+						alt: 'Abimongo Logo',
+						// Docusaurus supports separate images for light/dark via `src` and `srcDark`.
+						// filename in repo is `Abimongo-Logo_1.svg` (case-sensitive on CI); use exact name
+						src: 'img/abimongo-brand-logo-light.svg',
+						srcDark: 'img/abimongo-logo-dark-mode.svg',
+					},
 			items: [
 				{ to: '/core/intro', label: 'Core', position: 'left' },
 				{ to: '/logger/intro', label: 'Logger', position: 'left' },

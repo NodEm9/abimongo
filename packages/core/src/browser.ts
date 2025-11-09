@@ -1,7 +1,7 @@
 /**
  * @author Emmanuel Nodolomwanyi - Abimongo Team
  * @package - @abimongo/core
- * @version 1.0.0
+ * @version 1.1.3
  */
 
 /**
@@ -9,7 +9,7 @@
  * This module provides core functionalities for Abimongo in a browser environment.
  * It includes database operations, configuration, and more.
  * @module Abimongo Core Browser Module
- * @version 1.0.0
+ * @version 1.1.3
  */
 
 

@@ -45,7 +45,7 @@ export interface AbimongoConfig {
     playground?: boolean;
     schemaOutputPath?: string;
   };
-  features?: {
+  features?: { 
     models?: string;
     schemas?: string;
     typeDefs?: string;

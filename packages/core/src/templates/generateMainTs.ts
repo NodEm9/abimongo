@@ -7,6 +7,7 @@ ${options.graphql?.enabled ? "import { AbimongoGraphQL } from '@abimongo/core';"
 ${options.logger?.enabled ? "import { logger } from '@abimongo/core';" : ''}
 
 import { run } from './core/initAbimongo';
+
 /**
  *  You can use this built-in logger or create your own
  *  If you want to use the built-in logger, make sure to enable it in your project options.

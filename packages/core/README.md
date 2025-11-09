@@ -30,6 +30,17 @@
     yarn add @abimongo/core
     ```
 
+    
+  **Local development note**
+
+  If you're developing or testing `@abimongo/core` locally, avoid installing a runtime copy of `graphql` inside the `@abimongo/core` repository itself. `graphql` is a peer dependency and should be provided by the consuming app. Installing `graphql` in both the library repo and the consumer app can cause Node to load multiple physical copies of the `graphql` runtime which leads to runtime errors such as "GraphQLSchema from another module or realm".
+
+  Recommended approaches when developing locally:
+  - Use a pnpm workspace or `pnpm add ../path/to/abimongo/packages/core` from the consumer app so the consumer's `node_modules` provides `graphql`.
+  - If you need to run `pnpm install` in the `abimongo` repo for dev work, avoid leaving `graphql` installed there while testing the consumer app; you can reinstall dev dependencies after testing.
+  - Treat `graphql` as a peer dependency (it already is) and ensure the consumer app has an explicit `graphql` dependency or `overrides` configured.
+
+
     If you are using TypeScript, make sure `tsconfig.json` is configured to include node types and target a supported ECMAScript version.
 
     ---

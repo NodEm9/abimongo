@@ -23,6 +23,7 @@ import { AbimongoGC } from '../src/gc/AbimongoGC';
 import { bufferedTransporter, lokiTransport } from '../src';
 // import {createLogger} from '../src/loggers/createLogger';
 import { MultiTenantManager } from '../src';
+import { elasticTransport } from '../dist';
 dbDriver()
 
 // const logger = setupLogger(abimongoConfig['./logs/debug.log']);
@@ -78,11 +79,12 @@ export const applyMTenant = async () => {
 				useColor: true, // Enable colored logs
 				transports: [
 					{
-						write: (message: string) => {
+						write: async (message: string, level?: any, meta?: any[]): Promise<void> => {
 							console.log(message); // Log to console
+							return Promise.resolve();
 						},
 					},
-					consoleTransport(true)
+					consoleTransport(true),
 				], // Use console transport for logging
 				json: false, // Disable JSON format for logs,
 				formatOptions: {
@@ -161,7 +163,7 @@ app.post('/user', async (req, res) => {
 	const tenantModel = await getTenantModel({
 		modelName: userCollection.collectionName,
 		schema: userSchema,
-		tenantId: dbConfig.tenantId[tenantId as string]!,
+		tenantId: dbConfig.tenantId['tenant-a']!,
 	});
 	if (tenantId.length) {
 		logger.info(`Creating user for tenant: ${tenantId.toLowerCase()}`);
@@ -189,7 +191,7 @@ app.post('/post', async (req, res) => {
 	const tenantModel = await getTenantModel({
 		modelName: 'posts',
 		schema: postSchema,
-		tenantId: dbConfig.tenantId[tenanaId]!,
+		tenantId: dbConfig.tenantId['tenant-a']!,
 	});
 	console.info('Tenant model:', tenantModel.name);
 	if (!tenantModel) {

@@ -46,25 +46,12 @@ module.exports = {
 				amd: 'mongodb',
 				root: 'mongodb',
 			},
-			'@abimongo/logger': {
-				'commonjs': '@abimongo/logger',
-				'commonjs2': '@abimongo/logger',
-				'amd': '@abimongo/logger',
-				'root': '@abimongo/logger',
-			},
 			'@apollo/server': {
 				commonjs: '@apollo/server',
 				commonjs2: '@apollo/server',
 				amd: '@apollo/server',
 				root: '@apollo/server',
 			},
-			'dotenv': {
-				commonjs: 'dotenv',
-				commonjs2: 'dotenv',
-				amd: 'dotenv',
-				root: 'dotenv'
-			},
-			chalk: 'chalk',
 			graphql: {
 				commonjs: 'graphql',
 				commonjs2: 'graphql',

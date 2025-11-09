@@ -44,16 +44,25 @@ export function createLogger(config: LoggerConfig, abimongoConfig?: AbimongoConf
 	}
 
 	const writeToTransports = (level: string, formatted: string) => {
-		transports.map((t) => {
+		// Defensive: some callers may pass an array with undefined/null entries.
+		// Ensure we only call into valid transport objects and avoid using `in` on undefined.
+		if (!Array.isArray(transports)) return;
+		transports.forEach((t) => {
 			try {
-				if ('write' in t) {
-					t.write(formatted, "info", []) // If the transport has a write method, use it
+				if (!t || (typeof t !== 'object' && typeof t !== 'function')) return;
+				// Only check for 'write' if the transport object exists.
+				if ('write' in t && typeof (t as any).write === 'function') {
+					// pass level through instead of hardcoding
+					(t as any).write?.(formatted, level, []);
 				}
-				// else ('log' in t) && t.log?.(level, formatted);
+				// Optionally support a log(level, msg) method on transports
+				else if ('log' in t && typeof (t as any).log === 'function') {
+					(t as any).log(level, formatted);
+				}
 			} catch (error) {
-				hooks?.onError?.(error)
+				hooks?.onError?.(error as Error);
 			}
-		})
+		});
 	}
 
 	const shouldLogLevel = (

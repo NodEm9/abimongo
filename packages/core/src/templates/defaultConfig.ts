@@ -55,13 +55,13 @@ export function DEFAULT_CONFIG_CONTENT(options: AbimongoConfig): string {
           maxFiles: 5
         }
       }],
-      compressLogFiles: {
-        enabled: options.logger?.compressLogFiles?.enabled || false
-      },
-      enableMetrics: {
-        enabled: options.logger?.enableMetrics?.enabled || false,
-        logInterval: options.logger?.enableMetrics?.logInterval || 60000
-      },
+      // Schema expects plain booleans for these fields; emit booleans
+      compressLogFiles: !!(typeof options.logger?.compressLogFiles === 'object'
+        ? options.logger?.compressLogFiles?.enabled
+        : options.logger?.compressLogFiles),
+      enableMetrics: !!(typeof options.logger?.enableMetrics === 'object'
+        ? options.logger?.enableMetrics?.enabled
+        : options.logger?.enableMetrics),
     },
     graphql: {
       enabled: options.graphql?.enabled || false,

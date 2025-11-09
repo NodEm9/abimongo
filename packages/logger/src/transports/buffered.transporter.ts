@@ -65,12 +65,29 @@ export class BufferedTransporter implements Transporter {
     const entries = this.buffer.splice(0, this.buffer.length);
     for (const entry of entries) {
       const logLine = `${entry.timestamp} - ${entry.level.toUpperCase()}: ${entry.message} ${entry.meta}\n`;
-      this.transporter.write(logLine);
+      // Write into the underlying transporter. The underlying transporter may itself buffer
+      // (e.g., AdvancedRollingFileTransporter). After pushing entries, attempt to flush the
+      // underlying transporter so logs make it to disk promptly.
+      try {
+        this.transporter.write(logLine);
+      } catch (err) {
+        // If write throws synchronously, surface the error via console and continue.
+        console.error('Error writing to underlying transporter:', err);
+      }
     }
     if (this.timer) {
       clearInterval(this.timer);
       this.timer = undefined; // Clear the timer after flushing
       this.startAutoFlush(); // Restart the timer after flushing
+    }
+    // If the underlying transporter exposes a flush method (for example the AdvancedRollingFileTransporter), call it
+    // to ensure buffered entries reach the filesystem.
+    if (typeof (this.transporter as any).flush === 'function') {
+      try {
+        (this.transporter as any).flush();
+      } catch (err) {
+        console.error('Error flushing underlying transporter:', err);
+      }
     }
     return Promise.resolve();
   }

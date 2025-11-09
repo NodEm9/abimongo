@@ -15,7 +15,6 @@ import { colorize } from '../utils/color-palatte';
 
 export async function generateProject(options: AbimongoConfig) {
   const projectRoot = path.resolve(process.cwd(), options.projectName || 'abimongo-app');
-  const { generatedFolders, generatedFiles } = foldersAndFiles();
 
   const interval = setInterval(() => {
     // Keep the process alive
@@ -29,8 +28,6 @@ export async function generateProject(options: AbimongoConfig) {
   const configPath = path.join(projectRoot, 'abimongo.config.json');
   const configContent = DEFAULT_CONFIG_CONTENT(options);
   await fs.writeFile(configPath, configContent, 'utf8');
-  console.log(colorize(`✓ [Config file]: Config generated - abimongo.config.json`, 'green'));
-
 
   // Create src directory if it doesn't exist
   setupGarbageCollector(options, projectRoot);
@@ -39,16 +36,12 @@ export async function generateProject(options: AbimongoConfig) {
   const mainTSPath = path.join(projectRoot, 'src', 'main.ts');
   const mainTSContent = generateMainTS(options);
   await fs.outputFile(mainTSPath, mainTSContent);
+
+  // Log generated folders and files
+  foldersAndFiles();
+  console.log(colorize(`✓ [Config file]: Config generated - abimongo.config.json`, 'blue'));
   console.log(colorize(`✓ [Entry point]: Entry point created - src/main.ts`, 'blue'));
 
-  const completedFilePath = path.join(projectRoot, 'PROJECT_GENERATION_COMPLETED.txt');
-
-    // Log generated folders and files
-  generatedFolders();
-  generatedFiles();
-  await fs.writeFile(completedFilePath, `${foldersAndFiles()}`, 'utf8');
-
-  console.log(colorize('[Completed]: \nProject generation completed successfully!', 'green'));
   process.exit(0);
 }
 

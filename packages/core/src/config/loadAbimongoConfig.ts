@@ -65,8 +65,47 @@ export async function loadAbimongoConfig(configPath?: string): Promise<AbimongoC
     // throws a TypeError. Convert known boolean shorthand fields into
     // objects before validation so defaults can be applied safely.
     const normalize = (cfg: any) => {
+      // Normalize shorthand boolean/primitive shapes into predictable objects
       if (typeof cfg.logger === 'boolean') cfg.logger = { enabled: cfg.logger };
       if (!cfg.logger) cfg.logger = { enabled: false };
+
+      // Normalize logger option shapes: allow either boolean or object.
+      const normalizeLoggerOption = (v: any, optsName = 'enableMetrics') => {
+        // If already an object with enabled property, keep object and coerce enabled/logInterval
+        if (v && typeof v === 'object') {
+          const out: any = {};
+          out.enabled = typeof v.enabled === 'boolean' ? v.enabled : Boolean(v.enabled ?? false);
+          // Accept either logInterval or logIntervalMs from older configs
+          if (typeof v.logInterval === 'number') out.logInterval = v.logInterval;
+          else if (typeof v.logIntervalMs === 'number') out.logInterval = v.logIntervalMs;
+          return out;
+        }
+
+        // Primitive values -> boolean shorthand
+        if (typeof v === 'boolean') return v;
+        if (typeof v === 'string') {
+          const s = (v || '').toString().trim().toLowerCase();
+          if (s === 'true') return true;
+          if (s === 'false') return false;
+        }
+        if (typeof v === 'number') return v !== 0;
+
+        // Default
+        return false;
+      };
+
+      // Assign without forcing primitive-only shapes: keep objects if provided
+      try {
+        cfg.logger.enableMetrics = normalizeLoggerOption(cfg.logger.enableMetrics, 'enableMetrics');
+      } catch (e) {
+        cfg.logger.enableMetrics = false;
+      }
+
+      try {
+        cfg.logger.compressLogFiles = normalizeLoggerOption(cfg.logger.compressLogFiles, 'compressLogFiles');
+      } catch (e) {
+        cfg.logger.compressLogFiles = false;
+      }
 
       if (typeof cfg.graphql === 'boolean') cfg.graphql = { enabled: cfg.graphql };
       if (!cfg.graphql) cfg.graphql = { enabled: false };

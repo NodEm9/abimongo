@@ -1,5 +1,14 @@
 # @abimongo/cli
 
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @abimongo/logger@2.0.0
+  - @abimongo/core@1.1.4
+  - @abimongo/create@1.0.4
+
 ## 1.1.3
 
 ### Patch Changes

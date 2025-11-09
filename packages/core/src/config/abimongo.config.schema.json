@@ -155,12 +155,43 @@
           "retryAttempts": 5
         },
         "enableMetrics": {
-          "type": "boolean",
-          "default": false,
-          "logIntervalMs": 60000
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "logInterval": {
+                  "type": "integer",
+                  "default": 60000
+                }
+              },
+              "additionalProperties": false
+            }
+          ],
+          "default": false
         },
         "compressLogFiles": {
-          "type": "boolean",
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "default": false
+                }
+              },
+              "additionalProperties": false
+            }
+          ],
           "default": false
         }
       }

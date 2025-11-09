@@ -1,6 +1,23 @@
 import { redis } from '../../redis-manager';
 import { Role, Permission, rolePermissions } from './rbacTypes';
 
+function buildCacheKey(role: string | string[] | { tenantId: string } | any, key: string) {
+	if (Array.isArray(role)) {
+		return `${role.join(',')}:${key}`;
+	}
+	if (role && typeof role === 'object') {
+		if ('tenantId' in role) return `${role.tenantId}:${key}`;
+		// If role is actually a role object or other shape, fallback to JSON-safe string
+		try {
+			const convertCredentials = JSON.parse(JSON.stringify(role));
+			return `${convertCredentials}:${key}`;
+		} catch (err) {
+			return `${String(role)}:${key}`;
+		}
+	}
+	return `${role}:${key}`;
+}
+
 declare module "express-serve-static-core" {
 	interface Request {
 		user: { _id: string; role: string, tenantId: string };
@@ -26,8 +43,8 @@ declare module "express-serve-static-core" {
  * }
  */
 export async function checkPermission(role: Role, permission: Permission): Promise<boolean> {
-	const cacheKey = `permissions:${role}`;
-	let allowedActions = await getCachedData([role], cacheKey);
+	const cacheKey = buildCacheKey(role, 'permissions');
+	let allowedActions = await getCachedData(role, 'permissions');
 
 	if (!allowedActions) {
 		console.info(`Cache miss for role "${role}". Fetching permissions...`);
@@ -38,17 +55,18 @@ export async function checkPermission(role: Role, permission: Permission): Promi
 		} else {
 			console.warn(`No permissions found for role "${role}"`);
 		}
-	}
+	};
 
 	const cacheExists = await redis.exists(cacheKey);
 	if (cacheExists) {
 		console.info(`Cache hit for role "${role}"`);
 	}
+	
 	// If allowedActions is not already cached, set it
 
 	if (allowedActions) {
 		allowedActions = Promise.resolve(rolePermissions[role] || []);
-		await setCachedData([role], cacheKey, await allowedActions, 500); // Cache for 1 day
+		await setCachedData(role, 'permissions', await allowedActions, 500); // Cache for 500s
 	}
 	return Promise.resolve(rolePermissions[role] || []).then(permissions => {
 		if (permissions.includes(permission)) {
@@ -81,51 +99,48 @@ export async function checkPermission(role: Role, permission: Permission): Promi
  * }
  */
 export async function getCachedData(
-	role: string[] | { tenantId: string },
+	role: string | string[] | { tenantId: string },
 	key: string
 ): Promise<any> {
-	let cacheKey: string;
-	if (Array.isArray(role)) {
-		cacheKey = `${role.join(',')}:${key}`;
-	} else if (typeof role === 'object' && 'tenantId' in role) {
-		cacheKey = `${role.tenantId}:${key}`;
-	} else {
-		cacheKey = `${key}`;
-	}
+	const cacheKey = buildCacheKey(role, key);
 	const cachedData = await redis.get(cacheKey);
 	if (cachedData) {
 		console.info(`Cache hit for key "${cacheKey}"`);
 	} else {
 		console.warn(`Cache miss for key "${cacheKey}"`);
 	}
-	return cachedData ? JSON.parse(cachedData) : null;
+	try {
+		return cachedData ? JSON.parse(JSON.stringify(cachedData)) : null;
+	} catch (err) {
+		console.warn(`Failed to parse cached data for key ${cacheKey}:`, err);
+		// If parsing fails, return raw value to avoid crashing
+		return cachedData;
+	}
 };
 
 export async function setCachedData(
-	role: string[] | { tenantId: string },
+	role: string | string[] | { tenantId: string },
 	key: string,
 	data: any,
 	ttl: number
 ): Promise<void> {
-	// Set the data in the cache with a TTL
-	const cacheKey = `${role}:${key}`;
-	const dataIncache = await redis.set(cacheKey, data);
-	const existingData = await redis.get(`${dataIncache}`);
-	if (existingData) {
-		await redis.set(cacheKey, JSON.stringify(data), { EX: ttl });
-	}
-	else {
-		// If the data is not already cached, set it
-		await redis.set(cacheKey, JSON.stringify(data), { EX: ttl });
+	// Build a consistent cache key and store JSON-stringified data with TTL
+	const cacheKey = buildCacheKey(role, key);
+	try {
+		await redis?.set(cacheKey, JSON.stringify(data), { EX: ttl });
 		console.info(`Cache set for ${cacheKey}:`, data);
+	} catch (err) {
+		console.error(`Failed to set cache for ${cacheKey}:`, err);
 	}
 
-	// Only log permissions if role is a string
+	// Only log permissions if role is a string or array with values
 	let roleKey: string | undefined;
 	if (typeof role === 'string') {
 		roleKey = role;
 	} else if (Array.isArray(role) && role.length > 0) {
 		roleKey = role[0];
+	} else if (role && typeof role === 'object' && 'tenantId' in role) {
+		roleKey = role.tenantId as string;
 	}
 
 	if (roleKey) {
@@ -139,7 +154,7 @@ export async function setCachedData(
 		console.warn(`Role key is not a string, cannot cache permissions`);
 	}
 
-	return 	;
+	return;
 }
 
 /**
@@ -158,7 +173,7 @@ export async function setCachedData(
  */
 export async function invalidateTenantCache(tenantId: string, role: string): Promise<void> {
 	try {
-		const cacheKey = `permissions:${tenantId}:${role}`;
+		const cacheKey = `${tenantId}:permissions:${role}`;
 		const cacheExists = await redis.exists(cacheKey);
 		if (cacheExists) {
 			await redis.del(cacheKey);
@@ -166,7 +181,7 @@ export async function invalidateTenantCache(tenantId: string, role: string): Pro
 		} else {
 			console.warn(`No cache found for tenant ${tenantId} and role ${role}`);
 		}
-	}catch (error) {
+	} catch (error) {
 		console.error(`Error invalidating cache for tenant ${tenantId} and role ${role}:`, error);
 		throw new Error(`Failed to invalidate cache for tenant ${tenantId} and role ${role}`);
 	}
@@ -201,7 +216,8 @@ export async function invalidateTenantCache(tenantId: string, role: string): Pro
 export function enforceRBAC(resolver: Function, permission: Permission) {
 	const wrapped = async (parent: any, args: any, context: any, info: any) => {
 		const { user } = context;
-		if (!user || !checkPermission(user, permission)) {
+		// Ensure we pass the user's role (string) and await the async permission check
+		if (!user || !(await checkPermission(user.role as Role, permission))) {
 			throw new Error('Unauthorized: You do not have permission to perform this action.');
 		}
 

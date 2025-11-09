@@ -2,56 +2,30 @@ import fs from 'fs-extra';
 import path from 'path';
 import { colorize } from './color-palatte';
 
-
-type GeneratedFolderAndFile = {
+type GeneratedFile = {
   name: string;
-  path: string;
 }
 
-const configPath = path.join(process.cwd(), 'abimongo.config.json');
-const mainTSPath = path.join(process.cwd(), 'src', 'main.ts');
-const projectRoot = path.resolve(process.cwd(), 'abimongo-app');
 
 const generatedFiles = () => {
-  const allFiles: GeneratedFolderAndFile[] = [
-    { name: 'abimongo.config.json', path: configPath },
-    { name: 'src/main.ts', path: mainTSPath },
-    { name: 'src/gc/gcManager.ts', path: path.join(projectRoot, 'src', 'gc', 'gcManager.ts') },
-    { name: 'scripts/runGC.ts', path: path.join(projectRoot, 'scripts', 'runGC.ts') },
-  ]
-  
-  // Log all generated files
-  console.log(colorize('\n[Generated Files]:', 'blue'));
-  
-  allFiles.forEach(file => {
-    if (fs.existsSync(file.path)) {
-      const colorConsole = colorize(`- ${file.name}`, 'blue');
-      console.log(colorConsole);
-    }
-  });
-}
+  const allFiles: GeneratedFile[] = [
+    { name: './abimongo.config.json' },
+    { name: 'src/main.ts' },
+    { name: 'src/gc/gcManager.ts' },
+    { name: 'scripts/runGC.ts' },
+  ];
 
-
-const generatedFolders = () => {
-  const allFolders: GeneratedFolderAndFile[] = [
-    { name: 'src/', path: path.join(projectRoot, 'src') },
-    { name: 'src/gc/', path: path.join(projectRoot, 'src', 'gc') },
-    { name: 'scripts/', path: path.join(projectRoot, 'scripts') },
-  ]
-  // Log all generated folders
-  console.log(colorize('\n[Generated Folders]:', 'blue'));
-  allFolders.forEach(folder => {
-    if (fs.existsSync(folder.path)) {
-      console.log(colorize(`- ${folder.name}`, 'blue'));
-    }
-  });
+  allFiles.forEach(file =>  file.name = path.normalize(file.name));
+  
+  return allFiles;
 }
 
 const foldersAndFiles = () => {
-	return {
-		generatedFolders,
-		generatedFiles
-	};
+  const fileName = generatedFiles();
+  const projectDir = [...fileName.map(f => `+ ${colorize(f.name, 'green')}`)]
+    .join('\n');
+  console.log(colorize(`[Generated Files]:\n`, 'cyan') + projectDir);
+  return { projectDir };
 }
 
 export { foldersAndFiles };

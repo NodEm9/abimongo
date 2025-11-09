@@ -1,6 +1,7 @@
 # Abimongo
  
- @abimong/core ![npm version](https://img.shields.io/npm/v/@abimongo/core.svg) | @abimongo/logger ![npm version](https://img.shields.io/npm/v/@abimongo/logger.svg) 
+ @abimong/core ![npm version](https://img.shields.io/npm/v/@abimongo/core.svg) | 
+ @abimongo/logger ![npm version](https://img.shields.io/npm/v/@abimongo/logger.svg) |
  @abimongo/create  ![npm version](https://img.shields.io/npm/v/@abimongo/create.svg)
 
 

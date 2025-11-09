@@ -36,12 +36,6 @@ module.exports = {
 				amd: '@apollo/server',
 				root: '@apollo/server',
 			},
-			'dotenv': {
-				commonjs: 'dotenv',
-				commonjs2: 'dotenv',
-				amd: 'dotenv',
-				root: 'dotenv'
-			},
 			graphql: {
 				commonjs2: 'graphql',
 				amd: 'graphql',

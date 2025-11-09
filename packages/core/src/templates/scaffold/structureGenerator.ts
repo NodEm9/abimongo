@@ -70,8 +70,7 @@ export const resolvers = {
  },
 };
 `)
-    fs.writeFileSync(path.join(graphqlDir, 'graphQL.ts'),
-      `import { bootstrap } from '../core/initAbimongo';
+    fs.writeFileSync(path.join(graphqlDir, 'graphQL.ts'), `
 // You can use AbimongoGraphQL to setup your GraphQL server
 // but here everthing is already made available in the bootstrap file.
 // For more information, visit: https://github.com/NodEm9/abimongo/core/features/AbimongoGraphQL , https://github.com/NodEm9/abimongo/core/abimongo-bootstrap/AbimongoBootstrap
@@ -91,6 +90,12 @@ const graphql = app.getGraphQL();
     `);
   };
 
+  // Note: we intentionally do not read or overwrite GraphQL starter files from
+  // an external template. The generator writes a sensible default `graphQL.ts`
+  // above and should not be replaced by a raw template file which may import
+  // internal bootstrap code directly. Removing the overwrite ensures the
+  // generated starter remains consistent and prevents accidental runtime
+  // cross-module issues caused by copying raw bootstrap code into projects.
 
   // Create package.json
   const packageJson = {
@@ -110,10 +115,20 @@ const graphql = app.getGraphQL();
     "module": "commonjs",
     "dependencies": {
       "mongodb": "^6.14.2",
+      "graphql": "16.11.0",
+      "redis": "4.7.1",
+      "@apollo/server": "5.1.0",
+      "express": "^4.21.2",
+    },
+    // Force a single graphql version for downstream dependencies (pnpm/yarn)
+    "overrides": {
+      "graphql": "16.11.0"
     },
     "devDependencies": {
       "typescript": "^5.9.3",
       "ts-node": "^10.9.2",
+      "@types/node": "^22.15.30",
+      "@types/express": "^5.0.1",
     },
   };
 
@@ -169,11 +184,8 @@ const graphql = app.getGraphQL();
   // in the options (not enabled by default).
   if (options.advanced && (options.advanced as any).autoInstall) {
     try {
-      execSync(`npm install express mongodb`, { cwd: projectRoot, stdio: 'inherit' });
+      execSync(`pnpm install @abimongo/core @abimongo/logger`, { cwd: projectRoot, stdio: 'inherit' });
       console.log(colorize(`[Installing dependencies]: Installed runtime dependencies.`, 'green'));
-
-      execSync(`npm install -D typescript ts-node @types/node`, { cwd: projectRoot, stdio: 'inherit' });
-      console.log(colorize(`[Installing dev dependencies]: Installed dev dependencies.`, 'green'));
     } catch (err) {
       console.log(colorize(`⚠️  Dependency installation failed or was interrupted. Skipping install.`, 'yellow'), err);
     }

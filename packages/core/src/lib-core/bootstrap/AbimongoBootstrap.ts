@@ -217,7 +217,7 @@ export class AbimongoBootstrap {
     }
 
     for (const hook of this.onConnectHooks) {
-      await hook();
+      return await hook();
     }
 
     if (this.config.advanced?.garbageCollector?.enabled) {

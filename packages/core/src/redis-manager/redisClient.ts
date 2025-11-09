@@ -13,6 +13,8 @@ const createStub = () => ({
   publish: async () => Promise.resolve(),
   subscribe: async () => Promise.resolve(),
   duplicate: () => createStub(),
+  set: async () => Promise.resolve(),
+  exists: async () => Promise.resolve(0),
 });
 
 export const redis: any = {
@@ -61,6 +63,9 @@ export const redis: any = {
     publish: async () => Promise.resolve(),
     subscribe: async () => Promise.resolve(),
   }),
+  set: async (key: string, value: any, options?: any) => Promise.resolve(),
+  exists: async (key: string) => Promise.resolve(0),
+
 };
 
 export class RedisService {

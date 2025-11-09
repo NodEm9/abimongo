@@ -35,8 +35,9 @@ export class AbimongoGraphQL {
   private resolvers: any[] = [];
   private redis = redis
   private useRedis: boolean;
-  private subscriber = this.redis.duplicate();
-  private publisher = this.redis.duplicate();
+  // publisher/subscriber will be created from a real client when available
+  private subscriber: any = null;
+  private publisher: any = null;
 
   constructor(private options: AbimongoGraphQLOptions = {}) {
     this.useRedis = this.options.useRedis !== false; // Default to true
@@ -67,15 +68,37 @@ export class AbimongoGraphQL {
   private async ensureRedis() {
     if (!this.useRedis) return;
     try {
-      if (!this.redis.isOpen) {
-        await this.redis.connect();
-        await this.publisher.connect();
-        await this.subscriber.connect();
+      // Ensure we obtain a real connected client from the redis wrapper
+      const client: any = await this.redis.get();
+      if (!client) {
+        console.log('⚠️ Redis client not available from redis manager; skipping Redis initialization');
+        return;
       }
-      console.log('🔄 Ensuring Redis connection...', 'info', {});
-      console.log('✅ Redis connection established', 'info', {});
+
+      // If client is not open but has connect, attempt to connect
+      if (!client.isOpen && typeof client.connect === 'function') {
+        await client.connect();
+      }
+
+      // Create publisher/subscriber from the connected client
+      if (!this.publisher) {
+        this.publisher = typeof client.duplicate === 'function' ? client.duplicate() : client;
+        if (this.publisher && typeof this.publisher.connect === 'function') {
+          await this.publisher.connect();
+        }
+      }
+
+      if (!this.subscriber) {
+        this.subscriber = typeof client.duplicate === 'function' ? client.duplicate() : client;
+        if (this.subscriber && typeof this.subscriber.connect === 'function') {
+          await this.subscriber.connect();
+        }
+      }
+
+      console.log('[info] Ensuring Redis connection...', 'info', {});
+      console.log('[info] Redis connection established', 'info', {});
     } catch (err: any) {
-      console.log('⚠️ Redis connection skipped or failed:', 'error', err.message);
+      console.log('[info] ⚠️ Redis connection skipped or failed:', (err as any)?.message || String(err));
     }
   }
 
@@ -92,7 +115,16 @@ export class AbimongoGraphQL {
 
         await this.ensureRedis();
         console.log('[ABIMONGO] Redis client connected successfully', 'info', { 'tenantId': context.user.tenantId });
+      }
+
+      // Prefer publisher if available, otherwise try the client directly
+      const client: any = await this.redis.get();
+      if (this.publisher && typeof this.publisher.publish === 'function') {
         await this.publisher.publish(channel, JSON.stringify(payload));
+      } else if (client && typeof client.publish === 'function') {
+        await client.publish(channel, JSON.stringify(payload));
+      } else {
+        console.warn('[ABIMONGO] No Redis publisher available to publish event');
       }
 
       console.log(`[ABIMONGO] ✅ Published to Redis channel "${channel}"`, 'info', { "tenantId": context.user.tenantId });
@@ -153,7 +185,7 @@ export class AbimongoGraphQL {
 
         findAll: enforceRBAC(async (_: any, { collection }: any, context: UserContext) => {
           const { user } = context;
-          if (!checkPermission(user.role, 'read')) throw new Error('Unauthorized');
+          if (!(await checkPermission(user.role, 'read'))) throw new Error('Unauthorized');
           const db = await getTenantDB(user.tenantId);
           return db.collection(collection).find({ tenantId: user.tenantId }).toArray();
         }, 'read'),
@@ -303,13 +335,11 @@ export class AbimongoGraphQL {
   /**
    * Dynamically generate GraphQL Schema
    */
-  async generateSchema(model?: any, enableSubscriptions?: boolean): Promise<GraphQLSchema> {
+  async generateSchema(models?: any): Promise<GraphQLSchema> {
     await this.ensureRedis();
     return makeExecutableSchema({
       typeDefs: [this.defaultTypeDefs(), ...this.typeDefs],
       resolvers: [this.defaultResolvers(), ...this.resolvers],
-      ...enableSubscriptions && { subscriptions: this.subscriptions() },
-      schemaExtensions: model || {},
     });
   }
 };

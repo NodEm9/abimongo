@@ -29,19 +29,19 @@ try {
     const missing = requiredExports.filter(key => !(key in abimongo));
 
     if (missing.length > 0) {
-      console.error(colorize('❌ Missing exports in abimongo_core build:', 'win32'));
+      console.error(colorize('❌ Missing exports in @abimongo/core build:', 'red'));
       for (const name of missing) {
         console.error(`- ${name}`);
       }
       process.exit(1);
     }
 
-    console.log(colorize('✅ All required exports are present in abimongo_core.', 'win32'));
+    console.log(colorize('✅ All required exports are present in @abimongo/core.', 'red'));
     return path.isAbsolute(p) ? p : path.join(__dirname, p);
   }
   resolvePath(buildPath);
 } catch (err) {
-  console.error(colorize('❌ Failed to load abimongo_core build output:', 'win32'), err);
+  console.error(colorize('❌ Failed to load @abimongo/core build output:', 'red'), err);
   process.exit(1);
 }
 })()

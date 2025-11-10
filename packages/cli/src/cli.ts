@@ -23,9 +23,20 @@ const createBin = path.resolve(createBinRelative);
 export default function runCLI() {
   // lightweight banner; defer to create CLI for full UX
   try {
-    // Keep the bootstrap/install console banner plain so logs are easy to capture.
-    console.log('=== Abimongo CLI ===');
-  } catch (e) { }
+    // Show a friendly splash banner (ASCII or figlet). Use dynamic import to satisfy ESLint
+    // and avoid top-level require() usage.
+    (async () => {
+      try {
+        const mod = await import('./utils/splash');
+        mod.showSplash?.();
+      } catch {
+        try { console.log('=== Abimongo CLI ==='); } catch { }
+      }
+    })();
+  } catch {
+    // fallback
+    try { console.log('=== Abimongo CLI ==='); } catch { }
+  }
   // small helper to print green success messages (logger's colorByLevel has no 'success' level)
   const success = (text: string) => {
     const green = '\u001b[32m';
@@ -212,7 +223,7 @@ export default function runCLI() {
           try {
             if (installer.stdout && installer.stdout.length) process.stdout.write(installer.stdout);
             if (installer.stderr && installer.stderr.length) process.stderr.write(installer.stderr);
-          } catch (e) { /* ignore stream write errors */ }
+          } catch { /* ignore stream write errors */ }
 
           if (installer.error) {
             console.error(`Package install process spawn failed: ${installer.error}`);
@@ -261,7 +272,7 @@ export default function runCLI() {
             if (client && typeof client.disconnect === 'function') {
               await client.disconnect();
             }
-          } catch (e) {
+          } catch {
             // ignore cleanup errors
           }
         } catch (err) {
@@ -290,7 +301,7 @@ function detectPackageManager(cwd: string): 'pnpm' | 'npm' | 'yarn' {
     if (fs.existsSync(path.join(cwd, 'pnpm-lock.yaml'))) return 'pnpm';
     if (fs.existsSync(path.join(cwd, 'yarn.lock'))) return 'yarn';
     if (fs.existsSync(path.join(cwd, 'package-lock.json'))) return 'npm';
-  } catch (e) {
+  } catch {
     // ignore
   }
 
@@ -298,11 +309,11 @@ function detectPackageManager(cwd: string): 'pnpm' | 'npm' | 'yarn' {
   try {
     const r = spawnSync('pnpm', ['--version'], { stdio: 'ignore' });
     if (r.status === 0) return 'pnpm';
-  } catch (e) { }
+  } catch { }
   try {
     const r = spawnSync('yarn', ['--version'], { stdio: 'ignore' });
     if (r.status === 0) return 'yarn';
-  } catch (e) { }
+  } catch { }
   return 'npm';
 }
 

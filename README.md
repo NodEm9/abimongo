@@ -1,8 +1,27 @@
-# Abimongo
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Nodem9/abimongo/main/abimongo-brand/logo_horizontal.png" width="420" alt="Abimongo Logo">
+</p>
+
+<h1 align="center">Abimongo Monorepo</h1>
+<p align="center">
+  <strong>The Next-Gen MongoDB ORM/ODM Ecosystem</strong><br>
+  Core • Logger • Create (CLI)
+</p>
+
+---
+
+## Packages / Capabilities
+
+- `@abimongo/core` – The main MongoDB ORM/ODM with multi-tenancy, GraphQL, Redis, and RBAC.
+- `@abimongo/logger` – Structured, extensible logger designed for Abimongo and Node.js services.
+- `@abimongo/create` – Scaffolding CLI to bootstrap Abimongo-powered projects.
+
+See each package README in `./packages/*` for usage details.
+
  
- @abimong/core ![npm version](https://img.shields.io/npm/v/@abimongo/core.svg) | 
+ <!-- @abimong/core ![npm version](https://img.shields.io/npm/v/@abimongo/core.svg) | 
  @abimongo/logger ![npm version](https://img.shields.io/npm/v/@abimongo/logger.svg) |
- @abimongo/create  ![npm version](https://img.shields.io/npm/v/@abimongo/create.svg)
+ @abimongo/create  ![npm version](https://img.shields.io/npm/v/@abimongo/create.svg) -->
 
 
 Abimongo is a set of packages that provide a TypeScript-first ODM/ORM and developer tooling for MongoDB.

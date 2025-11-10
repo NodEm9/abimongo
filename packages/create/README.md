@@ -1,8 +1,28 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Nodem9/abimongo/main/abimongo-brand/logo_horizontal.png" width="360" alt="Abimongo Logo">
+</p>
 
- # Abimongo Create (scaffolder)
+<h1 align="center">
+ <div>Abimongo Create (scaffolder)</div>
+@abimongo/create</h1>
+<p align="center">
+  <strong>Project Scaffolding for Abimongo</strong><br>
+  MERN • Next.js • REST API • GraphQL API • Multi-Tenant Ready
+</p>
 
- ![npm version](https://img.shields.io/npm/v/@abimongo/create.svg)
- ![Release workflow](https://github.com/NodEm9/abimongo/actions/workflows/release.yml/badge.svg)
+<p align="center">
+  <a href="https://www.npmjs.com/package/@abimongo/create">
+    <img src="https://img.shields.io/npm/v/@abimongo/create.svg?style=flat-square&color=00C4B4" alt="npm version">
+  </a>
+  <a href="https://github.com/Nodem9/abimongo">
+    <img src="https://img.shields.io/github/stars/Nodem9/abimongo?style=flat-square&color=1E88E5" alt="GitHub stars">
+  </a>
+</p>
+
+---
+
+ <!-- ![npm version](https://img.shields.io/npm/v/@abimongo/create.svg)
+ ![Release workflow](https://github.com/NodEm9/abimongo/actions/workflows/release.yml/badge.svg) -->
 
 
 The Abimongo CLI is a project scaffolding tool. It creates starter applications and wiring for common project types (for example: MERN, Next.js, REST API, and GraphQL). The CLI focuses on generating working project skeletons and developer tooling; it does not expose a runtime API surface that needs in-depth reference docs.

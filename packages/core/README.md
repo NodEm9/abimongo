@@ -1,7 +1,33 @@
-# @abimongo/core
+# `@abimongo/core`
 
-  ![npm version](https://img.shields.io/npm/v/@abimongo/core.svg)
-  ![Release workflow](https://github.com/NodEm9/abimongo/actions/workflows/release.yml/badge.svg)
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Nodem9/abimongo/main/abimongo-brand/logo_horizontal.png" width="420" alt="Abimongo Logo">
+</p>
+
+<h1 align="center">
+@abimongo/core</h1>
+<p align="center">
+  <strong>The Next-Gen MongoDB ORM/ODM</strong><br>
+  Multi-Tenant • GraphQL • Redis • RBAC • CLI Scaffolding
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@abimongo/core">
+    <img src="https://img.shields.io/npm/v/@abimongo/core.svg?style=flat-square&color=00C4B4" alt="npm version">
+  </a>
+  <a href="https://github.com/Nodem9/abimongo/stargazers">
+    <img src="https://img.shields.io/github/stars/Nodem9/abimongo?style=flat-square&color=1E88E5" alt="GitHub stars">
+  </a>
+  <a href="https://Nodem9.github.io/abimongo">
+    <img src="https://img.shields.io/badge/docs-online-blue?style=flat-square" alt="Docs">
+  </a>
+</p>
+
+---
+
+  <!-- ![npm version](https://img.shields.io/npm/v/@abimongo/core.svg)
+  ![Release workflow](https://github.com/NodEm9/abimongo/actions/workflows/release.yml/badge.svg) -->
   <!-- (https://www.npmjs.com/package/abimongo_core) -->
 
   A production-ready, TypeScript-first ORM/ODM for MongoDB built on the official MongoDB Node.js driver. @abimongo/core focuses on developer ergonomics, multi-tenant support, caching, and first-class GraphQL integration while keeping the API small and extensible.

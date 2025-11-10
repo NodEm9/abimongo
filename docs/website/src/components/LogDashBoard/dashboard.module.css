@@ -243,11 +243,12 @@
 	.dashboard {
 		width: 100%;
 		padding: 0.7rem;
-		height: auto;
+		height: 100vh;
 	}
 
 	.metricsGrid {
 		grid-template-columns: 1fr;
+		height: 100vh;
 	}
 
 }

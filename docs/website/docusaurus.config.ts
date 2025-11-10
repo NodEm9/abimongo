@@ -135,8 +135,8 @@ const config: Config = {
 						alt: 'Abimongo Logo',
 						// Docusaurus supports separate images for light/dark via `src` and `srcDark`.
 						// filename in repo is `Abimongo-Logo_1.svg` (case-sensitive on CI); use exact name
-						src: 'img/abimongo-brand-logo-light.svg',
-						srcDark: 'img/abimongo-logo-dark-mode.svg',
+						src: 'img/abimongo-brand-logo_light.svg',
+						srcDark: 'img/abimongo-brand-logo_dark.svg',
 					},
 			items: [
 				{ to: '/core/intro', label: 'Core', position: 'left' },

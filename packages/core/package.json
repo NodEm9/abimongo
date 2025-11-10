@@ -51,7 +51,8 @@
     "docusaurus:deploy": "cd website && pnpm docusaurus deploy",
     "prepublishOnly": "pnpm run build",
     "prepack": "pnpm build",
-    "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks"
+    "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks",
+    "postinstall": "node ../../scripts/postinstall-splash.js"
   },
   "release": {
     "branches": [

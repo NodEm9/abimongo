@@ -28,7 +28,8 @@
 		"build": "pnpm run build:prod",
 		"lint": "eslint src",
 		"prepack": "pnpm build",
-		"publish": " pnpm --recursive publish --no-git-checks"
+		"publish": " pnpm --recursive publish --no-git-checks",
+		"postinstall": "node ../../scripts/postinstall-splash.js"
 	},
 	"release": {
 		"branches": [

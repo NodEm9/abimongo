@@ -1,8 +1,15 @@
-    ___    _     _                       
-   / _ \  /_\   /_\  _ __   __ _  _ __   
-  / /_)/ //_\\ / _ \| '__| / _` || '_ \  
- / ___/ /  _  \ (_) | |   | (_| || | | | 
- \/    \_/ \_/ \___/|_|    \__,_||_| |_| 
+        ____    _     _                         
+     / __ \  /_\   /_\  _ __   __ _  _ __ ___ 
+    / /  \ \/ //_\\ / _ \| '__| / _` || '_ ` _ \
+ / /___ /  _  \ (_) | |   | (_| || | | | | |
+ \____/ \_/ \_/ \___/|_|    \__,_||_| |_| |_|
 
-      Abimongo — fast, multi-tenant MongoDB toolkit
-      https://github.com/NodEm9/abimongo
+     ░█▀▀█ ░█▀▀▀█ ░█▀▀█ ░█▀▄▀█ ░█▀▀▀ 
+     ░█▄▄█ ░█░░░░ ░█░░░ ░█░█░█ ░█▀▀▀ 
+     ░█░░░ ░█▄▄▄█ ░█▄▄█ ░█░░░█ ░█▄▄▄ 
+
+    Abimongo — fast, multi-tenant MongoDB toolkit
+    https://github.com/NodEm9/abimongo
+
+    (If your terminal supports inline images and you set ABIMONGO_CLI_INLINE_IMAGE=1,
+     the brand logo (`abimongo-brand/logo_dark.png`) may be displayed when supported.)

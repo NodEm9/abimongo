@@ -1,8 +1,5 @@
-# `@abimongo/core`
-
-
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nodem9/abimongo/main/abimongo-brand/logo_horizontal.png" width="420" alt="Abimongo Logo">
+  <img src="../../abimongo-brand/logo_horizontal.png" width="420" alt="Abimongo Logo">
 </p>
 
 <h1 align="center">

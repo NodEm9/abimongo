@@ -4,6 +4,7 @@ import styles from './dashboard.module.css';
 import MetricCard from './MetricCard';
 import { useMetrics } from './useMetrics';
 import type { Metric } from './types';
+import '../../output.css';
 // npm stats are provided by the dev metrics server at /api/npm-downloads
 
 export default function LogDashboard(): ReactNode {
@@ -114,7 +115,7 @@ export default function LogDashboard(): ReactNode {
   }, [metrics, npmMetrics]);
 
   return (
-    <div className={styles.dashboard}>
+    <div className="mx-auto max-w-5xl px-6 items-center justify-center bg-[var(--brand-block-bg)] rounded-lg">
       <h2 className={styles.heroText}>📺 Abimongo Log Stream</h2>
 
       <section aria-label="Abimongo metrics">
@@ -136,7 +137,7 @@ export default function LogDashboard(): ReactNode {
         </div>
       </section>
 
-      <section aria-label="Live logs" className={styles.logsSection}>
+      <section aria-label="Live logs" className="">
         <div className={styles.logsHeader}><strong>Live Logs</strong> <span className={styles.logsSub}>Realtime stream from Abimongo server</span></div>
         <div className={styles.logsBox} role="log">
           {logs.length === 0 && <div className={styles.emptyState}>No live logs yet</div>}

@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nodem9/abimongo/main/abimongo-brand/logo_horizontal.png" width="360" alt="Abimongo Logo">
-</p>
+  <img src="../../abimongo-brand/logo_horizontal.png" width="360" alt="Abimongo Logo">
+</p> 
 
 <h1 align="center">@abimongo/logger</h1>
 <p align="center">

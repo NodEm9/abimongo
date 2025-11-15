@@ -169,20 +169,99 @@ async function run() {
 
 	// width measurement is handled by visibleLength (wcwidth) so ad-hoc fixes removed
 	// reduce vertical padding to keep the box compact (user requested)
-	const plainBox = makePlainBox(plainLines, 2, 0);
-	const ansiBox = makeAnsiBox(ansiLines, 2, 1, preImage);
+	// Remove any header-like lines from the content so the ASCII header does
+	// not re-appear inside the box. Match trimmed lines against the wordmark
+	// and common separator patterns.
+	// Try FIGlet first for a nicer ASCII wordmark (preview only).
+	// If the `figlet` module isn't installed or generation fails, fall back
+	// to a safe, plain ASCII wordmark that avoids problematic escape
+	// sequences. This keeps written outputs stable while giving a nicer
+	// preview when figlet is available.
+	function getWordmarkLines() {
+		try {
+			// require on demand so the script works without an npm install.
+			// If a user wants the FIGlet header permanently, they can
+			// `pnpm add figlet` in their environment.
+			// Use a compact font to keep the banner narrow.
+			const figlet = require('figlet');
+			const fig = figlet.textSync('ABIMONGO', { font: 'Small' });
+			const lines = String(fig).split(/\r?\n/).map(l => l.replace(/\s+$/u, ''));
+			// Ensure a single-line literal 'ABIMONGO' exists for tests and
+			// simple consumers that look for the plain wordmark. Append a
+			// centered literal if absent.
+			if (!lines.some(l => l.trim() === 'ABIMONGO')) {
+				lines.push('                     ABIMONGO                    ');
+			}
+			return lines;
+		} catch (e) {
+			return [
+				'   AAA    BBBBB  III M   M OOOO N   N GGGGG OOOO  ',
+				'  A   A   B    B  I  MM MM O  O NN  N G     O  O  ',
+				'  AAAAA   BBBBB   I  M M M O  O N N N G  GG O  O  ',
+				' A     A  B    B  I  M   M O  O N  NN G   G O  O  ',
+				' A     A  BBBBB  III M   M OOOO N   N  GGGG OOOO  ',
+				'                                              ',
+				'                     ABIMONGO                    '
+			];
+		}
+	}
 
-	// ASCII banner to appear before the boxed banner (plain + ANSI)
-	// ABIMONGO-only header (no other product names)
-	const wordmarkLines = [
-		'=====================================================================',
-		'                              ABIMONGO                               ',
-		'                   A compact MongoDB toolkit for Node.js             ',
-		'=====================================================================',
-		''
-	];
+	const wordmarkLines = getWordmarkLines();
 
-	// Compose final outputs with wordmark on top
+	const headerTrim = wordmarkLines.map(l => l.trim()).filter(Boolean);
+	// Heuristic: detect FIGlet/ASCII-art lines that are mostly non-alphanumeric
+	// characters (e.g. underscores, slashes, pipes) and exclude them from the box
+	// so the FIGlet header only appears above the box (preview). This avoids
+	// re-including large ASCII art blocks read from previously generated files.
+	function isAsciiArtLine(s) {
+		if (!s) return false;
+		const len = s.trim().length;
+		if (len < 6) return false; // short lines aren't considered art
+		const alnum = (s.match(/[A-Za-z0-9]/g) || []).length;
+		// ratio of alphanumeric chars to total
+		const ratio = alnum / len;
+		// if fewer than 30% of chars are alphanumeric, treat as art
+		return ratio < 0.3;
+	}
+	const cleanedPlainLines = plainLines.filter(l => {
+		const t = l.trim();
+		if (!t) return false;
+		if (isAsciiArtLine(t)) return false;
+		if (headerTrim.includes(t)) return false;
+		if (/^=+$/.test(t)) return false;
+		// only exclude exact ABIMONGO line; keep 'Abimongo — ...' title
+		if (/^ABIMONGO\s*$/i.test(t)) return false;
+		return true;
+	});
+
+	const cleanedAnsiLines = ansiLines.filter(a => {
+		const sgr = new RegExp(String.fromCharCode(27) + '\\[[0-9;]*m', 'g');
+		const t = a.replace(sgr, '').trim();
+		if (!t) return false;
+		if (isAsciiArtLine(t)) return false;
+		if (headerTrim.includes(t)) return false;
+		if (/^=+$/.test(t)) return false;
+		if (/^ABIMONGO\s*$/i.test(t)) return false;
+		return true;
+	});
+
+	// Ensure the box contains the title line. If it was removed by filtering,
+	// reinsert the canonical title at the top of the box.
+	const hasTitle = cleanedPlainLines.some(l => /^Abimongo\b/i.test(l));
+	if (!hasTitle) {
+		const titleFromInput = plainLines.find(l => /^Abimongo\b/i.test(l));
+		const titleToInsert = titleFromInput || 'Abimongo — fast, multi-tenant';
+		cleanedPlainLines.unshift(titleToInsert);
+		// for ANSI, try to find an ANSI-wrapped version; otherwise insert plain title
+		const ansiTitleFromInput = ansiLines.find(a => a.replace(new RegExp(String.fromCharCode(27) + '\\[[0-9;]*m', 'g'), '').match(/^Abimongo\b/i));
+		cleanedAnsiLines.unshift(ansiTitleFromInput || titleToInsert);
+	}
+
+
+	const plainBox = makePlainBox(cleanedPlainLines, 2, 0);
+	const ansiBox = makeAnsiBox(cleanedAnsiLines, 2, 1, preImage);
+
+	// Compose final outputs with wordmark on top (plain + ANSI)
 	const plain = wordmarkLines.join('\n') + '\n' + plainBox;
 	// color the wordmark for ANSI output using the brand teal
 	const teal = esc(0, 196, 180);

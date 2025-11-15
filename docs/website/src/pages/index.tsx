@@ -8,8 +8,10 @@ import Heading from '@theme/Heading';
 import LogDashboard from '../components/LogDashBoard/Log-DashBoard';
 import Snippet from '../components/LogDashBoard/snippetAnimated';
 import React from 'react';
-
+import Hero, { Why } from '../components/Hero/Hero';
 import styles from './index.module.css';
+import '../output.css';
+
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -42,15 +44,39 @@ function HomepageHeader() {
   );
 }
 
+// export default function Home(): ReactNode {
+//   const { siteConfig } = useDocusaurusContext();
+//   return (
+//     <Layout
+//       // wrapperClassName='dark'
+//     title={`Hello from ${siteConfig.title}`}
+//     description="Next-Gen MongoDB ORM/ODM for TypeScript & JavaScript"
+//     >
+//       {/* <HomepageHeader /> */}
+//       <main className="mt-60 mb-80 py-80 h-screen bg-[var(--brand-canvas)] text-[var(--brand-text)]">
+//       <Hero />
+//       <Why />
+//         {/* <HomepageFeatures /> */}
+//         <div className="my-80">
+//           <LogDashboard />
+//         </div>
+//       </main>
+//     </Layout>
+//   );
+// }
+
+
 export default function Home(): ReactNode {
-  const { siteConfig } = useDocusaurusContext();
+    const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
       title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
-      <HomepageHeader />
-      <main>
-        <HomepageFeatures />
+      description="Next-Gen MongoDB ORM/ODM for TypeScript & JavaScript"
+    >
+      {/* Page wrapper uses brand canvas and follows dark mode via data-theme */}
+      <main className="bg-[var(--brand-canvas)] dark:bg-[#0A1320] text-[var(--brand-text)]">
+        <Hero />
+        <Why />
         <div className={styles.logDashboard}>
           <LogDashboard />
         </div>

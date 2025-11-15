@@ -172,12 +172,13 @@ async function run() {
 	const plainBox = makePlainBox(plainLines, 2, 0);
 	const ansiBox = makeAnsiBox(ansiLines, 2, 1, preImage);
 
-	// ASCII wordmark to appear before the boxed banner (plain + ANSI)
-	// simpler ASCII wordmark (avoid problematic backslashes in string literals)
+	// ASCII banner to appear before the boxed banner (plain + ANSI)
+	// Use a large, simple text banner (ABIMONGO ECOSYSTEM)
 	const wordmarkLines = [
-		'==============================================',
-		'  ABIMONGO — A compact MongoDB toolkit        ',
-		'==============================================',
+		'=====================================================================',
+		'                          ABIMONGO ECOSYSTEM                          ',
+		'                   A compact MongoDB toolkit for Node.js             ',
+		'=====================================================================',
 		''
 	];
 

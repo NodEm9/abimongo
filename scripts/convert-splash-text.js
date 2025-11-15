@@ -173,10 +173,10 @@ async function run() {
 	const ansiBox = makeAnsiBox(ansiLines, 2, 1, preImage);
 
 	// ASCII banner to appear before the boxed banner (plain + ANSI)
-	// Use a large, simple text banner (ABIMONGO ECOSYSTEM)
+	// ABIMONGO-only header (no other product names)
 	const wordmarkLines = [
 		'=====================================================================',
-		'                          ABIMONGO ECOSYSTEM                          ',
+		'                              ABIMONGO                               ',
 		'                   A compact MongoDB toolkit for Node.js             ',
 		'=====================================================================',
 		''

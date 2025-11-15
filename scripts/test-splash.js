@@ -32,8 +32,8 @@ assert.ok(fs.existsSync(plainOut), 'plain output exists');
 assert.ok(fs.existsSync(origOut), 'orig output exists');
 
 const plain = fs.readFileSync(plainOut, 'utf8');
-// Ensure wordmark is present before the box (look for ECOSYSTEM literal)
-assert.ok(plain.indexOf('ECOSYSTEM') !== -1, 'plain output contains wordmark');
+// Ensure wordmark is present before the box (look for ABIMONGO literal)
+assert.ok(plain.indexOf('ABIMONGO') !== -1, 'plain output contains wordmark');
 
 console.log('splash test passed');
 

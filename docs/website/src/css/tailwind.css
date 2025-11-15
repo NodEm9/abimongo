@@ -1,0 +1,119 @@
+@import "tailwindcss";
+@import "tailwindcss/preflight";
+@tailwind utilities;
+
+:root {
+  --brand-blue: #1E88E5;
+  --brand-teal: #00C4B4;
+  --navy: #0B1E33;
+  --canvas: #F5F7FA;
+  --text-dark: #0B1726;
+  --text-muted: #5C6B7A;
+}
+
+/* Small helpers for a clean hero and readable content */
+.hero-max {
+  max-width: 64rem;
+}
+
+/* make Docusaurus color mode work with Tailwind's dark: variant */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* Style the Docusaurus navbar so there's a single, polished header */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(229, 234, 240, 0.7);
+}
+
+:root[data-theme="dark"] .navbar {
+  background-color: rgba(10, 19, 32, 0.72);
+  border-bottom: 1px solid rgba(31, 43, 62, 1);
+}
+
+/* Give the hero some top offset so it sits below Docusaurus navbar */
+.site-hero {
+  padding-top: 3.5rem;
+  /* adjust if navbar height changes */
+}
+
+/* Polished typography */
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.1;
+}
+ 
+/* Improve anchor focus styles for accessibility */
+a:focus {
+  outline: 3px solid rgba(0, 196, 180, 0.18);
+  outline-offset: 3px;
+}
+
+/* Page container spacing */
+.docs-container {
+  padding-inline: 1.25rem;
+}
+
+/* Layout the Docusaurus navbar inner container */
+.navbar .navbar__inner {
+  max-width: 64rem;
+  margin-inline: auto;
+  padding-inline: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Navbar items spacing and link styling */
+.navbar .navbar__items {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.navbar .navbar__item a {
+  padding: 0.45rem 0.75rem;
+  border-radius: 0.5rem;
+  color: inherit;
+}
+
+.navbar .navbar__item a:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+:root[data-theme="dark"] .navbar .navbar__item a:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* Make sure the brand/logo has breathing room */
+.navbar .navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+/* Hero light-mode style: card-like with accessible contrast */
+.site-hero.light {
+  background: linear-gradient(180deg, var(--canvas), #fff 40%);
+  color: var(--text-dark);
+  border: 1px solid var(--borderLight);
+}
+
+/* Force hero title/text color adapting in both modes */
+.site-hero h1 {
+  color: inherit;
+}
+
+.site-hero p {
+  color: inherit;
+  opacity: 0.95;
+}

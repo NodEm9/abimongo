@@ -10,7 +10,7 @@ import Snippet from '../components/LogDashBoard/snippetAnimated';
 import React from 'react';
 import Hero, { Why } from '../components/Hero/Hero';
 import styles from './index.module.css';
-import '../output.css';
+// import '../output.css';
 
 
 function HomepageHeader() {

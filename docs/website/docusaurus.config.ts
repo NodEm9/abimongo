@@ -13,7 +13,7 @@ const config: Config = {
 	favicon: 'img/favicon.ico',
 	organizationName: 'NodEm9',
 	projectName: 'abimongo',
-	clientModules: [path.resolve(__dirname, './src/css/custom.css')],
+	clientModules: [path.resolve(__dirname, './src/css/tailwind.css')],
 	onBrokenAnchors: 'ignore',
 	trailingSlash: false,
 	// onBrokenLinks: 'ignore',
@@ -27,7 +27,7 @@ const config: Config = {
 					path: './blog',
 					routeBasePath: 'blog',
 				},
-				theme: { customCss: require.resolve('./src/css/custom.css') },
+				theme: { customCss: require.resolve('./src/css/tailwind.css') },
 			} satisfies Preset.Options,
 		],
 	],
@@ -130,7 +130,7 @@ const config: Config = {
 		navbar: {
 			title: 'Abimongo',
 			logo: {
-				src: 'img/abimongo-a-logo-30x30.svg', 
+				src: 'img/abimongo-a-logo-30x30.svg',
 				// srcDark: 'img/abimongo-brand-logo_dark.svg',
 			},
 			items: [

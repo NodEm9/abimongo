@@ -4,7 +4,7 @@ import styles from './dashboard.module.css';
 import MetricCard from './MetricCard';
 import { useMetrics } from './useMetrics';
 import type { Metric } from './types';
-import '../../output.css';
+// import '../../output.css';
 // npm stats are provided by the dev metrics server at /api/npm-downloads
 
 export default function LogDashboard(): ReactNode {

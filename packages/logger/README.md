@@ -1,8 +1,26 @@
+<p align="center">
+  <img src="../../abimongo-brand/logo_horizontal.png" width="360" alt="Abimongo Logo">
+</p> 
 
-# abimongo_logger
+<h1 align="center">@abimongo/logger</h1>
+<p align="center">
+  <strong>Structured Logging for the Abimongo Ecosystem</strong><br>
+  JSON Logs • Transports • Correlation IDs • Production-Ready
+</p>
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/@abimongo/logger">
+    <img src="https://img.shields.io/npm/v/@abimongo/logger.svg?style=flat-square&color=00C4B4" alt="npm version">
+  </a>
+  <a href="https://github.com/Nodem9/abimongo">
+    <img src="https://img.shields.io/github/stars/Nodem9/abimongo?style=flat-square&color=1E88E5" alt="GitHub stars">
+  </a>
+</p>
+
+---
+<!-- 
  ![npm version](https://img.shields.io/npm/v/@abimongo/logger.svg)
- ![Release workflow](https://github.com/NodEm9/abimongo/actions/workflows/release.yml/badge.svg)
+ ![Release workflow](https://github.com/NodEm9/abimongo/actions/workflows/release.yml/badge.svg) -->
 
 
 A modular utility library for Node.js projects, starting with a robust, extensible logger utility. This library is designed to be expanded with additional utilities over time, making it a central toolkit for your backend applications.

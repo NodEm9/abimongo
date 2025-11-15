@@ -28,7 +28,8 @@
 		"build": "pnpm run build:prod",
 		"lint": "eslint src",
 		"prepack": "pnpm build",
-		"publish": " pnpm --recursive publish --no-git-checks"
+		"publish": " pnpm --recursive publish --no-git-checks",
+		"postinstall": "node ../../scripts/postinstall-splash.js"
 	},
 	"release": {
 		"branches": [
@@ -36,9 +37,9 @@
 		]
 	},
 	"dependencies": {
-		"@abimongo/logger": "workspace:*",
 		"@abimongo/core": "workspace:*",
 		"@abimongo/create": "workspace:*",
+		"@abimongo/logger": "workspace:*",
 		"commander": "^14.0.2"
 	},
 	"engines": {
@@ -48,6 +49,7 @@
 	"license": "ISC",
 	"description": "CLI tooling for Abimongo (shim + scaffold command).",
 	"devDependencies": {
+		"figlet": "^1.9.3",
 		"ts-loader": "^9.5.4",
 		"tslib": "^2.8.1",
 		"webpack": "^5.102.1",

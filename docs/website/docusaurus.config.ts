@@ -122,29 +122,24 @@ const config: Config = {
 	themeConfig: {
 		image: 'img/abimongo_social_card.png',
 		colorMode: {
-			respectPrefersColorScheme: true,
-		},
-		font: {
-			'family': 'Inter, sans-serif',
-			'size': '46px',
-			// 'weight': '700',
+			// defaultMode: 'light',                 // or 'dark'
+			respectPrefersColorScheme: true,     // keep Docusaurus behavior
+			// disableSwitch: false,                // keep the toggle
+			// respectPrefersColorScheme: true,
 		},
 		navbar: {
-					// title: 'Abimongo',
-					logo: {
-						alt: 'Abimongo Logo',
-						// Docusaurus supports separate images for light/dark via `src` and `srcDark`.
-						// filename in repo is `Abimongo-Logo_1.svg` (case-sensitive on CI); use exact name
-						src: 'img/abimongo-brand-logo-light.svg',
-						srcDark: 'img/abimongo-logo-dark-mode.svg',
-					},
+			title: 'Abimongo',
+			logo: {
+				src: 'img/abimongo-a-logo-30x30.svg', 
+				// srcDark: 'img/abimongo-brand-logo_dark.svg',
+			},
 			items: [
 				{ to: '/core/intro', label: 'Core', position: 'left' },
 				{ to: '/logger/intro', label: 'Logger', position: 'left' },
 				{ to: '/create/intro', label: 'Cli', position: 'left' },
 				{ to: '/blog', label: 'Blog', position: 'left' },
 				{ to: '/tutorials/intro', label: 'Tutorials', position: 'left' },
-				{ href: 'https://github.com/NodEm9/abimongo', label: 'GitHub', position: 'right' },
+				// { href: 'https://github.com/NodEm9/abimongo', label: 'GitHub', position: 'right' },
 			],
 		},
 		docs: { sidebar: { autoCollapseCategories: true } },
@@ -180,10 +175,10 @@ const config: Config = {
 				{
 					title: 'More',
 					items: [
-						// {
-						//   label: 'Blog',
-						//   to: '/blog',
-						// },
+						{
+							label: 'Blog',
+							to: '/blog',
+						},
 						{
 							label: 'GitHub',
 							href: 'https://github.com/NodEm9/abimongo',

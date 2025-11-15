@@ -1,3 +1,8 @@
+
+@import "tailwindcss";
+@import "tailwindcss/preflight";
+@tailwind utilities;
+
 .container {
 	padding: 24px;
 	max-width: 1100px;

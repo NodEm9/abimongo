@@ -1,0 +1,417 @@
+@import "tailwindcss";
+
+/* === Tailwind v4 theming === */
+@theme {
+  --color-navy: #0B1E33;
+  --color-blueBrand: #1E88E5;
+  --color-tealBrand: #00C4B4;
+  --color-canvas: #F5F7FA;
+  --color-textDark: #0B1726;
+  --color-textMuted: #5C6B7A;
+  --color-borderLight: #E5EAF0;
+  --color-accent: #3CE0D2;
+  --docusaurus-highlighted-code-line-bg: rgba(13, 40, 71, 1.0);
+}
+
+/* Dark theme overrides (Docusaurus toggles data-theme on <html>) */
+[data-theme='dark'] {
+  --brand-text: #E6EDF3;
+  --brand-canvas: #0A1320;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(229, 234, 240, 0.7);
+}
+
+[data-theme="dark"] .navbar {
+  background-color: rgba(10, 19, 32, 0.72);
+  border-bottom: 1px solid rgba(31, 43, 62, 1);
+}
+
+.navbar .navbar__inner {
+  max-width: 64rem;
+  margin-inline: auto;
+  padding-inline: 0.45rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Navbar items spacing and link styling */
+.navbar .navbar__items {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.navbar .navbar__item,
+a {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  color: inherit;
+  /* width: 100%; */
+}
+
+.navbar .navbar__item a:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] .navbar .navbar__item,
+a:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* Make sure the brand/logo has breathing room */
+.navbar .navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+/* Make sure Docusaurus mobile navbar sidebar is always on top */
+.navbar-sidebar,
+.navbar-sidebar__backdrop {
+  z-index: 9999 !important;
+  padding: 0rem 1rem !important;
+}
+
+/* Also ensure the top navbar sits above page content */
+.navbar.navbar--fixed-top {
+  z-index: 9000 !important;
+}
+
+.abimongo-hero {
+  position: relative;
+  z-index: 0;
+}
+
+.hero-container {
+  margin-top: -4rem;
+}
+
+/* Example: tweak default body background if you want */
+body {
+  background: var(--brand-canvas);
+}
+
+/* If still broken, add this too: */
+#__docusaurus,
+.theme-wrapper {
+  position: relative;
+  z-index: 0 !important;
+}
+
+/* ---- Force Docusaurus mobile navbar sidebar above EVERYTHING ---- */
+.navbar-sidebar__backdrop,
+.navbar-sidebar {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 19999 !important;
+  height: 100vh !important;
+}
+
+/* Backdrop dimming (so you see it's above the hero) */
+.navbar-sidebar__backdrop {
+  background-color: rgba(0, 0, 0, 0.45) !important;
+}
+
+/* Keep desktop navbar clearly above hero */
+.navbar.navbar--fixed-top {
+  z-index: 9000 !important;
+}
+
+img {
+  height: 1.285rem;
+  width: 1.4rem;
+  margin-top: 0.50rem;
+}
+
+.theme-layout-navbar-left,
+.navbar__items,
+.navbar___brand,
+.navbar__title {
+  margin-right: 2rem;
+}
+
+/* Make sure main content never sits above navbar/sidebar */
+.main-wrapper,
+.theme-doc-page,
+.theme-doc-homepage,
+main {
+  position: relative;
+  z-index: 0;
+  background: var(--brand-navy);
+}
+
+html {
+  background: var(--brand-navy);
+}
+
+.h3-title {
+  color: #fefefe;
+}
+
+.docs-link {
+  background-color: #ffffff;
+  color: #000000;
+  font: 600;
+}
+
+pre {
+  background: #111827;
+}
+
+@media screen and (max-width: 796) {
+
+  .navbar .navbar__item,
+  a {
+    padding: 0.5rem 0;
+  }
+
+  .theme-layout-navbar-left,
+  .navbar__items,
+  .navbar___brand,
+  .navbar__title {
+    margin-right: 4rem;
+    position: relative;
+  }
+
+  .theme-layout-navbar-left,
+  .navbar___brand {
+    width: 100%;
+  }
+
+  .navbar .navbar__item a {
+    padding: 0.5rem 0.4rem;
+    border-radius: 0.5rem;
+    color: inherit;
+    gap: 1rem;
+  }
+}
+
+/* Optional: custom utility for our hero shadow (v4 way) */
+@utility shadow-card {
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* ---- DOCS LAYOUT STYLING ---- */
+@layer components {
+
+  /* Outer docs page */
+  .theme-doc-page {
+    @apply bg-canvas text-textDark;
+  }
+
+  /* Main content padding */
+  .theme-doc-main {
+    @apply sm:px-6 lg:px-8 py-8;
+  }
+
+  /* Center content column */
+  .theme-doc-markdown,
+  .theme-blog-post-page .markdown {
+    @apply max-w-3xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  Apply same doc layout/typography to blog posts .blog-wrapper .markdown {
+    @apply max-w-3xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .blog-wrapper .markdown h1 {
+    @apply mt-0 mb-4 text-3xl font-bold tracking-tight;
+  }
+
+  .blog-wrapper .markdown h2 {
+    @apply mt-8 mb-3 text-2xl font-semibold;
+  }
+
+  .blog-wrapper .markdown h3 {
+    @apply mt-6 mb-2 text-xl font-semibold;
+  }
+
+  .blog-wrapper .markdown p {
+    @apply mb-4 text-[15px] leading-relaxed;
+  }
+
+  .blog-wrapper .markdown ul,
+  .blog-wrapper .markdown ol {
+    @apply mb-4 ml-5 space-y-1;
+  }
+
+  .blog-wrapper .markdown li {
+    @apply leading-relaxed;
+  }
+
+  .blog-wrapper .markdown a {
+    @apply text-blueBrand hover:underline;
+  }
+
+  .blog-wrapper .markdown code {
+    @apply rounded px-1 py-0.5 text-[13px];
+    background-color: #f3f4f6;
+    color: #111827;
+  }
+
+  .blog-wrapper .markdown pre {
+    @apply my-4 overflow-x-auto rounded-xl p-4 text-[13px] leading-6;
+    background-color: #111827;
+    color: #E5E7EB;
+  }
+
+  .blog-wrapper .markdown pre code {
+    background-color: transparent;
+  }
+
+  .blog-wrapper .markdown mark {
+    background-color: #FEF3C7;
+    color: #1F2933;
+    padding: 0 0.15rem;
+    border-radius: 0.15rem;
+  }
+
+  /* Typography for markdown */
+  .theme-doc-markdown h1 {
+    @apply mt-0 mb-4 text-3xl font-bold tracking-tight;
+  }
+
+  .theme-doc-markdown h2 {
+    @apply mt-8 mb-3 text-2xl font-semibold;
+  }
+
+  .theme-doc-markdown h3 {
+    @apply mt-6 mb-2 text-xl font-semibold;
+  }
+
+  .theme-doc-markdown p {
+    @apply mb-4 text-[15px] leading-relaxed;
+  }
+
+  .theme-doc-markdown ul,
+  .theme-doc-markdown ol {
+    @apply mb-4 ml-5 space-y-1;
+  }
+
+  .theme-doc-markdown li {
+    @apply leading-relaxed;
+  }
+
+  .theme-doc-markdown a {
+    @apply text-blueBrand hover:underline;
+  }
+
+  /* Inline code in docs */
+  .theme-doc-markdown code {
+    @apply rounded px-1 py-0.5 text-[13px];
+    background-color: #f3f4f6;
+    /* light mode */
+    color: #111827;
+  }
+
+  /* Fenced code blocks */
+  .theme-doc-markdown pre {
+    @apply my-4 overflow-x-auto rounded-xl p-4 text-[13px] leading-6;
+    background-color: #111827;
+    /* light mode block bg */
+    color: #E5E7EB;
+  }
+
+  /* Let Prism do syntax colors; we just ensure legible backgrounds */
+  .theme-doc-markdown pre code {
+    background-color: transparent;
+  }
+
+  .theme-doc-markdown mark {
+    background-color: #FEF3C7;
+    /* soft yellow */
+    color: #1F2933;
+    padding: 0 0.15rem;
+    border-radius: 0.15rem;
+  }
+
+  /* Hero lowering (so mobile sidebar can sit above it) */
+  .abimongo-hero {
+    @apply relative z-0;
+  }
+
+  /* ---- FOOTER WRAPPER ---- */
+  .footer {
+    @apply border-t border-borderLight bg-canvas text-textMuted dark:border-[#1f2b3e] dark:bg-[#050815] dark:text-[#A9B6C7];
+    @apply mt-8 p-6;
+  }
+
+  /* Inner container */
+  .footer__container {
+    @apply mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8;
+  }
+
+  /* ---- GRID LAYOUT FOR LINKS ---- */
+  .footer__links {
+    @apply grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4;
+  }
+
+  .footer__col {
+    @apply space-y-2;
+  }
+
+  .footer__title {
+    @apply text-sm font-semibold uppercase tracking-wide text-textDark dark:text-white;
+  }
+
+  .footer__items {
+    @apply space-y-1;
+  }
+
+  .footer__link-item {
+    @apply text-sm text-textMuted no-underline transition-colors hover:text-blueBrand dark:hover:text-accent;
+  }
+
+  /* ---- BOTTOM BAR ---- */
+  .footer__bottom {
+    @apply mx-auto mt-8 flex flex-col items-start justify-between gap-3 border-t border-borderLight pt-4 text-xs text-textMuted dark:border-[#1f2b3e] sm:flex-row sm:items-center;
+  }
+
+  .footer__copyright {
+    @apply text-[11px] sm:text-xs;
+  }
+
+  .footer__bottom>div {
+    @apply flex flex-wrap items-center gap-3;
+  }
+
+  .footer__bottom::before {
+    content: "";
+    @apply block h-[2px] w-16 rounded-full bg-gradient-to-r from-blueBrand to-tealBrand mb-2;
+  }
+}
+
+/* === End Tailwind v4 theming === */
+
+/* Dark mode overrides using Docusaurus' data-theme */
+html[data-theme='dark'] .theme-doc-markdown code {
+  background-color: #111827;
+  /* dark inline code bg */
+  color: #E5E7EB;
+}
+
+html[data-theme='dark'] .theme-doc-markdown pre {
+  background-color: #020617;
+  /* dark fenced code bg */
+  color: #E5E7EB;
+}
+
+html[data-theme='dark'] .theme-doc-markdown pre code {
+  background-color: transparent;
+}
+
+html[data-theme='dark'] .theme-doc-markdown mark {
+  background-color: #854D0E;
+  /* deep amber */
+  color: #FEFCE8;
+}

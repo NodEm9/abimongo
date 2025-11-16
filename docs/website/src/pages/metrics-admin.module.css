@@ -1,7 +1,5 @@
 
 @import "tailwindcss";
-@import "tailwindcss/preflight";
-@tailwind utilities;
 
 .container {
 	padding: 24px;

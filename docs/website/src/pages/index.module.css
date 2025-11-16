@@ -2,9 +2,6 @@
  * CSS files with the .module.css suffix will be treated as CSS modules
  * and scoped locally.
  */
-@import "tailwindcss";
-/* @import "tailwindcss/preflight";
-@tailwind utilities; */
 
 .heroBanner {
   padding: 14rem;
@@ -12,9 +9,10 @@
   position: relative;
   overflow: hidden;
   min-height: 80vh;
+  max-width: 1400px;
   color: aliceblue;
   box-shadow: 16px 20px 60px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(155deg, #4000FF 0%, #11D419 100%);
+  background: radial-gradient(rgba(11,30,51,.75),transparent),linear-gradient(160deg,rgba(11,30,51,.95), 0%,rgba(30,136,229,.90),45%,rgba(0,196,180,.90),100%);
 }
 
 .buttonHero {
@@ -29,6 +27,127 @@
   font-weight: 500;
   justify-content: center;
   cursor: pointer;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(229, 234, 240, 0.7);
+}
+
+html[data-theme="dark"] .navbar {
+  background-color: rgba(10, 19, 32, 0.72);
+  border-bottom: 1px solid rgba(31, 43, 62, 1);
+}
+
+.navbar .navbar__inner {
+  max-width: 64rem;
+  margin-inline: auto;
+  padding-inline: 0.45rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Navbar items spacing and link styling */
+.navbar .navbar__items {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.navbar .navbar__item,
+a {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  color: inherit;
+  /* width: 100%; */
+}
+
+.navbar .navbar__item a:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+:root[data-theme="dark"] .navbar .navbar__item,
+a:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* Make sure the brand/logo has breathing room */
+.navbar .navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+/* Make sure Docusaurus mobile navbar sidebar is always on top */
+.navbar-sidebar,
+.navbar-sidebar__backdrop {
+  z-index: 9999 !important;
+  padding: 0rem 1rem !important;
+}
+
+/* Also ensure the top navbar sits above page content */
+.navbar.navbar--fixed-top {
+  z-index: 9000 !important;
+}
+
+.abimongo-hero {
+  position: relative;
+  z-index: 0;
+}
+
+/* Example: tweak default body background if you want */
+body {
+  background: var(--brand-canvas);
+}
+
+/* If still broken, add this too: */
+#__docusaurus,
+.theme-wrapper {
+  position: relative;
+  z-index: 0 !important;
+}
+
+/* ---- Force Docusaurus mobile navbar sidebar above EVERYTHING ---- */
+.navbar-sidebar__backdrop,
+.navbar-sidebar {
+  position: fixed !important;
+  inset: 0 !important;
+  /* top:0; right:0; bottom:0; left:0 */
+  z-index: 19999 !important;
+  height: 100vh !important;
+}
+
+/* Backdrop dimming (so you see it's above the hero) */
+.navbar-sidebar__backdrop {
+  background-color: rgba(0, 0, 0, 0.45) !important;
+}
+
+/* Keep desktop navbar clearly above hero */
+.navbar.navbar--fixed-top {
+  z-index: 9000 !important;
+}
+
+.theme-layout-navbar-left,
+.navbar__items,
+.navbar___brand,
+.navbar__title {
+  margin-right: 2rem;
+}
+
+/* Make sure main content never sits above navbar/sidebar */
+.main-wrapper,
+.theme-doc-page,
+.theme-doc-homepage,
+main {
+  position: relative;
+  z-index: 0;
 }
 
 @media screen and (max-width: 758px) {
@@ -66,8 +185,8 @@
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  height: 100vh;
-  margin-bottom: 5rem;
+  /* height: 100vh; */
+  /* margin-bottom: 5rem;  */
 }
 
 .heroAndSnippet {

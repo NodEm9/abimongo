@@ -4,8 +4,8 @@ import styles from './dashboard.module.css';
 import MetricCard from './MetricCard';
 import { useMetrics } from './useMetrics';
 import type { Metric } from './types';
-import '../../output.css';
-// npm stats are provided by the dev metrics server at /api/npm-downloads
+import '../../css/custom.css'
+
 
 export default function LogDashboard(): ReactNode {
   const [logs, setLogs] = useState<{ tenant: string; message: string }[]>([]);
@@ -115,10 +115,14 @@ export default function LogDashboard(): ReactNode {
   }, [metrics, npmMetrics]);
 
   return (
-    <div className="mx-auto max-w-5xl px-6 items-center justify-center bg-[var(--brand-block-bg)] rounded-lg">
+    <div className="
+    mx-auto max-w-5xl space-y-10 px-5 py-10 border-borderLight grid gap-2 sm:px-10 md:px-5 dark:bg-[#0f1a2b] rounded-2xl shadow-card">
       <h2 className={styles.heroText}>📺 Abimongo Log Stream</h2>
 
-      <section aria-label="Abimongo metrics">
+      <section
+        aria-label="Abimongo metrics"
+        className="border-borderLight grid gap-4 md:px-4 lg:px-0 dark:bg-[#0f1a2b] rounded-2xl p-4 shadow-card"
+      >
         <h3 className={styles.content}>📊 Usage Metrics</h3>
         <div className={styles.metricsGrid}>
           {loading && (

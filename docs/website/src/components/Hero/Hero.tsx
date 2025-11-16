@@ -1,24 +1,21 @@
 import React from "react";
 import Link from '@docusaurus/Link';
+import '../../css/custom.css';
+import CodeBlock from "@theme/CodeBlock";
+
 
 export default function Hero() {
   return (
-    <div className="bg-canvas text-textDark dark:bg-[#0A1320] dark:text-[#E6EDF3]">
-
+    <header className="">
       {/* HERO */}
       <section
-        className={
-          "site-hero mx-auto mt-4 max-w-5xl overflow-hidden rounded-2xl px-6 py-10 shadow-card " +
-          // light-mode styles
-          "bg-white border border-borderLight text-textDark " +
-          // dark-mode styles
-          "dark:bg-[radial-gradient(1200px_600px_at_10%_-20%,rgba(11,30,51,.75),transparent),linear-gradient(160deg,rgba(11,30,51,.95)_0%,rgba(30,136,229,.90)_45%,rgba(0,196,180,.90)_100%)] dark:text-white"
-        }
+        className="
+        abimongo-hero
+           mx-auto mt-6 max-w-5xl overflow-hidden rounded rounded-b-2xl px-6 py-10 text-white shadow-card
+        bg-[radial-gradient(1200px_600px_at_10%_-20%,rgba(11,30,51,.75),transparent),linear-gradient(160deg,rgba(11,30,51,.95)_0%,rgba(30,136,229,.90)_45%,rgba(0,196,180,.90)_100%)]
+        "
       >
-        <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl">
-          <AbimongoAIcon className="inline-block mr-3 h-7 w-7 align-middle" />
-          <span className="align-middle">Abimongo</span>
-        </h1>
+        <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl">Abimongo</h1>
         <p className="mt-2 max-w-xl text-base/7 opacity-95 sm:text-lg">
           A MongoDB ORM/ODM for TypeScript and JavaScript—built for dynamic multi-tenancy, GraphQL,
           Redis caching, and enterprise-grade scale.
@@ -28,21 +25,21 @@ export default function Hero() {
         <div className="mt-5 flex flex-wrap gap-3">
           <Link
             to="/tutorials/core_tutotrials/core-tutorials"
-            className="inline-flex items-center gap-2 rounded-xl px-4 py-2 font-semibold text-white shadow-md transition bg-linear-to-tr from-blueBrand to-tealBrand hover:-translate-y-0.5"
+            className="link inline-flex items-center gap-2 rounded-xl px-4 py-2 font-semibold text-white shadow-md transition bg-gradient-to-tr from-blueBrand to-tealBrand hover:-translate-y-0.5"
           >
             Go to Tutorials 📘
           </Link>
-          <a
-            href="#whats-new"
-            className="inline-flex items-center gap-2 rounded-xl border border-borderLight bg-transparent px-4 py-2 font-semibold text-textDark dark:bg-white/10 dark:text-white transition hover:opacity-95"
+          <Link
+            to="#whats-new"
+            className="link inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-4 py-2 font-semibold text-white backdrop-blur-sm transition hover:opacity-95"
           >
             What’s New?
-          </a>
+          </Link>
         </div>
 
-        {/* Code Card */}
-        <div className="mt-6 max-w-2xl rounded-xl border border-borderLight bg-white p-4 shadow-card dark:border-white/10 dark:bg-[#10161f]">
-          <pre className="whitespace-pre-wrap font-mono text-[13.5px] leading-6 text-textDark dark:text-[#E6EDF3]">
+        {/* TypeScript Code Snippet */}
+        <div className="mt-6 max-w-2xl rounded-xl border border-white/10 bg-[#10161f] p-4 shadow-card overflow-hidden">
+          <CodeBlock language="ts" showLineNumbers title="models/user.ts">
             {`import { AbimongoSchema, model } from '@abimongo/core';
 
 const userSchema = new AbimongoSchema({
@@ -52,41 +49,32 @@ const userSchema = new AbimongoSchema({
 }, { timestamps: true });
 
 export const User = model('User', userSchema);`}
-          </pre>
+          </CodeBlock>
         </div>
-
         {/* Secondary CTA Row (npm + GitHub + Docs) */}
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <Link
             to="https://www.npmjs.com/package/@abimongo/core"
-            className="inline-flex items-center gap-2 rounded-lg border border-borderLight bg-transparent px-3 py-1.5 text-sm font-semibold text-textDark dark:bg-white/10 dark:text-white hover:bg-white/15"
+            className="link inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-1.5 text-sm font-semibold text-white hover:bg-white/15"
           >
             <span className="h-2.5 w-2.5 rounded-full bg-tealBrand"></span>
             npm: @abimongo/core
           </Link>
           <Link
             to="https://github.com/Nodem9/abimongo"
-            className="inline-flex items-center gap-2 rounded-lg border border-borderLight bg-transparent px-3 py-1.5 text-sm font-semibold text-textDark dark:bg-white/10 dark:text-white hover:bg-white/15"
+            className="link inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-1.5 text-sm font-semibold text-white hover:bg-white/15"
           >
             <GitHubIcon className="h-4 w-4" /> Star on GitHub
           </Link>
           <Link
             to="https://Nodem9.github.io/abimongo"
-            className="inline-flex items-center gap-2 rounded-lg bg-white px-3 py-1.5 text-sm font-semibold text-neutral-950 hover:opacity-95 dark:bg-transparent dark:text-white"
+            className="docs-link inline-flex items-center gap-2 rounded-lg bg-white text-[#000] px-3 py-1.5 text-sm font-semibold hover:opacity-95"
           >
             Docs
           </Link>
         </div>
       </section>
-
-      {/* WHY */}
-      {/* <section id="why" className="mx-auto grid max-w-5xl grid-cols-1 gap-4 px-5 py-8 sm:grid-cols-2 lg:grid-cols-4">
-        <FeatureCard title="Dynamic Multi-Tenancy" desc="Isolate data per tenant with flexible strategies and minimal config." />
-        <FeatureCard title="GraphQL-Ready" desc="Generate schemas & resolvers directly from your models." />
-        <FeatureCard title="RBAC + Redis" desc="Built-in roles/permissions and caching for performance." />
-        <FeatureCard title="TypeScript-First" desc="Strong typing, testability, and clean DX for teams that scale." />
-      </section> */}
-    </div>
+    </header>
   );
 }
 
@@ -129,100 +117,9 @@ function GitHubIcon({ className = "h-4 w-4" }: { className?: string }) {
 
 function FeatureCard({ title, desc }: { title: string; desc: string }) {
   return (
-    <div className="rounded-xl border border-borderLight bg-white p-4 shadow-sm dark:border-[#1f2b3e] dark:bg-[#0f1a2b]">
-      <h3 className="mb-1 text-lg font-semibold text-navy dark:text-white">{title}</h3>
+    <div className="rounded-xl border border-borderLight p-4 shadow-sm dark:border-[#1f2b3e] dark:bg-[#0f1a2b]">
+      <h3 className="h3-title mb-1 text-lg font-semibold">{title}</h3>
       <p className="text-sm text-textMuted dark:text-[#A9B6C7]">{desc}</p>
     </div>
   );
 }
-
-// export default function Hero() {
-//   return (
-//     <section
-//       className="
-//         mx-auto mt-6 max-w-5xl overflow-hidden rounded-2xl px-6 py-10 text-white shadow-card
-//         bg-[radial-gradient(1200px_600px_at_10%_-20%,rgba(11,30,51,.75),transparent),linear-gradient(160deg,rgba(11,30,51,.95)_0%,rgba(30,136,229,.90)_45%,rgba(0,196,180,.90)_100%)]
-//       "
-//     >
-//       <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl">Abimongo</h1>
-//       <p className="mt-2 max-w-xl text-base/7 opacity-95 sm:text-lg">
-//         A MongoDB ORM/ODM for TypeScript and JavaScript — built for dynamic multi-tenancy,
-//         GraphQL, Redis caching, and enterprise-grade scale.
-//       </p>
-
-//       {/* Primary CTAs */}
-//       <div className="mt-5 flex flex-wrap gap-3">
-//         <Link
-//           to="/docs/category/tutorials"
-//           className="inline-flex items-center gap-2 rounded-xl px-4 py-2 font-semibold text-white shadow-md transition bg-gradient-to-tr from-blueBrand to-tealBrand hover:-translate-y-0.5"
-//         >
-//           Go to Tutorials 📘
-//         </Link>
-//         <Link
-//           to="/blog"
-//           className="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-4 py-2 font-semibold text-white backdrop-blur-sm transition hover:opacity-95"
-//         >
-//           What’s New?
-//         </Link>
-//       </div>
-
-//       {/* Code Card */}
-//       <div className="mt-6 max-w-2xl rounded-xl border border-white/10 bg-[#10161f] p-4 shadow-card">
-//         <pre className="whitespace-pre-wrap font-mono text-[13.5px] leading-6 text-[#E6EDF3]">
-// {`import { AbimongoSchema, model } from '@abimongo/core';
-
-// const userSchema = new AbimongoSchema({
-//   username: String,
-//   email: String,
-//   roles: [String]
-// }, { timestamps: true });
-
-// export const User = model('User', userSchema);`}
-//         </pre>
-//       </div>
-
-//       {/* Secondary CTAs */}
-//       <div className="mt-6 flex flex-wrap items-center gap-3">
-//         <a
-//           href="https://www.npmjs.com/package/@abimongo/core"
-//           className="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-1.5 text-sm font-semibold text-white hover:bg-white/15"
-//         >
-//           <span className="h-2.5 w-2.5 rounded-full bg-tealBrand" />
-//           npm: @abimongo/core
-//         </a>
-//         <a
-//           href="https://github.com/Nodem9/abimongo"
-//           className="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-1.5 text-sm font-semibold text-white hover:bg-white/15"
-//         >
-//           GitHub
-//         </a>
-//         <a
-//           href="https://Nodem9.github.io/abimongo"
-//           className="inline-flex items-center gap-2 rounded-lg bg-white px-3 py-1.5 text-sm font-semibold text-navy hover:opacity-95"
-//         >
-//           Docs
-//         </a>
-//       </div>
-//     </section>
-//   );
-// }
-
-// export function Why() {
-//   return (
-//     <section className="mx-auto grid max-w-5xl grid-cols-1 gap-4 px-5 py-8 sm:grid-cols-2 lg:grid-cols-4">
-//       <FeatureCard title="Dynamic Multi-Tenancy" desc="Isolate data per tenant with flexible strategies and minimal config." />
-//       <FeatureCard title="GraphQL-Ready" desc="Generate schemas & resolvers directly from your models." />
-//       <FeatureCard title="RBAC + Redis" desc="Built-in roles/permissions and caching for performance." />
-//       <FeatureCard title="TypeScript-First" desc="Strong typing, testability, and clean DX for teams that scale." />
-//     </section>
-//   );
-// }
-
-// function FeatureCard({title, desc}:{title:string; desc:string}) {
-//   return (
-//     <div className="rounded-xl border border-borderLight bg-white p-4 shadow-sm dark:border-[#1f2b3e] dark:bg-[#0f1a2b]">
-//       <h3 className="mb-1 text-lg font-semibold">{title}</h3>
-//       <p className="text-sm text-textMuted dark:text-[#A9B6C7]">{desc}</p>
-//     </div>
-//   );
-// }

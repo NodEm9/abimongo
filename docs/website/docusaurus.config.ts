@@ -13,10 +13,9 @@ const config: Config = {
 	favicon: 'img/favicon.ico',
 	organizationName: 'NodEm9',
 	projectName: 'abimongo',
-	clientModules: [path.resolve(__dirname, './src/css/tailwind.css')],
+	clientModules: [require.resolve('./src/css/custom.css'), require.resolve('./src/client/comingSoon.tsx')],
 	onBrokenAnchors: 'ignore',
 	trailingSlash: false,
-	// onBrokenLinks: 'ignore',
 	presets: [
 		[
 			'classic',
@@ -26,8 +25,13 @@ const config: Config = {
 					showReadingTime: true,
 					path: './blog',
 					routeBasePath: 'blog',
+					// Tidy blog warnings: allow inline authors and untruncated posts to avoid
+					// build-time warnings for existing content. See authors.yml for a
+					// canonical authors list if you want stricter declarations.
+					onInlineAuthors: 'ignore',
+					onUntruncatedBlogPosts: 'ignore',
 				},
-				theme: { customCss: require.resolve('./src/css/tailwind.css') },
+				theme: { customCss: require.resolve('./src/css/custom.css') },
 			} satisfies Preset.Options,
 		],
 	],
@@ -122,15 +126,15 @@ const config: Config = {
 	themeConfig: {
 		image: 'img/abimongo_social_card.png',
 		colorMode: {
-			// defaultMode: 'light',                 // or 'dark'
+			defaultMode: 'light',                 // or 'dark'
 			respectPrefersColorScheme: true,     // keep Docusaurus behavior
-			// disableSwitch: false,                // keep the toggle
-			// respectPrefersColorScheme: true,
+			disableSwitch: false,                // keep the toggle
 		},
 		navbar: {
 			title: 'Abimongo',
 			logo: {
 				src: 'img/abimongo-a-logo-30x30.svg',
+				alt: 'Abimongo Logo',
 				// srcDark: 'img/abimongo-brand-logo_dark.svg',
 			},
 			items: [
@@ -138,7 +142,7 @@ const config: Config = {
 				{ to: '/logger/intro', label: 'Logger', position: 'left' },
 				{ to: '/create/intro', label: 'Cli', position: 'left' },
 				{ to: '/blog', label: 'Blog', position: 'left' },
-				{ to: '/tutorials/intro', label: 'Tutorials', position: 'left' },
+				{ to: '/tutorials', label: 'Tutorials', position: 'left' },
 				// { href: 'https://github.com/NodEm9/abimongo', label: 'GitHub', position: 'right' },
 			],
 		},
@@ -150,7 +154,7 @@ const config: Config = {
 				//   title: 'Docs',
 				//   items: [
 				//     {
-				//       label: 'Tutorial',
+				//       label: 'Tutorials',
 				//       to: '/tutorials',
 				//     },
 				//   ],

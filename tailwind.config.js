@@ -1,13 +1,22 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('tailwindcss').Config} */
 /** @type {import('tailwindcss').Config} */
+const typography = require('@tailwindcss/typography');
+
 module.exports = {
 	darkMode: ['class', '[data-theme="dark"]'],
 	content: [
+		// Project sources
 		'./src/**/*.{js,jsx,ts,tsx,mdx}',
+		'./packages/**/*.{js,ts,jsx,tsx,md,mdx}',
 		'./docs/**/*.{md,mdx}',
-		'./blog/**/*.{md,mdx}',
+		'./docs/website/blog/**/*.{md,mdx}',
 		'./docusaurus.config.{js,ts}',
+		// Docusaurus website sources (ensure the docs site classes are discovered)
+		'./docs/website/src/**/*.{js,jsx,ts,tsx,md,mdx}',
+		'./docs/website/**/*.{md,mdx}',
 	],
 	theme: {
 		extend: {
@@ -26,5 +35,5 @@ module.exports = {
 			},
 		},
 	},
-	plugins: [],
+	plugins: [typography],
 };

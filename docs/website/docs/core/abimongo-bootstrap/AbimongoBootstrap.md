@@ -71,7 +71,7 @@ import express from 'express';
 import { initAbimongo } from '@abimongo/core';
 
 const app = express();
-const abimongo = await AbimongoBootstrapFactory.create();
+const abimongo = await initAbimongo.create();
 
 await abimongo.registerMultiTenancy(app, {
   tenant1: 'mongodb://localhost:27017/tenant1db',

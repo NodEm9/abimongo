@@ -95,16 +95,6 @@ app.listen(3000);
 - Initialization errors: verify the `mongoUri` and any Redis URIs in `abimongo.config.json` and confirm network access.
 - Redis/GraphQL errors: ensure the necessary dependencies are installed and configuration fields (typeDefs/resolvers) are valid.
 
-## Next steps
-
-Would you like me to:
-
-1. Add the exact method signatures and constructor options from `AbimongoBootstrap` as an API reference, or
-2. Expand the multi-tenancy example with middleware usage and tenant-aware model resolution, or
-3. Do both.
-
-Tell me which you'd prefer and I'll add it.
-
 ## Expanded multi-tenancy example
 
 The following example demonstrates a common pattern when using `AbimongoBootstrap` in a multi-tenant Express application:

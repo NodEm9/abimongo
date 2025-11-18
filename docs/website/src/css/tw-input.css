@@ -130,7 +130,7 @@ body {
 img {
   height: 1.285rem;
   width: 1.4rem;
-  margin-top: 0.50rem;
+  margin-top: 0.2rem;
 }
 
 .theme-layout-navbar-left,
@@ -173,6 +173,11 @@ pre {
   .navbar .navbar__item,
   a {
     padding: 0.5rem 0;
+  }
+
+  img {
+    height: 1.15rem;
+    margin-top: 0.28rem;
   }
 
   .theme-layout-navbar-left,
@@ -220,8 +225,9 @@ pre {
     @apply max-w-3xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  Apply same doc layout/typography to blog posts .blog-wrapper .markdown {
-    @apply max-w-3xl mx-auto px-4 sm:px-6 lg:px-8;
+  /* Apply same doc layout/typography to blog posts  */
+  .blog-wrapper .markdown {
+    @apply max-w-3xl mx-auto px-4 sm:px-8 lg:px-8;
   }
 
   .blog-wrapper .markdown h1 {
@@ -255,8 +261,6 @@ pre {
 
   .blog-wrapper .markdown code {
     @apply rounded px-1 py-0.5 text-[13px];
-    background-color: #f3f4f6;
-    color: #111827;
   }
 
   .blog-wrapper .markdown pre {

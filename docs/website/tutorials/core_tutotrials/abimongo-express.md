@@ -121,8 +121,3 @@ The generated project includes a `src/main.ts` and `abimongo.config.json` that y
 - Move schema and model definitions into separate modules.
 - Add request-scoped DI for tenant/model resolution if you need strict isolation.
 - Consider using `AbimongoBootstrap` to centralize initialization and GraphQL wiring.
-
----
-
-If you want, I can also add a runnable example (small repo) or a short code sandbox that demonstrates end-to-end requests and tests. Tell me which you prefer.
-

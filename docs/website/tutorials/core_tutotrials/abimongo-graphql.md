@@ -360,8 +360,3 @@ If you prefer to experiment with GraphiQL, you can `POST` to `/api/graphql` with
 
 - If GraphQL schema generation fails, ensure `@abimongo/core` is installed and that the `UserSchema` (or any registered schema) is exported and imported before `generateSchema()` runs.
 - If tenant models are missing, confirm `initMultiTenancy()` ran and tenants are registered. Also confirm `x-tenant-id` header matches a registered tenant id.
-
----
-
-This tutorial is intentionally minimal and designed to be copy-pasteable. If you'd like, I can create a complete starter repository (files + package.json) in your workspace, wire it to a dev script, and run the app locally to verify it starts and that the GraphQL operations work end-to-end.
-

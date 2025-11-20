@@ -2,7 +2,7 @@
   <img src="./abimongo-brand/abimongo-logo_socials.png" width="420" alt="Abimongo Logo">
 </p>
 
-<h1 align="center">Abimongo Monorepo</h1>
+<h1 align="center">Abimongo</h1>
 <p align="center">
   <strong>The Next-Gen MongoDB ORM/ODM Ecosystem</strong><br>
   Core • Logger • Create (CLI)

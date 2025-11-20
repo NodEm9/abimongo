@@ -45,17 +45,6 @@ See `packages/core/README.md` and the docs site for full CLI and scaffolding gui
 | @abimongo/logger | 2.0.0 | [npm](https://www.npmjs.com/package/@abimongo/logger) |
 | @abimongo/create | 1.0.4 | [npm](https://www.npmjs.com/package/@abimongo/create) |
 
-## Docs
-
-The documentation site is published to GitHub Pages. If you just updated the logo, build and deploy completed locally — the site lives at the repository Pages URL.
-
-## Quick checks I ran
-
-- Confirmed published versions on npm: `core@1.1.1`, `logger@1.1.1`, `create@1.0.1`.
-- Built the docs locally and generated static files at `docs/website/build`.
-
-If you want, I can also add dynamic npm version badges (shields) and link the docs URL directly — tell me if you want badges in this README and in package READMEs.
-
 ### Badges
 
 ![Release workflow](https://github.com/NodEm9/abimongo/actions/workflows/release.yml/badge.svg)

@@ -1,16 +1,16 @@
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
-import { useBlogPost } from '@docusaurus/plugin-content-blog/client';
-import { ThemeClassNames } from '@docusaurus/theme-common';
 import EditMetaRow from '@theme/EditMetaRow';
 import TagsListInline from '@theme/TagsListInline';
 import ReadMoreLink from '@theme/BlogPostItem/Footer/ReadMoreLink';
 import ShareButtons from '@site/src/components/Share/ShareButtons';
 
-export default function BlogPostItemFooter(): ReactNode {
-	const { metadata, isBlogPostPage } = useBlogPost();
+// Defensive Footer: avoid importing Docusaurus runtime internals.
+// Accept optional props (metadata, isBlogPostPage) when provided by a parent.
+export default function BlogPostItemFooter({ metadata, isBlogPostPage }: any): ReactNode {
+	metadata = metadata ?? {};
 	const {
-		tags,
+		tags = [],
 		title,
 		editUrl,
 		hasTruncateMarker,
@@ -19,14 +19,23 @@ export default function BlogPostItemFooter(): ReactNode {
 	} = metadata;
 
 	// A post is truncated if it's in the "list view" and it has a truncate marker
-	const truncatedPost = !isBlogPostPage && hasTruncateMarker;
+	const truncatedPost = !isBlogPostPage && !!hasTruncateMarker;
 
-	const tagsExists = tags.length > 0;
+	const tagsExists = Array.isArray(tags) && tags.length > 0;
 
 	const renderFooter = tagsExists || truncatedPost || editUrl;
 
+	// If nothing to render, still show ShareButtons so the share control is always available.
 	if (!renderFooter) {
-		return null;
+		return (
+			<footer className="docusaurus-mt-lg">
+				<div className="row margin-top--sm">
+					<div className="col">
+						<ShareButtons />
+					</div>
+				</div>
+			</footer>
+		);
 	}
 
 	// BlogPost footer - details view
@@ -36,12 +45,7 @@ export default function BlogPostItemFooter(): ReactNode {
 		return (
 			<footer className="docusaurus-mt-lg">
 				{tagsExists && (
-					<div
-						className={clsx(
-							'row',
-							'margin-top--sm',
-							ThemeClassNames.blog.blogFooterEditMetaRow,
-						)}>
+					<div className={clsx('row', 'margin-top--sm')}>
 						<div className="col">
 							<TagsListInline tags={tags} />
 						</div>
@@ -54,10 +58,7 @@ export default function BlogPostItemFooter(): ReactNode {
 				</div>
 				{canDisplayEditMetaRow && (
 					<EditMetaRow
-						className={clsx(
-							'margin-top--sm',
-							ThemeClassNames.blog.blogFooterEditMetaRow,
-						)}
+						className={clsx('margin-top--sm')}
 						editUrl={editUrl}
 						lastUpdatedAt={lastUpdatedAt}
 						lastUpdatedBy={lastUpdatedBy}

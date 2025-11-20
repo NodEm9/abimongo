@@ -110,6 +110,4 @@ Migration note: the interactive CLI package was renamed to `@abimongo/create`. I
 - Bootstrap + scaffolding templates: `packages/core/src/templates` and `packages/core/src/lib-core/bootstrap`
 - GraphQL generation: `packages/core/src/graphql`
 - Multi-tenancy: `packages/core/src/tanancy`
-- Caching & GC: `packages/core/src/gc` and `packages/core/src/redis-manager`
-
-If you want, I can expand any of the examples above into a full guide (detailed setup, configuration file examples, and a complete GraphQL + Apollo server sample). Tell me which section to expand next.
+- Caching & GC: `packages/core/src/gc` and `packages/core/src/redis-manager`.

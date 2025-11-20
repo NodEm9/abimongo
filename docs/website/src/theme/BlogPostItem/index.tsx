@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import clsx from 'clsx';
+import BlogPostItemFooter from './Footer';
+import ClientOnly from '@docusaurus/ClientOnly';
+import BlogPostItemClientFooter from './ClientFooter';
 
-// Minimal BlogPostItem wrapper: render children inside an article.
-// Keep implementation intentionally simple to avoid direct runtime
-// imports from Docusaurus plugin internals which can fail in some
-// build environments. Subcomponents (Header/Content/Footer) remain
-// available but are not imported here to reduce bundle resolution surface.
+// Minimal BlogPostItem wrapper. Use a ClientOnly wrapper for the
+// client footer so `useBlogPost` runs only on the client and metadata
+// is passed into the defensive Footer.
 export default function BlogPostItem({ children, className }: any) {
 	return (
-		<article className={className}>
+		<article className={clsx(className)}>
 			{children}
+			{/* Render a basic footer server-side so ShareButtons are available */}
+			<BlogPostItemFooter />
+			{/* Enhance on the client with metadata-driven footer if available */}
+			<ClientOnly>
+				<Suspense fallback={null}>
+					<BlogPostItemClientFooter />
+				</Suspense>
+			</ClientOnly>
 		</article>
 	);
 }

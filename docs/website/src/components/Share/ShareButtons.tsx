@@ -36,22 +36,13 @@ function ShareButtons(): React.ReactElement {
 				className="button button--secondary"
 				onClick={handleShare}
 				aria-label="Share this blog post">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					width="16"
-					height="16"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					strokeWidth="2"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-					aria-hidden="true"
-					style={{ marginRight: 8 }}>
-					<path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" />
-					<polyline points="16 6 12 2 8 6" />
-					<line x1="12" y1="2" x2="12" y2="15" />
-				</svg>
+				<img
+					src="/img/share%20(1).png"
+					alt="Share"
+					width={16}
+					height={16}
+					style={{ marginRight: 8 }}
+				/>
 				<span>Share</span>
 			</button>
 		</div>

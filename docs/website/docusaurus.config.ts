@@ -9,13 +9,22 @@ const config: Config = {
 	title: 'Abimongo',
 	url: 'https://nodem9.github.io',
 	baseUrl: '/abimongo/',
-	tagline: 'Abimongo is a MongoDB ODM for TypeScript and JavaScript',
+	tagline: 'Abimongo is a MongoDB ODM for TypeScript and Node.js, designed for ease of use and type safety.',
 	favicon: 'img/favicon.ico',
 	organizationName: 'NodEm9',
 	projectName: 'abimongo',
 	clientModules: [require.resolve('./src/css/custom.css'), require.resolve('./src/client/comingSoon.tsx')],
 	onBrokenAnchors: 'ignore',
 	trailingSlash: false,
+	headTags: [
+		{
+			tagName: 'link',
+			attributes: {
+				rel: 'icon',
+				href: '/img/docusaurus.png',
+			},
+		},
+	],
 	presets: [
 		[
 			'classic',
@@ -122,9 +131,8 @@ const config: Config = {
 			},
 		]
 	],
-
 	themeConfig: {
-		image: 'img/abimongo_social_card.png',
+		image: 'img/abimongo-logo_em.svg',
 		colorMode: {
 			defaultMode: 'light',                 // or 'dark'
 			respectPrefersColorScheme: true,     // keep Docusaurus behavior
@@ -133,9 +141,11 @@ const config: Config = {
 		navbar: {
 			title: 'Abimongo',
 			logo: {
-				src: 'img/abimongo-a-logo-30x30.svg',
 				alt: 'Abimongo Logo',
-				// srcDark: 'img/abimongo-brand-logo_dark.svg',
+				src: 'img/abimongo-logo_em.svg',
+				srcDark: 'img/abimongo-logo_emblem.svg',
+				height: 32,
+				width: 32,
 			},
 			items: [
 				{ to: '/core/intro', label: 'Core', position: 'left' },
@@ -146,7 +156,12 @@ const config: Config = {
 				// { href: 'https://github.com/NodEm9/abimongo', label: 'GitHub', position: 'right' },
 			],
 		},
-		docs: { sidebar: { autoCollapseCategories: true } },
+		docs: {
+			sidebar: {
+				hideable: false,
+				autoCollapseCategories: true
+			}
+		},
 		footer: {
 			style: 'dark',
 			links: [
@@ -172,7 +187,7 @@ const config: Config = {
 						},
 						{
 							label: 'X',
-							href: 'https://twitter.com/NodEm9',
+							href: 'https://x.com/AbimongoCore',
 						},
 					],
 				},
@@ -190,6 +205,13 @@ const config: Config = {
 					],
 				},
 			],
+			logo: {
+				alt: 'Abimongo Logo',
+				src: 'img/abimongo-logo_emblem.svg',
+				href: 'https://nodem9.github.io/abimongo/',
+				width: 32,
+				height: 32,
+			},
 			copyright: `Copyright © ${new Date().getFullYear()} AbiMongo. Built with Docusaurus.`,
 		},
 		prism: {

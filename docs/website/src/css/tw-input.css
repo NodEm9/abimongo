@@ -69,6 +69,12 @@ a {
   padding: 0.25rem 0;
 }
 
+.navbar .navbar__brand .navbar__logo img {
+  height: 1.5rem;
+  width: auto;
+ border-radius: 25px;
+}
+
 /* Make sure Docusaurus mobile navbar sidebar is always on top */
 .navbar-sidebar,
 .navbar-sidebar__backdrop {
@@ -409,7 +415,7 @@ pre {
 
 /* Dark mode overrides using Docusaurus' data-theme */
 html[data-theme='dark'] .theme-doc-markdown code {
-  background-color: #111827;
+  background-color: var(--brand-canvas);
   /* dark inline code bg */
   color: #E5E7EB;
 }

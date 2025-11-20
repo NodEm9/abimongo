@@ -1,14 +1,9 @@
 import React from 'react';
 import BlogPostItemFooter from './Footer';
 
-// Importing this hook here: this component will be rendered inside a
-// ClientOnly wrapper to ensure it runs only on the client. That limits
-// potential server-side bundling issues while restoring metadata-driven
-// footer content (tags/edit meta).
-import { useBlogPost } from '@docusaurus/plugin-content-blog/client';
-
+// Client footer no longer imports Docusaurus internals. The defensive
+// Footer will render the ShareButtons even without metadata.
 export default function BlogPostItemClientFooter() {
-	const { metadata, isBlogPostPage } = useBlogPost();
-	return <BlogPostItemFooter metadata={metadata} isBlogPostPage={isBlogPostPage} />;
-}  
- 
+	return <BlogPostItemFooter />;
+}
+

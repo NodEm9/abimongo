@@ -11,7 +11,7 @@ export default function Hero() {
       <section
         className="
         abimongo-hero
-           mx-auto mt-6 max-w-5xl overflow-hidden rounded rounded-b-2xl px-6 py-10 text-white shadow-card
+           mx-auto mt-6 max-w-5xl overflow-hidden rounded-2xl px-6 py-10 text-white shadow-card
         bg-[radial-gradient(1200px_600px_at_10%_-20%,rgba(11,30,51,.75),transparent),linear-gradient(160deg,rgba(11,30,51,.95)_0%,rgba(30,136,229,.90)_45%,rgba(0,196,180,.90)_100%)]
         "
       >
@@ -38,7 +38,7 @@ export default function Hero() {
         </div>
 
         {/* TypeScript Code Snippet */}
-        <div className="mt-6 max-w-2xl rounded-xl border border-white/10 bg-[#10161f] p-4 shadow-card overflow-hidden">
+        <div className="mt-6 max-w-2xl rounded-xl border border-white/5 bg-[#10161f] p-4 shadow-card overflow-hidden">
           <CodeBlock language="ts" showLineNumbers title="models/user.ts">
             {`import { AbimongoSchema, model } from '@abimongo/core';
 

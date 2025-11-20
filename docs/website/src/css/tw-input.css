@@ -55,16 +55,10 @@ a {
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
   color: inherit;
-  /* width: 100%; */
 }
 
 .navbar .navbar__item a:hover {
   background-color: rgba(0, 0, 0, 0.04);
-}
-
-[data-theme="dark"] .navbar .navbar__item,
-a:hover {
-  background-color: rgba(255, 255, 255, 0.04);
 }
 
 /* Make sure the brand/logo has breathing room */
@@ -93,7 +87,7 @@ a:hover {
 }
 
 .hero-container {
-  margin-top: -4rem;
+  margin-top: -3rem;
 }
 
 /* Example: tweak default body background if you want */
@@ -161,7 +155,6 @@ html {
 .docs-link {
   background-color: #ffffff;
   color: #000000;
-  font: 600;
 }
 
 pre {
@@ -199,6 +192,11 @@ pre {
     color: inherit;
     gap: 1rem;
   }
+
+  .link {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.4rem;
+  }
 }
 
 /* Optional: custom utility for our hero shadow (v4 way) */
@@ -227,7 +225,7 @@ pre {
 
   /* Apply same doc layout/typography to blog posts  */
   .blog-wrapper .markdown {
-    @apply max-w-3xl mx-auto px-4 sm:px-8 lg:px-8;
+    @apply max-w-3xl mx-auto px-4 sm:px-8 lg:px-2;
   }
 
   .blog-wrapper .markdown h1 {
@@ -337,6 +335,18 @@ pre {
     color: #1F2933;
     padding: 0 0.15rem;
     border-radius: 0.15rem;
+  }
+
+  article header .title_RidY {
+    @apply px-4 sm:px-6 md:px-0 lg:px-15;
+  }
+
+  article header .container_tqy8 {
+    @apply px-4 sm:px-6 lg:px-17;
+  }
+
+  .avatar .avatar__intro .avatar__name {
+    @apply px-4 sm:px-6 lg:px-17;
   }
 
   /* Hero lowering (so mobile sidebar can sit above it) */

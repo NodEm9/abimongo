@@ -34,6 +34,7 @@
     "build:css": "tailwindcss -i docs/website/src/css/tw-input.css -o docs/website/src/css/custom.css --minify",
     "docs:build": "pnpm run build:css && docusaurus build docs/website",
     "docs:serve": "docusaurus serve docs/website/build",
+    "swizzle": "docusaurus swizzle",
     "docs:clean": "rimraf docs/website/build",
     "dev:metrics-server": "node docs/website/dev/metrics-server.js",
     "typecheck": "pnpm -w -r exec tsc --build",

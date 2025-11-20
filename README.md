@@ -41,9 +41,9 @@ See `packages/core/README.md` and the docs site for full CLI and scaffolding gui
 
 | Package | Version | npm |
 |---|---:|---|
-| @abimongo/core | 1.1.1 | [npm](https://www.npmjs.com/package/@abimongo/core) |
-| @abimongo/logger | 1.1.1 | [npm](https://www.npmjs.com/package/@abimongo/logger) |
-| @abimongo/create | 1.0.1 | [npm](https://www.npmjs.com/package/@abimongo/create) |
+| @abimongo/core | 1.1.4 | [npm](https://www.npmjs.com/package/@abimongo/core) |
+| @abimongo/logger | 2.0.0 | [npm](https://www.npmjs.com/package/@abimongo/logger) |
+| @abimongo/create | 1.0.4 | [npm](https://www.npmjs.com/package/@abimongo/create) |
 
 ## Docs
 

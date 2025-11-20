@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./abimongo-brand/logo_horizontal.png" width="420" alt="Abimongo Logo">
+  <img src="./abimongo-brand/abimongo-logo_socials.png" width="420" alt="Abimongo Logo">
 </p>
 
 <h1 align="center">Abimongo Monorepo</h1>
@@ -7,6 +7,9 @@
   <strong>The Next-Gen MongoDB ORM/ODM Ecosystem</strong><br>
   Core • Logger • Create (CLI)
 </p>
+
+---
+![Release workflow](https://github.com/NodEm9/abimongo/actions/workflows/release.yml/badge.svg) ![Docs deploy workflow](https://github.com/NodEm9/abimongo/actions/workflows/docs-deploy.yml/badge.svg) ![npm (core)](https://img.shields.io/npm/v/@abimongo/core.svg) ![npm (logger)](https://img.shields.io/npm/v/@abimongo/logger.svg) ![npm (create)](https://img.shields.io/npm/v/@abimongo/create.svg) ![Docs (GitHub Pages)](https://img.shields.io/website?label=docs&url=https%3A%2F%2Fnodem9.github.io%2Fabimongo%2F)
 
 ---
 

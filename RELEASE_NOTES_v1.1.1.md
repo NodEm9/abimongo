@@ -1,19 +1,20 @@
-# Release v1.1.1 — abimongo
 
-This release republishes core packages and the CLI with minor/patch bumps.
+# Release v1.1.4 — abimongo
+
+This release republishes core packages and the CLI with minor/patch bumps and includes a logger major bump.
 
 Packages and highlights
 
-- @abimongo/core — 1.1.1
-  - Patch changes: Republish core and logger packages with patch bumps; updated dependency @abimongo/logger@1.1.1
+- @abimongo/core — 1.1.4
+  - Patch changes: Republish core package with patch bumps; updated dependency @abimongo/logger@2.0.0
 
-- @abimongo/logger — 1.1.1
-  - Patch changes: Republish core and logger packages with patch bumps
+- @abimongo/logger — 2.0.0
+  - Major changes: Logger was updated to v2.0.0 (breaking/major changes). Review upgrade notes in the logger CHANGELOG.
 
-- @abimongo/create — 1.0.1
-  - Patch changes: Updated dependencies; @abimongo/logger@1.1.1
+- @abimongo/create — 1.0.4
+  - Patch changes: Updated dependencies; now depends on @abimongo/logger@2.0.0
 
-- @abimongo/cli — 1.1.1
+- @abimongo/cli — 1.1.4
   - Patch changes: Updated dependencies on core/logger/create; CLI made publishable and build wrapper added
 
 Notes

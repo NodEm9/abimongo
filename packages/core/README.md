@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./abimongo-brand/abimongo-logo_socials.png" width="420" alt="Abimongo Logo">
+  <img src="../../abimongo-brand/abimongo-logo_socials.png" width="420" alt="Abimongo Logo">
 </p>
 
 <h1 align="center">

@@ -1,23 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import clsx from 'clsx';
+import { useBlogPost } from '@docusaurus/plugin-content-blog/client';
+import BlogAuthor from '@theme/Blog/Components/Author';
 import type { Props } from '@theme/BlogPostItem/Header/Authors';
+import styles from './styles.module.css';
 
-// Server-safe wrapper that dynamically loads the client authors component.
 export default function BlogPostItemHeaderAuthors({ className }: Props) {
-	const [ClientAuthors, setClientAuthors] = useState<any>(null);
-
-	useEffect(() => {
-		let mounted = true;
-		import('./ClientAuthors')
-			.then((m) => {
-				if (mounted) setClientAuthors(() => m.default);
-			})
-			.catch(() => { });
-		return () => {
-			mounted = false;
-		};
-	}, []);
-
-	if (ClientAuthors) return <ClientAuthors className={className} />;
-
-	return null;
+	const {
+		metadata: { authors },
+		assets,
+	} = useBlogPost();
+	const authorsCount = authors.length;
+	if (authorsCount === 0) return null;
+	const imageOnly = authors.every((a: any) => !a.name);
+	const singleAuthor = authors.length === 1;
+	return (
+		<div className={clsx('margin-top--md margin-bottom--sm', imageOnly ? styles.imageOnlyAuthorRow : 'row', className)}>
+			{authors.map((author: any, idx: number) => (
+				<div
+					className={clsx(!imageOnly && (singleAuthor ? 'col col--12' : 'col col--6'), imageOnly ? styles.imageOnlyAuthorCol : styles.authorCol)}
+					key={idx}
+				>
+					<BlogAuthor
+						author={{
+							...author,
+							imageURL: assets?.authorsImageUrls?.[idx] ?? author.imageURL,
+						} as any}
+					/>
+				</div>
+			))}
+		</div>
+	);
 }

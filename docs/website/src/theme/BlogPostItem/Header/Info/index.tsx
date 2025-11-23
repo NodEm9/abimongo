@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import clsx from 'clsx';
+import { useBlogPost } from '@docusaurus/plugin-content-blog/client';
 import type { Props } from '@theme/BlogPostItem/Header/Info';
+import styles from './styles.module.css';
 
-// Server-safe wrapper that dynamically loads the client info component.
+function DateTime({ date }: { date: string }) {
+	return <time dateTime={date}>{new Date(date).toLocaleDateString()}</time>;
+}
+
 export default function BlogPostItemHeaderInfo({ className }: Props) {
-	const [ClientInfo, setClientInfo] = useState<any>(null);
+	const { metadata } = useBlogPost();
+	const { date, readingTime } = metadata;
 
-	useEffect(() => {
-		let mounted = true;
-		import('./ClientInfo')
-			.then((m) => {
-				if (mounted) setClientInfo(() => m.default);
-			})
-			.catch(() => { });
-		return () => {
-			mounted = false;
-		};
-	}, []);
-
-	if (ClientInfo) return <ClientInfo className={className} />;
-
-	return null;
+	return (
+		<div className={clsx(styles.container, 'margin-vert--md', className)}>
+			<DateTime date={date} />
+			{typeof readingTime !== 'undefined' && (
+				<>
+					<span style={{ margin: '0 0.5rem' }}>·</span>
+					<span>{Math.ceil(readingTime)} min read</span>
+				</>
+			)}
+		</div>
+	);
 }

@@ -5,7 +5,8 @@ tags:
   - release
   - docs
   - community
-author: NodEm9
+author: Emmanuel Nodolomwanyi (Creator & Lead Maintainer, Abimongo Ecosystem)
+image: /abimongo/img/abiimongo-logo.png
 ---
 
 After months of design, development, and testing, **Abimongo** is officially live — bringing a new level of speed, structure, and scalability to MongoDB development.

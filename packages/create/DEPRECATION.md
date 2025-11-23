@@ -20,5 +20,3 @@ npm deprecate @abimongo/create "The interactive scaffolder is being superseded b
 "Introduce `@abimongo/cli` (Abimongo-first CLI shim). `@abimongo/create` continues to provide interactive templates; run `@abimongo/cli scaffold` to use those templates."
 
 ---
-
-If you'd like, I can prepare the actual PR text and the CHANGELOG entry and open the PR for review; I can also prepare the npm deprecate command to be run at publish time (but I will not run it without your explicit permission).

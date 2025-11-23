@@ -118,4 +118,4 @@ Tips:
 
 ## Next
 
-- See [Tramsports page](../transports.md) for transport-specific examples (Loki, Elastic, HTTP). If you'd like, I can add copy/paste-ready middleware or a small example app demonstrating request-scoped logs and graceful shutdown.
+- See [Tramsports page](../transports.md) for transport-specific examples (Loki, Elastic, HTTP). Consider adding copy/paste-ready middleware or a small example app demonstrating request-scoped logs and graceful shutdown.

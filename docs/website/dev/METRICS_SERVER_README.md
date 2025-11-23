@@ -83,5 +83,3 @@ Then restart the server.
 
 CONTACT
 -------
-
-If you want help wiring a production endpoint using Abimongo + MongoDB, I can scaffold a small API service that uses `Abimongo` to persist metrics permanently.

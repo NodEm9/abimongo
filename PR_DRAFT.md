@@ -46,5 +46,3 @@ node ./packages/cli/dist/bin/abimongo_cli.js init test-app
 # or interactive scaffold
 node ./packages/cli/dist/bin/abimongo_cli.js scaffold
 ```
-
-If you'd like, I can open this as a draft PR on branch `release/create-prepare` (or a new branch) and attach the changeset; confirm and I'll push/open it.

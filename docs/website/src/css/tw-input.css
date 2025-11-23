@@ -65,6 +65,7 @@ a {
 .navbar .navbar__brand {
   display: flex;
   align-items: center;
+  width: 100%;
   gap: 0.5rem;
   padding: 0.25rem 0;
 }
@@ -72,7 +73,7 @@ a {
 .navbar .navbar__brand .navbar__logo img {
   height: 1.5rem;
   width: auto;
-  border-radius: 25px;
+  border-radius: 5px;
 }
 
 /* Make sure Docusaurus mobile navbar sidebar is always on top */
@@ -168,10 +169,14 @@ pre {
 }
 
 @media screen and (max-width: 796) {
-
   .navbar .navbar__item,
   a {
     padding: 0.5rem 0;
+  }
+
+  .navbar .navbar__brand, .navbar__title {
+    /* display: flex; */
+    width: 100%;
   }
 
   img {
@@ -183,8 +188,7 @@ pre {
   .navbar__items,
   .navbar___brand,
   .navbar__title {
-    margin-right: 4rem;
-    position: relative;
+    margin-right: 1rem;
   }
 
   .theme-layout-navbar-left,
@@ -224,13 +228,20 @@ pre {
   }
 
   /* Center content column */
-  .theme-doc-markdown,
+  /* .theme-doc-markdown,
   .theme-blog-post-page .markdown {
     @apply max-w-3xl mx-auto px-4 sm:px-6 lg:px-8;
+  } */
+
+  .docMainContainer_MApa {
+    @apply px-4 sm:px-6 lg:px-8;
   }
 
-  /* Apply same doc layout/typography to blog posts  */
-  .blog-wrapper .markdown {
+  /* Apply same doc layout/typography to blog posts and markdown blocks */
+  .blog-wrapper .markdown,
+  .markdown,
+  .blog-wrapper article,
+  article {
     @apply max-w-3xl mx-auto px-4 sm:px-8 lg:px-2;
   }
 
@@ -238,50 +249,86 @@ pre {
     @apply py-6 px-4 sm:px-8 lg:px-8;
   }
 
-  .blog-wrapper .markdown h1 {
+  .blog-wrapper .markdown h1,
+  .markdown h1,
+  .blog-wrapper article h1,
+  article h1 {
     @apply mt-0 mb-4 text-3xl font-bold tracking-tight;
   }
 
-  .blog-wrapper .markdown h2 {
+  .blog-wrapper .markdown h2,
+  .markdown h2,
+  .blog-wrapper article h2,
+  article h2 {
     @apply mt-8 mb-3 text-2xl font-semibold;
   }
 
-  .blog-wrapper .markdown h3 {
+  .blog-wrapper .markdown h3,
+  .markdown h3,
+  .blog-wrapper article h3,
+  article h3 {
     @apply mt-6 mb-2 text-xl font-semibold;
   }
 
-  .blog-wrapper .markdown p {
+  .blog-wrapper .markdown p,
+  .markdown p,
+  .blog-wrapper article p,
+  article p {
     @apply mb-4 text-[15px] leading-relaxed;
   }
 
   .blog-wrapper .markdown ul,
-  .blog-wrapper .markdown ol {
+  .markdown ul,
+  .blog-wrapper article ul,
+  article ul,
+  .blog-wrapper .markdown ol,
+  .markdown ol,
+  .blog-wrapper article ol,
+  article ol {
     @apply mb-4 ml-5 space-y-1;
   }
 
-  .blog-wrapper .markdown li {
+  .blog-wrapper .markdown li,
+  .markdown li,
+  .blog-wrapper article li,
+  article li {
     @apply leading-relaxed;
   }
 
-  .blog-wrapper .markdown a {
+  .blog-wrapper .markdown a,
+  .markdown a,
+  .blog-wrapper article a,
+  article a {
     @apply text-blueBrand hover:underline;
   }
 
-  .blog-wrapper .markdown code {
+  .blog-wrapper .markdown code,
+  .markdown code,
+  .blog-wrapper article code,
+  article code {
     @apply rounded px-1 py-0.5 text-[13px];
   }
 
-  .blog-wrapper .markdown pre {
+  .blog-wrapper .markdown pre,
+  .markdown pre,
+  .blog-wrapper article pre,
+  article pre {
     @apply my-4 overflow-x-auto rounded-xl p-4 text-[13px] leading-6;
     background-color: #111827;
     color: #E5E7EB;
   }
 
-  .blog-wrapper .markdown pre code {
+  .blog-wrapper .markdown pre code,
+  .markdown pre code,
+  .blog-wrapper article pre code,
+  article pre code {
     background-color: transparent;
   }
 
-  .blog-wrapper .markdown mark {
+  .blog-wrapper .markdown mark,
+  .markdown mark,
+  .blog-wrapper article mark,
+  article mark {
     background-color: #FEF3C7;
     color: #1F2933;
     padding: 0 0.15rem;
@@ -356,7 +403,7 @@ pre {
   }
 
   .avatar .avatar__intro .avatar__name {
-    @apply px-4 sm:px-6 lg:px-17;
+    @apply w-64 lg:w-96 px-0 sm:px-0 lg:px-0 flex-wrap;
   }
 
   /* Hero lowering (so mobile sidebar can sit above it) */
@@ -402,7 +449,7 @@ pre {
   }
 
   .footer__copyright {
-    @apply text-[11px] sm:text-xs;
+    @apply text-[11px] sm:text-xs sm:mb-3;
   }
 
   .footer__bottom>div {

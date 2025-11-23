@@ -6,6 +6,7 @@ tags:
   - what's new
   - docs
 author: Emmanuel Nodolomwanyi (Creator & Lead Maintainer, Abimongo Ecosystem)
+image: /abimongo/img/abiimongo-logo.png
 --- 
 
 Since Abimongo’s launch, the community response has been incredible. Developers across multiple ecosystems have already begun exploring how its intelligent multi-tenancy, schema abstraction, and real-time hooks simplify complex MongoDB applications.

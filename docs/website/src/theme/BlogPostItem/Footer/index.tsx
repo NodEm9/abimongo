@@ -3,12 +3,13 @@ import clsx from 'clsx';
 import EditMetaRow from '@theme/EditMetaRow';
 import TagsListInline from '@theme/TagsListInline';
 import ReadMoreLink from '@theme/BlogPostItem/Footer/ReadMoreLink';
-import ShareButtons from '@site/src/components/Share/ShareButtons';
+import { useBlogPost } from '@docusaurus/plugin-content-blog/client';
 
-// Defensive Footer: avoid importing Docusaurus runtime internals.
-// Accept optional props (metadata, isBlogPostPage) when provided by a parent.
 export default function BlogPostItemFooter({ metadata, isBlogPostPage }: any): ReactNode {
-	metadata = metadata ?? {};
+	const blogPost = useBlogPost();
+	const meta = metadata ?? blogPost.metadata ?? {};
+	const isDetail = typeof isBlogPostPage !== 'undefined' ? isBlogPostPage : blogPost.isBlogPostPage;
+
 	const {
 		tags = [],
 		title,
@@ -16,30 +17,23 @@ export default function BlogPostItemFooter({ metadata, isBlogPostPage }: any): R
 		hasTruncateMarker,
 		lastUpdatedBy,
 		lastUpdatedAt,
-	} = metadata;
+	} = meta;
 
 	// A post is truncated if it's in the "list view" and it has a truncate marker
-	const truncatedPost = !isBlogPostPage && !!hasTruncateMarker;
+	const truncatedPost = !isDetail && !!hasTruncateMarker;
 
 	const tagsExists = Array.isArray(tags) && tags.length > 0;
 
 	const renderFooter = tagsExists || truncatedPost || editUrl;
 
-	// If nothing to render, still show ShareButtons so the share control is always available.
+	// If nothing to render, return null — share control is rendered
+	// in the header via the SocialIcons component.
 	if (!renderFooter) {
-		return (
-			<footer className="docusaurus-mt-lg">
-				<div className="row margin-top--sm">
-					<div className="col">
-						<ShareButtons />
-					</div>
-				</div>
-			</footer>
-		);
+		return null;
 	}
 
 	// BlogPost footer - details view
-	if (isBlogPostPage) {
+	if (isDetail) {
 		const canDisplayEditMetaRow = !!(editUrl || lastUpdatedAt || lastUpdatedBy);
 
 		return (
@@ -51,11 +45,7 @@ export default function BlogPostItemFooter({ metadata, isBlogPostPage }: any): R
 						</div>
 					</div>
 				)}
-				<div className="row margin-top--sm">
-					<div className="col">
-						<ShareButtons />
-					</div>
-				</div>
+				{/* Share button moved to header (SocialIcons); footer intentionally left without it. */}
 				{canDisplayEditMetaRow && (
 					<EditMetaRow
 						className={clsx('margin-top--sm')}
@@ -81,7 +71,7 @@ export default function BlogPostItemFooter({ metadata, isBlogPostPage }: any): R
 						className={clsx('col text--right', {
 							'col--3': tagsExists,
 						})}>
-						<ReadMoreLink blogPostTitle={title} to={metadata.permalink} />
+						<ReadMoreLink blogPostTitle={title} to={meta.permalink} />
 					</div>
 				)}
 			</footer>

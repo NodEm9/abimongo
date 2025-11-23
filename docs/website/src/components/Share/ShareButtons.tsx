@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation } from '@docusaurus/router';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 function ShareButtons(): React.ReactElement {
 	const location = useLocation();
@@ -33,11 +34,11 @@ function ShareButtons(): React.ReactElement {
 		<div>
 			<button
 				type="button"
-				className="button button--secondary"
+				className="button button--secondary flex"
 				onClick={handleShare}
 				aria-label="Share this blog post">
 				<img
-					src="/img/share%20(1).png"
+					src={useBaseUrl('/img/Share_icon.svg')}
 					alt="Share"
 					width={16}
 					height={16}

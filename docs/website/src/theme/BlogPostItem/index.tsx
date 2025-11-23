@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import BlogPostItemHeader from './Header';
 import BlogPostItemFooter from './Footer';
 
 // Minimal BlogPostItem wrapper. Dynamically load the client footer at
 // runtime to avoid importing Docusaurus runtime aliases during SSR/build.
-export default function BlogPostItem({ children, className }: any) {
+export default function BlogPostItem(props: any) {
+	const { children, className } = props;
 	const [ClientFooter, setClientFooter] = useState<any>(null);
 
 	useEffect(() => {
@@ -21,10 +23,9 @@ export default function BlogPostItem({ children, className }: any) {
 
 	return (
 		<article className={clsx(className)}>
+			<BlogPostItemHeader />
 			{children}
-			{/* Render a basic footer server-side so ShareButtons are available */}
-			<BlogPostItemFooter />
-			{/* Enhance on the client with metadata-driven footer if available */}
+			<BlogPostItemFooter isBlogPostPage={true} />
 			{ClientFooter ? <ClientFooter /> : null}
 		</article>
 	);

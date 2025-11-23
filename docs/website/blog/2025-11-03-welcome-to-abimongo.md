@@ -4,7 +4,8 @@ slug: welcome
 tags:
   - release
   - docs
-author: NodEm9
+author: Emmanuel Nodolomwanyi (Creator & Lead Maintainer, Abimongo Ecosystem)
+image: /abimongo/img/abiimongo-logo.png
 ---
 
 This is the first post for the Abimongo project documentation site. We'll use this space to share release notes, dev diaries, and guides for contributors.

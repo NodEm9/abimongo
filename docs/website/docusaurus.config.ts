@@ -17,11 +17,34 @@ const config: Config = {
 	onBrokenAnchors: 'ignore',
 	trailingSlash: false,
 	headTags: [
+		// Prefer a small thumbnail card for social shares so platforms
+		// display a left-side thumbnail next to the link title.
 		{
-			tagName: 'link',
+			tagName: 'meta',
 			attributes: {
-				rel: 'icon',
-				href: '/img/docusaurus.png',
+				name: 'x:card',
+				content: 'summary',
+			},
+		},
+		{
+			tagName: 'meta',
+			attributes: {
+				name: 'x:image',
+				content: '/abimongo/img/abiimongo-logo_socials.png',
+			},
+		},
+		{
+			tagName: 'meta',
+			attributes: {
+				property: 'og:image',
+				content: '/abimongo/img/abiimongo-logo_socials.png',
+			},
+		},
+		{
+			tagName: 'meta',
+			attributes: {
+				property: 'og:image:alt',
+				content: 'Abimongo logo',
 			},
 		},
 	],
@@ -132,7 +155,11 @@ const config: Config = {
 		]
 	],
 	themeConfig: {
-		image: 'img/abimongo-logo_em.svg',
+		// Use a raster PNG as the default social image so link previews
+		// (LinkedIn, Facebook, Twitter) reliably render a thumbnail
+		// next to the title. This references an existing file in
+		// `docs/website/static/img` named `abiimongo-logo.png`.
+		image: 'img/abiimongo-logo_socials.png',
 		colorMode: {
 			defaultMode: 'light',                 // or 'dark'
 			respectPrefersColorScheme: true,     // keep Docusaurus behavior
@@ -142,8 +169,8 @@ const config: Config = {
 			title: 'Abimongo',
 			logo: {
 				alt: 'Abimongo Logo',
-				src: 'img/abimongo-logo_em.svg',
-				srcDark: 'img/abimongo-logo_emblem.svg',
+				src: 'img/abimongo-logo_light.svg',
+				srcDark: 'img/abimongo-logo_dark.svg',
 				height: 32,
 				width: 32,
 			},
@@ -165,15 +192,6 @@ const config: Config = {
 		footer: {
 			style: 'dark',
 			links: [
-				// { 
-				//   title: 'Docs',
-				//   items: [
-				//     {
-				//       label: 'Tutorials',
-				//       to: '/tutorials',
-				//     },
-				//   ],
-				// },
 				{
 					title: 'Community',
 					items: [
@@ -207,7 +225,7 @@ const config: Config = {
 			],
 			logo: {
 				alt: 'Abimongo Logo',
-				src: 'img/abimongo-logo_emblem.svg',
+				src: 'img/abimongo-logo_dark.svg',
 				href: 'https://nodem9.github.io/abimongo/',
 				width: 32,
 				height: 32,

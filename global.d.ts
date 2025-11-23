@@ -4,9 +4,7 @@ declare module '@site/*' {
 	export default value;
 }
 
-declare module '*.module.css' {
-	const classes: { [key: string]: string };
-	export default classes;
-}
-
-declare module '*.css';
+// Note: CSS module/type declarations are provided in the Docusaurus site types at
+// `docs/website/src/types/css-modules.d.ts`. Keeping CSS module declarations
+// only there avoids duplicate-declaration errors when the monorepo and website
+// are both type-checked.

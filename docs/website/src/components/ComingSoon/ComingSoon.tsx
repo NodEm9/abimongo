@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 export default function ComingSoon() {
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -99,7 +100,7 @@ export default function ComingSoon() {
         </button>
 
         <img
-          src="/abimongo/img/coming-soon.png"
+          src={useBaseUrl('img/coming-soon.png')}
           alt="Coming soon"
           style={{
             width: '100%',

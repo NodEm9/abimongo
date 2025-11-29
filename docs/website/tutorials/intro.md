@@ -50,7 +50,7 @@ Start the tutorials
 pnpm run docs:dev
 ```
 
-- Or open the Tutorials category in the site: [core tutorials](/abimongo/tutorials/core_tutotrials/core-tutorials)
+- Or open the Tutorials category in the site: [core tutorials](/tutorials/core_tutotrials/core-tutorials)
 
 If you want a recommended path: start with the core "Getting started" tutorial, then move to multi-tenancy and GraphQL integration as needed.
 

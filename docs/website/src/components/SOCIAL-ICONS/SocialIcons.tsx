@@ -24,23 +24,23 @@ export default function SocialIcons(): React.ReactElement {
 		<div className="social-icons margin-top--sm">
 			<div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
 				<a href={github} target="_blank" rel="noopener noreferrer" aria-label="Abimongo on GitHub">
-					{img('/abimongo/img/github.svg', 'GitHub')}
+					{img('img/github.svg', 'GitHub')}
 				</a>
 
 				<a href={x} target="_blank" rel="noopener noreferrer" aria-label="Abimongo on X">
-					{img('/abimongo/img/X-Logo.svg', 'X')}
+					{img('img/X-Logo.svg', 'X')}
 				</a>
 
 				<a href={linkedin} target="_blank" rel="noopener noreferrer" aria-label="Emmanuel Nodolomwanyi on LinkedIn">
-					{img('/abimongo/img/skill-icons_linkedin.svg', 'LinkedIn')}
+					{img('img/skill-icons_linkedin.svg', 'LinkedIn')}
 				</a>
 
 				<a href={medium} target="_blank" rel="noopener noreferrer" aria-label="Abimongo on Medium">
-					{img('/abimongo/img/medium.svg', 'Medium')}
+					{img('img/medium.svg', 'Medium')}
 				</a>
 
 				<a href={discord} target="_blank" rel="noopener noreferrer" aria-label="Abimongo on Discord">
-					{img('/abimongo/img/skill-icons_discord.svg', 'Discord')}
+					{img('img/skill-icons_discord.svg', 'Discord')}
 				</a>
 
 				<div>

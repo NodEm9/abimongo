@@ -5,10 +5,13 @@ import path from 'path';
 
 
 
+const siteUrl = process.env.SITE_URL ?? 'https://abimongo.com';
+const baseUrlValue = process.env.BASE_URL ?? '/';
+
 const config: Config = {
 	title: 'Abimongo',
-	url: 'https://nodem9.github.io',
-	baseUrl: '/abimongo/',
+	url: siteUrl,
+	baseUrl: baseUrlValue,
 	tagline: 'Abimongo is a MongoDB ODM for TypeScript and Node.js, designed for ease of use and type safety.',
 	favicon: 'img/favicon.ico',
 	organizationName: 'NodEm9',
@@ -30,14 +33,14 @@ const config: Config = {
 			tagName: 'meta',
 			attributes: {
 				name: 'x:image',
-				content: '/abimongo/img/abiimongo-logo_socials.png',
+				content: `${baseUrlValue}img/abiimongo-logo_socials.png`,
 			},
 		},
 		{
 			tagName: 'meta',
 			attributes: {
 				property: 'og:image',
-				content: '/abimongo/img/abiimongo-logo_socials.png',
+				content: `${baseUrlValue}img/abiimongo-logo_socials.png`,
 			},
 		},
 		{
@@ -226,7 +229,7 @@ const config: Config = {
 			logo: {
 				alt: 'Abimongo Logo',
 				src: 'img/abimongo-logo_dark.svg',
-				href: 'https://nodem9.github.io/abimongo/',
+				href: `${siteUrl}${baseUrlValue}`,
 				width: 32,
 				height: 32,
 			},

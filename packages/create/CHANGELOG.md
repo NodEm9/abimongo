@@ -1,3 +1,20 @@
+# Changelog
+
+All notable changes to this package will be documented in this file.
+
+## [1.1.0] - 2025-12-13
+
+### Added
+- Include Figlet fonts in the distributed package so `npx @abimongo/create` and
+  tarball installs can render the Figlet banner reliably.
+- Add `scripts/copy-figlet-fonts.js` and run it during `prepack` to ensure fonts
+  are copied into `dist/fonts` before packing/publishing.
+- Add `scripts/test-pack-install.js` to help validate that packed tarballs
+  install cleanly via `npm` and `pnpm` and that the splash is present.
+
+### Changed
+- Display a concise fallback banner when Figlet fonts are not present (avoids
+  noisy ENOENT output during `npx`/tarball installs).
 # @abimongo/create
 
 ## 1.0.4

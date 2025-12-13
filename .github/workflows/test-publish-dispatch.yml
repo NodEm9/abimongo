@@ -96,8 +96,9 @@ jobs:
             exit 0
           fi
           echo "Publishing ${{ github.event.inputs.package_name }} from ${{ github.event.inputs.package_path }}"
+          cd ${{ github.event.inputs.package_path }}
           if [ "${{ github.event.inputs.package_manager }}" = "pnpm" ]; then
-            pnpm --dir ${{ github.event.inputs.package_path }} publish --access public
+            pnpm publish --access public
           else
-            npm --prefix ${{ github.event.inputs.package_path }} publish --access public
+            npm publish --access public
           fi

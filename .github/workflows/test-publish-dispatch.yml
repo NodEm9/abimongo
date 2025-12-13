@@ -71,6 +71,16 @@ jobs:
           corepack enable
           corepack prepare pnpm@latest --activate
 
+      - name: Clear caches (npm/pnpm)
+        run: |
+          echo "Clearing npm cache"
+          npm cache clean --force || true
+          npm cache verify || true
+          if [ "${{ github.event.inputs.package_manager }}" = "pnpm" ]; then
+            echo "Pruning pnpm store"
+            pnpm store prune || true
+          fi
+
       - name: Install dependencies
         run: |
           if [ "${{ github.event.inputs.package_manager }}" = "pnpm" ]; then
@@ -98,8 +108,13 @@ jobs:
           fi
           echo "Publishing ${{ github.event.inputs.package_name }} from ${{ github.event.inputs.package_path }}"
           cd ${{ github.event.inputs.package_path }}
+          echo "Ensuring registry and auth"
+          npm config set registry https://registry.npmjs.org
+          npm whoami || true
+          echo "Clearing npm cache before publish"
+          npm cache clean --force || true
           if [ "${{ github.event.inputs.package_manager }}" = "pnpm" ]; then
-            pnpm publish --access public
+            pnpm publish --access public ${2FACTOR_TOKEN:+--otp $2FACTOR_TOKEN}
           else
-            npm publish --access public
+            npm publish --access public ${2FACTOR_TOKEN:+--otp $2FACTOR_TOKEN}
           fi

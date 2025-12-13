@@ -60,3 +60,4 @@ jobs:
       package_name: ${{ github.event.inputs.package_name }}
       package_manager: ${{ github.event.inputs.package_manager }}
       dry_run: ${{ github.event.inputs.dry_run }}
+    secrets: inherit

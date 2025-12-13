@@ -28,7 +28,7 @@ on:
     secrets:
       NODE_AUTH_TOKEN:
         description: 'NPM authentication token'
-        required: true
+        required: false
   workflow_dispatch:
     inputs:
       package_path:

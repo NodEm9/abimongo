@@ -27,7 +27,7 @@ export default function runCLI() {
     // and avoid top-level require() usage.
     (async () => {
       try {
-        const mod = await import('./utils/splash');
+        const mod = await import('./utils/splash.js');
         mod.showSplash?.();
       } catch {
         try { console.log('=== Abimongo CLI ==='); } catch { }

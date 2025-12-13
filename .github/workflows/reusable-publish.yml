@@ -25,6 +25,10 @@ on:
         required: false
         type: string
         default: 'npm'
+    secrets:
+      NODE_AUTH_TOKEN:
+        description: 'NPM authentication token'
+        required: true
   workflow_dispatch:
     inputs:
       package_path:
@@ -88,7 +92,7 @@ jobs:
             echo "Package not found at ${{ inputs.package_path }}" && exit 1
           fi
           if [ "${{ inputs.package_manager }}" = "pnpm" ]; then
-            pnpm --prefix ${{ inputs.package_path }} run build --if-present
+            pnpm --dir ${{ inputs.package_path }} run build --if-present
           else
             npm --prefix ${{ inputs.package_path }} run build --if-present
           fi
@@ -96,16 +100,13 @@ jobs:
       - name: Run package tests
         run: |
           if [ "${{ inputs.package_manager }}" = "pnpm" ]; then
-            pnpm --prefix ${{ inputs.package_path }} test --if-present
+            pnpm --dir ${{ inputs.package_path }} test --if-present
           else
             npm --prefix ${{ inputs.package_path }} test --if-present
           fi
 
       - name: Publish package (or dry-run)
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          2FACTOR_AUTH_TOKEN: ${{ secrets.NPM_2FACTOR_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then
@@ -114,7 +115,7 @@ jobs:
           fi
           echo "Publishing ${{ inputs.package_name }} from ${{ inputs.package_path }}"
           if [ "${{ inputs.package_manager }}" = "pnpm" ]; then
-            pnpm --prefix ${{ inputs.package_path }} publish --access public
+            pnpm --dir ${{ inputs.package_path }} publish --access public
           else
             npm --prefix ${{ inputs.package_path }} publish --access public
           fi

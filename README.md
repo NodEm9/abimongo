@@ -37,6 +37,37 @@ Release note (today)
 
 See `packages/core/README.md` and the docs site for full CLI and scaffolding guidance.
 
+## Testing packed install (local validation)
+
+When you `pack` a package (`pnpm pack` or `npm pack`) the generated tarball is what gets published.
+To validate the behaviour of the `postinstall` splash and ensure the CLI splash file is included in the packed artifact, run the included test script from the repository root:
+
+```bash
+# prerequisites: Node.js installed and either `pnpm` or `npm` available in PATH
+node scripts/test-pack-install.js
+```
+
+What the script does:
+- Packs `packages/core` (tries `pnpm pack`, falls back to `npm pack`).
+- Creates a temporary consumer project and attempts to install the generated tarball using both `npm install <tarball>` and `pnpm add <tarball>`.
+- Prints results and the temporary directory path for inspection.
+
+Troubleshooting
+- If you see an error like `Error: spawnSync npm ENOENT` or `pnpm pack failed or pnpm not available`, it means the command used by the script is not available in your PATH on this machine. Install `npm` (comes with Node.js) or `pnpm` to proceed. On Windows/PowerShell you can install pnpm with:
+
+```powershell
+npm install -g pnpm
+```
+
+- In CI, ensure the runner has `pnpm` or `npm` installed before invoking `node scripts/test-pack-install.js`.
+
+Packaging notes (recommended approach)
+- We copy the shared `abimongo-brand/extras/cli_splash.txt` into `packages/core/brand/cli_splash.txt` during the `prepack` step so the packed tarball contains the splash file. This is more robust than relying on network fetch during `postinstall` and works for offline installs.
+
+Environment control
+- The CLI splash is opt-in/opt-out via the `ABIMONGO_SHOW_SPLASH` environment variable. Set it to `0`, `false`, or `no` to suppress the splash in automated or CI environments.
+
+
 ## Packages
 
 | Package | Version | npm |

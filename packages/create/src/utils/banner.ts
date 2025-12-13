@@ -11,9 +11,12 @@ export function showBanner() {
 
     console.log(colorize(banner, 'cyan'));
   } catch (error) {
+    // Keep the output concise for environments (npx, npm pack) where
+    // the bundled fonts directory may not be present. We still warn,
+    // but avoid printing the full stack/ENOENT path to prevent noisy
+    // output for consumers.
     console.warn(
-      colorize('⚠️ Figlet font not found or failed to load. Displaying fallback banner.', 'yellow'),
-      error
+      colorize('⚠️ Figlet font not found or failed to load. Displaying fallback banner.', 'yellow')
     );
     console.log(colorize('=== Abimongo CLI ===', 'cyan'));
   }

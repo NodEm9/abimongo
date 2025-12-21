@@ -41,277 +41,266 @@
 - Optional GraphQL schema generation and resolver wiring
 - CLI scaffolding and project bootstrap utilities
 
-    ---
+---
 
-    ## Installation
+## Installation
 
-    Install from npm or using yarn:
+Install from npm or using yarn:
 
-    ```bash
-    npm install @abimongo/core
-    # or
-    yarn add @abimongo/core
-    ```
+```bash
+npm install @abimongo/core
+# or
+yarn add @abimongo/core
+```
 
-    
-  **Local development note**
+If you are using TypeScript, make sure `tsconfig.json` is configured to include node types and target a supported ECMAScript version.
 
-  If you're developing or testing `@abimongo/core` locally, avoid installing a runtime copy of `graphql` inside the `@abimongo/core` repository itself. `graphql` is a peer dependency and should be provided by the consuming app. Installing `graphql` in both the library repo and the consumer app can cause Node to load multiple physical copies of the `graphql` runtime which leads to runtime errors such as "GraphQLSchema from another module or realm".
+---
 
-  Recommended approaches when developing locally:
-  - Use a pnpm workspace or `pnpm add ../path/to/abimongo/packages/core` from the consumer app so the consumer's `node_modules` provides `graphql`.
-  - If you need to run `pnpm install` in the `abimongo` repo for dev work, avoid leaving `graphql` installed there while testing the consumer app; you can reinstall dev dependencies after testing.
-  - Treat `graphql` as a peer dependency (it already is) and ensure the consumer app has an explicit `graphql` dependency or `overrides` configured.
+## Quick start
 
+This example demonstrates model creation and basic CRUD operations using the high-level API.
 
-    If you are using TypeScript, make sure `tsconfig.json` is configured to include node types and target a supported ECMAScript version.
+```ts
+import { AbimongoClient } from '@abimongo/core';
 
-    ---
+const clientDB = new AbimongoClient('mongodb://localhost:27017');
 
-    ## Quick start
+await clientDB.connnect();
+console.log('MongoDB connection successful.')
+```
 
-    This example demonstrates model creation and basic CRUD operations using the high-level API.
+```ts
+import { AbimongoSchema, AbimongoModel } from '@abimongo/core';
 
-    ```ts
-    import { AbimongoClient } from '@abimongo/core';
+const userSchema = new AbimongoSchema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  age: { type: Number },
+});
 
-    const clientDB = new AbimongoClient('mongodb://localhost:27017');
+const UserModel = new AbimongoModel({
+  collectionName: 'users',
+  schema: userSchema,
+});
 
-    await clientDB.connnect();
-    console.log('MongoDB connection successful.')
-    ```
+async function example() {
+  const created = await UserModel.create({ name: 'Jane', email: 'jane@example.com', age: 28 });
+  const found = await UserModel.find({ age: { $gte: 18 } });
+  await UserModel.updateOne({ email: 'jane@example.com' }, { $set: { age: 29 } });
+  await UserModel.deleteOne({ email: 'jane@example.com' });
+}
 
-    ```ts
-    import { AbimongoSchema, AbimongoModel } from '@abimongo/core';
+example().catch(console.error);
+```
 
-    const userSchema = new AbimongoSchema({
-      name: { type: String, required: true },
-      email: { type: String, required: true, unique: true },
-      age: { type: Number },
-    });
+---
 
-    const UserModel = new AbimongoModel({
-      collectionName: 'users',
-      schema: userSchema,
-    });
+## Multi-tenancy
 
-    async function example() {
-      const created = await UserModel.create({ name: 'Jane', email: 'jane@example.com', age: 28 });
-      const found = await UserModel.find({ age: { $gte: 18 } });
-      await UserModel.updateOne({ email: 'jane@example.com' }, { $set: { age: 29 } });
-      await UserModel.deleteOne({ email: 'jane@example.com' });
-    }
+@abimongo/core includes helpers for multi-tenant applications. You can register tenants with connection URIs and use a tenant-aware model resolver.
 
-    example().catch(console.error);
-    ```
+Example (Express middleware + lazy tenant connections):
 
-    ---
+```ts
+import express from 'express';
+import { applyMultiTenancy, getTenantModel } from '@abimongo/core';
 
-    ## Multi-tenancy
+const app = express();
 
-    @abimongo/core includes helpers for multi-tenant applications. You can register tenants with connection URIs and use a tenant-aware model resolver.
+const tenants = {
+  tenant1: 'mongodb://localhost:27017/tenant1',
+  tenant2: 'mongodb://localhost:27017/tenant2',
+};
 
-    Example (Express middleware + lazy tenant connections):
+applyMultiTenancy(app, tenants, { headerKey: 'x-tenant-id', initOptions: { lazy: true } });
 
-    ```ts
-    import express from 'express';
-    import { applyMultiTenancy, getTenantModel } from '@abimongo/core';
+app.get('/users', async (req, res) => {
+  const tenantId = req.headers['x-tenant-id'] as string;
+  const UserModel = await getTenantModel({ modelName: 'User', tenantId });
+  const users = await UserModel.find();
+  res.json(users);
+});
 
-    const app = express();
+app.listen(3000);
+```
 
-    const tenants = {
-      tenant1: 'mongodb://localhost:27017/tenant1',
-      tenant2: 'mongodb://localhost:27017/tenant2',
-    };
+Notes
 
-    applyMultiTenancy(app, tenants, { headerKey: 'x-tenant-id', initOptions: { lazy: true } });
+- Tenant connections are managed by `MultiTenantManager`. Use `registerTenant` at runtime to add tenants dynamically.
+- `TenantContext` provides a way to run code bound to a tenant without threading tenant ids through every function call.
 
-    app.get('/users', async (req, res) => {
-      const tenantId = req.headers['x-tenant-id'] as string;
-      const UserModel = await getTenantModel({ modelName: 'User', tenantId });
-      const users = await UserModel.find();
-      res.json(users);
-    });
+---
 
-    app.listen(3000);
-    ```
+## Schema validation & middleware
 
-    Notes
+Define schemas with validation rules (types, required, min/max, unique) and attach middleware hooks for lifecycle events.
 
-  - Tenant connections are managed by `MultiTenantManager`. Use `registerTenant` at runtime to add tenants dynamically.
-  - `TenantContext` provides a way to run code bound to a tenant without threading tenant ids through every function call.
+```ts
+const productSchema = new AbimongoSchema({
+  name: { type: String, required: true },
+  price: { type: Number, required: true, min: 0 },
+  category: { type: String },
+});
 
-    ---
+productSchema.pre('save', async (doc) => { /* ... */ });
+productSchema.post('save', async (doc) => { /* ... */ });
+```
 
-    ## Schema validation & middleware
+---
 
-    Define schemas with validation rules (types, required, min/max, unique) and attach middleware hooks for lifecycle events.
+## Transactions
 
-    ```ts
-    const productSchema = new AbimongoSchema({
-      name: { type: String, required: true },
-      price: { type: Number, required: true, min: 0 },
-      category: { type: String },
-    });
+Helpers are provided to make transactional updates simpler. These utilities use MongoDB sessions under the hood.
 
-    productSchema.pre('save', async (doc) => { /* ... */ });
-    productSchema.post('save', async (doc) => { /* ... */ });
-    ```
+```ts
+await UserModel.updateWithTransaction({ email: 'jane@example.com' }, { $set: { age: 30 } });
+```
 
-    ---
+---
 
-    ## Transactions
+## Caching
 
-    Helpers are provided to make transactional updates simpler. These utilities use MongoDB sessions under the hood.
+Use built-in Redis-backed caching helpers for expensive aggregation queries or frequently requested results.
 
-    ```ts
-    await UserModel.updateWithTransaction({ email: 'jane@example.com' }, { $set: { age: 30 } });
-    ```
+```ts
+const cached = await UserModel.aggregateWithCache([
+  { $match: { active: true } },
+], 'active_users_cache', 300);
+```
 
-    ---
+---
 
-    ## Caching
+## Change streams
 
-    Use built-in Redis-backed caching helpers for expensive aggregation queries or frequently requested results.
+Listen for real-time changes on collections with a simple watcher API.
 
-    ```ts
-    const cached = await UserModel.aggregateWithCache([
-      { $match: { active: true } },
-    ], 'active_users_cache', 300);
-    ```
+```ts
+UserModel.watchChanges((change) => {
+  console.log('change:', change);
+});
+```
 
-    ---
+---
 
-    ## Change streams
+## GraphQL integration
 
-    Listen for real-time changes on collections with a simple watcher API.
+Optional GraphQL helpers can generate type definitions and resolvers from your models. The feature supports queries, mutations and subscriptions and includes RBAC hooks.
 
-    ```ts
-    UserModel.watchChanges((change) => {
-      console.log('change:', change);
-    });
-    ```
+API (examples):
 
-    ---
+- `AbimongoGraphQL.generateSchema({ models?, options? })` – generate an executable GraphQL schema.
+- `schema.customResolvers(...)` and `schema.customTypeDefs(...)` – extend generated schema with custom definitions.
 
-    ## GraphQL integration
+Example (Apollo Server):
 
-    Optional GraphQL helpers can generate type definitions and resolvers from your models. The feature supports queries, mutations and subscriptions and includes RBAC hooks.
+```ts
+import { AbimongoGraphQL } from '@abimongo/core';
+import { ApolloServer } from '@apollo/server';
 
-    API (examples):
+const schema = AbimongoGraphQL.generateSchema({ models: [/* models */], options: { enableSubscriptions: true } });
+const server = new ApolloServer({ schema });
+// start the server with your preferred method
+```
 
-  - `AbimongoGraphQL.generateSchema({ models?, options? })` – generate an executable GraphQL schema.
-  - `schema.customResolvers(...)` and `schema.customTypeDefs(...)` – extend generated schema with custom definitions.
+Note: GraphQL generation is powerful but may be considered experimental for very complex schemas—review generated types before using them in production.
 
-    Example (Apollo Server):
+---
 
-    ```ts
-    import { AbimongoGraphQL } from '@abimongo/core';
-    import { ApolloServer } from '@apollo/server';
+## CLI scaffolding
 
-    const schema = AbimongoGraphQL.generateSchema({ models: [/* models */], options: { enableSubscriptions: true } });
-    const server = new ApolloServer({ schema });
-    // start the server with your preferred method
-    ```
+The accompanying CLI accelerates project setup and scaffolding of models, schemas and GraphQL components.
 
-    Note: GraphQL generation is powerful but may be considered experimental for very complex schemas—review generated types before using them in production.
+```bash
+# Run the CLI without installing globally (recommended):
+npx abimongo init my-app-name
 
-    ---
+# Example: scaffold with GraphQL, multi-tenant and logger support (no installs by default):
+npx abimongo init my-app-name --with-graphql --multi-tenant --logger
 
-    ## CLI scaffolding
+# If you want the scaffold to auto-install dependencies into the generated project, pass `--install`:
+npx abimongo init my-app-name --with-graphql --multi-tenant --logger --install
 
-    The accompanying CLI accelerates project setup and scaffolding of models, schemas and GraphQL components.
+# Notes:
+# - By default the scaffold does NOT run `npm`/`pnpm` installs. This keeps scaffolding fast and CI-friendly.
+# - Use `--install` to opt into installing `@abimongo/core` and `@abimongo/logger` into the generated project.
+# - The `abimongo` binary is provided by `@abimongo/core` and is safe to run via `npx` or after installing the package locally.
+```
 
-    ```bash
-    # Run the CLI without installing globally (recommended):
-    npx abimongo init my-app-name
+Flags will toggle features in the generated `abimongo.config.json`. If you omit a flag you can still enable features later by editing the config.
 
-    # Example: scaffold with GraphQL, multi-tenant and logger support (no installs by default):
-    npx abimongo init my-app-name --with-graphql --multi-tenant --logger
+See the docs-site for a full CLI guide: docs-site/docs/guides/CLI-Scaffolding.md
 
-    # If you want the scaffold to auto-install dependencies into the generated project, pass `--install`:
-    npx abimongo init my-app-name --with-graphql --multi-tenant --logger --install
+---
 
-    # Notes:
-    # - By default the scaffold does NOT run `npm`/`pnpm` installs. This keeps scaffolding fast and CI-friendly.
-    # - Use `--install` to opt into installing `@abimongo/core` and `@abimongo/logger` into the generated project.
-    # - The `abimongo` binary is provided by `@abimongo/core` and is safe to run via `npx` or after installing the package locally.
-    ```
+## RBAC
 
-    Flags will toggle features in the generated `abimongo.config.json`. If you omit a flag you can still enable features later by editing the config.
+Built-in role-based access control utilities make it straightforward to protect resolvers or REST handlers.
 
-    See the docs-site for a full CLI guide: docs-site/docs/guides/CLI-Scaffolding.md
+- `enforceRBAC(resolver, action)` — wrap resolvers with permission checks
+- `getRBACAction(resolver)` — inspect mapped action
 
-    ---
+The RBAC layer integrates with caching for efficient permission evaluation.
 
-    ## RBAC
+---
 
-    Built-in role-based access control utilities make it straightforward to protect resolvers or REST handlers.
+## Plugin system
 
-  - `enforceRBAC(resolver, action)` — wrap resolvers with permission checks
-  - `getRBACAction(resolver)` — inspect mapped action
+Extend the platform using plugins that can add behavior at the model, schema or manager layer.
 
-    The RBAC layer integrates with caching for efficient permission evaluation.
+---
 
-    ---
+## Bootstrapping
 
-    ## Plugin system
+`AbimongoBootstrap` helps initialize new projects, creating a recommended folder layout and a starter `abimongo.config.json`.
 
-    Extend the platform using plugins that can add behavior at the model, schema or manager layer.
+---
 
-    ---
+## API reference (short)
 
-    ## Bootstrapping
+Abbreviated list of commonly used APIs. See the generated docs in the repo for full signatures and options.
 
-    `AbimongoBootstrap` helps initialize new projects, creating a recommended folder layout and a starter `abimongo.config.json`.
+- AbimongoModel
+- `create(doc)`
+- `find(filter)`
+- `updateOne(filter, update)`
+- `deleteOne(filter)`
+- `aggregate(pipeline)`
 
-    ---
+- TenantContext
+- `run(tenantId, callback)`
+- `getTenantId()`
 
-    ## API reference (short)
+- MultiTenantManager
+- `registerTenant(tenantId, uri)`
+- `getClient(tenantId)`
 
-    Abbreviated list of commonly used APIs. See the generated docs in the repo for full signatures and options.
+- AbimongoGraphQL
+- `generateSchema({ models, options })`
 
-  - AbimongoModel
-    - `create(doc)`
-    - `find(filter)`
-    - `updateOne(filter, update)`
-    - `deleteOne(filter)`
-    - `aggregate(pipeline)`
+- RBAC utilities
+- `enforceRBAC(resolver, action)`
 
-  - TenantContext
-    - `run(tenantId, callback)`
-    - `getTenantId()`
+---
 
-  - MultiTenantManager
-    - `registerTenant(tenantId, uri)`
-    - `getClient(tenantId)`
+## Contributing
 
-  - AbimongoGraphQL
-    - `generateSchema({ models, options })`
+Contributions are welcome. Please check `CONTRIBUTING.md` in the repository root for guidelines on code style, tests and committing.
 
-  - RBAC utilities
-    - `enforceRBAC(resolver, action)`
+---
 
-    ---
+## License
 
-    ## Contributing
+This package is published under the MIT license. See the project `LICENSE` for details.
 
-    Contributions are welcome. Please check `CONTRIBUTING.md` in the repository root for guidelines on code style, tests and committing.
+---
 
-    ---
+## Support
 
-    ## License
+If you find a bug or need help, open an issue in the repository.
 
-    This package is published under the MIT license. See the project `LICENSE` for details.
+---
 
-    ---
+## Acknowledgements
 
-    ## Support
-
-    If you find a bug or need help, open an issue in the repository.
-
-    ---
-
-    ## Acknowledgements
-
-    Thanks to the MongoDB Node.js Driver team and the community contributors.
+Thanks to the MongoDB Node.js Driver team and the community contributors.

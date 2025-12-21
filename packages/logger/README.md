@@ -122,15 +122,15 @@ const logger = setupLogger({ logger: customLogger });
 
 If you are implementing ( logger ) without using the above setup yourself then follow below steps.
 
-## 🔥 Advanced Logger Usage (`@@abimongo/logger`)
+## Advanced Logger Usage (`@abimongo/logger`)
 
 The logger is a pluggable, buffered, rolling log system that supports:
 
-- ✅ JSON or text formatting
-- ✅ Daily file rotation with compression
-- ✅ Multi-tenant routing
-- ✅ Redis real-time log streaming
-- ✅ Metrics tracking
+- JSON or text formatting
+- Daily file rotation with compression
+- Multi-tenant routing
+- Redis real-time log streaming
+- Metrics tracking
 
 ### Install Redis for full features
 

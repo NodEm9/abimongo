@@ -1,26 +1,26 @@
 [
   {
     "package": "@abimongo/core",
-    "week": 11,
+    "week": 8,
     "month": 20,
     "year": 20
   },
   {
     "package": "@abimongo/cli",
-    "week": 13,
-    "month": 25,
+    "week": 8,
+    "month": 24,
     "year": 335
   },
   {
     "package": "@abimongo/logger",
-    "week": 9,
+    "week": 4,
     "month": 19,
     "year": 19
   },
   {
     "package": "@abimongo/create",
-    "week": 14,
-    "month": 29,
+    "week": 8,
+    "month": 28,
     "year": 449
   }
 ]

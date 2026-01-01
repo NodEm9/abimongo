@@ -98,9 +98,6 @@ jobs:
           fi
 
       - name: Publish to npm
-        env:
-          2FACTOR_TOKEN: ${{ secrets.NPM_2FACTOR_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
         run: |
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
             echo "Dry run: would publish ${{ github.event.inputs.package_name }} from ${{ github.event.inputs.package_path }}"
@@ -118,3 +115,6 @@ jobs:
           else
             npm publish --access public ${2FACTOR_TOKEN:+--otp $NPM_2FACTOR_TOKEN } 
           fi
+        env:
+          2FACTOR_TOKEN: ${{ secrets.NPM_2FACTOR_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}

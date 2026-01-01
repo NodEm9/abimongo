@@ -106,9 +106,6 @@ jobs:
           fi
 
       - name: Publish package (or dry-run)
-        env:
-          2FACTOR_TOKEN: ${{ secrets.NPM_2FACTOR_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then
             echo "Dry run for ${{ inputs.package_name }} at ${{ inputs.package_path }}"
@@ -120,3 +117,7 @@ jobs:
           else
             npm --prefix ${{ inputs.package_path }} publish --access public
           fi
+        env:
+          NPM_PASS_KEY: ${{ secrets.NPM_PASS_KEY }}
+          2FACTOR_TOKEN: ${{ secrets.NPM_2FACTOR_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}

@@ -12,5 +12,7 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "snapshot": {"useCalculatedVersion": true},
+  "ignore": [],
+  "npmClient": "npm"
 }

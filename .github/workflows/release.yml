@@ -51,6 +51,11 @@ jobs:
 
       # Sanity checks
       - run: node -v && pnpm -v && npm -v
+        
+      - name: Upgrade npm for Trusted Publishing (OIDC)
+        run: npm i -g npm@^11.5.1
+
+      - run: npm -v
 
       # Install workspace deps (single root lockfile)
       # If you DON'T have a lock yet, use --no-frozen-lockfile
@@ -105,6 +110,11 @@ jobs:
 
       # Sanity checks
       - run: node -v && pnpm -v && npm -v
+      
+      - name: Upgrade npm for Trusted Publishing (OIDC)
+        run: npm i -g npm@^11.5.1
+
+      - run: npm -v
 
       # Install workspace deps (single root lockfile)
       # If you DON'T have a lock yet, use --no-frozen-lockfile
@@ -116,6 +126,13 @@ jobs:
 
       - name: Prepare Changesets config (use GH adapter when GH_TOKEN available)
         run: node ./scripts/set-changeset-changelog.js
+
+      - name: Debug versions
+        run: |
+          echo "node=$(node -v)"
+          echo "npm=$(npm -v)"
+          echo "pnpm=$(pnpm -v)"
+          ls -la .github/workflows || true
 
       - name: Create Release PR or Publish (Changesets)
         uses: changesets/action@v1

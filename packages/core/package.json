@@ -74,6 +74,10 @@
     }
   ],
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NodEm9/abimongo"
+  },
   "dependencies": {
     "@abimongo/logger": "workspace:*",
     "@babel/runtime": "^7.28.4",

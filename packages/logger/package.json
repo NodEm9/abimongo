@@ -16,9 +16,6 @@
   "browser": {
     "async_hooks": false
   },
-  "repository": {
-    "type": "git"
-  },
   "exports": {
     ".": {
       "import": "./dist/abimongo-logger.js",
@@ -59,6 +56,10 @@
   ],
   "license": "ISC",
   "description": "",
+    "repository": {
+    "type": "git",
+    "url": "https://github.com/NodEm9/abimongo"
+  },
   "devDependencies": {
     "@babel/core": "^7.28.5",
     "@babel/plugin-transform-modules-commonjs": "^7.27.1",

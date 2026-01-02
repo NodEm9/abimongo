@@ -133,6 +133,11 @@ jobs:
           echo "npm=$(npm -v)"
           echo "pnpm=$(pnpm -v)"
           ls -la .github/workflows || true
+      
+      - name: Verify repository fields before publish
+        run: |
+          node -p "require('./packages/create/package.json').repository"
+          cat ./packages/create/package.json | head -n 80
 
       - name: Create Release PR or Publish (Changesets)
         uses: changesets/action@v1

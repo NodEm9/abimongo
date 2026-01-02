@@ -47,6 +47,10 @@
   ],
   "license": "ISC",
   "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NodEm9/abimongo"
+  },
   "devDependencies": {
     "@docusaurus/core": "^3.9.2",
     "@docusaurus/plugin-content-docs": "^3.9.2",

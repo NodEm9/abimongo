@@ -111,9 +111,9 @@ jobs:
           echo "Clearing npm cache before publish"
           npm cache clean --force || true
           if [ "${{ github.event.inputs.package_manager }}" = "pnpm" ]; then
-            pnpm publish --access public ${2FACTOR_TOKEN:+--otp $NPM_2FACTOR_TOKEN }
+            pnpm publish --access public ${2FACTOR_TOKEN: $NPM_2FACTOR_TOKEN }
           else
-            npm publish --access public ${2FACTOR_TOKEN:+--otp $NPM_2FACTOR_TOKEN } 
+            npm publish --access public ${2FACTOR_TOKEN: $NPM_2FACTOR_TOKEN } 
           fi
         env:
           NPM_PASS_KEY: ${{ secrets.NPM_PASS_KEY }}

@@ -1,6 +1,6 @@
 {
   "name": "@abimongo/core",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "publishConfig": {
     "access": "public"
   },
@@ -52,8 +52,7 @@
     "docusaurus:deploy": "cd website && pnpm docusaurus deploy",
     "prepublishOnly": "pnpm run build",
     "prepack": "node ../../scripts/copy-splash-to-package.js && pnpm build",
-    "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks",
-    "postinstall": "node ../../scripts/postinstall-splash.js"
+    "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks"
   },
   "release": {
     "branches": [

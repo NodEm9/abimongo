@@ -1,6 +1,6 @@
 {
   "name": "@abimongo/logger",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "publishConfig": {
     "access": "public"
   },
@@ -40,8 +40,7 @@
     "clean": "rimraf dist",
     "prepublishOnly": "pnpm run build",
     "prepack": "pnpm build",
-    "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks",
-    "postinstall": "node ../../scripts/postinstall-splash.js"
+    "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks"
   },
   "keywords": [
     "abimongo",

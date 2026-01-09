@@ -8,19 +8,19 @@
   {
     "package": "@abimongo/cli",
     "week": 111,
-    "month": 133,
+    "month": 132,
     "year": 450
   },
   {
     "package": "@abimongo/logger",
     "week": 148,
-    "month": 167,
+    "month": 166,
     "year": 170
   },
   {
     "package": "@abimongo/create",
     "week": 228,
-    "month": 253,
+    "month": 252,
     "year": 681
   }
 ]

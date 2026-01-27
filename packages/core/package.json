@@ -2,7 +2,7 @@
   "name": "@abimongo/core",
   "version": "1.1.5",
   "publishConfig": {
-    "access": "public"
+    "provenance": false
   },
   "description": "Enterprise-grade MongoDB ORM built on the official MongoDB driver.",
   "main": "./dist/abimongo-core.js",

@@ -5,18 +5,18 @@ import "dotenv/config";
 
 
 export const dbConfig = {
-	uri: process.env.MONGO_URI!,
-	dbName: process.env.DB_NAME!,
-	collectionName: 'tenants',
+	uri: process.env.MONGO_URI || "mongodb://localhost:27017",
+	dbName: "abimongo",
+	collectionName: 'abimongo_tenants',
 	tenantId: {
 		'tenant-a': 'tenant-a',
 		'tenant-b': 'tenant-b',
 		'tenant-c': 'tenant-c',
 	},
 	tenantUri: {
-		'tenant-a': process.env.TENANT_A_URI!,
-		'tenant-b': process.env.TENANT_B_URI!,
-		'tenant-c': process.env.TENANT_C_URI!,
+		'tenant-a': "mongodb://localhost:27017/tenant-a",
+		'tenant-b': "mongodb://localhost:27017/tenant-b",
+		'tenant-c': "mongodb://localhost:27017/tenant-c",
 	}
 }
 
@@ -24,8 +24,8 @@ export async function dbDriver() {
 	try {
 
 		const tenants = dbConfig.tenantUri
-		Array.isArray(tenants) || console.error('Invalid tenant URIs configuration:', tenants);
-
+		const tArray = Array.isArray(tenants);
+		console.log(`Tenants Type: ${tArray}, Tenants: ${JSON.stringify(tenants)}`);
 		const clientDB = new AbimongoClient(process.env.MONGO_URI, {
 			dbName: dbConfig.dbName,
 			// logger: logger,

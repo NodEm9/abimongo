@@ -46,7 +46,11 @@ export * from './lib-core/bootstrap';
 export * from './config';
 export * from './redis-manager/redisClient';
 export * from './tanancy';
-export { applyMultiTenancy } from './tanancy/applyMultiTenancy';
+
+// This export is needed for adapter-types to avoid circular dependency issues
+// when both packages are used together. But it's optional
+export { createTenancyContext, resolveTenant } from "@abimongo/adapter-types";
+
 export * from './init-cli/generate.project';
 export * from './middleware'
 export * from './graphql';

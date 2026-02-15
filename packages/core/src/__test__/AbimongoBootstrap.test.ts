@@ -82,7 +82,7 @@ describe('AbimongoBootstrap', () => {
     (app as any).config = {
       multiTenant: { enabled: false }
     };
-    await expect(app.registerMultiTenancy({} as any, { 'tenant-a': 'uri' }, {})).rejects.toThrow('Multi-tenancy is not enabled in the configuration');
+    await expect(app.registerMultiTenancy({} as any, {} as any, { 'tenant-a': 'uri' }, {})).rejects.toThrow('Multi-tenancy is not enabled in the configuration');
   });
 
   it('throws error if tenantId is not provided in registerMultiTenancy', async () => {
@@ -105,7 +105,7 @@ describe('AbimongoBootstrap', () => {
     };
     const mockApply = jest.spyOn(require('../tanancy/applyMultiTenancy'), 'applyMultiTenancy').mockResolvedValue(undefined);
     // app.logger = { info: jest.fn() } as any;
-    await app.registerMultiTenancy({} as any, { 'tenant-a': 'uri' }, {});
+    await app.registerMultiTenancy({} as any, {} as any, { 'tenant-a': 'uri' }, {});
     expect(mockApply).toHaveBeenCalled();
     mockApply.mockRestore();
   });

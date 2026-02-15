@@ -15,3 +15,4 @@ export * from './eventOptions';
 export * from './time';
 export * from './modelLoader';
 export * from './generatedFolderAndFile';
+export * from './ensureRedis';

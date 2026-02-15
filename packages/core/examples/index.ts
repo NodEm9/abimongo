@@ -13,8 +13,9 @@ import { execute, subscribe } from 'graphql';
 import { SubscribePayload, ExecutionResult } from 'graphql-ws';
 // import { ExpressContextFunctionArgument, expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import { applyMultiTenancy } from '../src/tanancy/applyMultiTenancy'
+import { installTenancyExpress } from '../../adapter-express/src/applyMultiTenancy'
 import { getTenantModel } from '../src/tanancy/TenantModelResolver';
+import { createExpressAdapter } from '../../adapter-express/src/index';
 import { consoleTransport, MetricsTracker } from '@abimongo/logger';
 // import { logger } from './example-1/router';
 import { logger } from '../src/config';
@@ -64,57 +65,89 @@ trackerMetric.start(60000); // Track metrics every 60 seconds
 //handle Multi-tenancy registration and initialization
 const tenants = dbConfig.tenantUri;
 
+
+
 // const tenants = JSON.parse(JSON.stringify(initOps.tenants.tenant));
 export const applyMTenant = async () => {
 
-	// Use the applyMultiTenancy function to set up multi-tenancy
-	// with the specified options and the app instance.
-	return await applyMultiTenancy(app, tenants, {
+	const adapter = await createExpressAdapter(app)
+	adapter.name = 'express';
+	adapter.installTenancy(app, {
+		tenants,
 		headerKey: 'x-tenant-id',
 		initOptions: {
 			lazy: true,  // Lazy initialization of tenants
-			config: {
-				enabled: true,
-				logLevel: 'info', // Set the log level
-				useColor: true, // Enable colored logs
-				transports: [
-					{
-						write: async (message: string, level?: any, meta?: any[]): Promise<void> => {
-							console.log(message); // Log to console
-							return Promise.resolve();
-						},
-					},
-					consoleTransport(true),
-				], // Use console transport for logging
-				json: false, // Disable JSON format for logs,
-				formatOptions: {
-					// Customize the log format if needed
-					timestamp: true, // Include timestamp in logs
-					prefix: '[ABIMONGO]', // Prefix for log messages
-					source: 'abimongo', // Source of the logs
-					colorize: true, // Enable colors in logs
-					json: true
-				},
-				hooks: {
-					onLog: (entry) => {
-						if (entry.level === 'info') {
-							console.log(`[ALERT] ${entry.message}`);
-						}
-					},
-					onError: (error, context) => {
-						console.error('Logging error occurred:', error, context);
-					},
-				}
-				// Place valid AbimongoLoggerSettings properties here if needed
-			}
-		},
-	})
+		}
+	});
+
+	return adapter;
+	// return await abimongoExpress({
+	// 	header: 'x-tenant-id',
+	// 	cookie: 'tenant',
+	// 	param: 'tenantId',
+	// 	subdomain: false,
+	// 	jwtClaim: 'tenantId',
+	// 	fallback: 'tenant-a',
+	// })
+
+	// Install tenancy middleware
+	// return await installTenancyExpress(app, tenants, {
+	// 	tenancy: {
+	// 		header: 'x-tenant-id',
+	// 		fallback: 'tenant-a',
+	// 	},
+	// 	initOptions: {
+	// 		lazy: true,  // Lazy initialization of tenants
+	// 	},
+	// });
+
+	// Use the applyMultiTenancy function to set up multi-tenancy
+	// with the specified options and the app instance.
+	// return await applyMultiTenancy(app, tenants, {
+	// 	headerKey: 'x-tenant-id',
+	// 	initOptions: {
+	// 		lazy: true,  // Lazy initialization of tenants
+	// 		config: {
+	// 			enabled: true,
+	// 			logLevel: 'info', // Set the log level
+	// 			useColor: true, // Enable colored logs
+	// 			transports: [
+	// 				{
+	// 					write: async (message: string, level?: any, meta?: any[]): Promise<void> => {
+	// 						console.log(message); // Log to console
+	// 						return Promise.resolve();
+	// 					},
+	// 				},
+	// 				consoleTransport(true),
+	// 			], // Use console transport for logging
+	// 			json: false, // Disable JSON format for logs,
+	// 			formatOptions: {
+	// 				// Customize the log format if needed
+	// 				timestamp: true, // Include timestamp in logs
+	// 				prefix: '[ABIMONGO]', // Prefix for log messages
+	// 				source: 'abimongo', // Source of the logs
+	// 				colorize: true, // Enable colors in logs
+	// 				json: true
+	// 			},
+	// 			hooks: {
+	// 				onLog: (entry) => {
+	// 					if (entry.level === 'info') {
+	// 						console.log(`[ALERT] ${entry.message}`);
+	// 					}
+	// 				},
+	// 				onError: (error, context) => {
+	// 					console.error('Logging error occurred:', error, context);
+	// 				},
+	// 			}
+	// 			// Place valid AbimongoLoggerSettings properties here if needed
+	// 		}
+	// 	},
+	// })
 }
 
 
-applyMTenant().then((tenants) => {
-	console.info(`Multi-tenancy applied successfully! Tenants: ${Object.keys(dbConfig.tenantUri).join(', ')} `,);
-	return tenants;
+applyMTenant().then(() => {
+	console.info(`Registerd tenants successfully! Tenants: ${Object.keys(dbConfig.tenantUri).join(', ')} `,);
 }).catch((err: any) => {
 	console.log('Failed to register Tenants', err);
 	process.exit(1)

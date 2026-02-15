@@ -14,6 +14,7 @@ import { logger } from '../../src/config';
 
 import { AbimongoGC } from '../../src/gc/AbimongoGC';
 
+import { abimongoExpress } from '../../../adapter-express/src/index'
 
 const httpServer = createServer(express());
 
@@ -50,7 +51,7 @@ const main = async () => {
 		softDelete: true,
 		archiveBeforeDelete: true,
 	});
-	
+
 	// schema.customResolvers(
 	// 	`
 	// 	type Query {

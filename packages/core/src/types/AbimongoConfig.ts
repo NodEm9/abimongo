@@ -33,8 +33,7 @@ export interface AbimongoConfig {
     enabled?: boolean,
     headerKey?: "x-tenant-id",
     tenants?: {
-      "tenant-a": "mongodb://localhost:27017/tenant-a",
-      "tenant-b": "mongodb://localhost:27017/tenant-b"
+      "example@abimongo.com": "mongodb://localhost:27017/abimongo",
     },
     initOptions?: InitMultiTenancyOptions
   };
@@ -45,7 +44,7 @@ export interface AbimongoConfig {
     playground?: boolean;
     schemaOutputPath?: string;
   };
-  features?: { 
+  features?: {
     models?: string;
     schemas?: string;
     typeDefs?: string;
@@ -87,8 +86,7 @@ export interface ProjectOptions {
     enabled?: boolean,
     headerKey?: "x-tenant-id",
     tenants?: {
-      "tenant-a": "mongodb://localhost:27017/tenant-a",
-      "tenant-b": "mongodb://localhost:27017/tenant-b"
+      "example@abimongo.com": "mongodb://localhost:27017/abimongo",
     },
     initOptions?: InitMultiTenancyOptions
   };

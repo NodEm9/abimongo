@@ -23,13 +23,18 @@ import { AbimongoSchema } from './AbimongoSchema';
 import { AbiMongoError } from '../utils/error/abimongoError-handler';
 import { ErrorType } from '../utils/error/errorTypes';
 import { AbimongoClient } from './AbimongoClient'
-import { castId, DB_CHANGE_EVENT, AbimongoModelRegistry } from '../utils';
 import { ObjectId } from 'mongodb';
 import EventEmitter from 'events';
 import { PubSub } from "graphql-subscriptions";
 import { MultiTenantManager } from '../tanancy/MultiTenantManager';
 import { redis } from '../redis-manager/redisClient';
 import { getGCSettings } from '../decorators/gcSettings';
+import {
+  castId,
+  DB_CHANGE_EVENT,
+  AbimongoModelRegistry,
+  ensureRedis
+} from '../utils';
 
 
 const pubsub = new PubSub();
@@ -511,11 +516,11 @@ export class AbimongoModel<T extends Document> {
    * @returns {Promise<any>} The cached result or `null` if not found.
    */
   async findCached(key: string): Promise<any> {
-    const result = await redis.get(key);
+    const result = await ensureRedis.call(key);
 
     if (result) {
       await AbimongoModel.trackCacheHit(key);
-      return JSON.parse(result);
+      return result;
     } else {
       await AbimongoModel.trackCacheMiss(key);
       return null;
@@ -530,12 +535,12 @@ export class AbimongoModel<T extends Document> {
    * @returns {Promise<void>} Resolves when the data is cached.
    */
   static async cacheResult(key: string, data: any, ttl = 3600): Promise<void> {
-    if (!key || typeof key !== 'string') {
-      throw new Error('Cache key must be a non-empty string');
-    }
+    // if (!key || typeof key !== 'string') {
+    //   throw new Error('Cache key must be a non-empty string');
+    // }
 
     try {
-      await redis.setEx(key, ttl, JSON.stringify(data));
+      await redis.set(key, data, ttl);
     } catch (error) {
       console.error('Error caching result:', error);
       throw new Error(`Failed to cache result for key "${key}": ${error}`);

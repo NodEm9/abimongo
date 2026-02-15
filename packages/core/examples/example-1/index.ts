@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import {AbimongoClient, AbimongoModel,AbimongoSchema } from "../../src/lib-core";
+import { AbimongoClient, AbimongoModel, AbimongoSchema } from "../../src/lib-core";
 import { dbDriver, dbConfig } from "../dbConfig";
 import { Document } from "../../src/types";
 import { createSchema } from "../../src/utils"
@@ -196,12 +196,12 @@ export async function main(data: User) {
     //     // client: db.client,
     //   });
     const UserModel = new AbimongoModel<User>({
-        collectionName: userCollection.collectionName,
-        schema: userSchema,
-        tenantId: dbConfig.tenantId['tenant-a'],
-        db: tenantDb.db,
-        client: db.client,
-      });
+      collectionName: userCollection.collectionName,
+      schema: userSchema,
+      tenantId: dbConfig.tenantId['tenant-a'],
+      db: tenantDb.db,
+      client: db.client,
+    });
     if (!UserModel) {
       return console.error('Model Error: User not created');
     };
@@ -240,8 +240,11 @@ export async function main(data: User) {
     if (!usersUpdate) return
     console.log('User Update:', usersUpdate);
 
-    const fetchCachedData = await UserModel.findCached(`${newUser._id}`);
+    const fetchCachedData = await UserModel.findCached(newUser._id!);
     console.log('Cached User:', fetchCachedData);
+
+    // const cacheData = await AbimongoModel.cacheResult(newUser._id!, { ...newUser }, 120); // Cache for 120 seconds
+    // console.log('Cache Data Set:', JSON.stringify(cacheData));
 
     // Delete a user
     // await UserModel.deleteOne({ _id: newUser._id });
@@ -254,7 +257,7 @@ export async function main(data: User) {
 
   // Disconnect from the database
   // await db.disconnect();
-
+  await db.close();
 }
 
 

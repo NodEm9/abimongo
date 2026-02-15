@@ -54,7 +54,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 		public _options?: AbimongoClientOptions,
 	) {
 		this._uri = this.uri = AbimongoClient.defaultUri;
-		this._dbName = this._options?.dbName ? this._db?.databaseName : this._dbName || process.env.DB_NAME || 'abimongo_default_db';
+		this._dbName = this._options?.dbName ? this._dbName : this._db?.databaseName || process.env.DB_NAME || 'abimongo_default_db';
 		this._options = _options || {};
 
 		// const MongoClient = (await import('mongodb')).MongoClient;

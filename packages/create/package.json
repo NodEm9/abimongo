@@ -6,7 +6,7 @@
   },
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/bin/abimongo_create.d.ts",
   "bin": {
     "abimongo-create": "./dist/index.js"
   },
@@ -18,8 +18,8 @@
   ],
   "exports": {
     ".": {
-      "require": "./dist/bin/abimongo_create.js",
-      "import": "./dist/bin/abimongo_create.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.js",
       "types": "./dist/bin/abimongo_create.d.ts"
     },
     "./package.json": "./package.json"
@@ -63,10 +63,10 @@
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "ts-loader": "^9.5.4",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
-    "webpack": "^5.104.1",
-    "webpack-cli": "^6.0.1"
+    "ts-node": "10.9.2",
+    "typescript": "5.9.3",
+    "webpack": "5.104.1",
+    "webpack-cli": "6.0.1"
   },
   "dependencies": {
     "@abimongo/logger": "workspace:*",

@@ -1,0 +1,41 @@
+{
+  "name": "@abimongo/adapter-koa",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json",
+    "changeset": "pnpm run changeset",
+    "release": "pnpm changeset version",
+    "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.20.0",
+  "dependencies": {
+    "@abimongo/adapter-types": "workspace:*",
+    "@abimongo/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "koa": ">=2.13.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^3.0.1",
+    "typescript": "^5.9.3"
+  }
+}

@@ -8,7 +8,7 @@
   {
     "id": "snapshot_ts",
     "label": "Snapshot Timestamp",
-    "value": "2026-02-28T02:49:44.490Z"
+    "value": "2026-03-01T03:05:09.276Z"
   },
   {
     "id": "npm:@abimongo/core:week",
@@ -18,7 +18,7 @@
   {
     "id": "npm:@abimongo/core:month",
     "label": "@abimongo/core - last month",
-    "value": 27
+    "value": 24
   },
   {
     "id": "npm:@abimongo/core:year",
@@ -33,7 +33,7 @@
   {
     "id": "npm:@abimongo/cli:month",
     "label": "@abimongo/cli - last month",
-    "value": 22
+    "value": 20
   },
   {
     "id": "npm:@abimongo/cli:year",
@@ -48,7 +48,7 @@
   {
     "id": "npm:@abimongo/logger:month",
     "label": "@abimongo/logger - last month",
-    "value": 29
+    "value": 24
   },
   {
     "id": "npm:@abimongo/logger:year",
@@ -63,7 +63,7 @@
   {
     "id": "npm:@abimongo/create:month",
     "label": "@abimongo/create - last month",
-    "value": 32
+    "value": 30
   },
   {
     "id": "npm:@abimongo/create:year",

@@ -2,7 +2,7 @@
   {
     "package": "@abimongo/core",
     "week": 1,
-    "month": 13,
+    "month": 12,
     "year": 185
   },
   {
@@ -14,13 +14,13 @@
   {
     "package": "@abimongo/logger",
     "week": 5,
-    "month": 18,
+    "month": 17,
     "year": 220
   },
   {
     "package": "@abimongo/create",
     "week": 1,
-    "month": 23,
+    "month": 22,
     "year": 741
   }
 ]

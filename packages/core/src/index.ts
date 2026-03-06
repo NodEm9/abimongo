@@ -1,7 +1,7 @@
 /**
  * @author Emmanuel Nodolomwanyi - Abimongo Team
  * @package - @abimongo/core
- * @version 1.1.3
+ * @version 1.1.5
  */
 
 /**

@@ -78,8 +78,8 @@
     "url": "https://github.com/NodEm9/abimongo"
   },
   "dependencies": {
-    "@abimongo/adapter-types": "workspace:*",
-    "@abimongo/logger": "workspace:*",
+    "@abimongo/adapter-types": "file:../adapter-types",
+    "@abimongo/logger": "file:../logger",
     "@babel/runtime": "7.28.4",
     "commander": "14.0.2",
     "fs-extra": "11.3.3",

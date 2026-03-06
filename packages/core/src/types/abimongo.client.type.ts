@@ -20,7 +20,11 @@ export interface AbimongoClientConfig {
 	/**
 	 * An optional MongoClient instance.
 	 */
-	client?: MongoClient;
+	tenantResolver?: TenantClientResolver; // optional
+}
+
+export interface TenantClientResolver {
+	getClient(tenantId: string): Promise<MongoClient | null>;
 }
 
 /**

@@ -3,17 +3,19 @@ import { AbimongoClient, AbimongoModel, AbimongoSchema } from "../../src/lib-cor
 import { dbDriver, dbConfig } from "../dbConfig";
 import { Document } from "../../src/types";
 import { createSchema } from "../../src/utils"
-import { createModel } from "../../src/utils";
+import { Model } from "../../src/utils";
 import { logger } from '../../src/config';
 import { gc } from '../index';
 import { GCSettings } from '../../src/decorators/gcSettings';
+import { DbProvider } from '../../src/types/db.provider';
+import { Db } from 'mongodb';
 
 export interface User extends Document {
   _id?: string;
   name: string;
   email: string;
   contact: string;
-  tenantId: string;
+  tenantId?: string;
 }
 
 export interface PostDocument extends Document {
@@ -30,7 +32,7 @@ export const userSchema = createSchema<User>({
   name: { type: 'string', required: true },
   email: { type: 'string', required: true },
   contact: { type: 'string', required: true },
-  tenantId: { type: 'string', required: true },
+  tenantId: { type: 'string', required: false },
 }).setGCConfig({
   ttlField: 'createdAt',
   expiresIn: '1m', // 1 minute
@@ -64,17 +66,7 @@ export const postSchema = new AbimongoSchema<PostDocument>({
 });
 
 
-@GCSettings({ ttl: 60 }) // <-- Apply TTL of 60 seconds
-export class UserSchema extends AbimongoSchema<User> {
-  constructor() {
-    super({
-      name: { type: 'string', required: true },
-      email: { type: 'string', required: true },
-      deletedAt: { type: 'date', default: null },
-    });
-  }
-}
-
+// @GCSettings( { ttl: 60 }) // <-- Apply TTL of 60 seconds
 // export class UserSchema extends AbimongoSchema<User> {
 //   constructor() {
 //     super({
@@ -82,13 +74,23 @@ export class UserSchema extends AbimongoSchema<User> {
 //       email: { type: 'string', required: true },
 //       deletedAt: { type: 'date', default: null },
 //     });
-//     this.setGCConfig({
-//       ttlField: 'deletedAt',
-//       expiresIn: '60s', // 60 seconds
-//       softDelete: true
-//     });
 //   }
 // }
+
+export class UserSchema extends AbimongoSchema<User> {
+  constructor() {
+    super({
+      name: { type: 'string', required: true },
+      email: { type: 'string', required: true },
+      deletedAt: { type: 'date', default: null },
+    });
+    this.setGCConfig({
+      ttlField: 'deletedAt',
+      expiresIn: '60s', // 60 seconds
+      softDelete: true
+    });
+  }
+}
 
 
 // ';
@@ -97,41 +99,45 @@ export class UserSchema extends AbimongoSchema<User> {
 // const mongoUri = 'mongodb://localhost:27017/testdb';
 
 async function setup() {
-  await dbDriver();
-  const db = AbimongoClient.getTenantDB('test-tenant');
-  // const schema = new UserSchema();
-  const schema = postSchema
+  // await dbDriver();
+  const db = await dbDriver();
+  // AbimongoClient.getTenantDB('test-tenant');
+  const schema = new UserSchema();
+  // const schema = postSchema
   return new AbimongoModel({
-    collectionName: 'posts',
+    collectionName: 'users',
     schema,
-    db,
+    provider: db
+    // resolveDb: db
     // tenantId: dbConfig.tenantId['tenant-a'],
   });
 }
 
 (async () => {
-  // const userModel = await setup();
+  const userModel = await setup();
   const postModel = await setup();
 
   // Insert a user marked as deleted more than 1 minute ago
-  // await userModel.create({
-  //   name: 'John Doe',
-  //   email: 'john@example.com',
-  //   deletedAt: new Date(Date.now() - 1000 * 120), // 2 minutes ago
-  // });
-
-  const post = await postModel.create({
-    title: 'My First Post',
-    content: 'This is the content of my first post.',
-    createdAt: new Date(),
-    deletedAt: new Date(Date.now() + 1000 * 120), // 2 minutes ago
+  await userModel.create({
+    name: 'John Doe',
+    email: 'john@example.com',
+    contact: '1234567890',
+    tenantId: dbConfig.tenantId['tenant-a'],
+    deletedAt: new Date(Date.now() - 1000 * 120), // 2 minutes ago
   });
+
+  // const post = await postModel.create({
+  //   title: 'My First Post',
+  //   content: 'This is the content of my first post.',
+  //   createdAt: new Date(),
+  //   deletedAt: new Date(Date.now() + 1000 * 120), // 2 minutes ago
+  // });
 
   logger?.info('[Test] Inserted expired soft-deleted user');
 
   // Run GC
-  // const result = await userModel.startAutoGC();
-  const result = await postModel.startAutoGC();
+  const result = await userModel.startAutoGC();
+  // const result = await postModel.startAutoGC();
   console.log('[Test] GC Result:', result);
 
   // const remaining = await userModel.find();
@@ -151,10 +157,10 @@ async function setup() {
 
 
 export async function main(data: User) {
-  const db = await dbDriver();
+  const client = await dbDriver();
   try {
     // const tenantId = 'tenantId123';
-    const userCollection = db.getCollection<User>('users');
+    const userCollection = client.getCollection<User>('users');
     // const tenantDB = await connectToTenantDB(tenantId);
     // const tenantDB2 = await AbimongoClient.getTenantDB(tenantId);
     // const tenantDB = await connectToTenantDB(`${db.db?.databaseName}`);
@@ -184,7 +190,7 @@ export async function main(data: User) {
     // }
     // console.log('New Post:', newPost);
 
-    const tenantDb = await db.useDatabase(`${db.db?.databaseName}`);
+    const tenantDb = await client.useDatabase(`${(await client.db())?.databaseName}`);
 
     // Create a model for the user collection
     // const UserModel =
@@ -198,9 +204,9 @@ export async function main(data: User) {
     const UserModel = new AbimongoModel<User>({
       collectionName: userCollection.collectionName,
       schema: userSchema,
-      tenantId: dbConfig.tenantId['tenant-a'],
-      db: tenantDb.db,
-      client: db.client,
+      provider: client
+      // ctx: { tenantId: dbConfig.tenantId['tenant-a'] },
+      // resolveDb: client
     });
     if (!UserModel) {
       return console.error('Model Error: User not created');
@@ -213,8 +219,9 @@ export async function main(data: User) {
       name: data.name,
       email: data.email,
       contact: data.contact,
-      tenantId: data.tenantId,
+      // tenantId: data.tenantId,
     });
+
     if (!newUser) {
       console.error('User not created: Check your data and schema');
       return;
@@ -257,19 +264,18 @@ export async function main(data: User) {
 
   // Disconnect from the database
   // await db.disconnect();
-  await db.close();
+  await client.close();
 }
 
 
 export const getUsers = async () => {
   const db = await dbDriver();
   const userCollection = db.getCollection<User>('users');
-  const tenantDb = await db.useDatabase(`${db.db?.databaseName}`);
-  const UserModel = await createModel<User>({
-    name: userCollection.collectionName,
+  const tenantDb = await db.useDatabase(`${(await db.db())?.databaseName}`);
+  const UserModel = await Model<User>({
+    collectionName: userCollection.collectionName,
     schema: userSchema,
-    tenantId: dbConfig.tenantId['tenant-a'],
-    db: tenantDb.db,
+ 
   });
 
   const users = await UserModel.find({});

@@ -24,7 +24,7 @@ import { AbimongoGC } from '../src/gc/AbimongoGC';
 import { bufferedTransporter, lokiTransport } from '../src';
 // import {createLogger} from '../src/loggers/createLogger';
 import { MultiTenantManager } from '../src';
-import { elasticTransport } from '../dist';
+// import { elasticTransport } from '../dist';
 dbDriver()
 
 // const logger = setupLogger(abimongoConfig['./logs/debug.log']);
@@ -194,9 +194,9 @@ app.post('/user', async (req, res) => {
 	const userCollection = users.getCollection<UserType>('users');
 	// // const profileData: Profile = req.body;
 	const tenantModel = await getTenantModel({
-		modelName: userCollection.collectionName,
+		collectionName: userCollection.collectionName || 'users',
 		schema: userSchema,
-		tenantId: dbConfig.tenantId['tenant-a']!,
+		tenantId: tenantId,
 	});
 	if (tenantId.length) {
 		logger.info(`Creating user for tenant: ${tenantId.toLowerCase()}`);
@@ -222,9 +222,9 @@ app.post('/post', async (req, res) => {
 	const tenanaId = req.headers['x-tenant-id'] as string;
 	const data = req.body;
 	const tenantModel = await getTenantModel({
-		modelName: 'posts',
+		collectionName: 'posts',
 		schema: postSchema,
-		tenantId: dbConfig.tenantId['tenant-a']!,
+		tenantId: tenanaId,
 	});
 	console.info('Tenant model:', tenantModel.name);
 	if (!tenantModel) {

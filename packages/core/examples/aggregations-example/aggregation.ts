@@ -1,9 +1,13 @@
 import { dbConfig, dbDriver } from "../dbConfig";
-import {createModel, createSchema, castId } from "../../src/utils";
+import { Model, createSchema, castId } from "../../src/utils";
 import { AbimongoClient, AbimongoModel, AbimongoSchema } from "../../src/lib-core";
-import { Document, SchemaType } from "../../src/types";
+import {
+	Document,
+	SchemaType,
+	ModelContext
+} from "../../src/types";
 import { ObjectId } from "mongodb";
-import { applyMultiTenancy } from "../../src/tanancy/applyMultiTenancy";
+// import { applyMultiTenancy } from "../../src/tanancy/applyMultiTenancy";
 import express from 'express';
 import { applyMTenant } from "../index";
 
@@ -50,26 +54,27 @@ export async function main() {
 	const orderCollection = db.getCollection<OrderDocument>('posts');
 	// const commentCollection = db.getCollection<CommentDocument>('comments');
 
-	const { db: tenantDB, client: tenantClient } = await AbimongoClient.getDatabase(dbConfig.tenantId["tenant-a"]!, process.env.MONGO_URI!);
+	const ctx: ModelContext = {}; // Use the tenant ID from config
+
+	const { db: tenantDB, client: tenantClient } = await AbimongoClient.getDatabase({ tenantId: ctx.tenantId }, process.env.MONGO_URI!);
 
 
 	// Add relationship to the post schema
 	orderSchema.addRelationship('comments', 'postId');
 
 	// Initialize models
-	const userModel = createModel<UserDocument>({
+	const userModel = Model<UserDocument>({
 		name: `${userCollection.collectionName}`, // Use the tenant-specific collection name
 		schema: userSchema,
 		db: tenantDB,
-		tenantId: dbConfig.tenantId["tenant-a"],
-
+		tenantId: ctx.tenantId,
 	});
 
 	const orderModel = new AbimongoModel<OrderDocument>({
-		db: tenantDB, // Use the tenantDB for tenant-specific collections
 		collectionName: `${orderCollection.collectionName}`, // Use the tenant-specific collection name
 		schema: orderSchema,
-		tenantId: dbConfig.tenantId["tenant-a"],
+		ctx: { tenantId: ctx.tenantId }, // Use the tenant ID from config
+		resolveDb: db,
 		client: tenantClient,
 	});
 

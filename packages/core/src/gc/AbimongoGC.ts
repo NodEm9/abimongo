@@ -101,15 +101,15 @@ export class AbimongoGC {
 	async runOnce() {
 		const dbs = await AbimongoClient.getAllTenantDBs();
 		for (const db of dbs) {
-			const collections = await db.listCollections().toArray();
+			const collections = await (await db.db()).listCollections().toArray();
 			for (const { name } of collections) {
-				const model = AbimongoClient.getRegisteredModel(db.databaseName, name);
+				const model = AbimongoClient.getRegisteredModel((await db.db()).databaseName, name);
 				if (!model?.schema) continue;
 
 				const gcConfig = model.schema.getGCConfig?.();
 				if (!gcConfig) continue;
 
-				await this.cleanup(model.db.collection(name), gcConfig);
+				await this.cleanup((await model.db.db()).collection(name), gcConfig);
 			}
 		}
 	}

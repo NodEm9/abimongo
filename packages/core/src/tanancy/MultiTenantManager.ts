@@ -2,6 +2,9 @@
 import { MongoClient } from 'mongodb';
 import { NoOpLogger, ILogger } from '../types';
 
+export interface TenantClientProvider {
+  getClient(tenantId: string): Promise<MongoClient | undefined>;
+}
 
 
 /**
@@ -12,7 +15,7 @@ export class MultiTenantManager {
   private static clients: Map<string, MongoClient> = new Map();
   private static lazyURIs: Map<string, string> = new Map();
 
-  constructor() {}
+  constructor() { }
 
   /**
    * Checks if a tenant is already registered.
@@ -85,5 +88,9 @@ export class MultiTenantManager {
 
   static getAllConnectedTenants(): string[] {
     return Array.from(this.clients.keys());
+  }
+
+  static isEnabled(): boolean {
+    return this.clients.size > 0 || this.lazyURIs.size > 0;
   }
 }

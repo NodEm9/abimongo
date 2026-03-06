@@ -6,7 +6,7 @@ import "dotenv/config";
 
 export const dbConfig = {
 	uri: process.env.MONGO_URI || "mongodb://localhost:27017",
-	dbName: "abimongo",
+	dbName: process.env.DB_NAME || "abimongo",
 	collectionName: 'abimongo_tenants',
 	tenantId: {
 		'tenant-a': 'tenant-a',
@@ -26,9 +26,10 @@ export async function dbDriver() {
 		const tenants = dbConfig.tenantUri
 		const tArray = Array.isArray(tenants);
 		console.log(`Tenants Type: ${tArray}, Tenants: ${JSON.stringify(tenants)}`);
-		const clientDB = new AbimongoClient(process.env.MONGO_URI, {
-			dbName: dbConfig.dbName,
-			// logger: logger,
+
+		const clientDB = AbimongoClient.init({
+			uri: dbConfig.uri,
+			options: { dbName: dbConfig.dbName },
 		});
 
 		//  const dbName = await abimongo.useDatabase(dbConfig.dbName);
@@ -38,7 +39,7 @@ export async function dbDriver() {
 
 		await clientDB.connect();
 
-		console.log(`Connected to database: ${[JSON.stringify(clientDB.db.databaseName)]}`);
+		console.log(`Connected to database: ${[JSON.stringify((await clientDB.db()).databaseName)]}`);
 		return clientDB;
 
 	} catch (err: any) {

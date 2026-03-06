@@ -1,4 +1,4 @@
-import { Collection, Db, MongoClient } from "mongodb";
+import { Collection, Db } from "mongodb";
 import { AbimongoClient, AbimongoSchema } from "../lib-core";
 import { Document } from "./document";
 import { DbProvider } from "./db.provider";

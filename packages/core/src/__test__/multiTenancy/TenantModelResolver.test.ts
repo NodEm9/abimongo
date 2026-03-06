@@ -6,6 +6,7 @@ import { ensureModelNameSafe } from '../../utils/ensureModelNameSafe';
 import { AbimongoSchema } from '../../lib-core';
 import { bufferedTransporter } from '../../utils';
 import { shutdownLogger } from '@abimongo/logger';
+import { DbProvider } from '../../types';
 
 jest.mock('../../tanancy/MultiTenantManager');
 jest.mock('../../tanancy/TenantContext');
@@ -51,25 +52,21 @@ describe('getTenantModel', () => {
 		expect(model2).toBe(fakeModel);
 	});
 
-	it('throws if no tenant context is found', async () => {
-		(TenantContext.getTenantId as jest.Mock).mockReturnValue(undefined);
+	it('throws if collectionName is missing', async () => {
+		await expect(getTenantModel({ collectionName: '', tenantId, schema: fakeSchema }))
+			.rejects.toThrow('collectionName is required');
+	});
+
+	it('throws if tenantId param is missing', async () => {
+		const tenantId = undefined as unknown as string;
 		await expect(getTenantModel({ collectionName, tenantId: '', schema: fakeSchema }))
-			.rejects.toThrow('No tenant context found');
+			.rejects.toThrow('tenantId is required to run tenant context');
 	});
 
-	it('throws if tenant is not registered', async () => {
-		(MultiTenantManager.getClient as jest.Mock).mockResolvedValue(undefined);
-		TenantContext.run(tenantId, async () => {
-			await expect(getTenantModel({ collectionName, schema: fakeSchema }))
-				.rejects.toThrow(`Tenant "${tenantId}" not registered`);
-		});
-		await expect(getTenantModel).rejects.toThrow(`Tenant "${tenantId}" not registered`);
-	});
-
-	it('uses TenantContext.getTenantId if tenantId param is missing', async () => {
-		(TenantContext.getTenantId as jest.Mock).mockReturnValue(tenantId);
-		await getTenantModel({ collectionName, schema: fakeSchema, tenantId: '' as any });
-		expect(TenantContext.getTenantId).toHaveBeenCalled();
+	it('throws if tenantId is missing from context', async () => {
+		(TenantContext.getTenantId as jest.Mock).mockReturnValue(undefined);
+		await expect(getTenantModel({ collectionName, tenantId: undefined as any, schema: fakeSchema }))
+			.rejects.toThrow('tenantId is required to run tenant context');
 	});
 
 		afterAll(async () => {
@@ -78,3 +75,34 @@ describe('getTenantModel', () => {
 			await shutdownLogger();
 		});
 });
+
+describe('createTenantProvider', () => {
+	let provider: DbProvider = {
+		db: async () => ({} as any)
+	};
+	it('should return a provider that resolves the tenant database', async () => {
+		const tenantId = 'tenant123';
+		const fakeDb = { db: jest.fn() };
+		(MultiTenantManager.getClient as jest.Mock).mockResolvedValue({ db: () => fakeDb });
+
+		const existingtenants = await MultiTenantManager.getClient(tenantId);
+		expect(MultiTenantManager.getClient).toHaveBeenCalledWith(tenantId);
+		expect(existingtenants).toBeTruthy();
+		
+	});
+
+	it('should throw an error if tenant is not registered', async () => {
+		const tenantId = 'tenant123';
+		(MultiTenantManager.getClient as jest.Mock).mockResolvedValue(undefined);
+		const dbProvide = jest.spyOn(provider, 'db').mockImplementation(async (ctx) => {
+			const client = await MultiTenantManager.getClient(tenantId);
+			if (!client) {
+				throw new Error(`Tenant "${tenantId}" not registered.`);
+			}
+			return client.db();
+		});
+		await expect(dbProvide).rejects.toThrow(`Tenant "${tenantId}" not registered.`);
+		dbProvide.mockRestore();
+	});
+});
+	

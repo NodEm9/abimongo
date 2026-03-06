@@ -3,6 +3,9 @@ import { InitMultiTenancyOptions } from '../tanancy/init/initMultiTenancy';
 import { AbimongoModelOptions } from './abimongo.mode.type';
 import { SchemaDefinition } from './schema.type';
 import { Document } from './document';
+import { DbProvider } from './db.provider';
+import { AbimongoClient } from '../lib-core';
+import { BootstrapClient } from './bootstrapClient.type';
 
 
 export interface AbimongoLoggerSettings extends LoggerConfig {
@@ -26,7 +29,12 @@ export interface AbimongoLoggerSettings extends LoggerConfig {
 
 export interface AbimongoConfig {
   projectName?: string;
-  mongoUri?: string;
+  provider?: BootstrapClient;
+  mongoClient?: BootstrapClient;
+  connection?: {
+    uri: string;
+    options?: any;
+  };
   model?: AbimongoModelOptions;
   schema?: SchemaDefinition<Document>
   multiTenant?: {
@@ -79,7 +87,12 @@ export interface AbimongoConfigFile {
 
 export interface ProjectOptions {
   projectName?: string;
-  mongoUri?: string;
+  provider?: BootstrapClient;
+  mongoClient?: BootstrapClient;
+  connection?: {
+    uri: string;
+    options?: any;
+  };
   model?: AbimongoModelOptions;
   schema?: SchemaDefinition<Document>;
   multiTenant?: {

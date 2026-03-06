@@ -14,19 +14,22 @@ import {
   ChangeStream,
   BulkWriteOptions,
   BulkWriteResult,
+  ObjectId,
 } from 'mongodb';
+import type { WithId } from 'mongodb';
 import {
   User,
   Document,
   AbimongoModelOptions,
   EventType,
   DbProvider,
+  ModelResult,
+  ModelResultArray,
 } from '../types';
 import { AbimongoSchema } from './AbimongoSchema';
 import { AbiMongoError } from '../utils/error/abimongoError-handler';
 import { ErrorType } from '../utils/error/errorTypes';
 import { Abimongo } from './AbimongoClient'
-import { ObjectId } from 'mongodb';
 import EventEmitter from 'events';
 import { PubSub } from "graphql-subscriptions";
 import { MultiTenantManager } from '../tanancy/MultiTenantManager';
@@ -127,12 +130,6 @@ export class AbimongoModel<T extends Document> {
 
     this.ensureConfigured();
 
-    // if (!this._provider || typeof this._provider.db !== "function") {
-    //   throw new Error(
-    //     "AbimongoModel: provider is invalid. Expected a DbProvider with a db(ctx) method."
-    //   );
-    // }
-
     const db = await this._provider.db(this.resolveCtx(ctx));
 
     if (!db || typeof (db as any).collection !== "function") {
@@ -200,7 +197,6 @@ export class AbimongoModel<T extends Document> {
       if (!this._collectionName) throw new Error("AbimongoModel: collectionName not set.");
       // Ensure schema exists
       if (!this._schema) this._schema = this.schema ?? new AbimongoSchema<T>({} as Record<keyof T, any>);
-
 
       // Initialize middleware hooks once
       this.initMiddleware?.();
@@ -333,25 +329,43 @@ export class AbimongoModel<T extends Document> {
    * @param {OptionalUnlessRequiredId<T>} doc - The document to create.
    * @returns {Promise<T>} The created document with its `_id`.
    */
-  async create(doc: OptionalUnlessRequiredId<T>, ctx?: ModelContext): Promise<T> {
+  async create(
+    doc: OptionalUnlessRequiredId<T>,
+    ctx?: ModelContext
+  ): Promise<ModelResult<T>> {
     await this.init();
     this.validate(doc);
 
-    await this.schema.executeHooks('pre-save', doc);
-    this.schema.validate(doc);
+    await this._schema.executeHooks('pre-save', doc);
+    this._schema.validate(doc);
 
     const col = await this.getCollection(ctx);
-    const result = await col.insertOne(doc, ctx?.session ? { session: ctx.session } : undefined);
+    const resolvedCtx = this.resolveCtx(ctx);
 
-    await this._schema.executeHooks("post-save", doc);
+    const result = await col.insertOne(
+      doc,
+      resolvedCtx?.session ? { session: resolvedCtx.session } : undefined
+    );
+
+    const createdDoc = { ...doc, _id: result?.insertedId } as WithId<T>;
+
+    await this.schema.executeHooks("post-save", createdDoc);
+
+    const payload = this.toModelResult(createdDoc);
 
     // Use collection name string for event key, not the collection object
     await pubsub.publish(
       `${DB_CHANGE_EVENT}_${this._collectionName}`,
-      JSON.stringify({ documentInserted: { action: "create", doc } })
+      JSON.stringify({
+        documentInserted: {
+          action: "create",
+          doc: payload
+        }
+      })
     );
 
-    return { ...doc, _id: result.insertedId } as T;
+  
+    return payload as ModelResult<T>;
   }
 
   /**
@@ -359,18 +373,17 @@ export class AbimongoModel<T extends Document> {
    * @param {Filter<T>} [filter={}] - The filter to apply.
    * @returns {Promise<T[]>} An array of matching documents.
    */
-  async find(filter: Filter<T> = {}, ctx?: ModelContext): Promise<T[]> {
+  async find(
+    filter: Filter<T> = {},
+    ctx?: ModelContext
+  ): Promise<ModelResultArray<T>> {
     await this.init();
 
     const col = await this.getCollection(ctx);
     const cursor = col.find(filter, ctx?.session ? { session: ctx.session } : undefined);
 
     const results = await cursor.toArray();
-    return results?.length
-      ? results.map(r => (
-        { ...r, _id: r._id.toString() } as T & { _id: string } // Convert ObjectId to string
-      ))
-      : [] as T[];
+    return this.toModelResults(results as WithId<T>[]);
   }
 
   /**
@@ -451,8 +464,8 @@ export class AbimongoModel<T extends Document> {
    */
   private initMiddleware() {
     if (!this._schema) return;
-    this.schema.pre('save', async (doc: OptionalUnlessRequiredId<T>) => {
-      const relationships = this.schema.getRelationships();
+    this._schema.pre('pre-save', async (doc: OptionalUnlessRequiredId<T>) => {
+      const relationships = this._schema.getRelationships() ?? [];
       for (const { ref, localField } of relationships) {
         const relatedCollection = (await this.getCollection()).db?.collection(ref);
         const filter = { [localField]: doc._id };
@@ -460,8 +473,28 @@ export class AbimongoModel<T extends Document> {
       }
     });
 
-    this.schema.pre('deleteOne', async (doc: OptionalUnlessRequiredId<T>) => {
-      const relationships = this.schema.getRelationships();
+    this._schema.post('post-save', async (doc: T) => {
+      const relationships = this._schema.getRelationships() ?? [];
+      for (const { ref, localField } of relationships) {
+        const relatedCollection = (await this.getCollection()).db?.collection(ref);
+        const filter = { [localField]: doc._id };
+        await relatedCollection?.updateOne(filter, { $set: { [localField]: doc._id } });
+      }
+      await pubsub.publish("DB_CHANGE", { dbChange: { action: "save", doc } });
+    });
+
+    this._schema.post('post-update', async ({ filter, update }) => {
+      const relationships = this._schema.getRelationships() ?? [];
+      for (const { ref, localField } of relationships) {
+        const relatedCollection = (await this.getCollection()).db?.collection(ref);
+        const filter = { [localField]: update.$set?._id };
+        await relatedCollection?.updateOne(filter, { $set: { [localField]: update.$set?._id } });
+      }
+      await pubsub.publish("DB_CHANGE", { dbChange: { action: "update", filter, update } });
+    });
+
+    this._schema.pre('deleteOne', async (doc: OptionalUnlessRequiredId<T>) => {
+      const relationships = this._schema.getRelationships() ?? [];
       for (const { ref, localField } of relationships) {
         const relatedCollection = (await this.getCollection()).db?.collection(ref);
         const filter = { [localField]: doc._id };
@@ -469,8 +502,8 @@ export class AbimongoModel<T extends Document> {
       }
     });
 
-    this.schema.pre('aggregate', async (pipeline: Array<Record<string, any>>) => {
-      const relationships = this.schema.getRelationships();
+    this._schema.pre('aggregate', async (pipeline: Array<Record<string, any>>) => {
+      const relationships = this._schema.getRelationships() ?? [];
       for (const { ref, localField } of relationships) {
         pipeline.unshift({
           $lookup: {
@@ -483,9 +516,9 @@ export class AbimongoModel<T extends Document> {
       }
     });
 
-    this.schema.post('aggregate', async (result: Document[]) => {
+    this._schema.post('aggregate', async (result: Document[]) => {
       for (const doc of [result]) {
-        const relationships = this.schema.getRelationships();
+        const relationships = this._schema.getRelationships() ?? [];
         for (const { ref } of relationships) {
           delete doc[Number(ref)];
         }
@@ -1443,6 +1476,22 @@ export class AbimongoModel<T extends Document> {
     } finally {
       await session.endSession();
     }
+  }
+
+  private toModelResult(doc: WithId<T> | null): ModelResult<T> | null {
+    if (!doc) return null;
+
+    return {
+      ...doc,
+      _id: doc._id?.toString(),
+    } as ModelResult<T>;
+  }
+
+  private toModelResults(docs: WithId<T>[]): ModelResultArray<T> {
+    return docs.map((doc) => ({
+      ...doc,
+      _id: doc._id?.toString(),
+    })) as ModelResultArray<T>;
   }
 
 };

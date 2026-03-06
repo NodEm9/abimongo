@@ -9,4 +9,6 @@ export * from './event.type';
 export * from './graphql.type'
 export * from './GCConfig';
 export * from './logger.types';
-export * from './db.provider'
+export * from './db.provider';
+export * from './result.utils.types';
+export * from './bootstrapClient.type';

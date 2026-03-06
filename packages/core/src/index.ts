@@ -8,7 +8,7 @@
  * Abimongo Core Library
  * This library provides core functionalities for Abimongo, ORM/ODM solution
  * for MongoDB in Node.js and Browser environments.
- * @module AbimongoCore
+ * @module Abimongo Core Library
  * @version 1.1.3
  */
 
@@ -31,7 +31,7 @@ export const initializeRedis = async (
 
 declare global {
 	interface Window {
-		abimongoClient: typeof AbimongoClient;
+		abimongoClient: typeof 	AbimongoClient;
 	}
 }
 

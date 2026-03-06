@@ -1,20 +1,19 @@
 import { loadAbimongoConfig } from '../../config';
 import { AbimongoConfig } from '../../types/AbimongoConfig';
-import { Document } from '../../types/document';
 import { setupLogger, logger, Logger } from '@abimongo/logger';
-import { AbimongoClient } from '../AbimongoClient';
+import { Abimongo, AbimongoClient, createAbimongoClientModule } from '../AbimongoClient';
+import { AbimongoModel } from '../AbimongoModelFactory';
+import { AbimongoSchema, Schema } from '../AbimongoSchema';
 import { AbimongoGraphQL, initializeGraphQL } from '../../graphql';
 import { redis } from '../../redis-manager/redisClient';
 import { cacheWithRedis, Model, setLogger } from '../../utils';
 import { invalidateTenantCache } from '../../utils/invalidateTenantCache';
 import { initMultiTenancy, InitMultiTenancyOptions } from '../../tanancy';
-import { AbimongoModel } from '../AbimongoModelFactory';
-import { AbimongoSchema, Schema } from '../AbimongoSchema';
 import { AbimongoGC } from '../../gc';
 import { scheduleGarbageCollector } from '../../gc/gcCron.node';
 import { colorize } from '../../utils/color-palatte';
 import { AbimongoAdapter } from '@abimongo/adapter-types';
-import { DbProvider } from '../../types';
+import { BootstrapClient, DbProvider, Document } from '../../types';
 
 interface TenantType {
   [tenantId: string]: string;
@@ -102,7 +101,7 @@ const initLogger = Logger.instance
  */
 export class AbimongoBootstrap {
   private config!: AbimongoConfig;
-  private mongoClient!: AbimongoClient;
+  private provider!: BootstrapClient;
   private model!: AbimongoModel<Document>;
   private schema!: AbimongoSchema<Document>
   private graphql!: AbimongoGraphQL;
@@ -156,12 +155,21 @@ export class AbimongoBootstrap {
     }
 
     // Mongo setup (always required)
-    this.mongoClient = new AbimongoClient({
-      uri: this.config.mongoUri || Object.values(this.config.multiTenant?.tenants || {})[0],
-      options: { dbName: this.config.projectName || undefined },
-    });
-    await this.mongoClient.connect();
-    console.log(colorize('MongoDB connected via AbimongoClient', 'blue'));
+    this.provider =
+      this.config.mongoClient ??
+      this.config.provider ??
+      createAbimongoClientModule({
+        uri: this.config.connection?.uri!,
+        options: {
+          dbName: this.config.connection?.options.dbName
+            || this.config.projectName || undefined,
+          ...this.config.connection?.options
+        },
+      });
+
+
+    await await this.provider.connect()
+    console.log(colorize('MongoDB connected via AbimongoClientModule', 'blue'));
 
     // Register schema if provided
     this.schema = new Schema(typeof this.config.schema === 'object'
@@ -174,17 +182,11 @@ export class AbimongoBootstrap {
     }
 
     // Register models if provided
-    this.model = new AbimongoModel<Document>({
-      collectionName: `${this.mongoClient.getCollection('default')}`,
-      schema: this.schema,
-      provider: this.mongoClient,
-    });
-
-    this.model = Model({
+    this.model = Model<Document>({
       collectionName: this.config.model?.collectionName || 'default',
       schema: this.schema,
-      provider: this.mongoClient
-    })
+      provider: this.provider,
+    });
 
     if (this.config.model) {
       // for (const modelConfig of [this.config.model]) {
@@ -273,7 +275,7 @@ export class AbimongoBootstrap {
 
       // Register GC files
       this.gc.register(
-        this.mongoClient.getCollection<Document>(this.config.model?.collectionName || 'default'),
+        await this.provider.collection<Document>(this.config.model?.collectionName || 'default'),
         this.schema
       );
       console.log('✅ Garbage Collector files registered');
@@ -407,8 +409,8 @@ export class AbimongoBootstrap {
 
   }
 
-  public getMongoClient(): AbimongoClient {
-    return this.mongoClient;
+  public getMongoClient(): AbimongoClient | BootstrapClient {
+    return this.provider;
   }
 
   // public getLogger(): ReturnType<typeof setupLogger> | typeof logger {
@@ -422,7 +424,7 @@ export class AbimongoBootstrap {
     return this.schema;
   }
 
-  public getGraphQL(): AbimongoGraphQL{
+  public getGraphQL(): AbimongoGraphQL {
     return this.graphql;
   }
 
@@ -436,12 +438,12 @@ export class AbimongoBootstrap {
       console.log('🧹 Redis connection closed');
     }
 
-    if (this.mongoClient) {
-      await this.mongoClient.disconnect();
-      console.log('🧹 MongoDB connection closed');
+    if (this.provider) {
+      await this.provider.close();
+      console.log('MongoDB connection closed');
     }
 
     // Add GraphQL shutdown if needed (e.g., Apollo Server)}
-    console.log('🧼 Shutdown complete');
+    console.log('Shutdown complete');
   }
 };

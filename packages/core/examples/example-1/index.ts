@@ -7,15 +7,17 @@ import { Model } from "../../src/utils";
 import { logger } from '../../src/config';
 import { gc } from '../index';
 import { GCSettings } from '../../src/decorators/gcSettings';
-import { DbProvider } from '../../src/types/db.provider';
-import { Db } from 'mongodb';
+import { Session } from 'inspector/promises';
+import { MultiTenantManager } from '../../src/tanancy';
+
 
 export interface User extends Document {
-  _id?: string;
   name: string;
   email: string;
   contact: string;
+  _id?: string;
   tenantId?: string;
+  session?: Session
 }
 
 export interface PostDocument extends Document {
@@ -92,24 +94,27 @@ export class UserSchema extends AbimongoSchema<User> {
   }
 }
 
+// export const UserModel = new AbimongoModel<User>({
+//   collectionName: 'users',
+//   schema: userSchema,
+//   provider: dbDriver().then(db => db),
+// })
 
 // ';
 // import { runGarbageCollector } from '../../abimongo_core/gc/gcManager';
 
 // const mongoUri = 'mongodb://localhost:27017/testdb';
 
-async function setup() {
+export async function setup() {
   // await dbDriver();
   const db = await dbDriver();
   // AbimongoClient.getTenantDB('test-tenant');
   const schema = new UserSchema();
   // const schema = postSchema
-  return new AbimongoModel({
+  return new AbimongoModel<User>({
     collectionName: 'users',
     schema,
     provider: db
-    // resolveDb: db
-    // tenantId: dbConfig.tenantId['tenant-a'],
   });
 }
 
@@ -155,12 +160,36 @@ async function setup() {
 //   tenantId: dbConfig.tenantId['tenant-a'],
 // });
 
+// (async function registerTenants(){
+// 	// Register tenants
+// 	for (const [tenantId, uri] of Object.entries(dbConfig.tenantUri)) {
+// 		await MultiTenantManager.registerTenant(tenantId, uri);
+// 		logger.info(`Registered tenant: ${tenantId} with URI: ${uri}`);
+//   }
+//   try {
+//     const tenantClient = await MultiTenantManager.getClient(dbConfig.tenantId['tenant-a']);
+//     const dbName = tenantClient?.db().databaseName;
+//     const connectedTenant = MultiTenantManager.getConnectedTenant()
+//     logger.info(`Successfully connected to tenant: ${connectedTenant} with DB: ${dbName}`);
+//   } catch (err) {
+//     logger.error(`Error connecting to tenant: ${dbConfig.tenantId['tenant-a']}`, err);
+//   }
+
+//   console.log('All tenants registered successfully.');
+// })();
+
+// registerTenants().then(() => {
+// 	logger.info('All tenants registered successfully.');
+// }).catch((err) => {
+// 	logger.error('Error registering tenants:', err);
+// });
+
 
 export async function main(data: User) {
   const client = await dbDriver();
   try {
     // const tenantId = 'tenantId123';
-    const userCollection = client.getCollection<User>('users');
+    const userCollection = await client.getCollection<User>('users');;
     // const tenantDB = await connectToTenantDB(tenantId);
     // const tenantDB2 = await AbimongoClient.getTenantDB(tenantId);
     // const tenantDB = await connectToTenantDB(`${db.db?.databaseName}`);
@@ -190,7 +219,7 @@ export async function main(data: User) {
     // }
     // console.log('New Post:', newPost);
 
-    const tenantDb = await client.useDatabase(`${(await client.db())?.databaseName}`);
+    // const tenantDb = await client.useDatabase(`${(await client.db())?.databaseName}`);
 
     // Create a model for the user collection
     // const UserModel =
@@ -201,32 +230,31 @@ export async function main(data: User) {
     //     db: tenantDb,
     //     // client: db.client,
     //   });
+
     const UserModel = new AbimongoModel<User>({
       collectionName: userCollection.collectionName,
       schema: userSchema,
-      provider: client
-      // ctx: { tenantId: dbConfig.tenantId['tenant-a'] },
-      // resolveDb: client
+      provider: client,
+      // ctx: { tenantId: dbConfig.tenantUri['tenant-a'] } // Pass tenantId in context for multi-tenancy,
     });
-    if (!UserModel) {
-      return console.error('Model Error: User not created');
-    };
-
-    const validData = await UserModel.validate({ ...data });
-    console.log('Valid Data:', { ...validData });
+    // if (!UserModel) {
+    //   return console.error('Model Error: User not created');
+    // };
 
     const newUser = await UserModel.create({
       name: data.name,
       email: data.email,
       contact: data.contact,
-      // tenantId: data.tenantId,
+      tenantId: data.tenantId,
+      session: data.session // <-- Pass session in context if needed
     });
 
     if (!newUser) {
       console.error('User not created: Check your data and schema');
       return;
     }
-    console.log('New User:', newUser);
+
+    console.log('New User:', { ...newUser });
 
     UserModel.startAutoGC();
     // UserModel.watchChanges(() => {
@@ -235,7 +263,7 @@ export async function main(data: User) {
 
     // Find users
     const users = await UserModel.find();
-    console.log('All Users:', users);
+    console.log('All users found:', users);
 
     //Update a user
     // await UserModel.updateOne(
@@ -270,12 +298,12 @@ export async function main(data: User) {
 
 export const getUsers = async () => {
   const db = await dbDriver();
-  const userCollection = db.getCollection<User>('users');
+  const userCollection = await db.getCollection<User>('users');
   const tenantDb = await db.useDatabase(`${(await db.db())?.databaseName}`);
-  const UserModel = await Model<User>({
+  const UserModel = Model<User>({
     collectionName: userCollection.collectionName,
     schema: userSchema,
- 
+
   });
 
   const users = await UserModel.find({});
@@ -293,4 +321,20 @@ export const getUsers = async () => {
   // Disconnect from the database
   // await db.disconnect();
   return { users: users };
+}
+
+export const deleteUser = async (userId: string) => {
+  const db = await dbDriver();
+  const userCollection = await db.getCollection<User>('users');
+  const tenantDb = await db.useDatabase(`${(await db.db())?.databaseName}`);
+  const UserModel = Model<User>({
+    collectionName: userCollection.collectionName,
+    schema: userSchema,
+  });
+  await UserModel.deleteOne({ _id: userId });
+  console.log(`User with ID ${userId} deleted.`);
+
+// Disconnect from the database
+  // await db.disconnect();
+  return  { deletedCount: 1 };
 }

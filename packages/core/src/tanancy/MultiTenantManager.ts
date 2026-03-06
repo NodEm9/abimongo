@@ -37,10 +37,9 @@ export class MultiTenantManager {
   static registerLazyTenant(
     tenantId: string,
     uri: string,
-    logger?: NoOpLogger | ILogger
   ): void {
     this.lazyURIs.set(tenantId, uri);
-    logger?.info?.(`Tenant "${tenantId}" registered for lazy connection.`);
+    console.log(`Tenant "${tenantId}" registered for lazy connection.`);
   }
 
   /**

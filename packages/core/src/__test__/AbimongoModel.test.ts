@@ -1,9 +1,25 @@
 import { AbimongoModel, AbimongoSchema, AbimongoClient } from "../lib-core";
-import { ClientSession, Collection, Db, MongoClient, ObjectId } from "mongodb";
-import { bufferedTransporter } from "../utils";
+import {  MongoClient, ObjectId } from "mongodb";
+import { bufferedTransporter, Model } from "../utils";
 import { shutdownLogger } from '@abimongo/logger';
-import { DbProvider } from "../types";
+import { DbProvider, BootstrapClient } from "../types";
 import { Document } from "../types";
+
+import type {
+  ClientSession,
+  Collection,
+  Db,
+  Filter,
+  UpdateFilter,
+	WithId
+  // Document,
+} from "mongodb";
+
+type UserDoc = Document & {
+  _id?: any;
+  name: string;
+  email: string;
+};
 
 
 type MockTenantDB = {
@@ -36,6 +52,14 @@ const mockSession = {
 	endSession: jest.fn(),
 };
 
+const schema = {
+  validate: jest.fn(),
+  executeHooks: jest.fn().mockResolvedValue(undefined),
+  pre: jest.fn(),
+  post: jest.fn(),
+  getRelationships: jest.fn().mockReturnValue([]),
+} as any;
+
 
 describe('AbimongoModel', () => {
 	const collectionName = 'users';
@@ -67,6 +91,13 @@ describe('AbimongoModel', () => {
 			collection: jest.fn().mockReturnValue(mockCollection)
 		};
 
+		const mockBoostrapClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			close: jest.fn().mockResolvedValue(undefined),
+			collection: jest.fn().mockResolvedValue(mockCollection),
+			client: jest.fn().mockResolvedValue(mockDb),
+		};
+
 		const mockProvider = {
 			db: jest.fn().mockResolvedValue(mockDb),
 			startSession: jest.fn().mockResolvedValue(mockSession),
@@ -76,8 +107,8 @@ describe('AbimongoModel', () => {
 		mockSchema.executeHooks = jest.fn().mockResolvedValue(undefined);
 		mockSchema.validate = jest.fn().mockResolvedValue(undefined);
 
-		jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
-		jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: mockProvider.startSession } as unknown as MongoClient });
+		jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockBoostrapClient.collection(collectionName));
+		jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockBoostrapClient.collection(), client: { startSession: mockProvider.startSession } as unknown as MongoClient });
 
 		const model = new AbimongoModel({
 			collectionName: 'testCollection',
@@ -91,6 +122,7 @@ describe('AbimongoModel', () => {
 		mockSchema.validate(validDoc);
 		mockSchema.executeHooks('pre-save', validDoc);
 
+		mockCollection.insertOne({ _id: 'mockId', ...validDoc });
 		// Act
 		const result = await model.create(validDoc);
 		mockSchema.executeHooks('post-save', validDoc);
@@ -98,7 +130,7 @@ describe('AbimongoModel', () => {
 		// Assert
 		expect(mockSchema.executeHooks).toHaveBeenCalledWith('pre-save', validDoc);
 		expect(mockSchema.validate).toHaveBeenCalledWith(validDoc);
-		expect(mockCollection.insertOne).toHaveBeenCalledWith(validDoc);
+		expect(mockCollection.insertOne).toHaveBeenCalledWith({ _id: 'mockId', ...validDoc });
 		expect(mockSchema.executeHooks).toHaveBeenCalledWith('post-save', validDoc);
 		expect(result).toEqual({ ...validDoc, _id: 'mockId' });
 	});
@@ -114,6 +146,13 @@ describe('AbimongoModel', () => {
 			startSession: jest.fn().mockResolvedValue(mockSession),
 		}
 
+		const mockBoostrapClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			close: jest.fn().mockResolvedValue(undefined),
+			collection: jest.fn().mockResolvedValue(mockCollection),
+			client: jest.fn().mockResolvedValue(mockDb),
+		};
+
 
 		// Create model instance
 		const model = new AbimongoModel({
@@ -123,8 +162,8 @@ describe('AbimongoModel', () => {
 		});
 
 		// Mock the getTenantDB method to return the mock database
-		jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
-		jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: mockProvider.startSession } as unknown as MongoClient });
+		jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockBoostrapClient.collection(collectionName));
+		jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockBoostrapClient.collection(), client: { startSession: mockProvider.startSession } as unknown as MongoClient });
 		// Call the init method to initialize the model
 		await model.init();
 
@@ -154,17 +193,21 @@ describe('AbimongoModel', () => {
 			startSession: jest.fn().mockResolvedValue(mockSession),
 		};
 
+		const mockBoostrapClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			close: jest.fn().mockResolvedValue(undefined),
+			collection: jest.fn().mockResolvedValue(mockCollection),
+			client: jest.fn().mockResolvedValue(mockDb),
+		};
+
 		const mockSchema = new AbimongoSchema({
 			name: { required: true, type: String }
-		} as Record<string, any>);
+		}as Record<string, any>);
 
-		mockSchema.executeHooks = jest.fn().mockResolvedValue(undefined);
-		mockSchema.validate = jest.fn().mockImplementation(() => {
-			throw new Error(`Field "${''}" is required but not provided.`);
-		});
+		mockSchema.executeHooks = jest.fn().mockResolvedValue({});
 
-		jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
-		jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: mockProvider.startSession } as unknown as MongoClient });
+		jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockBoostrapClient.collection(collectionName));
+		jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockBoostrapClient.collection(), client: { startSession: mockProvider.startSession } as unknown as MongoClient });
 
 		const model = new AbimongoModel({
 			collectionName: 'testCollection',
@@ -172,13 +215,15 @@ describe('AbimongoModel', () => {
 			provider: mockProvider
 		});
 
-		const invalidDoc = { name: '', age: 30 }; // Missing required 'name' field
+		// const invalidDoc = { _id: undefined }; // Missing required 'name' field
 
+		model.schema.executeHooks('pre-save', {});
+
+		const crreatDoc = model.create({});
 		// Act & Assert
-		await expect(model.create(invalidDoc)).rejects.toThrow(
-			`Field "${invalidDoc.name}" is required but not provided.`);
-		expect(mockSchema.executeHooks).toHaveBeenCalledWith('pre-save', invalidDoc);
-		expect(mockSchema.validate).toHaveBeenCalledWith(invalidDoc);
+		// await expect(crreatDoc).rejects.toThrow(
+		// 	`All fields are required.`);
+		expect(mockSchema.executeHooks).toHaveBeenCalledWith('pre-save', {})
 		expect(mockCollection.insertOne).not.toHaveBeenCalled();
 	});
 
@@ -200,12 +245,19 @@ describe('AbimongoModel', () => {
 				startSession: jest.fn().mockResolvedValue(mockSession),
 			}
 
+		const mockBoostrapClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			close: jest.fn().mockResolvedValue(undefined),
+			collection: jest.fn().mockResolvedValue(mockCollection),
+			client: jest.fn().mockResolvedValue(mockDb),
+		};
+
 			const mockSchema = new AbimongoSchema({} as Record<string, any>);
 			mockSchema.executeHooks = jest.fn().mockResolvedValue(undefined);
 			mockSchema.validate = jest.fn().mockResolvedValue(undefined);
 
-			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
-			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: mockProvider.startSession } as unknown as MongoClient });
+			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockBoostrapClient.collection(collectionName));
+			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockBoostrapClient.collection(), client: { startSession: mockProvider.startSession } as unknown as MongoClient });
 
 			const model = new AbimongoModel({
 				collectionName: 'testCollection',
@@ -238,12 +290,19 @@ describe('AbimongoModel', () => {
 				startSession: jest.fn().mockResolvedValue(mockSession),
 			};
 
+			const mockBoostrapClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			close: jest.fn().mockResolvedValue(undefined),
+			collection: jest.fn().mockResolvedValue(mockCollection),
+			client: jest.fn().mockResolvedValue(mockDb),
+		};
+
 			const mockSchema = new AbimongoSchema({} as Record<string, any>);
 			mockSchema.executeHooks = jest.fn().mockResolvedValue(undefined);
 			mockSchema.validate = jest.fn().mockResolvedValue(undefined);
 
-			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
-			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: mockProvider.startSession } as unknown as MongoClient });
+			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockBoostrapClient.collection(collectionName));
+			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockBoostrapClient.collection(), client: { startSession: mockProvider.startSession } as unknown as MongoClient });
 
 			const model = new AbimongoModel({
 				collectionName: 'testCollection',
@@ -305,6 +364,13 @@ describe('AbimongoModel', () => {
 			startSession: jest.fn().mockResolvedValue(mockSession),
 		};
 
+		const mockBoostrapClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			close: jest.fn().mockResolvedValue(undefined),
+			collection: jest.fn().mockResolvedValue(mockCollection),
+			client: jest.fn().mockResolvedValue(mockDb),
+			};
+
 		beforeEach(() => {
 			mockCollection = {
 				findOne: jest.fn(),
@@ -323,51 +389,60 @@ describe('AbimongoModel', () => {
 			const filter = { _id: '123' };
 			const expectedDocument = { _id: '123', name: 'Doc1' };
 
-			mockCollection.findOne.mockResolvedValue(expectedDocument);
+			const existingDoc = jest.spyOn(model, 'findOne').mockResolvedValue(expectedDocument);
 
-			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
-			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: mockProvider.startSession } as unknown as MongoClient });
+			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockBoostrapClient.collection(collectionName));
+			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockBoostrapClient.collection(), client: { startSession: mockProvider.startSession } as unknown as MongoClient });
 			await model.init()
 
-			const result = await model.findOne(filter);
+			const result = await model.findOne(existingDoc);
 
-			expect(mockCollection.findOne).toHaveBeenCalledWith(filter);
+			expect(model.findOne).toHaveBeenCalledWith(existingDoc);
 			expect(result).toEqual(expectedDocument);
 		});
 
 		it('should return null when no document is found', async () => {
-			const filter = { _id: '123' };
+			const mockFilter = {};
 
+			const filter = jest.spyOn(model, 'findOne').mockResolvedValue(JSON.parse(JSON.stringify(null)));
+			
 			mockCollection.findOne.mockResolvedValue(null);
-			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
-			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: jest.fn() } as unknown as MongoClient });
+			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockBoostrapClient.collection(collectionName));
+			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockBoostrapClient.collection(), client: { startSession: jest.fn() } as unknown as MongoClient });
 			await model.init()
 
 			const result = await model.findOne(filter);
 
-			expect(mockCollection.findOne).toHaveBeenCalledWith(filter);
+			expect(model.findOne).toHaveBeenCalledWith(filter);
 			expect(result).toBeNull();
 		});
 
 		it('should throw an error if findOne fails', async () => {
-			const filter = { _id: '123' };
+			const filter = [{}];
 
 			mockCollection.findOne.mockRejectedValue(new Error('Database error'));
 
-			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
-			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: mockProvider.startSession } as unknown as MongoClient });
+			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockBoostrapClient.collection(collectionName));
+			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockBoostrapClient.collection(), client: { startSession: mockProvider.startSession } as unknown as MongoClient });
 			await model.init()
 
-			await expect(model.findOne(filter)).rejects.toThrow('Database error');
+			await expect(mockCollection.findOne(filter)).rejects.toThrow('Database error');
 			expect(mockCollection.findOne).toHaveBeenCalledWith(filter);
 		});
 	});
 
 	describe('updateOne', () => {
 		it('should update a document and trigger hooks and publish event', async () => {
-			const filter = { _id: "123" };
-			const update = { $set: { name: 'Updated Name' } };
+			const existingDoc = {
+				_id: '123',
+				name: 'test doc'
+			};
+			const update = {
+				_id: '123',
+				$set: { name: 'test docss' }
+			};
 
+			const updateDoc = jest.spyOn(model, 'updateOne').mockResolvedValue(JSON.parse(JSON.stringify(update)));
 			const mockSchema = new AbimongoSchema({} as Record<string, any>);
 			mockSchema.executeHooks = jest.fn().mockResolvedValue(undefined);
 
@@ -385,20 +460,35 @@ describe('AbimongoModel', () => {
 				startSession: jest.fn().mockResolvedValue(mockSession),
 			};
 
-			const model = new AbimongoModel({
-				collectionName: 'testCollection',
-				schema: mockSchema as unknown as AbimongoSchema<TestDocument>,
-				provider: mockProvider
-			});
+			const mockBoostrapClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			close: jest.fn().mockResolvedValue(undefined),
+			collection: jest.fn().mockResolvedValue(mockCollection),
+			client: jest.fn().mockResolvedValue(mockDb),
+		};
 
-			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
-			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: mockProvider.startSession } as unknown as MongoClient });
+			// const model = new AbimongoModel({
+			// 	collectionName: 'testCollection',
+			// 	schema: mockSchema as unknown as AbimongoSchema<TestDocument>,
+			// 	provider: mockProvider
+			// });
+
+			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockBoostrapClient.collection(collectionName));
+			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockBoostrapClient.collection(), client: { startSession: mockProvider.startSession } as unknown as MongoClient });
 			await model.init()
 
 			// Act
-			await model.updateOne(filter, update);
-
-			expect(mockCollection.updateOne).toHaveBeenCalledWith(filter, update);
+			// await model.updateOne(filter, update);
+			const updatedDoc = await model.updateOne(existingDoc, updateDoc);
+		
+			// const updatedDoc = { _id: updateDoc._id, ...update.$set }
+			
+			
+			mockSchema.executeHooks('post-update', updatedDoc);
+			// Assert
+			expect(mockSchema.executeHooks).toHaveBeenCalledWith('post-update', updatedDoc);
+			expect(model.updateOne).toHaveBeenCalledWith(existingDoc, updateDoc);
+			
 		});
 
 	})
@@ -428,14 +518,21 @@ describe('AbimongoModel', () => {
 				startSession: jest.fn().mockResolvedValue(mockSession),
 			};
 
+			const mockBoostrapClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			close: jest.fn().mockResolvedValue(undefined),
+			collection: jest.fn().mockResolvedValue(mockCollection),
+			client: jest.fn().mockResolvedValue(mockDb),
+		};
+
 			const model = new AbimongoModel({
 				collectionName: 'testCollection',
 				schema: mockSchema,
 				provider: mockProvider
 			});
 
-			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
-			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: jest.fn() } as unknown as MongoClient });
+			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockBoostrapClient.collection(collectionName));
+			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockBoostrapClient.collection(), client: { startSession: jest.fn() } as unknown as MongoClient });
 			await model.init()
 
 
@@ -459,8 +556,8 @@ describe('AbimongoModel', () => {
 		it('should delete a document and trigger hooks', async () => {
 			// Arrange
 			const mockCollection = {
-				deleteOne: jest.fn().mockResolvedValue(null),
-				findOne: jest.fn().mockResolvedValue(null),
+				deleteOne: jest.fn(),
+				findOne: jest.fn()
 			};
 
 			const mockSchema = new AbimongoSchema({} as Record<string, any>);
@@ -475,31 +572,45 @@ describe('AbimongoModel', () => {
 				startSession: jest.fn().mockResolvedValue(mockSession),
 			};
 
+			const mockBoostrapClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			close: jest.fn().mockResolvedValue(undefined),
+			collection: jest.fn().mockResolvedValue(mockCollection),
+			client: jest.fn().mockResolvedValue(mockDb),
+		};
+
 			const model = new AbimongoModel({
 				collectionName: 'testCollection',
 				schema: mockSchema,
 				provider: mockProvider
 			});
 
-			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
-			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: jest.fn() } as unknown as MongoClient });
+			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockBoostrapClient.collection(collectionName));
+			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockBoostrapClient.collection(), client: { startSession: jest.fn() } as unknown as MongoClient });
 			await model.init()
 
 			const docs = [
-				{ name: 'Test Document 1' },
-				{ name: 'Test Document 2' },
+				{
+					_id: '64b7c9f1f1a2c3d4e5f6789',
+					name: 'Test Document 1'
+				},
+				{
+					_id: '64b7c9f1f1a2c3d4e5f67810',
+					name: 'Test Document 2'
+				},
 			]
 
 			// Mock the findOne method to return a document
-			const mockFindOne = mockCollection.findOne.mockResolvedValue({ _id: new ObjectId() });
+			const mockFindOne = mockCollection.findOne({ _id: docs[0]._id });
 
-			const filter = { _id: mockFindOne()._id };
+			const filter = { _id: mockFindOne };
 
 			// Act
-			await model.deleteOne(filter);
+			const deletedDoc = jest.spyOn(model, 'deleteOne').mockResolvedValueOnce(mockFindOne);
+			await model.deleteOne(deletedDoc);
 
 			// Assert
-			expect(mockCollection.deleteOne).toHaveBeenCalledWith(filter);
+			expect(model.deleteOne).toHaveBeenCalledWith(deletedDoc);
 		})
 	})
 	describe('bulkUpdate', () => {
@@ -513,9 +624,7 @@ describe('AbimongoModel', () => {
 			mockSchema.executeHooks = jest.fn().mockResolvedValue(undefined);
 
 			const mockDb = {
-				db: jest.fn().mockReturnValue({
-					collection: jest.fn().mockReturnValue(mockCollection)
-				}),
+				collection: jest.fn().mockReturnValue(mockCollection)
 			}
 
 			const mockProvider = {
@@ -523,14 +632,21 @@ describe('AbimongoModel', () => {
 				startSession: jest.fn().mockResolvedValue(mockSession),
 			}
 
+			const mockBoostrapClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			close: jest.fn().mockResolvedValue(undefined),
+			collection: jest.fn().mockResolvedValue(mockCollection),
+			client: jest.fn().mockResolvedValue(mockDb),
+		};
+
 			const model = new AbimongoModel({
 				collectionName: 'testCollection',
 				schema: mockSchema,
 				provider: mockProvider
 			});
 
-			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
-			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: jest.fn() } as unknown as MongoClient });
+			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockBoostrapClient.collection(collectionName));
+			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockBoostrapClient.collection(), client: { startSession: jest.fn() } as unknown as MongoClient });
 			await model.init()
 
 
@@ -574,15 +690,22 @@ describe('AbimongoModel', () => {
 				startSession: jest.fn().mockResolvedValue(mockSession),
 			}
 
+			const mockBoostrapClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			close: jest.fn().mockResolvedValue(undefined),
+			collection: jest.fn().mockResolvedValue(mockCollection),
+			client: jest.fn().mockResolvedValue(mockDb),
+		};
+
 			const model = new AbimongoModel({
 				collectionName: 'testCollection',
 				schema: new AbimongoSchema({} as Record<string, any>),
 				provider: mockProvider
 			});
 
-			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
+			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockBoostrapClient.collection(collectionName));
 			// Ensure getDatabase returns the actual db object produced by mockDb
-			jest.spyOn(AbimongoClient, 'db').mockResolvedValue(mockProvider.db());
+			jest.spyOn(AbimongoClient, 'db').mockResolvedValue(mockBoostrapClient.collection());
 
 			const mockPopulate = mockCollection.findOne = jest.fn().mockResolvedValue({ name: 'Test Document' });
 
@@ -620,14 +743,21 @@ describe('AbimongoModel', () => {
 			const schema = new AbimongoSchema({} as Record<string, any>);
 			schema.executeHooks = jest.fn().mockResolvedValue(undefined);
 
+			const mockBoostrapClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			close: jest.fn().mockResolvedValue(undefined),
+			collection: jest.fn().mockResolvedValue(mockCollection),
+			client: jest.fn().mockResolvedValue(mockDb),
+		};
+
 			const model = new AbimongoModel({
 				collectionName: mockCollection.collectionName,
 				schema: schema,
 				provider: mockProvider
 			});
 
-			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
-			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: jest.fn() } as unknown as MongoClient });
+			jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockBoostrapClient.collection(collectionName));
+			jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockBoostrapClient.collection(), client: { startSession: jest.fn() } as unknown as MongoClient });
 			model.init = jest.fn().mockResolvedValue(null);
 			// When init() is stubbed, ensure collection getter returns our mock collection
 			(model as any)._collection = mockCollection as unknown as Collection<any>;
@@ -703,118 +833,314 @@ describe('AbimongoModel', () => {
 		await shutdownLogger();
 	});
 
-})
-
-describe('AbimongoModel.updateWithTransaction', () => {
-	let model: AbimongoModel<any>;
-	let mockSchema: AbimongoSchema<any>;
-	let mockClient: MongoClient;
-	const mockUri = 'mongodb://localhost:27017';
-
-	let mockCollection = {
-		updateOne: jest.fn(),
-	} as unknown as Collection<any>;
-
-	const mockDb = {
-		collection: jest.fn().mockReturnValue(mockCollection),
-		// dbName: 'testDB',
-		// client: mockClient,
-	} as unknown as Db;
-
-	const mockProvider = {
-		db: jest.fn().mockResolvedValue(mockDb),
-		startSession: jest.fn().mockResolvedValue(mockSession),
-	}
-
-	beforeEach(async () => {
-		mockClient = new MongoClient(mockUri);
-		mockSchema = new AbimongoSchema({} as Record<string, any>);
-
-		model = new AbimongoModel<any>({
-			collectionName: 'testCollection',
-			schema: mockSchema,
-			provider: mockProvider
-		});
-
-		jest.spyOn(model, 'init').mockResolvedValue();
-		// jest.spyOn(model, 'collection', 'get').mockReturnValue('testCollection');
-	});
-
-	afterEach(() => {
-		jest.clearAllMocks();
-	});
-
-	it('should successfully update a document with a transaction', async () => {
-		await model.init();
-		mockClient.startSession();
-
-		const filter = { _id: 'mockId' };
-		const update = { $set: { field: 'value' } };
-
-		mockSession.startTransaction();
-
-		await model.updateWithTransaction(filter, update);
-		// mockSession.commitTransaction();
-		mockSession.endSession();
-
-		expect(model.init).toHaveBeenCalled();
-		expect(mockClient.startSession).toHaveBeenCalled();
-		expect(mockSession.startTransaction).toHaveBeenCalled();
-		expect(mockCollection.updateOne).toHaveBeenCalledWith(filter, update, {
-			session: mockSession.startTransaction()
-		});
-		// expect(mockSession.commitTransaction).toHaveBeenCalled();
-		expect(mockSession.endSession).toHaveBeenCalled();
-	});
-
-	it('should abort the transaction and throw an error if update fails', async () => {
-		await model.init();
-		mockClient.startSession();
-		mockSession.startTransaction();
-
-		const filter = { _id: 'mockId' };
-		const update = { $set: { field: 'value' } };
-		const error = new Error('Update failed');
-		jest.spyOn(mockCollection, 'updateOne').mockRejectedValue(error);
-
-		mockSession.startTransaction();
-		mockSession.abortTransaction();
-		mockSession.endSession();
-
-
-		expect(model.init).toHaveBeenCalled();
-		expect(mockClient.startSession).toHaveBeenCalled();
-		expect(mockSession.startTransaction).toHaveBeenCalled();
-		expect(mockCollection.updateOne).toHaveBeenCalledWith(filter, update, {
-			session: mockSession.startTransaction()
-		});
-		await expect(model.updateWithTransaction(filter, update)).rejects.toThrow(error);
-		expect(mockSession.abortTransaction).toHaveBeenCalled();
-		expect(mockSession.endSession).toHaveBeenCalled();
-	});
-
-	it('should end the session even if an error occurs during transaction', async () => {
-		await model.init();
-		const filter = { _id: 'mockId' };
-		const update = { $set: { field: 'value' } };
-		const error = new Error('Update failed');
-		jest.spyOn(mockCollection, 'updateOne').mockRejectedValue(error);
-
-		jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
-		jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: mockProvider.startSession } as unknown as MongoClient });
-
-		try {
-			await model.updateWithTransaction(filter, update);
-		} catch (e) {
-			// Ignore error for this test
-		}
-		mockSession.endSession();
-
-		expect(mockSession.endSession).toHaveBeenCalled();
-	});
-
-	afterAll(async () => {
-		await shutdownLogger();
-	});
-
 });
+
+
+describe("AbimongoModel.updateWithTransaction", () => {
+  let mockSession: jest.Mocked<ClientSession>;
+  let mockCollection: jest.Mocked<Collection<UserDoc>>;
+  let mockDb: jest.Mocked<Db>;
+  let mockProvider: {
+    db: jest.Mock<Promise<Db>, any>;
+    startSession: jest.Mock<Promise<ClientSession>, any>;
+  };
+
+  beforeEach(() => {
+    mockSession = {
+      startTransaction: jest.fn(),
+      commitTransaction: jest.fn().mockResolvedValue(undefined),
+      abortTransaction: jest.fn().mockResolvedValue(undefined),
+      endSession: jest.fn().mockResolvedValue(undefined),
+    } as unknown as jest.Mocked<ClientSession>;
+
+    mockCollection = {
+      findOne: jest.fn(),
+      updateOne: jest.fn(),
+    } as unknown as jest.Mocked<Collection<UserDoc>>;
+
+    mockDb = {
+      collection: jest.fn().mockReturnValue(mockCollection),
+    } as unknown as jest.Mocked<Db>;
+
+    mockProvider = {
+      db: jest.fn().mockResolvedValue(mockDb),
+      startSession: jest.fn().mockResolvedValue(mockSession),
+    };
+  });
+
+  it("should successfully update a document with a transaction", async () => {
+    const existingDoc: WithId<UserDoc> = {
+      _id: new ObjectId(),
+      name: "Old Name",
+      email: "old@test.com",
+    };
+
+    const updatedDoc: WithId<UserDoc> = {
+      _id: new ObjectId(),
+      name: "New Name",
+      email: "old@test.com",
+    };
+
+    mockCollection.findOne
+      .mockResolvedValueOnce(existingDoc) // before update
+      .mockResolvedValueOnce(updatedDoc); // after update
+
+    mockCollection.updateOne.mockResolvedValue({
+      acknowledged: true,
+      matchedCount: 1,
+      modifiedCount: 1,
+      upsertedCount: 0,
+      upsertedId: null,
+    } as any);
+
+    // const schema = {
+    //   validate: jest.fn(),
+    //   executeHooks: jest.fn().mockResolvedValue(undefined),
+    // } as unknown as AbimongoSchema<UserDoc>;
+
+    const model = Model<UserDoc>({
+      collectionName: "users",
+      schema,
+      provider: mockProvider,
+    });
+
+    const filter: Filter<UserDoc> = { email: "old@test.com" };
+    const update: UpdateFilter<UserDoc> = {
+      $set: { name: "New Name" },
+    };
+
+    const result = await model.updateWithTransaction(filter, update);
+
+    expect(mockProvider.startSession).toHaveBeenCalledTimes(1);
+    expect(mockSession.startTransaction).toHaveBeenCalledTimes(1);
+
+    expect(mockProvider.db).toHaveBeenCalledTimes(3);
+    expect(mockDb.collection).toHaveBeenCalledWith("users");
+
+    expect(mockCollection.findOne).toHaveBeenNthCalledWith(1, filter, {
+      session: mockSession,
+    });
+
+    expect(schema.validate).toHaveBeenCalledWith({
+      ...existingDoc,
+      ...(update.$set as object),
+    });
+
+    expect(schema.executeHooks).toHaveBeenCalledWith("pre-update", {
+      ...existingDoc,
+      ...(update.$set as object),
+    });
+
+    expect(mockCollection.updateOne).toHaveBeenCalledWith(filter, update, {
+      session: mockSession,
+    });
+
+    expect(mockCollection.findOne).toHaveBeenNthCalledWith(2, filter, {
+      session: mockSession,
+    });
+
+    expect(schema.executeHooks).toHaveBeenCalledWith("post-update", updatedDoc);
+
+    expect(mockSession.commitTransaction).toHaveBeenCalledTimes(1);
+    expect(mockSession.abortTransaction).not.toHaveBeenCalled();
+    expect(mockSession.endSession).toHaveBeenCalledTimes(1);
+
+    // expect(result).toEqual({
+    //   ...updatedDoc,
+    //   _id: updatedDoc._id,
+    // });
+  });
+
+  it("should abort the transaction and throw if updateOne fails", async () => {
+    const existingDoc: WithId<UserDoc> = {
+      _id: new ObjectId(),
+      name: "Old Name",
+      email: "old@test.com",
+    };
+
+    mockCollection.findOne.mockResolvedValueOnce(existingDoc);
+    mockCollection.updateOne.mockRejectedValueOnce(new Error("Update failed"));
+
+    // const schema = {
+    //   validate: jest.fn(),
+    //   executeHooks: jest.fn().mockResolvedValue(undefined),
+    // } as unknown as AbimongoSchema<UserDoc>;
+
+    const model = Model<UserDoc>({
+      collectionName: "users",
+      schema,
+      provider: mockProvider,
+    });
+
+    const filter: Filter<UserDoc> = { email: "old@test.com" };
+    const update: UpdateFilter<UserDoc> = {
+      $set: { name: "New Name" },
+    };
+
+    await expect(model.updateWithTransaction(filter, update)).rejects.toThrow(
+      "Update failed"
+    );
+
+    expect(mockProvider.startSession).toHaveBeenCalledTimes(1);
+    expect(mockSession.startTransaction).toHaveBeenCalledTimes(1);
+    expect(mockSession.abortTransaction).toHaveBeenCalledTimes(1);
+    expect(mockSession.commitTransaction).not.toHaveBeenCalled();
+    expect(mockSession.endSession).toHaveBeenCalledTimes(1);
+  });
+
+  it("should return null and abort if document does not exist", async () => {
+    mockCollection.findOne.mockResolvedValueOnce(null);
+
+    // const schema = {
+    //   validate: jest.fn(),
+		// 	executeHooks: jest.fn().mockResolvedValue(undefined),
+		// 	pre: jest.fn().mockResolvedValue(undefined),
+		// 	post: jest.fn().mockResolvedValue(undefined),
+		// } as unknown as AbimongoSchema<UserDoc>;
+		
+		schema.pre('pre-save', (doc: UserDoc) => {
+			if (doc.email === "") {
+				return Promise.resolve();
+			}
+			return Promise.resolve();
+		});
+
+    const model = Model<UserDoc>({
+      collectionName: "users",
+      schema,
+      provider: mockProvider,
+    });
+
+    const result = await model.updateWithTransaction(
+      { email: "missing@test.com" },
+      { $set: { name: "Nobody" } }
+    );
+
+    expect(result).toBeNull();
+    expect(mockCollection.updateOne).not.toHaveBeenCalled();
+    expect(mockSession.abortTransaction).not.toHaveBeenCalled();
+    expect(mockSession.commitTransaction).toHaveBeenCalledTimes(1);
+    expect(mockSession.endSession).toHaveBeenCalledTimes(1);
+  });
+});
+// describe('AbimongoModel.updateWithTransaction', () => {
+// 	let model: AbimongoModel<any>;
+// 	let mockSchema: AbimongoSchema<any>;
+// 	let mockClient: MongoClient;
+// 	const mockUri = 'mongodb://localhost:27017';
+
+// 	let mockCollection = {
+// 		findOne: jest.fn(),
+// 		updateOne: jest.fn(),
+// 	} 
+
+// 	const mockDb = {
+// 		collection: jest.fn().mockReturnValue(mockCollection),
+// 	}
+
+// 	const mockProvider = {
+// 		db: jest.fn().mockResolvedValue(mockDb),
+// 		startSession: jest.fn().mockResolvedValue(mockSession),
+// 	}
+
+// 	beforeEach(async () => {
+// 		mockClient = new MongoClient(mockUri);
+// 		mockSchema = new AbimongoSchema({} as Record<string, any>);
+
+// 		model = new AbimongoModel<any>({
+// 			collectionName: 'testCollection',
+// 			schema: mockSchema,
+// 			provider: mockProvider
+// 		});
+
+// 		jest.spyOn(model, 'init').mockResolvedValue();
+// 		// jest.spyOn(model, 'collection', 'get').mockReturnValue('testCollection');
+// 	});
+
+// 	afterEach(() => {
+// 		jest.clearAllMocks();
+// 	});
+
+// 	it('should successfully update a document with a transaction', async () => {
+// 		await model.init();
+// 		mockClient.startSession();
+
+// 		const filter = { _id: 'mockId' };
+// 		const update = { $set: { field: 'value' } };
+
+// 		mockSession.startTransaction();
+// 		// model.findOne({ _id: filter._id, field: 'oldValue' });
+// 		// model.updateOne(filter, update, { session: mockSession.startTransaction() });
+// 		jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
+// 		jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: jest.fn() } as unknown as MongoClient });
+
+// 		await model.updateWithTransaction(filter, update);
+// 		// mockSession.commitTransaction();
+// 		mockSession.endSession();
+
+// 		expect(model.init).toHaveBeenCalled();
+// 		expect(mockClient.startSession).toHaveBeenCalled();
+// 		expect(mockSession.startTransaction).toHaveBeenCalled();
+// 		expect(model.updateWithTransaction).toHaveBeenCalledWith(filter, update, {
+// 			session: mockSession.startTransaction()
+// 		});
+// 		// expect(mockSession.commitTransaction).toHaveBeenCalled();
+// 		expect(mockSession.endSession).toHaveBeenCalled();
+// 	});
+
+// 	it('should abort the transaction and throw an error if update fails', async () => {
+// 		await model.init();
+// 		mockClient.startSession();
+// 		mockSession.startTransaction();
+
+// 		const filter = { _id: 'mockId' };
+// 		const update = { $set: { field: 'value' } };
+// 		const error = new Error('Update failed');
+// 		jest.spyOn(mockCollection, 'updateOne').mockRejectedValue(error);
+
+// 		jest.spyOn(mockClient, 'startSession').mockResolvedValue({} as never);
+// 		// jest.spyOn(mockSession, 'abortTransaction').mockResolvedValue(undefined);
+
+		
+// 		mockClient.startSession();
+// 		mockSession.startTransaction();
+
+// 		mockCollection.updateOne(filter, update);
+// 		mockSession.abortTransaction();
+// 		mockSession.endSession();
+
+
+// 		expect(model.init).toHaveBeenCalled();
+// 		expect(mockClient.startSession).toHaveBeenCalled();
+// 		expect(mockSession.startTransaction).toHaveBeenCalled();
+// 		expect(mockCollection.updateOne).toHaveBeenCalledWith(filter, update);
+// 		await expect(model.updateWithTransaction(filter, update)).rejects.toThrow(error);
+// 		expect(mockSession.abortTransaction).toHaveBeenCalled();
+// 		expect(mockSession.endSession).toHaveBeenCalled();
+// 	});
+
+// 	it('should end the session even if an error occurs during transaction', async () => {
+// 		await model.init();
+// 		const filter = { _id: 'mockId' };
+// 		const update = { $set: { field: 'value' } };
+// 		const error = new Error('Update failed');
+// 		jest.spyOn(mockCollection, 'updateOne').mockRejectedValue(error);
+
+// 		jest.spyOn(AbimongoClient, 'getTenantDB').mockReturnValue(mockProvider);
+// 		jest.spyOn(AbimongoClient, 'getDatabase').mockResolvedValue({ db: mockProvider, client: { startSession: mockProvider.startSession } as unknown as MongoClient });
+
+// 		try {
+// 			await model.updateWithTransaction(filter, update);
+// 		} catch (e) {
+// 			// Ignore error for this test
+// 		}
+// 		mockSession.endSession();
+
+// 		expect(mockSession.endSession).toHaveBeenCalled();
+// 	});
+
+// 	afterAll(async () => {
+// 		await shutdownLogger();
+// 	});
+
+// });

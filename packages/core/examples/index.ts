@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 // import cors from 'cors';
 // import { main, Profile, User } from './example-relations/one-to-one';
-import { main, getUsers, userSchema, postSchema } from './example-1';
+import { main, getUsers, deleteUser, userSchema, postSchema, setup } from './example-1';
 import { dbDriver, dbConfig } from './dbConfig';
 import jwt from 'jsonwebtoken';
 import { ApolloServer } from '@apollo/server';
@@ -147,9 +147,9 @@ export const applyMTenant = async () => {
 
 
 applyMTenant().then(() => {
-	console.info(`Registerd tenants successfully! Tenants: ${Object.keys(dbConfig.tenantUri).join(', ')} `,);
+	logger.info(`Registerd tenants successfully! Tenants: ${Object.keys(dbConfig.tenantUri).join(', ')} `,);
 }).catch((err: any) => {
-	console.log('Failed to register Tenants', err);
+	logger.error('Failed to register Tenants', err);
 	process.exit(1)
 })
 
@@ -167,7 +167,7 @@ registerTenants().then(() => {
 	logger.error('Error registering tenants:', err);
 });
 
-
+const newTenant = Object.keys(dbConfig.tenantUri)[0];
 
 app.get('/user', async (req, res) => {
 	const users = await getUsers() as { users: UserType[] };
@@ -186,36 +186,45 @@ app.get('/user', async (req, res) => {
 	res.json(users);
 });
 
+
 app.post('/user', async (req, res) => {
-	const tenantId = req.headers['x-tenant-id'] || 'tenant-a';
+	const tenantId = req.headers['x-tenant-id'] || newTenant;
 	const data: UserType = req.body;
 
-	const users = await dbDriver();
-	const userCollection = users.getCollection<UserType>('users');
+	const clientDb = await dbDriver();
+	const UserModel = await setup()
+	// const userCollection = clientDb.getCollection<UserType>('users');
 	// // const profileData: Profile = req.body;
-	const tenantModel = await getTenantModel({
-		collectionName: userCollection.collectionName || 'users',
-		schema: userSchema,
-		tenantId: tenantId,
-	});
-	if (tenantId.length) {
-		logger.info(`Creating user for tenant: ${tenantId.toLowerCase()}`);
-	}
-	console.log('Tenant model:', tenantModel.name);
-	console.log('Data: ', { ...data });
-	if (!tenantModel) {
-		console.error('Tenant model not found');
-		res.status(500).json({ error: 'Tenant model not found' });
+	// const tenantModel = await getTenantModel({
+	// 	collectionName: userCollection.collectionName || 'users',
+	// 	schema: userSchema,
+	// 	tenantId: tenantId,
+	// });
+	// if (tenantId.length) {
+	// 	logger.info(`Creating user for tenant: ${tenantId.toLowerCase()}`);
+	// }
+	// console.log('Tenant model:', tenantModel.name);
+	// console.log('Data: ', { ...data });
+	// if (!tenantModel) {
+	// 	console.error('Tenant model not found');
+	// 	res.status(500).json({ error: 'Tenant model not found' });
+	// }
+
+	try {
+		// const newData = await main({ ...data, tenantId: tenantId.toString() });
+
+		const newData = await UserModel.create({ ...data, tenantId: tenantId });
+		res.json({ data: newData });
+	} catch (error) {
+		console.error(error);
+		res.status(500).send({ error: "Failed to create data" });
+	} finally {
+		await clientDb.close().catch((e) => console.error("close failed:", e));
 	}
 
-	const user = await main(data);
-	if (!user) {
-		console.log('User not created: Check your data');
-		res.status(500).json({ error: 'User not created: Check your inputs' });
-	} else {
-		console.log('User created:', user);
-	}
-	res.json(user);
+	// const user = await main({ ...data } as UserType);
+
+	// res.json(user);
 });
 
 app.post('/post', async (req, res) => {
@@ -240,6 +249,42 @@ app.post('/post', async (req, res) => {
 		console.info('Post created:', post);
 	}
 	res.json(post);
+});
+
+app.delete('/user/:id', async (req, res) => {
+	const tenanaId = req.headers['x-tenant-id'] as string;
+	const userId = req.params.id;
+	// const postId = req.params.id;
+	// const tenantModel = await getTenantModel({
+	// 	collectionName: 'posts',
+	// 	schema: postSchema,
+	// 	tenantId: tenanaId,
+	// });
+	// console.info('Tenant model:', tenantModel.name);
+
+	// if (!tenantModel) {
+	// 	console.error('Tenant model not found');
+	// 	res.status(500).json({ error: 'Tenant model not found' });
+	// }
+
+	// const deletedPost = await tenantModel.deleteOne({ _id: postId });
+	// if (deletedPost.deletedCount === 0) {
+	// 	console.error('Post not found or already deleted');
+	// 	res.status(404).json({ error: 'Post not found or already deleted' });
+	// } else {
+	// 	console.info('Post deleted successfully');
+	// 	res.json({ message: 'Post deleted successfully' });
+	// }
+
+	const deletedUser = await deleteUser(userId);
+	if (deletedUser.deletedCount === 0) {
+		logger.error('User not found or already deleted');
+		res.status(404).json({ error: 'User not found or already deleted' });
+	} else {
+		logger.info('User deleted successfully');
+		res.json({ message: 'User deleted successfully' });
+	}
+
 });
 
 app.listen(PORT, () => {

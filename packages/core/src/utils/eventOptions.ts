@@ -28,6 +28,15 @@ const eventOptionMap: Record<EventType, string> = {
 	"updateMany": "updateMany",
 	"deleteOne": "deleteOne",
 	"deleteMany": "deleteMany",
+	"pre-bulkWrite": "bulkWrite",
+	"post-bulkWrite": "bulkWrite",
+	"pre-insertMany": "insertMany",
+	"post-insertMany": "insertMany",
+	"pre-updateMany": "updateMany",
+	"post-updateMany": "updateMany",
+	"pre-deleteMany": "deleteMany",
+	"post-deleteMany": "deleteMany",
+	"transaction": "transaction"
 };
 
 /**

@@ -51,7 +51,7 @@ export const initMultiTenancy = async (
         const logger = config.logger as any;
         loggerToUse = impl_Logger(logger);
       }
-      MultiTenantManager.registerLazyTenant(tenantId, uri, loggerToUse);
+      MultiTenantManager.registerLazyTenant(tenantId, uri);
       continue;
     } else {
       // Eagerly connect

@@ -7,7 +7,7 @@ import { TenantContext } from "./TenantContext";
 import { ensureModelNameSafe } from "../utils";
 
 
-type GetTenantModelParams<T extends Document> = {
+export type GetTenantModelParams<T extends Document> = {
   collectionName: string;
   schema: AbimongoSchema<T>;
   tenantId?: string;
@@ -44,7 +44,7 @@ export const getTenantModel = async <T extends Document>(
   }
 
   if (!tenantId) {
-    throw new Error("No tenant context found.");
+    throw new Error("tenantId is required to run tenant context");
   }
 
   if (!tenantModelsCache.has(tenantId)) {
@@ -150,17 +150,3 @@ export const getTenantModel = async <T extends Document>(
 
 //   return model;
 // };
-
-
-
-// function tenantDbProvider(tenantId: string): DbProvider {
-//   return {
-//     db: async (ctx) => {
-//       const client = await MultiTenantManager.getClient(tenantId);
-//       if (!client) throw new Error(`Tenant "${tenantId}" not registered`);
-
-//       // If you want per-tenant dbName, use ctx?.dbName; otherwise default:
-//       return client.db(ctx?.dbName); // or just client.db()
-//     },
-//   };
-// }

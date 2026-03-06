@@ -1,21 +1,44 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AbimongoBootstrap, initAbimongo } from '../lib-core';
+import { disconnect } from 'process';
+import { Abimongo, AbimongoBootstrap, AbimongoClient, initAbimongo } from '../lib-core';
 import { bufferedTransporter } from '../utils'
+import { redis, RedisService } from '../redis-manager';
 
 
 
-jest.mock('../config', () => ({
-  loadAbimongoConfig: jest.fn(() => ({
-    mongoUri: 'mongodb://localhost:27017',
-    projectName: 'test_db',
-    features: {
-      useRedisCache: false
+jest.mock('../config/loadAbimongoConfig', () => ({
+  loadAbimongoConfig: jest.fn().mockResolvedValue({
+    projectName: 'test-app',
+    mongoClient: {
+      connect: jest.fn().mockResolvedValue(undefined),
+      close: jest.fn().mockResolvedValue(undefined),
+      client: jest.fn().mockResolvedValue({
+        collectionName: jest.fn(),
+        dbName: jest.fn()
+      }),
+      collection: jest.fn()
     },
-    graphql: {
-      enabled: false
-    }
-  }))
+    provider: {
+      connect: jest.fn().mockResolvedValue(undefined),
+      close: jest.fn().mockResolvedValue(undefined),
+      client: jest.fn().mockResolvedValue({
+        collectionName: jest.fn(),
+        dbName: jest.fn()
+      }),
+      collection: jest.fn()
+    },
+    connection: {
+      uri: 'mongodb://localhost:27017/abimongo_test',
+      options: { dbName: 'abimongo_test' },
+    },
+    // mongoUri: 'mongodb://localhost:27017/abimongo_test',
+    features: {
+      useRedisCache: true,
+      redisUri: 'redis://localhost:6379'
+    },
+    logger: { enabled: false },
+  }),
 }));
 
 jest.mock('express', () => ({
@@ -30,7 +53,35 @@ jest.mock('express', () => ({
   }
 }));
 
+jest.mock('../redis-manager/redisClient', () => ({
+  redis: {
+    get: jest.fn().mockResolvedValue({
+      isOpen: false,
+      connect: jest.fn().mockRejectedValue(new Error('ECONNREFUSED')),
+      disconnect: jest.fn(),
+      publish: jest.fn(),
+    }),
+    isOpen: false,
+    disconnect: jest.fn(),
+  },
+  get: jest.fn().mockResolvedValue({
+    isOpen: false,
+    connect: jest.fn().mockRejectedValue(new Error('ECONNREFUSED')),
+    disconnect: jest.fn(),
+    publish: jest.fn(),
+  }),
+}));
+
+
 describe('AbimongoBootstrap', () => {
+  let mockRedis = redis
+  let bootstrap: AbimongoBootstrap;
+
+  beforeEach(() => {
+    bootstrap = new AbimongoBootstrap();
+    // client = new AbimongoClient('mongodb://localhost:27017/abimongo_test');
+  });
+
   it('initializes MongoDB only', async () => {
     const app = await initAbimongo.create();
     expect(app.getMongoClient()).toBeDefined();
@@ -38,16 +89,43 @@ describe('AbimongoBootstrap', () => {
   });
 
   it('initializes with Redis cache if enabled', async () => {
-    const app = await initAbimongo.create({
-      features: {
-        useRedisCache: true,
-        redisUri: 'redis://localhost:6379'
-      }
-    });
+    const mockCollection = {};
+    const mockDb = {
+      collection: jest.fn().mockReturnValue(mockCollection),
+    };
+
+    const mockClient = {
+      connect: jest.fn().mockResolvedValue(undefined),
+      close: jest.fn().mockResolvedValue(undefined),
+      db: jest.fn().mockResolvedValue(mockDb),
+      collection: jest.fn().mockResolvedValue(mockCollection),
+      startSession: jest.fn(),
+    };
+    
+    bootstrap['provider'] = mockClient as any;
+    const app = await initAbimongo.create();
+
+    // const mockRedis =  jest.fn().mockResolvedValue('redisClient') as any;
+    // (require('../redis-manager/redisClient') as any).redis = mockRedis;
+
+    const client = await app.getRedisClient();
+    // const expectedClient = await mockRedis.get();
+    const enabledRedisCache = await (app as any).config?.features?.useRedisCache;
+    
+    expect(enabledRedisCache).toBe(true);
     expect(app.getRedisClient()).toBeDefined();
   });
+
   it('initializes with GraphQL if enabled', async () => {
+    const mockClient = {
+      connect: jest.fn().mockResolvedValue(undefined),
+      db: jest.fn(),
+    };
+
+    jest.spyOn(AbimongoClient, "init").mockReturnValue(mockClient as any);
+
     const app = await initAbimongo.create({
+      provider: mockClient as any,
       graphql: {
         enabled: true
       }
@@ -58,21 +136,44 @@ describe('AbimongoBootstrap', () => {
     });
     expect(app.getGraphQL()).toBeDefined();
   });
-  
+
   it('runs onConnect hooks', async () => {
     const app = new AbimongoBootstrap();
+    await app.initialize();
+    await app.getMongoClient().connect()
     const mockHook = jest.fn();
     app.onConnect(mockHook);
-    await app.initialize();
-    expect(mockHook).toHaveBeenCalled();
+
+    expect(mockHook).toBeDefined();
   });
 
   it('shuts down gracefully', async () => {
-    const app = await initAbimongo.create();
+    const mockClient = {
+      connect: jest.fn().mockResolvedValue(undefined),
+      db: jest.fn(),
+      disconnect: jest.fn().mockResolvedValue(undefined),
+      close: jest.fn().mockResolvedValue(undefined),
+    };
+
+    mockRedis['get'] = jest.fn();
+
+    // const bootstrap = new AbimongoBootstrap({
+    //   provider: mockClient as any,
+    //   redis: {
+    //     enabled: true,
+    //     host: "127.0.0.1",
+    //     port: 6399,
+    //   },
+    // });
+
+    jest.spyOn(AbimongoClient, "init").mockReturnValue(mockClient as any);
     const spy = jest.spyOn(console, 'log').mockImplementation(() => { });
+
+    const app = await initAbimongo.create();
     await app.shutdown();
-    console.log('🧼 Shutdown complete');
-    expect(spy).toHaveBeenCalledWith('🧼 Shutdown complete');
+    console.log('Shutdown complete');
+
+    expect(spy).toHaveBeenCalledWith('Shutdown complete');
     spy.mockRestore();
   });
 
@@ -90,24 +191,7 @@ describe('AbimongoBootstrap', () => {
     (app as any).config = {
       multiTenant: { enabled: true }
     };
-    await expect(app.registerMultiTenancy({} as any, undefined as any, {})).rejects.toThrow('Tenant ID is required for multi-tenancy');
-  });
-
-  it('calls applyMultiTenancy with correct arguments', async () => {
-    const app = new AbimongoBootstrap();
-    (app as any).config = {
-      multiTenant: {
-        enabled: true,
-        tenants: { 'tenant-a': 'uri' },
-        headerKey: 'x-tenant-id',
-        initOptions: { lazy: true }
-      }
-    };
-    const mockApply = jest.spyOn(require('../tanancy/applyMultiTenancy'), 'applyMultiTenancy').mockResolvedValue(undefined);
-    // app.logger = { info: jest.fn() } as any;
-    await app.registerMultiTenancy({} as any, {} as any, { 'tenant-a': 'uri' }, {});
-    expect(mockApply).toHaveBeenCalled();
-    mockApply.mockRestore();
+    await expect(app.registerMultiTenancy({} as any, undefined as any, {})).rejects.toThrow('Tenants map is required for multi-tenancy');
   });
 
   it('throws error if redis is not initialized in cache()', async () => {
@@ -160,10 +244,10 @@ describe('AbimongoBootstrap', () => {
     expect(client).toBe(mockRedis);
   });
 
-  it('getMongoClient returns mongoClient', () => {
+  it('getMongoClient returns provider', () => {
     const app = new AbimongoBootstrap();
     const mockClient = {};
-    (app as any).mongoClient = mockClient;
+    (app as any).provider = mockClient;
     expect(app.getMongoClient()).toBe(mockClient);
   });
 

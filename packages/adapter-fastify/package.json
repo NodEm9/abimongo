@@ -18,7 +18,7 @@
     }
   },
   "scripts": {
-    "build": "tsc -p ./tsconfig.json",
+    "build": "tsc -p tsconfig.json",
     "changeset": "pnpm run changeset",
     "release": "pnpm changeset version",
     "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks"
@@ -27,14 +27,6 @@
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.20.0",
-  "peerDependencies": {
-    "fastify": "^4.0.0 || ^5.0.0"
-  },
-  "peerDependenciesMeta": {
-    "fastify": {
-      "optional": true
-    }
-  },
   "devDependencies": {
     "fastify": "^5.6.2",
     "typescript": "^5.9.3"

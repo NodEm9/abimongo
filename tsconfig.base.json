@@ -12,15 +12,11 @@
     "moduleDetection": "force",
     "module": "nodenext",
     "moduleResolution": "nodenext",
+    "types": ["node", "jest"],
     "declaration": true,
-    // No top-level `paths` mappings here to avoid pulling sibling package
-    // TypeScript sources into other packages' compilation units. Local
-    // development that prefers package source should use per-package
-    // webpack aliases (DEV-only) instead. Keeping this file plain avoids
-    // ts-loader/TypeScript program-listing issues in monorepo builds.
     "declarationMap": true,
     "esModuleInterop": true,
-    "isolatedModules": false, 
+    "isolatedModules": true, 
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "importHelpers": true,

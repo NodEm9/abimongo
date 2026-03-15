@@ -1,7 +1,8 @@
 import { AbimongoModel } from "../lib-core";
+import { AbimongoModelOptions } from "../types";
 
 
-const modelRegistry = new Set<AbimongoModel<any>>();
+const modelRegistry = new Set<AbimongoModel<AbimongoModelOptions>>();
 
 /**
  * AbimongoModelRegistry is a utility to register and manage Abimongo models.

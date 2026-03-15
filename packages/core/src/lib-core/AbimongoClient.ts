@@ -19,6 +19,7 @@ import { colorize } from '../utils/color-palatte';
 import "dotenv/config";
 import { GetTenantModelParams, MultiTenantManager } from '../tanancy';
 import { AbimongoSchema } from './AbimongoSchema';
+import { AbimongoContext } from '../context/AbimongoContext';
 
 
 
@@ -321,44 +322,6 @@ export class AbimongoClient implements BootstrapClient {
 		// 5) default db
 		return this._client.db(this._defaultDbName);
 	}
-	// async db(ctx?: ModelContext): Promise<Db> {
-	// 	if (!this._client || !this._connected) {
-	// 		const message = 'AbimongoClient not connected. call connect() first.';
-	// 		const error = new Error(message).stack;
-	// 		const cause = ErrorType.CONNECTION_ERROR;
-	// 		throw AbiMongoError(
-	// 			ErrorType.AbiMongoConnectionError,
-	// 			message,
-	// 			error,
-	// 			cause,
-	// 		);
-	// 	}
-
-	// 	//  explicit dbName override
-	// 	if (ctx?.dbName) return this._client.db(ctx.dbName);
-
-	// 	// tenant path only if enabled via tenantResolver to avoid accidental misconfigurations
-	// 	if (ctx?.tenantId) {
-	// 		const resolver = this._opts.tenantResolver;
-	// 		if (!resolver) {
-	// 			throw new Error(
-	// 				`Multi-tenancy not enabled. Provide tenantResolver to AbimongoClient or avoid passing tenantId.`
-	// 			);
-	// 		}
-	// 		if (!resolver && MultiTenantManager.hasTenant(ctx.tenantId)) {
-	// 			await MultiTenantManager.getClient(ctx.tenantId)
-	// 		}
-	// 		const tenantClient = await resolver?.getClient(ctx.tenantId);
-	// 		if (!tenantClient) throw new Error(`Tenant "${ctx.tenantId}" is not registered.`);
-	// 		return tenantClient.db(); // tenant default db
-	// 	}
-
-	// 	//  runtime override via useDatabase()
-	// 	if (this._overrideDbName) return this._client.db(this._overrideDbName);
-
-	// 	// default db
-	// 	return this._client.db(this._defaultDbName);
-	// }
 
 	static async db(ctx?: ModelContext): Promise<Db> {
 		return this.init().db(ctx);
@@ -430,22 +393,60 @@ export class AbimongoClient implements BootstrapClient {
 	}
 
 
-	/**
-	 * Retrieves a MongoDB collection by name.
-	 * @template T
-	 * @param {string} name - The name of the collection to retrieve.
-	 * @returns {Collection<T>} The MongoDB collection instance.
-	 * @throws {Error} If the database connection is not established.
-	 */
-	// collection<T extends Document>(name: string): Collection<T> {
-	// 	if (!this._client || typeof (this._client as any)?.db !== 'function') {
-	// 		// Return a minimal stub collection to keep tests and initialization safe when no real DB is present
-	// 		return ({
-	// 			toString: () => name,
-	// 		} as unknown) as Collection<T>;
-	// 	}
-	// 	return this._client.db(this._opts.options?.dbName).collection<T>(name) as Collection<T>;
+	// get client(): MongoClient {
+	// 	if (!this._client) throw new Error("Client not connected.");
+	// 	return this._client;
 	// }
+
+	async client(ctx?: ModelContext): Promise<MongoClient> {
+		if (ctx?.tenantId) {
+			const resolver = this._opts.tenantResolver;
+			if (!resolver) {
+				throw new Error(
+					"Multi-tenancy not enabled. Provide tenantResolver to AbimongoClient or avoid passing tenantId."
+				);
+			}
+
+			const tenantClient = await resolver.getClient(ctx.tenantId);
+			if (!tenantClient) {
+				throw new Error(`Tenant "${ctx.tenantId}" is not registered.`);
+			}
+
+			return tenantClient;
+		}
+
+		if (!this._client || !this._connected) {
+			throw new Error("AbimongoClient not connected. Call connect() first.");
+		}
+
+		return this._client;
+	}
+
+	async useCollection(collectionName: string): Promise<Collection<any>> {
+		if (!collectionName || typeof collectionName !== 'string' || !collectionName.trim()) {
+			throw new Error('Collection name is required.');
+		}
+
+		if (!this._client) {
+			throw new Error('Client not initialized. Call `connect()` first.');
+		}
+
+		// const dbName = this._opts.options?.dbName;
+
+
+		const dbName = this.resolveDbName();
+		if (!dbName) {
+			throw new Error('Database name is required in client options.');
+		};
+
+		const resolvedCollectionName = this.resolveCollectionName(collectionName);
+		const collection = this._client
+			.db(dbName)
+			.collection(resolvedCollectionName);
+
+		this.collectionName = collection;
+		return collection;
+	}
 
 	async collection<T extends Document = Document>(
 		collectionName: string,
@@ -611,6 +612,91 @@ export class AbimongoClient implements BootstrapClient {
 		};
 	}
 
+	// inside AbimongoClient.ts
+	private resolveDbName(overrideDbName?: string): string {
+		const ctx = AbimongoContext.get();
+
+		const dbName =
+			overrideDbName ??
+			ctx?.overrideDbName ??
+			this._opts?.options?.dbName;
+
+		if (!dbName) {
+			throw new Error('Database name is required in client options.');
+		}
+
+		return dbName;
+	}
+
+	private resolveCollectionName(collectionName?: string): string {
+		const ctx = AbimongoContext.get();
+
+		const resolvedCollectionName =
+			collectionName ??
+			ctx?.overrideCollectionName;
+
+		if (!resolvedCollectionName?.trim()) {
+			throw new Error('Collection name is required.');
+		}
+
+		return resolvedCollectionName.trim();
+	}
+
+	private resolveTenantDbName(tenantId?: string): string {
+		const resolvedTenantId = tenantId ?? AbimongoContext.get()?.tenantId;
+
+		if (!resolvedTenantId) {
+			return this.resolveDbName();
+		}
+
+		const tenant = MultiTenantManager.getTenant?.(resolvedTenantId);
+		if (!tenant?.dbName) {
+		  this.logWithContext('warn', `Tenant "${resolvedTenantId}" does not have a configured dbName. Falling back to default database.`);
+		  	throw new Error(
+				`No database configuration found for tenant "${resolvedTenantId}".`
+			);
+		}
+
+		return tenant.dbName;
+	}
+
+	
+	async withContext<T>(
+		context: {
+			tenantId?: string;
+			requestId?: string;
+			dbName?: string;
+			collectionName?: string;
+			session?: any;
+		},
+		callback: () => Promise<T>
+	): Promise<T> {
+		return AbimongoContext.run(
+			{
+				tenantId: context.tenantId,
+				requestId: context.requestId,
+				overrideDbName: context.dbName,
+				overrideCollectionName: context.collectionName,
+				session: context.session
+			},
+			callback
+		);
+	}
+
+	private logWithContext(level: 'info' | 'warn' | 'error', message: string, meta: Record<string, any> = {}) {
+		const ctx = AbimongoContext.get();
+
+		const enrichedMeta = {
+			requestId: ctx?.requestId,
+			tenantId: ctx?.tenantId,
+			...ctx?.loggerMeta,
+			...meta
+		};
+
+		this._opts.options?.config?.logger?.[level]?.(message, enrichedMeta);
+
+	}
+
 	/**
 	 * Immutable scoped provider: locks tenantId unless ctx.tenantId is explicitly provided.
 	 * Safe for request handling.
@@ -685,54 +771,6 @@ export class AbimongoClient implements BootstrapClient {
 		this._overrideDbName = undefined;
 	}
 
-	// get client(): MongoClient {
-	// 	if (!this._client) throw new Error("Client not connected.");
-	// 	return this._client;
-	// }
-	async client(ctx?: ModelContext): Promise<MongoClient> {
-		if (ctx?.tenantId) {
-			const resolver = this._opts.tenantResolver;
-			if (!resolver) {
-				throw new Error(
-					"Multi-tenancy not enabled. Provide tenantResolver to AbimongoClient or avoid passing tenantId."
-				);
-			}
-
-			const tenantClient = await resolver.getClient(ctx.tenantId);
-			if (!tenantClient) {
-				throw new Error(`Tenant "${ctx.tenantId}" is not registered.`);
-			}
-
-			return tenantClient;
-		}
-
-		if (!this._client || !this._connected) {
-			throw new Error("AbimongoClient not connected. Call connect() first.");
-		}
-
-		return this._client;
-	}
-
-	async useCollection(collectionName: string): Promise<Collection<any>> {
-		if (!collectionName || typeof collectionName !== 'string' || !collectionName.trim()) {
-			throw new Error('Collection name is required.');
-		}
-
-		if (!this._client) {
-			throw new Error('Client not initialized. Call `connect()` first.');
-		}
-
-		const dbName = this._opts.options?.dbName;
-		if (!dbName) {
-			throw new Error('Database name is required in client options.');
-		}
-
-		const collection = this._client.db(dbName).collection(collectionName);
-
-		this.collectionName = collection;
-		return collection;
-	}
-
 	/**
 	 * Switches to a different collection at runtime.
 	 * @param {string} collectionName - The name of the collection to switch to.
@@ -757,6 +795,10 @@ export class AbimongoClient implements BootstrapClient {
 	async startSession(ctx?: ModelContext): Promise<ClientSession> {
 		const client = await this.client(ctx);
 		return client.startSession();
+	}
+
+	private resolveSession(session?: any) {
+		return session ?? AbimongoContext.get()?.session;
 	}
 
 	/**

@@ -32,7 +32,7 @@ import { ErrorType } from '../utils/error/errorTypes';
 import { Abimongo } from './AbimongoClient'
 import EventEmitter from 'events';
 import { PubSub } from "graphql-subscriptions";
-import { MultiTenantManager } from '../tanancy/MultiTenantManager';
+import { MultiTenantManager, TenantConfig } from '../tanancy/MultiTenantManager';
 import { redis } from '../redis-manager/redisClient';
 import { getGCSettings } from '../decorators/gcSettings';
 import {
@@ -42,9 +42,20 @@ import {
   ensureRedis
 } from '../utils';
 import { ModelContext } from '../types';
+import { AbimongoContext } from '../context/AbimongoContext';
 
 
 const pubsub = new PubSub();
+
+
+interface ResolvedModelContext<T extends Document> {
+  tenantId?: string;
+  dbName?: string;
+  db?: Db;
+  session?: ClientSession;
+  collectionName: string;
+  collectionOverride?: Collection<T>;
+}
 
 
 /**
@@ -113,15 +124,42 @@ export class AbimongoModel<T extends Document> {
     this.initMiddleware();
   }
 
-  private resolveCtx(ctx?: ModelContext): ModelContext | undefined {
-    return ctx ?? this._defaultCtx;
+  private mergeCtx(ctx?: ModelContext): ModelContext | undefined {
+    const runtimeCtx = AbimongoContext.get();
+
+    const merged: ModelContext = {
+      tenantId: ctx?.tenantId ?? this._defaultCtx?.tenantId ?? runtimeCtx?.tenantId,
+      dbName: ctx?.dbName ?? this._defaultCtx?.dbName ?? runtimeCtx?.dbName,
+      db: ctx?.db ?? this._defaultCtx?.db,
+      collectionName:
+        ctx?.collectionName ??
+        this._defaultCtx?.collectionName ??
+        runtimeCtx?.collectionName,
+      config: ctx?.config ?? this._defaultCtx?.config,
+      session: ctx?.session ?? this._defaultCtx?.session ?? runtimeCtx?.session
+    };
+
+    return Object.values(merged).some(value => value !== undefined) ? merged : undefined;
   }
 
+
   // private async getCollection(ctx?: ModelContext): Promise<Collection<T>> {
-  //   if (this._collectionOverride) return this._collectionOverride;
-  //   const db = await this._provider.db(this.resolveCtx(ctx));
+  //   if (this._collectionOverride) {
+  //     return this._collectionOverride;
+  //   }
+
+  //   this.ensureConfigured();
+
+  //   const db = await this._provider.db(this.mergeCtx(ctx));
+
+  //   if (!db || typeof (db as any).collection !== "function") {
+  //     throw new Error(
+  //       `AbimongoModel: provider.db() did not return a valid Db instance for collection "${this._collectionName}".`
+  //     );
+  //   }
+
   //   return db.collection<T>(this._collectionName);
-  // };
+  // }
 
   private async getCollection(ctx?: ModelContext): Promise<Collection<T>> {
     if (this._collectionOverride) {
@@ -130,21 +168,67 @@ export class AbimongoModel<T extends Document> {
 
     this.ensureConfigured();
 
-    const db = await this._provider.db(this.resolveCtx(ctx));
+    const db = await this.resolveDb(ctx);
+    const collectionName = this.resolveCollectionName(ctx);
 
-    if (!db || typeof (db as any).collection !== "function") {
+    return db.collection<T>(collectionName);
+  }
+
+  private getResolvedTenant(tenantId: string): TenantConfig {
+    const tenant = MultiTenantManager.getTenant(tenantId);
+    if (!tenant) {
+      throw new Error(`Tenant "${tenantId}" is not registered.`);
+    }
+    return tenant;
+  }
+
+  private async resolveDb(ctx?: ModelContext): Promise<Db> {
+    const resolvedCtx = this.mergeCtx(ctx);
+
+    if (resolvedCtx?.db) {
+      return resolvedCtx.db;
+    }
+
+    if (resolvedCtx?.tenantId) {
+      const tenant = this.getResolvedTenant(resolvedCtx.tenantId);
+      const client = await MultiTenantManager.getClient(resolvedCtx.tenantId);
+
+      if (!client) {
+        throw new Error(`MongoClient for tenant "${resolvedCtx.tenantId}" is not available.`);
+      }
+
+      const dbName = resolvedCtx.dbName ?? tenant.dbName;
+      if (!dbName) {
+        throw new Error(`No database name configured for tenant "${resolvedCtx.tenantId}".`);
+      }
+
+      return client.db(dbName);
+    }
+
+    const db = await this._provider.db(resolvedCtx);
+
+    if (!db || typeof (db as any).collection !== 'function') {
       throw new Error(
         `AbimongoModel: provider.db() did not return a valid Db instance for collection "${this._collectionName}".`
       );
     }
 
-    return db.collection<T>(this._collectionName);
+    return db;
   }
 
-  private async getResolvedTenant(tenantId: string): Promise<MongoClient> {
-    const client = await MultiTenantManager.getClient(tenantId);
-    if (!client) throw new Error(`Tenant "${tenantId}" is not registered.`);
-    return client;
+  private resolveCollectionName(ctx?: ModelContext): string {
+    const resolvedCtx = this.mergeCtx(ctx);
+    const collectionName = resolvedCtx?.collectionName ?? this._collectionName;
+
+    if (!collectionName || typeof collectionName !== 'string' || !collectionName.trim()) {
+      throw new Error('AbimongoModel: collectionName is not configured.');
+    }
+
+    return collectionName.trim();
+  }
+
+  private resolveSession(ctx?: ModelContext): ClientSession | undefined {
+    return this.mergeCtx(ctx)?.session;
   }
 
   /**
@@ -225,33 +309,55 @@ export class AbimongoModel<T extends Document> {
     return clone;
   }
 
+  // async registerModel(options: AbimongoModelOptions<T>): Promise<void> {
+  //   const { ctx, collectionName, schema, collection } = options;
+
+  //   if (!collectionName) throw new Error("Collection name is required.");
+
+  //   this._collectionName = collectionName;
+
+  //   // explicit collection override (tests / advanced)
+  //   if (collection) {
+  //     this._collectionOverride = collection;
+  //   }
+
+  //   // resolveDb priority: ctx.db > tenantId > (already set / default)
+  //   if (ctx?.db) {
+  //     this._provider.db = async () => ctx.db!;
+  //   } else if (ctx?.tenantId) {
+  //     const client = await this.getResolvedTenant(ctx.tenantId);
+  //     this._provider.db = async () => client?.client?.db(ctx.dbName) as Db;
+  //   } else {
+  //     // if _provider.db is not set elsewhere, this should error
+  //     if (!this._provider.db) {
+  //       throw new Error("AbimongoModel: p_provider.db is not configured (db/client/tenantId/AbimongoClient required).");
+  //     }
+  //   }
+
+  //   this._schema = schema ?? new AbimongoSchema<T>({} as any);
+
+  //   await this.init();
+  // }
+
   async registerModel(options: AbimongoModelOptions<T>): Promise<void> {
     const { ctx, collectionName, schema, collection } = options;
 
-    if (!collectionName) throw new Error("Collection name is required.");
+    if (!collectionName) {
+      throw new Error('Collection name is required.');
+    }
 
     this._collectionName = collectionName;
-
-    // explicit collection override (tests / advanced)
-    if (collection) {
-      this._collectionOverride = collection;
-    }
-
-    // resolveDb priority: ctx.db > tenantId > (already set / default)
-    if (ctx?.db) {
-      this._provider.db = async () => ctx.db!;
-    } else if (ctx?.tenantId) {
-      const client = await this.getResolvedTenant(ctx.tenantId);
-      this._provider.db = async () => client?.db() as Db;
-    } else {
-      // if _provider.db is not set elsewhere, this should error
-      if (!this._provider.db) {
-        throw new Error("AbimongoModel: p_provider.db is not configured (db/client/tenantId/AbimongoClient required).");
-      }
-    }
-
+    this._collectionOverride = collection;
     this._schema = schema ?? new AbimongoSchema<T>({} as any);
 
+    if (ctx) {
+      this._defaultCtx = {
+        ...this._defaultCtx,
+        ...ctx,
+      };
+    }
+
+    this.ensureConfigured();
     await this.init();
   }
 
@@ -329,6 +435,45 @@ export class AbimongoModel<T extends Document> {
    * @param {OptionalUnlessRequiredId<T>} doc - The document to create.
    * @returns {Promise<T>} The created document with its `_id`.
    */
+  // async create(
+  //   doc: OptionalUnlessRequiredId<T>,
+  //   ctx?: ModelContext
+  // ): Promise<ModelResult<T>> {
+  //   await this.init();
+  //   this.validate(doc);
+
+  //   await this._schema.executeHooks('pre-save', doc);
+  //   this._schema.validate(doc);
+
+  //   const col = await this.getCollection(ctx);
+  //   const resolvedCtx = this.mergeCtx(ctx);
+
+  //   const result = await col.insertOne(
+  //     doc,
+  //     resolvedCtx?.session ? { session: resolvedCtx.session } : undefined
+  //   );
+
+  //   const createdDoc = { ...doc, _id: result?.insertedId } as WithId<T>;
+
+  //   await this.schema.executeHooks("post-save", createdDoc);
+
+  //   const payload = this.toModelResult(createdDoc);
+
+  //   // Use collection name string for event key, not the collection object
+  //   await pubsub.publish(
+  //     `${DB_CHANGE_EVENT}_${this._collectionName}`,
+  //     JSON.stringify({
+  //       documentInserted: {
+  //         action: "create",
+  //         doc: payload
+  //       }
+  //     })
+  //   );
+
+
+  //   return payload as ModelResult<T>;
+  // }
+
   async create(
     doc: OptionalUnlessRequiredId<T>,
     ctx?: ModelContext
@@ -340,31 +485,29 @@ export class AbimongoModel<T extends Document> {
     this._schema.validate(doc);
 
     const col = await this.getCollection(ctx);
-    const resolvedCtx = this.resolveCtx(ctx);
+    const session = this.resolveSession(ctx);
 
     const result = await col.insertOne(
       doc,
-      resolvedCtx?.session ? { session: resolvedCtx.session } : undefined
+      session ? { session } : undefined
     );
 
     const createdDoc = { ...doc, _id: result?.insertedId } as WithId<T>;
 
-    await this.schema.executeHooks("post-save", createdDoc);
+    await this.schema.executeHooks('post-save', createdDoc);
 
     const payload = this.toModelResult(createdDoc);
 
-    // Use collection name string for event key, not the collection object
     await pubsub.publish(
-      `${DB_CHANGE_EVENT}_${this._collectionName}`,
+      `${DB_CHANGE_EVENT}_${this.resolveCollectionName(ctx)}`,
       JSON.stringify({
         documentInserted: {
-          action: "create",
+          action: 'create',
           doc: payload
         }
       })
     );
 
-  
     return payload as ModelResult<T>;
   }
 
@@ -373,6 +516,19 @@ export class AbimongoModel<T extends Document> {
    * @param {Filter<T>} [filter={}] - The filter to apply.
    * @returns {Promise<T[]>} An array of matching documents.
    */
+  // async find(
+  //   filter: Filter<T> = {},
+  //   ctx?: ModelContext
+  // ): Promise<ModelResultArray<T>> {
+  //   await this.init();
+
+  //   const col = await this.getCollection(ctx);
+  //   const cursor = col.find(filter, ctx?.session ? { session: ctx.session } : undefined);
+
+  //   const results = await cursor.toArray();
+  //   return this.toModelResults(results as WithId<T>[]);
+  // }
+
   async find(
     filter: Filter<T> = {},
     ctx?: ModelContext
@@ -380,9 +536,11 @@ export class AbimongoModel<T extends Document> {
     await this.init();
 
     const col = await this.getCollection(ctx);
-    const cursor = col.find(filter, ctx?.session ? { session: ctx.session } : undefined);
+    const session = this.resolveSession(ctx);
 
+    const cursor = col.find(filter, session ? { session } : undefined);
     const results = await cursor.toArray();
+
     return this.toModelResults(results as WithId<T>[]);
   }
 
@@ -394,13 +552,18 @@ export class AbimongoModel<T extends Document> {
    */
   async findOne(filter: Filter<T>, ctx?: ModelContext): Promise<T | null> {
     await this.init();
+
     if (!filter || typeof filter !== 'object') {
-      console.error('[error]: Filter must be a valid object.');
       throw new Error('Filter must be a valid object.');
     }
 
     const col = await this.getCollection(ctx);
-    const result = await col?.findOne(filter, ctx?.session ? { session: ctx.session } : undefined);
+    const session = this.resolveSession(ctx);
+
+    const result = await col?.findOne(
+      filter,
+      session ? { session } : undefined
+    );
     return result as T | null;
   }
 
@@ -419,8 +582,13 @@ export class AbimongoModel<T extends Document> {
 
     await this.schema.executeHooks('pre-update', { filter, update });
     const col = await this.getCollection(ctx);
+    const session = this.resolveSession(ctx);
 
-    await col.updateOne(filter, update, ctx?.session ? { session: ctx.session } : undefined);
+    await col.updateOne(
+      filter, update,
+      session ? { session } : undefined
+    );
+
     await this.schema.executeHooks('post-update', { filter, update });
 
     await pubsub.publish(`${DB_CHANGE_EVENT}`, JSON.stringify({ documentUpdated: { action: "update", filter, update } }));
@@ -433,11 +601,21 @@ export class AbimongoModel<T extends Document> {
    */
   async bulkInsert(docs: OptionalUnlessRequiredId<T>[], ctx?: ModelContext): Promise<void> {
     await this.init();
+
     if (!docs || docs.length === 0) return;
     this.validate(docs[0][0]); // Validate the first document
+
     await this.schema.executeHooks('pre-save', docs);
     const col = await this.getCollection(ctx);
-    await col.insertMany(docs, { ordered: false, session: ctx?.session });
+    const session = this.resolveSession(ctx);
+
+    await col.insertMany(
+      docs,
+      {
+        ordered: false,
+        session: session
+      }
+    );
     await pubsub.publish(`${DB_CHANGE_EVENT}`, { documentInserted: { action: "bulkInsert", docs } });
   }
 
@@ -452,7 +630,13 @@ export class AbimongoModel<T extends Document> {
       updateOne: { filter: filter as Filter<T>, update: { $set: update } },
     }))
     const col = await this.getCollection(ctx);
-    await col.bulkWrite(bulkOps, { ordered: false, session: ctx?.session });
+    const session = this.resolveSession(ctx);
+    await col.bulkWrite(
+      bulkOps,
+      {
+        ordered: false,
+        session: session
+      });
     await pubsub.publish(`${DB_CHANGE_EVENT}`, { documentInserted: { action: "bulkUpdate", updates } });
 
   }
@@ -539,11 +723,21 @@ export class AbimongoModel<T extends Document> {
   async deleteOne(filter: Filter<T>, ctx?: ModelContext): Promise<void> {
     await this.init();
     const col = await this.getCollection(ctx);
-    const doc = await col.findOne(filter, ctx?.session ? { session: ctx.session } : undefined);
+    const session = this.resolveSession(ctx);
+
+    const doc = await col.findOne(
+      filter,
+      session ? { session } : undefined
+    );
     if (doc) {
       // Trigger pre-delete middleware
       await this.schema.triggerMiddleware('deleteOne', doc);
-      await col.deleteOne(filter, { session: ctx?.session });
+      await col.deleteOne(
+        filter,
+        {
+          session: session
+        }
+      );
       await pubsub.publish(`${DB_CHANGE_EVENT}`, { documentDeleted: { action: "delete", filter } });
     }
   };
@@ -557,7 +751,13 @@ export class AbimongoModel<T extends Document> {
     await this.init();
 
     const col = await this.getCollection(ctx);
-    const docs = await col.find(filter, ctx?.session ? { session: ctx.session } : undefined).toArray();
+    const session = this.resolveSession(ctx);
+
+    const docs = await col.find(
+      filter,
+      session ? { session } : undefined
+    ).toArray();
+
     if (docs.length > 0) {
       // Trigger pre-delete middleware
       await this.schema.triggerMiddleware('deleteMany', docs);
@@ -608,11 +808,12 @@ export class AbimongoModel<T extends Document> {
   ): Promise<T> {
     await this.init();
 
-    return this.withTransaction(async (session) => {
+    return this.withTransaction(async () => {
       this.validate(doc);
       await this._schema.executeHooks?.("pre-save", doc);
 
       const col = await this.getCollection(ctx);
+      const session = this.resolveSession(ctx);
 
       const result = await col.insertOne(
         doc,
@@ -647,8 +848,9 @@ export class AbimongoModel<T extends Document> {
   ): Promise<BulkWriteResult> {
     await this.init();
 
-    return this.withTransaction(async (session) => {
+    return this.withTransaction(async () => {
       const col = await this.getCollection(ctx);
+      const session = this.resolveSession(ctx);
 
       await this._schema.executeHooks?.("pre-bulkWrite", operations);
 
@@ -685,8 +887,9 @@ export class AbimongoModel<T extends Document> {
   ): Promise<boolean> {
     await this.init();
 
-    return this.withTransaction(async (session) => {
+    return this.withTransaction(async () => {
       const col = await this.getCollection(ctx);
+      const session = this.resolveSession(ctx);
 
       const existingDoc = await col.findOne(
         filter,
@@ -704,26 +907,6 @@ export class AbimongoModel<T extends Document> {
 
     }, ctx);
   }
-  // async deleteWithTransaction(filter: Filter<T>, ctx?: ModelContext): Promise<void> {
-  //   await this.init();
-  //   let session: ClientSession | undefined;
-  //   session = (await this._provider.db()).client.startSession(ctx?.session ? ctx.session : undefined);
-  //   session?.startTransaction();
-  //   try {
-  //     const col = await this.getCollection(ctx);
-  //     const doc = await col.findOne(filter, ctx?.session ? { session: ctx.session } : undefined);
-  //     if (doc) {
-  //       await this.schema.triggerMiddleware('deleteOne', doc);
-  //       await col.deleteOne(filter, { session });
-  //       await session?.commitTransaction();
-  //     }
-  //   } catch (error) {
-  //     await session?.abortTransaction();
-  //     throw error;
-  //   } finally {
-  //     session?.endSession();
-  //   }
-  // }
 
   /**
    * Updates a document with a transaction.
@@ -738,8 +921,9 @@ export class AbimongoModel<T extends Document> {
   ): Promise<T | null> {
     await this.init();
 
-    return this.withTransaction(async (session) => {
+    return this.withTransaction(async () => {
       const col = await this.getCollection(ctx);
+      const session = this.resolveSession(ctx);
 
       const existingDoc = await col.findOne(filter, { session });
       if (!existingDoc) return null;
@@ -766,31 +950,15 @@ export class AbimongoModel<T extends Document> {
         : null;
     }, ctx);
   }
-  // async updateWithTransaction(filter: Filter<T>, update: UpdateFilter<T>, ctx?: ModelContext): Promise<void> {
-  //   await this.init();
-  //   let session: ClientSession | undefined;
-  //   session = (await this._provider.db()).client.startSession(ctx?.session ? ctx.session : undefined);
-  //   session?.startTransaction();
-  //   try {
-  //     const col = await this.getCollection(ctx);
-  //     await col.updateOne(filter, update, { session });
-  //     await session?.commitTransaction();
-  //   } catch (error) {
-  //     await session?.abortTransaction();
-  //     throw error;
-  //   } finally {
-  //     session?.endSession();
-  //   }
-  // }
 
   private async getSession(ctx?: ModelContext): Promise<ClientSession> {
     if (!this._provider?.startSession) {
       throw new Error(
-        "Transaction support is not available. Provider does not implement startSession()."
+        'Transaction support is not available. Provider does not implement startSession().'
       );
     }
 
-    return this._provider.startSession(ctx);
+    return this._provider.startSession(this.mergeCtx(ctx));
   }
 
   /**
@@ -985,8 +1153,15 @@ export class AbimongoModel<T extends Document> {
   ): Promise<U[]> {
     try {
       await this.init();
+
       const col = await this.getCollection(ctx);
-      const cursor = col.aggregate<U>(pipeline, { ...options, session: ctx?.session || session });
+      const session = this.resolveSession(ctx);
+
+      const cursor = col.aggregate<U>(
+        pipeline, {
+        ...options,
+        session: session || session
+      });
       this.schema.triggerMiddleware('aggregate', cursor);
       this.eventEmitter.emit('aggregate', cursor.bufferedCount());
 
@@ -1012,8 +1187,9 @@ export class AbimongoModel<T extends Document> {
   ): Promise<U[]> {
     await this.init();
 
-    return this.withTransaction(async (session) => {
+    return this.withTransaction(async () => {
       const col = await this.getCollection(ctx);
+      const session = this.resolveSession(ctx);
 
       const cursor = col.aggregate<U>(pipeline, {
         ...options,
@@ -1043,8 +1219,10 @@ export class AbimongoModel<T extends Document> {
   ): Promise<T> {
     await this.init();
 
-    return this.withTransaction(async (session) => {
+    return this.withTransaction(async () => {
       const col = await this.getCollection(ctx);
+      const session = this.resolveSession(ctx);
+
       const cursor = col.find({}, { session });
       const result = await cursor.toArray();
       if (!result) throw new Error('Transaction failed: No results found');
@@ -1085,31 +1263,29 @@ export class AbimongoModel<T extends Document> {
     cacheDuration = 300
   ): Promise<T[]> {
     await this.init();
-    // Check if the pipeline is valid Array
     if (!Array.isArray(pipeline)) {
-      console.error('[error]: Pipeline must be an array of objects.');
       throw new Error('Pipeline must be an array of objects.');
     }
     const cachedResult = await redis.get(cacheKey);
 
     if (cachedResult) {
       console.info(`[info]: Cache hit: ${cacheKey}`);
-      return JSON.parse(cachedResult) as T[]; // Return cached result
+      return JSON.parse(cachedResult) as T[];
     } else if (typeof cacheKey !== 'string') {
-      console.error('[error]: Cache key must be a string.');
       throw new Error('Cache key must be a string.');
     } else {
       console.info(`[info]: Cache miss: ${cacheKey}`);
     }
 
-    // If not cached, fetch from MongoDB
+
     const col = await this.getCollection();
+
     const result = await col.aggregate<T>(pipeline).toArray();
-    await redis.set(cacheKey, JSON.stringify(result) || ''); // Set cache with expiration
-    await redis.expire(cacheKey, cacheDuration); // Set expiration time
+    await redis.set(cacheKey, JSON.stringify(result) || '');
+    await redis.expire(cacheKey, cacheDuration);
 
     console.info('Cache set:', cacheKey);
-    // Trigger post-aggregation middleware
+
     this.schema.triggerMiddleware('aggregate', result);
     await pubsub.publish("DB_CHANGE", { dbChange: { action: "aggregate", result } });
     return result as T[] || [];
@@ -1190,18 +1366,15 @@ export class AbimongoModel<T extends Document> {
 
     try {
       do {
-        // Use SCAN to iterate through keys matching the pattern
         const result = await redis.scan(cursor, {
           MATCH: pattern,
           COUNT: 100
         });
 
-        // Extract cursor and keys from the result
         const nextCursor = Array.isArray(result) ? Number(result[0]) : 0;
         const keys = Array.isArray(result) ? result[1] : [];
 
         if (keys && keys.length > 0) {
-          // Delete keys in batches using multi (transaction) for better performance
           const multi = redis.multi();
           keys.forEach(key => multi.del(key));
 
@@ -1210,7 +1383,6 @@ export class AbimongoModel<T extends Document> {
           // Count successful deletions
           if (results) {
             deletedCount += results.filter((entry: any) => {
-              // redis v4 multi.exec() can return array entries as either [err, result] or direct replies
               if (Array.isArray(entry)) {
                 const err = entry[0];
                 const val = entry[1];
@@ -1228,7 +1400,6 @@ export class AbimongoModel<T extends Document> {
       return deletedCount;
 
     } catch (error) {
-      console.error('Error invalidating cache pattern:', error);
       throw new Error(`Failed to invalidate cache pattern "${pattern}": ${error}`);
     }
   }
@@ -1463,13 +1634,31 @@ export class AbimongoModel<T extends Document> {
     operation: (session: ClientSession) => Promise<R>,
     ctx?: ModelContext
   ): Promise<R> {
-    const session = await this.getSession(ctx);
+    const baseCtx = this.mergeCtx(ctx);
+    const existingSession = baseCtx?.session;
+
+    if (existingSession) {
+      return operation(existingSession);
+    }
+
+    const session = await this.getSession(baseCtx);
     session.startTransaction();
 
     try {
-      const result = await operation(session);
-      await session.commitTransaction();
-      return result;
+      return await AbimongoContext.run(
+        {
+          ...(AbimongoContext.get() ?? {}),
+          tenantId: baseCtx?.tenantId ?? AbimongoContext.get()?.tenantId,
+          dbName: baseCtx?.dbName ?? AbimongoContext.get()?.dbName,
+          collectionName: baseCtx?.collectionName ?? AbimongoContext.get()?.collectionName,
+          session
+        },
+        async () => {
+          const result = await operation(session);
+          await session.commitTransaction();
+          return result;
+        }
+      );
     } catch (error) {
       await session.abortTransaction();
       throw error;

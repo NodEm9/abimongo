@@ -14,12 +14,18 @@ export function scheduleGarbageCollector(cronExpr = '0 * * * *') {
     const models = AbimongoModelRegistry.getAllModels();
     
     for (const model of models) {
+      const modelName = model.getContext();
+      if (!modelName || !modelName.ctx || !modelName.ctx.collectionName) {
+        console.warn(colorize(`[GC] Skipping model without valid context or collection name`, 'yellow'));
+        continue;
+      }
       try {
         console.log(colorize(`[GC] 🔁 Running GC on all registered models...`, 'blue'));
         await runGarbageCollectorOnAllModels();
       } catch (e) {
-        console.error(colorize(`[GC] Error running GC for model ${model.collectionName}`, 'red'), e);
+        console.error(colorize(`[GC] Error running GC for model ${modelName.ctx.collectionName}`, 'red'), e);
       }
     }
   });
+
 }

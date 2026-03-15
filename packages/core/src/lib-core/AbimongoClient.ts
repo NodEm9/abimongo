@@ -618,7 +618,7 @@ export class AbimongoClient implements BootstrapClient {
 
 		const dbName =
 			overrideDbName ??
-			ctx?.overrideDbName ??
+			ctx?.dbName ??
 			this._opts?.options?.dbName;
 
 		if (!dbName) {
@@ -633,7 +633,7 @@ export class AbimongoClient implements BootstrapClient {
 
 		const resolvedCollectionName =
 			collectionName ??
-			ctx?.overrideCollectionName;
+			ctx?.collectionName;
 
 		if (!resolvedCollectionName?.trim()) {
 			throw new Error('Collection name is required.');
@@ -675,8 +675,8 @@ export class AbimongoClient implements BootstrapClient {
 			{
 				tenantId: context.tenantId,
 				requestId: context.requestId,
-				overrideDbName: context.dbName,
-				overrideCollectionName: context.collectionName,
+				dbName: context.dbName,
+				collectionName: context.collectionName,
 				session: context.session
 			},
 			callback

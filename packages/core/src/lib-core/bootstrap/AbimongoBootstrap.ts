@@ -1,7 +1,7 @@
 import { loadAbimongoConfig } from '../../config';
 import { AbimongoConfig } from '../../types/AbimongoConfig';
 import { setupLogger, logger, Logger } from '@abimongo/logger';
-import { Abimongo, AbimongoClient, createAbimongoClientModule } from '../AbimongoClient';
+import { AbimongoClient, createAbimongoClientModule } from '../AbimongoClient';
 import { AbimongoModel } from '../AbimongoModelFactory';
 import { AbimongoSchema, Schema } from '../AbimongoSchema';
 import { AbimongoGraphQL, initializeGraphQL } from '../../graphql';
@@ -9,22 +9,25 @@ import { redis } from '../../redis-manager/redisClient';
 import { cacheWithRedis, Model, setLogger } from '../../utils';
 import { invalidateTenantCache } from '../../utils/invalidateTenantCache';
 import { initMultiTenancy, InitMultiTenancyOptions } from '../../tanancy';
-import { AbimongoGC } from '../../gc';
-import { scheduleGarbageCollector } from '../../gc/gcCron.node';
+import { AbimongoGC, scheduleGarbageCollector } from '../../gc';
 import { colorize } from '../../utils/color-palatte';
 import { AbimongoAdapter } from '@abimongo/adapter-types';
-import { BootstrapClient, DbProvider, Document } from '../../types';
+import { BootstrapClient, Document } from '../../types';
+import { Collection } from 'mongodb';
 
-interface TenantType {
-  [tenantId: string]: string;
-}
 
 const isNode = typeof process !== 'undefined' && process.versions?.node;
 
 
 type OnConnectHook = () => Promise<void> | void;
 
-const initLogger = Logger.instance
+
+export interface RegisterMultiTenancyOptions {
+  adapter?: AbimongoAdapter;
+  tenants?: Record<string, string>;
+  headerKey?: string;
+  initOptions?: InitMultiTenancyOptions;
+}
 
 /**
  * AbimongoBootstrap is the main entry point for initializing
@@ -103,13 +106,14 @@ export class AbimongoBootstrap {
   private config!: AbimongoConfig;
   private provider!: BootstrapClient;
   private model!: AbimongoModel<Document>;
-  private schema!: AbimongoSchema<Document>
-  private graphql!: AbimongoGraphQL;
-  public logCfgProperty!: ReturnType<typeof setupLogger> | typeof logger;
-  public logger = Logger.instance || typeof logger;
-  private adapter?: AbimongoAdapter;
-  private gc!: AbimongoGC;
+  private schema!: AbimongoSchema<Document>;
+  private graphql?: AbimongoGraphQL;
+  private gc?: AbimongoGC;
 
+  public logCfgProperty!: ReturnType<typeof setupLogger> | typeof logger;
+  public logger = Logger.instance || logger;
+
+  private adapter?: AbimongoAdapter;
   private onConnectHooks: OnConnectHook[] = [];
 
   constructor(adapter?: AbimongoAdapter) {
@@ -118,8 +122,6 @@ export class AbimongoBootstrap {
 
   /**
    * Register a hook to be called after the connection is established.
-   * This can be used for custom initialization logic that depends on the database being ready.
-   * @param hook - A function that will be called after the connection is established.
    */
   public onConnect(hook: OnConnectHook): void {
     this.onConnectHooks.push(hook);
@@ -127,255 +129,231 @@ export class AbimongoBootstrap {
 
   /**
    * Initializes the Abimongo application stack.
-   * This method sets up MongoDB, Redis, and GraphQL connections,
-   * and executes any registered onConnect hooks.
-  * @param {string|AbimongoConfig} [configFilePathOrObject] - Optional path to a custom configuration file or a config object.
-  * If not provided, it defaults to 'abimongo.config.json'.
    */
   async initialize(configFilePathOrObject?: string | AbimongoConfig): Promise<void> {
-    // allow passing either a path to a config file or a config object
-    if (configFilePathOrObject && typeof configFilePathOrObject === 'object') {
-      this.config = configFilePathOrObject as AbimongoConfig;
-    } else {
-      this.config = await loadAbimongoConfig(configFilePathOrObject as string | undefined);
-    }
-    if (this.config.logger?.enabled) {
-      const loggerConfig = this.config.logger ?? { enabled: false }
-      // Cast to any to satisfy overloads where advanced 
-      // //fields (like garbageCollector.logResults) may require a narrower type
-      const loggerConfg = loggerConfig.enabled ? setLogger(this.config.logger as any) : logger;
-      this.logCfgProperty = loggerConfg;
-      console.log('📝 Logger initialized');
+    this.config =
+      configFilePathOrObject && typeof configFilePathOrObject === 'object'
+        ? (configFilePathOrObject as AbimongoConfig)
+        : await loadAbimongoConfig(configFilePathOrObject as string | undefined);
+
+    this.initializeLogger();
+    await this.initializeRedis();
+    await this.initializeMongoProvider();
+    this.initializeSchema();
+    await this.initializeModel();
+    await this.initializeMultiTenancy();
+    await this.initializeGraphQL();
+    await this.runOnConnectHooks();
+    await this.initializeGarbageCollector();
+  }
+
+  private initializeLogger(): void {
+    if (!this.config.logger?.enabled) return;
+
+    const loggerConfig = this.config.logger ?? { enabled: false };
+    const configuredLogger = loggerConfig.enabled
+      ? setLogger(this.config.logger as any)
+      : logger;
+
+    this.logCfgProperty = configuredLogger;
+    console.log('📝 Logger initialized');
+  }
+
+  private async initializeRedis(): Promise<void> {
+    if (!this.config.features?.useRedisCache || !this.config.features.redisUri) {
+      return;
     }
 
-    // Redis setup (if enabled)
-    if (this.config.features?.useRedisCache && this.config.features.redisUri) {
-      await redis.get(this.config.features.redisUri);
-      console.log(colorize('Redis connected', 'blue'));
-    }
+    await redis.get(this.config.features.redisUri);
+    console.log(colorize('Redis connected', 'blue'));
+  }
 
-    // Mongo setup (always required)
+  private async initializeMongoProvider(): Promise<void> {
+    const resolvedDbName =
+      this.config.connection?.options?.dbName ||
+      this.config.projectName ||
+      undefined;
+
     this.provider =
       this.config.mongoClient ??
       this.config.provider ??
       createAbimongoClientModule({
         uri: this.config.connection?.uri!,
         options: {
-          dbName: this.config.connection?.options.dbName
-            || this.config.projectName || undefined,
-          ...this.config.connection?.options
+          dbName: resolvedDbName,
+          ...this.config.connection?.options,
         },
       });
 
-
-    await await this.provider.connect()
+    await this.provider.connect();
     console.log(colorize('MongoDB connected via AbimongoClientModule', 'blue'));
+  }
 
-    // Register schema if provided
-    this.schema = new Schema(typeof this.config.schema === 'object'
-      ? this.config.schema : {});
+  private initializeSchema(): void {
+    this.schema = new Schema(
+      typeof this.config.schema === 'object' ? this.config.schema : {}
+    );
+
     if (this.config.schema) {
       this.schema.registerSchema(this.config.schema);
       console.log(colorize('Schema registered', 'blue'));
     } else {
       console.log(colorize('No schema provided, using default schema', 'yellow'));
     }
+  }
 
-    // Register models if provided
+  private async initializeModel(): Promise<void> {
+    const collectionName = this.config.model?.collectionName || 'default';
+
     this.model = Model<Document>({
-      collectionName: this.config.model?.collectionName || 'default',
+      collectionName,
       schema: this.schema,
       provider: this.provider,
+      ctx: this.config.model?.ctx,
+      collection: this.config.model?.collection,
+      gcConfig: this.config.model?.gcConfig,
     });
 
     if (this.config.model) {
-      // for (const modelConfig of [this.config.model]) {
-      this.model.registerModel(this.config.model);
-      console.log(colorize(`Model registered: ${this.config.model.collectionName}`, 'blue'));
-      // }
-    }
-
-    // if (this.config.multiTenant?.enabled) {
-    //   if (!this.adapter?.installTenancy) {
-    //     console.warn(
-    //       `Multi-tenancy is enabled, but no adapter with applyMultiTenancy() was provided. Skipping runtime middleware wiring.`
-    //     )
-    //   } else {
-    //     await this.adapter?.installTenancy(
-    //       {},
-    //       {
-    //         tenants: this.config.multiTenant.tenants || {},
-    //         headerKey: this.config.multiTenant.headerKey || 'x-tenant-id',
-    //         initOptions: this.config.multiTenant.initOptions || {},
-    //       }
-    //     );
-    //   }
-    //   console.log(colorize('Multi-tenancy initialized', 'blue'));
-    // }
-
-    if (this.config.multiTenant?.enabled) {
-      const tenants = this.config.multiTenant.tenants || {};
-      const initOptions = this.config.multiTenant.initOptions || {};
-
-      await initMultiTenancy(tenants, initOptions);
-
-      if (!this.adapter?.installTenancy) {
-        console.warn(
-          `Multi-tenancy is enabled, but no adapter with installTenancy() was provided. Skipping runtime middleware wiring.`
-        );
-      } else {
-        await this.adapter.installTenancy({}, {
-          tenants,
-          headerKey: this.config.multiTenant.headerKey || "x-tenant-id",
-          initOptions,
-        });
-      }
-
-      console.log(colorize("Multi-tenancy initialized", "blue"));
-    }
-
-    // GraphQL setup (if enabled)
-    if (this.config.graphql?.enabled) {
-      this.graphql = new AbimongoGraphQL();
-      await initializeGraphQL(
-        this.config.features?.typeDefs || '',
-        this.config.features?.resolvers || {},
-      );
-      console.log(colorize('GraphQL schema generated', 'blue'));
-      console.log(colorize('GraphQL initialized', 'blue'));
-    }
-
-    for (const hook of this.onConnectHooks) {
-      return await hook();
-    }
-
-    if (this.config.advanced?.garbageCollector?.enabled) {
-      const cronExpr = this.config.advanced?.gcCron || '0 * * * *'; // hourly default
-      if (isNode) {
-        // load node-only modules dynamically
-        // const { scheduleGarbageCollector } = await import('../../gc/').ts;
-        scheduleGarbageCollector(cronExpr);
-      }
-
-      const { gcCron } = this.config.advanced;
-      if (!gcCron) {
-        throw new Error('Garbage Collector is not enabled in the configuration');
-      }
-
-      // Initialize Garbage Collector
-      this.gc = new AbimongoGC({
-        enabled: this.config.advanced?.garbageCollector?.enabled || true,
-        retentionPeriod: 30, // Default to 30 days
-        cron: this.config.advanced?.gcCron || '0 0 * * *', // Default to daily at midnight
-        logResults: this.config.advanced?.garbageCollector?.logResults || true,
+      await this.model.registerModel({
+        ...this.config.model,
+        collectionName,
+        schema: this.schema,
+        provider: this.provider,
       });
 
-      // await gc.initialize();
-      console.log('✅ Garbage Collector initialized');
-
-      // Register GC files
-      this.gc.register(
-        await this.provider.collection<Document>(this.config.model?.collectionName || 'default'),
-        this.schema
-      );
-      console.log('✅ Garbage Collector files registered');
-      console.log('🧹 Garbage Collector files generated.');
-    }
-  };
-
-  // public async registerMultiTenancy<TApp>(
-  //   app: TApp,
-  //   adapter: typeof this.adapter,
-  //   tenants?: Record<string, string>,
-  //   options?: { headerKey?: string; initOptions?: InitMultiTenancyOptions }
-  // ): Promise<void> {
-  //   if (!this.config.multiTenant?.enabled) {
-  //     throw new Error("Multi-tenancy is not enabled in the configuration");
-  //   }
-
-  //   const resolvedTenants = this.config.multiTenant.tenants ?? tenants;
-  //   if (!resolvedTenants || Object.keys(resolvedTenants).length === 0) {
-  //     throw new Error("Tenants map is required for multi-tenancy");
-  //   }
-
-  //   const resolvedOptions = {
-  //     headerKey: this.config.multiTenant.headerKey ?? options?.headerKey ?? "x-tenant-id",
-  //     initOptions: this.config.multiTenant.initOptions ?? options?.initOptions ?? {},
-  //   };
-
-  //   if (!adapter?.installTenancy) {
-  //     throw new Error("No tenancy adapter provided. Install @abimongo/adapter-express, @abimongo/adapter-fastify, etc.");
-  //   }
-
-  //   await adapter.installTenancy(app, { tenants: resolvedTenants, ...resolvedOptions });
-
-  //   console.log(`Multi-tenancy initialized via ${adapter.name ?? "adapter"}, (header: ${resolvedOptions.headerKey})`);
-  // }
-
-
-  // public async registerMultiTenancy(
-  //   application: Application,
-  //   tenants: Record<string, string>,
-  //   options: {
-  //     headerKey?: string;
-  //     initOptions?: InitMultiTenancyOptions;
-  //   }): Promise<void> {
-
-  //   if (!this.config.multiTenant?.enabled) {
-  //     throw new Error('Multi-tenancy is not enabled in the configuration');
-  //   }
-  //   if (!tenants) {
-  //     throw new Error('Tenant ID is required for multi-tenancy');
-  //   }
-  //   await applyMultiTenancy(
-  //     application,
-  //     tenants = this.config.multiTenant?.tenants || tenants,
-  //     options = {
-  //       headerKey: this.config.multiTenant?.headerKey || 'x-tenant-id',
-  //       initOptions: this.config.multiTenant?.initOptions || {},
-  //     }
-  //   )
-  //   console.log(colorize(`Multi-tenancy initialized for tenant: ${tenants}`, 'blue'));
-  // }
-
-  async registerMultiTenancy<TApp>(
-    app: TApp,
-    adapter: typeof this.adapter,
-    tenants?: Record<string, string>,
-    options?: { headerKey?: string; initOptions?: InitMultiTenancyOptions }
-  ): Promise<void> {
-    if (!this.config.multiTenant?.enabled) {
-      throw new Error("Multi-tenancy is not enabled in the configuration");
-    }
-
-    const resolvedTenants = this.config.multiTenant.tenants ?? tenants;
-    if (!resolvedTenants || Object.keys(resolvedTenants).length === 0) {
-      throw new Error("Tenants map is required for multi-tenancy");
-    }
-
-    const resolvedOptions = {
-      headerKey: this.config.multiTenant.headerKey ?? options?.headerKey ?? "x-tenant-id",
-      initOptions: this.config.multiTenant.initOptions ?? options?.initOptions ?? {},
-    };
-
-    await initMultiTenancy(resolvedTenants, resolvedOptions.initOptions);
-
-    if (!adapter?.installTenancy) {
-      throw new Error(
-        "No tenancy adapter provided. Install @abimongo/adapter-express, @abimongo/adapter-fastify, etc."
+      console.log(
+        colorize(`Model registered: ${this.config.model.collectionName}`, 'blue')
       );
     }
+  }
 
-    await adapter.installTenancy(app, {
-      tenants: resolvedTenants,
-      headerKey: resolvedOptions.headerKey,
-      initOptions: resolvedOptions.initOptions,
+  private async initializeMultiTenancy(): Promise<void> {
+    if (!this.config.multiTenant?.enabled) return;
+
+    const tenants = this.config.multiTenant.tenants || {};
+    const initOptions = this.config.multiTenant.initOptions || {};
+
+    await initMultiTenancy(tenants, initOptions);
+
+    if (!this.adapter?.installTenancy) {
+      console.warn(
+        'Multi-tenancy is enabled, but no adapter with installTenancy() was provided. Skipping runtime middleware wiring.'
+      );
+    } else {
+      await this.adapter.installTenancy({}, {
+        tenants,
+        headerKey: this.config.multiTenant.headerKey || 'x-tenant-id',
+        initOptions,
+      });
+    }
+
+    console.log(colorize('Multi-tenancy initialized', 'blue'));
+  }
+
+  private async initializeGraphQL(): Promise<void> {
+    if (!this.config.graphql?.enabled) return;
+
+    this.graphql = new AbimongoGraphQL();
+
+    await initializeGraphQL(
+      this.config.features?.typeDefs || '',
+      this.config.features?.resolvers || {}
+    );
+
+    console.log(colorize('GraphQL schema generated', 'blue'));
+    console.log(colorize('GraphQL initialized', 'blue'));
+  }
+
+  private async runOnConnectHooks(): Promise<void> {
+    for (const hook of this.onConnectHooks) {
+      await hook();
+    }
+  }
+
+  private async initializeGarbageCollector(): Promise<void> {
+    if (!this.config.advanced?.garbageCollector?.enabled) return;
+
+    const cronExpr = this.config.advanced.gcCron || '0 * * * *';
+
+    if (isNode) {
+      scheduleGarbageCollector(cronExpr);
+    }
+
+    this.gc = new AbimongoGC({
+      enabled: this.config.advanced.garbageCollector.enabled ?? true,
+      retentionPeriod: 30,
+      cron: this.config.advanced.gcCron || '0 0 * * *',
+      logResults: this.config.advanced.garbageCollector.logResults ?? true,
     });
 
-    console.log(
-      `Multi-tenancy initialized via ${adapter.name ?? "adapter"} (header: ${resolvedOptions.headerKey})`
+    console.log('✅ Garbage Collector initialized');
+
+    const gcCollection = await this.resolveGCCollection();
+    this.gc.register(gcCollection, this.schema);
+
+    console.log('✅ Garbage Collector files registered');
+    console.log('Garbage Collector files generated.');
+  }
+
+  private async resolveGCCollection(): Promise<Collection<Document>> {
+    if (!this.model) {
+      throw new Error('Model is not initialized. Cannot register GC collection.');
+    }
+
+    const collectionName = this.config.model?.collectionName || 'default';
+    const db = await this.provider.db(this.config.model?.ctx);
+
+    if (!db || typeof db.collection !== 'function') {
+      throw new Error('Provider db() did not return a valid Db instance for GC registration.');
+    }
+
+    return db.collection<Document>(collectionName);
+  }
+
+
+async registerMultiTenancy<TApp>(
+  app: TApp,
+  options: RegisterMultiTenancyOptions = {}
+): Promise<void> {
+  if (!this.config.multiTenant?.enabled) {
+    throw new Error('Multi-tenancy is not enabled in the configuration');
+  }
+
+  const resolvedTenants = this.config.multiTenant.tenants ?? options.tenants;
+  if (!resolvedTenants || Object.keys(resolvedTenants).length === 0) {
+    throw new Error('Tenants map is required for multi-tenancy');
+  }
+
+  const resolvedAdapter = options.adapter ?? this.adapter;
+  if (!resolvedAdapter?.installTenancy) {
+    throw new Error(
+      'No tenancy adapter provided. Install @abimongo/adapter-express, @abimongo/adapter-fastify, etc.'
     );
   }
+
+  const headerKey =
+    this.config.multiTenant.headerKey ??
+    options.headerKey ??
+    'x-tenant-id';
+
+  const initOptions =
+    this.config.multiTenant.initOptions ??
+    options.initOptions ??
+    {};
+
+  await initMultiTenancy(resolvedTenants, initOptions);
+
+  await resolvedAdapter.installTenancy(app, {
+    tenants: resolvedTenants,
+    headerKey,
+    initOptions,
+  });
+
+  console.log(
+    `Multi-tenancy initialized via ${resolvedAdapter.name ?? 'adapter'} (header: ${headerKey})`
+  );
+}
   public async cache<T>(
     key: string,
     fetcher: () => Promise<T>,
@@ -386,49 +364,60 @@ export class AbimongoBootstrap {
       namespace?: string;
     } = {}
   ): Promise<T> {
-    if (!redis) throw new Error('Redis is not initialized');
-    return await cacheWithRedis<T>(redis, key, fetcher, options);
+    if (!redis) {
+      throw new Error('Redis is not initialized');
+    }
+
+    return cacheWithRedis<T>(redis, key, fetcher, options);
   }
 
-  public async invalidateCache(tenantId: string, namespace?: string) {
-    if (!redis) throw new Error('No Redis client available');
-    if (!tenantId) throw new Error('Tenant ID is required to invalidate cache');
+  public async invalidateCache(tenantId: string, namespace?: string): Promise<void> {
+    if (!redis) {
+      throw new Error('No Redis client available');
+    }
+
+    if (!tenantId) {
+      throw new Error('Tenant ID is required to invalidate cache');
+    }
+
     console.log('Invalidating cache for tenant:', tenantId, 'namespace:', namespace);
     await invalidateTenantCache(redis, tenantId, namespace);
   }
 
   /**
    * Returns the Redis client if Redis is enabled in the configuration.
-   * @returns {Promise<typeof redis>} A promise that resolves to the Redis client.
    */
-  public getRedisClient(): Promise<typeof redis> {
+  public async getRedisClient(): Promise<typeof redis> {
     if (this.config.features?.useRedisCache && this.config.features.redisUri) {
-      Promise.resolve(redis.get(this.config.features.redisUri))
+      await redis.get(this.config.features.redisUri);
     }
-    return Promise.resolve(redis);
 
+    return redis;
   }
 
   public getMongoClient(): AbimongoClient | BootstrapClient {
     return this.provider;
   }
 
-  // public getLogger(): ReturnType<typeof setupLogger> | typeof logger {
-  //   return this.logger;
-  // };
-
   public getModel(): AbimongoModel<Document> {
     return this.model;
   }
+
   public getSchema(): AbimongoSchema<Document> {
     return this.schema;
   }
 
-  public getGraphQL(): AbimongoGraphQL {
+  public getGraphQL(): AbimongoGraphQL | undefined {
+    if (!this.graphql) {
+      throw new Error('GraphQL is not initialized.');
+    }
     return this.graphql;
   }
 
-  public getGCRunner(): AbimongoGC {
+  public getGCRunner(): AbimongoGC | undefined {
+    if (!this.gc) {
+      throw new Error('Garbage Collector is not initialized.');
+    }
     return this.gc;
   }
 
@@ -443,7 +432,356 @@ export class AbimongoBootstrap {
       console.log('MongoDB connection closed');
     }
 
-    // Add GraphQL shutdown if needed (e.g., Apollo Server)}
     console.log('Shutdown complete');
   }
-};
+}
+
+
+// export class AbimongoBootstrap {
+//   private config!: AbimongoConfig;
+//   private provider!: BootstrapClient;
+//   private model!: AbimongoModel<Document>;
+//   private schema!: AbimongoSchema<Document>
+//   private graphql!: AbimongoGraphQL;
+//   public logCfgProperty!: ReturnType<typeof setupLogger> | typeof logger;
+//   public logger = Logger.instance || typeof logger;
+//   private adapter?: AbimongoAdapter;
+//   private gc!: AbimongoGC;
+
+//   private onConnectHooks: OnConnectHook[] = [];
+
+//   constructor(adapter?: AbimongoAdapter) {
+//     this.adapter = adapter;
+//   }
+
+//   /**
+//    * Register a hook to be called after the connection is established.
+//    * This can be used for custom initialization logic that depends on the database being ready.
+//    * @param hook - A function that will be called after the connection is established.
+//    */
+//   public onConnect(hook: OnConnectHook): void {
+//     this.onConnectHooks.push(hook);
+//   }
+
+//   /**
+//    * Initializes the Abimongo application stack.
+//    * This method sets up MongoDB, Redis, and GraphQL connections,
+//    * and executes any registered onConnect hooks.
+//   * @param {string|AbimongoConfig} [configFilePathOrObject] - Optional path to a custom configuration file or a config object.
+//   * If not provided, it defaults to 'abimongo.config.json'.
+//    */
+//   async initialize(configFilePathOrObject?: string | AbimongoConfig): Promise<void> {
+//     // allow passing either a path to a config file or a config object
+//     if (configFilePathOrObject && typeof configFilePathOrObject === 'object') {
+//       this.config = configFilePathOrObject as AbimongoConfig;
+//     } else {
+//       this.config = await loadAbimongoConfig(configFilePathOrObject as string | undefined);
+//     }
+//     if (this.config.logger?.enabled) {
+//       const loggerConfig = this.config.logger ?? { enabled: false }
+//       // Cast to any to satisfy overloads where advanced
+//       // //fields (like garbageCollector.logResults) may require a narrower type
+//       const loggerConfg = loggerConfig.enabled ? setLogger(this.config.logger as any) : logger;
+//       this.logCfgProperty = loggerConfg;
+//       console.log('📝 Logger initialized');
+//     }
+
+//     // Redis setup (if enabled)
+//     if (this.config.features?.useRedisCache && this.config.features.redisUri) {
+//       await redis.get(this.config.features.redisUri);
+//       console.log(colorize('Redis connected', 'blue'));
+//     }
+
+//     // Mongo setup (always required)
+//     this.provider =
+//       this.config.mongoClient ??
+//       this.config.provider ??
+//       createAbimongoClientModule({
+//         uri: this.config.connection?.uri!,
+//         options: {
+//           dbName: this.config.connection?.options.dbName
+//             || this.config.projectName || undefined,
+//           ...this.config.connection?.options
+//         },
+//       });
+
+
+//      await this.provider.connect()
+//     console.log(colorize('MongoDB connected via AbimongoClientModule', 'blue'));
+
+//     // Register schema if provided
+//     this.schema = new Schema(typeof this.config.schema === 'object'
+//       ? this.config.schema : {});
+//     if (this.config.schema) {
+//       this.schema.registerSchema(this.config.schema);
+//       console.log(colorize('Schema registered', 'blue'));
+//     } else {
+//       console.log(colorize('No schema provided, using default schema', 'yellow'));
+//     }
+
+//     // Register models if provided
+//     this.model = Model<Document>({
+//       collectionName: this.config.model?.collectionName || 'default',
+//       schema: this.schema,
+//       provider: this.provider,
+//     });
+
+//     if (this.config.model) {
+//       // for (const modelConfig of [this.config.model]) {
+//       this.model.registerModel(this.config.model);
+//       console.log(colorize(`Model registered: ${this.config.model.collectionName}`, 'blue'));
+//       // }
+//     }
+
+//     // if (this.config.multiTenant?.enabled) {
+//     //   if (!this.adapter?.installTenancy) {
+//     //     console.warn(
+//     //       `Multi-tenancy is enabled, but no adapter with applyMultiTenancy() was provided. Skipping runtime middleware wiring.`
+//     //     )
+//     //   } else {
+//     //     await this.adapter?.installTenancy(
+//     //       {},
+//     //       {
+//     //         tenants: this.config.multiTenant.tenants || {},
+//     //         headerKey: this.config.multiTenant.headerKey || 'x-tenant-id',
+//     //         initOptions: this.config.multiTenant.initOptions || {},
+//     //       }
+//     //     );
+//     //   }
+//     //   console.log(colorize('Multi-tenancy initialized', 'blue'));
+//     // }
+
+//     if (this.config.multiTenant?.enabled) {
+//       const tenants = this.config.multiTenant.tenants || {};
+//       const initOptions = this.config.multiTenant.initOptions || {};
+
+//       await initMultiTenancy(tenants, initOptions);
+
+//       if (!this.adapter?.installTenancy) {
+//         console.warn(
+//           `Multi-tenancy is enabled, but no adapter with installTenancy() was provided. Skipping runtime middleware wiring.`
+//         );
+//       } else {
+//         await this.adapter.installTenancy({}, {
+//           tenants,
+//           headerKey: this.config.multiTenant.headerKey || "x-tenant-id",
+//           initOptions,
+//         });
+//       }
+
+//       console.log(colorize("Multi-tenancy initialized", "blue"));
+//     }
+
+//     // GraphQL setup (if enabled)
+//     if (this.config.graphql?.enabled) {
+//       this.graphql = new AbimongoGraphQL();
+//       await initializeGraphQL(
+//         this.config.features?.typeDefs || '',
+//         this.config.features?.resolvers || {},
+//       );
+//       console.log(colorize('GraphQL schema generated', 'blue'));
+//       console.log(colorize('GraphQL initialized', 'blue'));
+//     }
+
+//     for (const hook of this.onConnectHooks) {
+//       return await hook();
+//     }
+
+//     if (this.config.advanced?.garbageCollector?.enabled) {
+//       const cronExpr = this.config.advanced?.gcCron || '0 * * * *'; // hourly default
+//       if (isNode) {
+//         // load node-only modules dynamically
+//         // const { scheduleGarbageCollector } = await import('../../gc/').ts;
+//         scheduleGarbageCollector(cronExpr);
+//       }
+
+//       const { gcCron } = this.config.advanced;
+//       if (!gcCron) {
+//         throw new Error('Garbage Collector is not enabled in the configuration');
+//       }
+
+//       // Initialize Garbage Collector
+//       this.gc = new AbimongoGC({
+//         enabled: this.config.advanced?.garbageCollector?.enabled || true,
+//         retentionPeriod: 30, // Default to 30 days
+//         cron: this.config.advanced?.gcCron || '0 0 * * *', // Default to daily at midnight
+//         logResults: this.config.advanced?.garbageCollector?.logResults || true,
+//       });
+
+//       // await gc.initialize();
+//       console.log('✅ Garbage Collector initialized');
+
+//       // Register GC files
+//       this.gc.register(
+//         await this.provider.collection<Document>(this.config.model?.collectionName || 'default'),
+//         this.schema
+//       );
+//       console.log('✅ Garbage Collector files registered');
+//       console.log('🧹 Garbage Collector files generated.');
+//     }
+//   };
+
+//   // public async registerMultiTenancy<TApp>(
+//   //   app: TApp,
+//   //   adapter: typeof this.adapter,
+//   //   tenants?: Record<string, string>,
+//   //   options?: { headerKey?: string; initOptions?: InitMultiTenancyOptions }
+//   // ): Promise<void> {
+//   //   if (!this.config.multiTenant?.enabled) {
+//   //     throw new Error("Multi-tenancy is not enabled in the configuration");
+//   //   }
+
+//   //   const resolvedTenants = this.config.multiTenant.tenants ?? tenants;
+//   //   if (!resolvedTenants || Object.keys(resolvedTenants).length === 0) {
+//   //     throw new Error("Tenants map is required for multi-tenancy");
+//   //   }
+
+//   //   const resolvedOptions = {
+//   //     headerKey: this.config.multiTenant.headerKey ?? options?.headerKey ?? "x-tenant-id",
+//   //     initOptions: this.config.multiTenant.initOptions ?? options?.initOptions ?? {},
+//   //   };
+
+//   //   if (!adapter?.installTenancy) {
+//   //     throw new Error("No tenancy adapter provided. Install @abimongo/adapter-express, @abimongo/adapter-fastify, etc.");
+//   //   }
+
+//   //   await adapter.installTenancy(app, { tenants: resolvedTenants, ...resolvedOptions });
+
+//   //   console.log(`Multi-tenancy initialized via ${adapter.name ?? "adapter"}, (header: ${resolvedOptions.headerKey})`);
+//   // }
+
+
+//   // public async registerMultiTenancy(
+//   //   application: Application,
+//   //   tenants: Record<string, string>,
+//   //   options: {
+//   //     headerKey?: string;
+//   //     initOptions?: InitMultiTenancyOptions;
+//   //   }): Promise<void> {
+
+//   //   if (!this.config.multiTenant?.enabled) {
+//   //     throw new Error('Multi-tenancy is not enabled in the configuration');
+//   //   }
+//   //   if (!tenants) {
+//   //     throw new Error('Tenant ID is required for multi-tenancy');
+//   //   }
+//   //   await applyMultiTenancy(
+//   //     application,
+//   //     tenants = this.config.multiTenant?.tenants || tenants,
+//   //     options = {
+//   //       headerKey: this.config.multiTenant?.headerKey || 'x-tenant-id',
+//   //       initOptions: this.config.multiTenant?.initOptions || {},
+//   //     }
+//   //   )
+//   //   console.log(colorize(`Multi-tenancy initialized for tenant: ${tenants}`, 'blue'));
+//   // }
+
+//   async registerMultiTenancy<TApp>(
+//     app: TApp,
+//     adapter: typeof this.adapter,
+//     tenants?: Record<string, string>,
+//     options?: { headerKey?: string; initOptions?: InitMultiTenancyOptions }
+//   ): Promise<void> {
+//     if (!this.config.multiTenant?.enabled) {
+//       throw new Error("Multi-tenancy is not enabled in the configuration");
+//     }
+
+//     const resolvedTenants = this.config.multiTenant.tenants ?? tenants;
+//     if (!resolvedTenants || Object.keys(resolvedTenants).length === 0) {
+//       throw new Error("Tenants map is required for multi-tenancy");
+//     }
+
+//     const resolvedOptions = {
+//       headerKey: this.config.multiTenant.headerKey ?? options?.headerKey ?? "x-tenant-id",
+//       initOptions: this.config.multiTenant.initOptions ?? options?.initOptions ?? {},
+//     };
+
+//     await initMultiTenancy(resolvedTenants, resolvedOptions.initOptions);
+
+//     if (!adapter?.installTenancy) {
+//       throw new Error(
+//         "No tenancy adapter provided. Install @abimongo/adapter-express, @abimongo/adapter-fastify, etc."
+//       );
+//     }
+
+//     await adapter.installTenancy(app, {
+//       tenants: resolvedTenants,
+//       headerKey: resolvedOptions.headerKey,
+//       initOptions: resolvedOptions.initOptions,
+//     });
+
+//     console.log(
+//       `Multi-tenancy initialized via ${adapter.name ?? "adapter"} (header: ${resolvedOptions.headerKey})`
+//     );
+//   }
+//   public async cache<T>(
+//     key: string,
+//     fetcher: () => Promise<T>,
+//     options: {
+//       ttlSeconds?: number;
+//       prefix?: string;
+//       tenantId?: string;
+//       namespace?: string;
+//     } = {}
+//   ): Promise<T> {
+//     if (!redis) throw new Error('Redis is not initialized');
+//     return await cacheWithRedis<T>(redis, key, fetcher, options);
+//   }
+
+//   public async invalidateCache(tenantId: string, namespace?: string) {
+//     if (!redis) throw new Error('No Redis client available');
+//     if (!tenantId) throw new Error('Tenant ID is required to invalidate cache');
+//     console.log('Invalidating cache for tenant:', tenantId, 'namespace:', namespace);
+//     await invalidateTenantCache(redis, tenantId, namespace);
+//   }
+
+//   /**
+//    * Returns the Redis client if Redis is enabled in the configuration.
+//    * @returns {Promise<typeof redis>} A promise that resolves to the Redis client.
+//    */
+//   public getRedisClient(): Promise<typeof redis> {
+//     if (this.config.features?.useRedisCache && this.config.features.redisUri) {
+//       Promise.resolve(redis.get(this.config.features.redisUri))
+//     }
+//     return Promise.resolve(redis);
+
+//   }
+
+//   public getMongoClient(): AbimongoClient | BootstrapClient {
+//     return this.provider;
+//   }
+
+//   // public getLogger(): ReturnType<typeof setupLogger> | typeof logger {
+//   //   return this.logger;
+//   // };
+
+//   public getModel(): AbimongoModel<Document> {
+//     return this.model;
+//   }
+//   public getSchema(): AbimongoSchema<Document> {
+//     return this.schema;
+//   }
+
+//   public getGraphQL(): AbimongoGraphQL {
+//     return this.graphql;
+//   }
+
+//   public getGCRunner(): AbimongoGC {
+//     return this.gc;
+//   }
+
+//   public async shutdown(): Promise<void> {
+//     if (redis.isOpen) {
+//       await redis.disconnect();
+//       console.log('🧹 Redis connection closed');
+//     }
+
+//     if (this.provider) {
+//       await this.provider.close();
+//       console.log('MongoDB connection closed');
+//     }
+
+//     // Add GraphQL shutdown if needed (e.g., Apollo Server)}
+//     console.log('Shutdown complete');
+//   }
+// };

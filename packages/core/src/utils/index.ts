@@ -16,3 +16,5 @@ export * from './time';
 export * from './modelLoader';
 export * from './generatedFolderAndFile';
 export * from './ensureRedis';
+export * from './resolveAbimongoOption';
+export * from './resolveRuntimeConfig';

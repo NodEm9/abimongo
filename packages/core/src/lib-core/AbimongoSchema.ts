@@ -62,6 +62,15 @@ export class AbimongoSchema<T extends Document> {
 		}
 	}
 
+	async	validateAsync(doc: OptionalUnlessRequiredId<T>): Promise<void> {
+		for (const [field, validate] of Object.entries(this.validators)) {
+			if (!validate(doc[field])) {
+				console.log(`[error]: Validation failed for field: ${field}`);
+				throw new Error(`Validation failed for field: ${field}`);
+			}
+		}
+	}
+
 	/**
 	 * Adds an index to the schema.
 	 * @param {any} fields - The fields to index.

@@ -18,3 +18,4 @@ export * from './generatedFolderAndFile';
 export * from './ensureRedis';
 export * from './resolveAbimongoOption';
 export * from './resolveRuntimeConfig';
+export * from './configureAbimongoContext';

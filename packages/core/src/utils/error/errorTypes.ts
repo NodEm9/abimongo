@@ -7,6 +7,8 @@ const enum ErrorType {
 	AbiMongoErrorCause = "AbiMongoErrorCause",
 	AbiMongoCollectionError = "CollectionError",
 	// AbiMongoConnectionError = "ConnectionError",
+	AbimongoParseError = "ParseError",
+	AbimongoBulkWriteError = "MongoBulkWriteError",
 	AbiMongoConnectionError = "ConnectionError",
 	AbiMongoSchemaError = "SchemaError",
 	AbiMongoModelError = "ModelError",

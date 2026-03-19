@@ -12,3 +12,4 @@ export * from './logger.types';
 export * from './db.provider';
 export * from './result.utils.types';
 export * from './bootstrapClient.type';
+export * from './middleware/types';

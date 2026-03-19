@@ -16,7 +16,7 @@ import {
   BulkWriteResult,
   ObjectId,
 } from 'mongodb';
-import type { WithId } from 'mongodb';
+import type { InsertManyResult, WithId } from 'mongodb';
 import {
   User,
   Document,
@@ -25,6 +25,9 @@ import {
   DbProvider,
   ModelResult,
   ModelResultArray,
+  AbimongoMiddlewareOperation,
+  AbimongoMiddlewareHandler,
+  AbimongoMiddlewareContext,
 } from '../types';
 import { AbimongoSchema } from './AbimongoSchema';
 import { AbiMongoError } from '../utils/error/abimongoError-handler';
@@ -43,6 +46,9 @@ import {
 } from '../utils';
 import { ModelContext } from '../types';
 import { AbimongoContext } from '../context/AbimongoContext';
+import { measureQuery } from '../instrumentation/measureQueryWithErrors';
+import { debugLog } from '../debug/debugLog';
+import { runManualTransaction } from '../context';
 
 
 const pubsub = new PubSub();
@@ -71,6 +77,16 @@ export class AbimongoModel<T extends Document> {
   private _defaultCtx?: ModelContext;
   private _gcConfig?: AbimongoModelOptions<T>["gcConfig"];
   private eventEmitter = new EventEmitter();
+
+  private beforeMiddlewares = new Map<
+    AbimongoMiddlewareOperation,
+    AbimongoMiddlewareHandler<T>[]
+  >();
+
+  private afterMiddlewares = new Map<
+    AbimongoMiddlewareOperation,
+    AbimongoMiddlewareHandler<T>[]
+  >();
 
   constructor(options: AbimongoModelOptions<T>) {
     if (!options) {
@@ -128,38 +144,21 @@ export class AbimongoModel<T extends Document> {
     const runtimeCtx = AbimongoContext.get();
 
     const merged: ModelContext = {
-      tenantId: ctx?.tenantId ?? this._defaultCtx?.tenantId ?? runtimeCtx?.tenantId,
-      dbName: ctx?.dbName ?? this._defaultCtx?.dbName ?? runtimeCtx?.dbName,
+      tenantId: ctx?.tenantId ?? this._defaultCtx?.tenantId ?? runtimeCtx.tenantId,
+      dbName: ctx?.dbName ?? this._defaultCtx?.dbName ?? runtimeCtx.dbName,
       db: ctx?.db ?? this._defaultCtx?.db,
       collectionName:
         ctx?.collectionName ??
         this._defaultCtx?.collectionName ??
-        runtimeCtx?.collectionName,
+        runtimeCtx.collectionName,
       config: ctx?.config ?? this._defaultCtx?.config,
-      session: ctx?.session ?? this._defaultCtx?.session ?? runtimeCtx?.session
+      session: ctx?.session ?? this._defaultCtx?.session ?? runtimeCtx.session
     };
 
-    return Object.values(merged).some(value => value !== undefined) ? merged : undefined;
+    return Object.values(merged).some(value => value !== undefined)
+      ? merged
+      : undefined;
   }
-
-
-  // private async getCollection(ctx?: ModelContext): Promise<Collection<T>> {
-  //   if (this._collectionOverride) {
-  //     return this._collectionOverride;
-  //   }
-
-  //   this.ensureConfigured();
-
-  //   const db = await this._provider.db(this.mergeCtx(ctx));
-
-  //   if (!db || typeof (db as any).collection !== "function") {
-  //     throw new Error(
-  //       `AbimongoModel: provider.db() did not return a valid Db instance for collection "${this._collectionName}".`
-  //     );
-  //   }
-
-  //   return db.collection<T>(this._collectionName);
-  // }
 
   private async getCollection(ctx?: ModelContext): Promise<Collection<T>> {
     if (this._collectionOverride) {
@@ -170,6 +169,12 @@ export class AbimongoModel<T extends Document> {
 
     const db = await this.resolveDb(ctx);
     const collectionName = this.resolveCollectionName(ctx);
+
+    debugLog('Resolved collection', {
+      collectionName,
+      dbName: db.databaseName,
+      tenantId: this.mergeCtx(ctx)?.tenantId
+    });
 
     return db.collection<T>(collectionName);
   }
@@ -390,10 +395,9 @@ export class AbimongoModel<T extends Document> {
   get schema(): AbimongoSchema<T> {
     return this._schema as AbimongoSchema<T>;
   }
-  private validate(doc: OptionalUnlessRequiredId<T>): void {
-    if (this._schema) {
-      this._schema.validate(doc);
-    }
+
+  getSchema(): AbimongoSchema<T> {
+    return this.schema;
   }
 
   /**
@@ -401,251 +405,24 @@ export class AbimongoModel<T extends Document> {
    * @param {OptionalUnlessRequiredId<T>} doc - The document to validate.
    * @returns {Promise<T>} The validated document.
    */
-  // public validate(doc: OptionalUnlessRequiredId<T>): Promise<T> {
-  //   for (const key in this.schema.getSchema()) {
-  //     const field = this.schema.getSchema()[key];
-  //     if (field.required && !(key in doc)) {
-  //       console.error(`[error]: Field "${key}" is required but not provided.`);
-  //       throw new Error(`Field "${key}" is required but not provided.`);
-  //     }
-  //     if (field.type === ObjectId && key in doc) {
-  //       (doc as any)[key] = castId(doc[key]);
-  //     }
-  //     if (field.type === Array && key in doc) {
-  //       doc[key] = doc[key].map(castId);
-  //     }
-  //     if (field.type === Object && key in doc) {
-  //       for (const nestedKey in field.type.schema.getSchema) {
-  //         const nestedField = field.type.schema.getSchema[nestedKey];
-  //         if (nestedField.type.value === ObjectId && nestedKey in doc[key]) {
-  //           doc[key][nestedKey] = castId(doc[key][nestedKey]);
-  //         }
-  //       }
-  //     }
-
-  //     if (key in doc && field.type === ObjectId) {
-  //       (doc as any)[key] = castId(doc[key]);
-  //     }
-  //   };
-  //   return doc as Promise<T>;
-  // }
-
-  /**
-   * Creates a new document in the collection.
-   * @param {OptionalUnlessRequiredId<T>} doc - The document to create.
-   * @returns {Promise<T>} The created document with its `_id`.
-   */
-  // async create(
-  //   doc: OptionalUnlessRequiredId<T>,
-  //   ctx?: ModelContext
-  // ): Promise<ModelResult<T>> {
-  //   await this.init();
-  //   this.validate(doc);
-
-  //   await this._schema.executeHooks('pre-save', doc);
-  //   this._schema.validate(doc);
-
-  //   const col = await this.getCollection(ctx);
-  //   const resolvedCtx = this.mergeCtx(ctx);
-
-  //   const result = await col.insertOne(
-  //     doc,
-  //     resolvedCtx?.session ? { session: resolvedCtx.session } : undefined
-  //   );
-
-  //   const createdDoc = { ...doc, _id: result?.insertedId } as WithId<T>;
-
-  //   await this.schema.executeHooks("post-save", createdDoc);
-
-  //   const payload = this.toModelResult(createdDoc);
-
-  //   // Use collection name string for event key, not the collection object
-  //   await pubsub.publish(
-  //     `${DB_CHANGE_EVENT}_${this._collectionName}`,
-  //     JSON.stringify({
-  //       documentInserted: {
-  //         action: "create",
-  //         doc: payload
-  //       }
-  //     })
-  //   );
-
-
-  //   return payload as ModelResult<T>;
-  // }
-
-  async create(
-    doc: OptionalUnlessRequiredId<T>,
-    ctx?: ModelContext
-  ): Promise<ModelResult<T>> {
-    await this.init();
-    this.validate(doc);
-
-    await this._schema.executeHooks('pre-save', doc);
-    this._schema.validate(doc);
-
-    const col = await this.getCollection(ctx);
-    const session = this.resolveSession(ctx);
-
-    const result = await col.insertOne(
-      doc,
-      session ? { session } : undefined
-    );
-
-    const createdDoc = { ...doc, _id: result?.insertedId } as WithId<T>;
-
-    await this.schema.executeHooks('post-save', createdDoc);
-
-    const payload = this.toModelResult(createdDoc);
-
-    await pubsub.publish(
-      `${DB_CHANGE_EVENT}_${this.resolveCollectionName(ctx)}`,
-      JSON.stringify({
-        documentInserted: {
-          action: 'create',
-          doc: payload
-        }
-      })
-    );
-
-    return payload as ModelResult<T>;
-  }
-
-  /**
-   * Finds documents in the collection that match the filter.
-   * @param {Filter<T>} [filter={}] - The filter to apply.
-   * @returns {Promise<T[]>} An array of matching documents.
-   */
-  // async find(
-  //   filter: Filter<T> = {},
-  //   ctx?: ModelContext
-  // ): Promise<ModelResultArray<T>> {
-  //   await this.init();
-
-  //   const col = await this.getCollection(ctx);
-  //   const cursor = col.find(filter, ctx?.session ? { session: ctx.session } : undefined);
-
-  //   const results = await cursor.toArray();
-  //   return this.toModelResults(results as WithId<T>[]);
-  // }
-
-  async find(
-    filter: Filter<T> = {},
-    ctx?: ModelContext
-  ): Promise<ModelResultArray<T>> {
-    await this.init();
-
-    const col = await this.getCollection(ctx);
-    const session = this.resolveSession(ctx);
-
-    const cursor = col.find(filter, session ? { session } : undefined);
-    const results = await cursor.toArray();
-
-    return this.toModelResults(results as WithId<T>[]);
-  }
-
-  /**
-   * Finds a single document in the collection that matches the filter.
-   * @param {Filter<T>} filter - The filter to apply.
-   * @returns {Promise<T | null>} The matching document or `null` if not found.
-   * @throws {Error} If the filter is not a valid object.
-   */
-  async findOne(filter: Filter<T>, ctx?: ModelContext): Promise<T | null> {
-    await this.init();
-
-    if (!filter || typeof filter !== 'object') {
-      throw new Error('Filter must be a valid object.');
+  private validate(doc: OptionalUnlessRequiredId<T>): void {
+    if (this._schema) {
+      this._schema.validate(doc);
     }
+  }
 
-    const col = await this.getCollection(ctx);
-    const session = this.resolveSession(ctx);
-
-    const result = await col?.findOne(
-      filter,
-      session ? { session } : undefined
-    );
-    return result as T | null;
+  async validateAsync(doc: OptionalUnlessRequiredId<T>): Promise<T> {
+    if (this._schema) {
+      await this._schema.validateAsync(doc);
+    }
+    return doc as T;
   }
 
   /**
-   * Updates a single document in the collection.
-   * @param {Filter<T>} filter - The filter to find the document.
-   * @param {UpdateFilter<T>} update - The update operation to apply.
-   * @returns {Promise<void>} Resolves when the update is complete.
-   */
-  async updateOne(
-    filter: Filter<T>,
-    update: UpdateFilter<T>,
-    ctx?: ModelContext
-  ): Promise<void> {
-    await this.init();
-
-    await this.schema.executeHooks('pre-update', { filter, update });
-    const col = await this.getCollection(ctx);
-    const session = this.resolveSession(ctx);
-
-    await col.updateOne(
-      filter, update,
-      session ? { session } : undefined
-    );
-
-    await this.schema.executeHooks('post-update', { filter, update });
-
-    await pubsub.publish(`${DB_CHANGE_EVENT}`, JSON.stringify({ documentUpdated: { action: "update", filter, update } }));
-  }
-
-  /**
-   * Performs a bulk insert of documents into the collection.
-   * @param {OptionalUnlessRequiredId<T>[]} docs - An array of documents to insert.
-   * @returns {Promise<void>} Resolves when the bulk insert is complete.
-   */
-  async bulkInsert(docs: OptionalUnlessRequiredId<T>[], ctx?: ModelContext): Promise<void> {
-    await this.init();
-
-    if (!docs || docs.length === 0) return;
-    this.validate(docs[0][0]); // Validate the first document
-
-    await this.schema.executeHooks('pre-save', docs);
-    const col = await this.getCollection(ctx);
-    const session = this.resolveSession(ctx);
-
-    await col.insertMany(
-      docs,
-      {
-        ordered: false,
-        session: session
-      }
-    );
-    await pubsub.publish(`${DB_CHANGE_EVENT}`, { documentInserted: { action: "bulkInsert", docs } });
-  }
-
-  /**
-   * Performs a bulk update of multiple documents in the collection.
-   * @param {Array<{ filter: Partial<T>; update: Partial<T> }>} updates - Array of update operations.
-   * @returns {Promise<void>} Resolves when the bulk update is complete.
-   */
-  async bulkUpdate(updates: { filter: Partial<T>; update: Partial<T> }[], ctx?: ModelContext): Promise<void> {
-    await this.init();
-    const bulkOps: AnyBulkWriteOperation<T>[] = updates.map(({ filter, update }) => ({
-      updateOne: { filter: filter as Filter<T>, update: { $set: update } },
-    }))
-    const col = await this.getCollection(ctx);
-    const session = this.resolveSession(ctx);
-    await col.bulkWrite(
-      bulkOps,
-      {
-        ordered: false,
-        session: session
-      });
-    await pubsub.publish(`${DB_CHANGE_EVENT}`, { documentInserted: { action: "bulkUpdate", updates } });
-
-  }
-
-  /**
-   * Middleware for handling cascading deletes, aggregate, save and updates.
-   * @returns {void}
-   * @private 
-   */
+ * Middleware for handling cascading deletes, aggregate, save and updates.
+ * @returns {void}
+ * @private 
+ */
   private initMiddleware() {
     if (!this._schema) return;
     this._schema.pre('pre-save', async (doc: OptionalUnlessRequiredId<T>) => {
@@ -711,9 +488,510 @@ export class AbimongoModel<T extends Document> {
     });
   };
 
-  getSchema(): AbimongoSchema<T> {
-    return this.schema;
+  /**
+   * Creates a new document in the collection.
+   * @param {OptionalUnlessRequiredId<T>} doc - The document to create.
+   * @returns {Promise<T>} The created document with its `_id`.
+   */
+  async create(
+    doc: OptionalUnlessRequiredId<T>,
+    ctx?: ModelContext
+  ): Promise<ModelResult<T>> {
+    await this.init();
+
+    return measureQuery(
+      {
+        operation: 'create',
+        collectionName: this.resolveCollectionName(ctx),
+        documentCount: 1
+      },
+      async () => {
+        const middlewareCtx = this.buildMiddlewareContext('create', ctx, {
+          doc: doc as Partial<T>
+        });
+
+        await this.runBeforeMiddlewares('create', middlewareCtx);
+
+        const nextDoc = (middlewareCtx.doc ?? doc) as OptionalUnlessRequiredId<T>;
+
+        this.validate(nextDoc);
+        await this._schema.executeHooks('pre-save', nextDoc);
+        this._schema.validate(nextDoc);
+
+        const col = await this.getCollection(ctx);
+        const session = this.resolveSession(ctx);
+
+        const result = await col.insertOne(
+          nextDoc,
+          session ? { session } : undefined
+        );
+
+        const createdDoc = { ...nextDoc, _id: result?.insertedId } as WithId<T>;
+
+        await this.schema.executeHooks('post-save', createdDoc);
+
+        const payload = this.toModelResult(createdDoc);
+        middlewareCtx.result = payload;
+
+        await this.runAfterMiddlewares('create', middlewareCtx);
+
+        await pubsub.publish(
+          `${DB_CHANGE_EVENT}_${this.resolveCollectionName(ctx)}`,
+          JSON.stringify({
+            documentInserted: {
+              action: 'create',
+              doc: middlewareCtx.result ?? payload
+            }
+          })
+        );
+
+        return (middlewareCtx.result ?? payload) as ModelResult<T>;
+      }
+    );
   }
+
+  /**
+   * Finds documents in the collection that match the filter.
+   * @param {Filter<T>} [filter={}] - The filter to apply.
+   * @returns {Promise<T[]>} An array of matching documents.
+   */
+  async find(
+    filter: Filter<T> = {},
+    ctx?: ModelContext
+  ): Promise<ModelResultArray<T>> {
+    await this.init();
+
+    return measureQuery(
+      {
+        operation: 'find',
+        collectionName: this.resolveCollectionName(ctx),
+        filter
+      },
+      async () => {
+        const middlewareCtx = this.buildMiddlewareContext('find', ctx, { filter });
+
+        await this.runBeforeMiddlewares('find', middlewareCtx);
+
+        const col = await this.getCollection(ctx);
+        const session = this.resolveSession(ctx);
+
+        const cursor = col.find(
+          (middlewareCtx.filter ?? filter) as Filter<T>,
+          session ? { session } : undefined
+        );
+
+        const results = await cursor.toArray();
+        const payload = this.toModelResults(results as WithId<T>[]);
+
+        middlewareCtx.result = payload;
+
+        await this.runAfterMiddlewares('find', middlewareCtx);
+
+        return middlewareCtx.result ?? payload;
+      }
+    );
+  }
+
+  /**
+   * Finds a single document in the collection that matches the filter.
+   * @param {Filter<T>} filter - The filter to apply.
+   * @returns {Promise<T | null>} The matching document or `null` if not found.
+   * @throws {Error} If the filter is not a valid object.
+   */
+
+  async findOne(filter: Filter<T>, ctx?: ModelContext): Promise<T | null> {
+    await this.init();
+
+    if (!filter || typeof filter !== 'object') {
+      throw new Error('Filter must be a valid object.');
+    }
+
+    return measureQuery(
+      {
+        operation: 'findOne',
+        collectionName: this.resolveCollectionName(ctx),
+        filter
+      },
+      async () => {
+        const middlewareCtx = this.buildMiddlewareContext('findOne', ctx, { filter });
+        await this.runBeforeMiddlewares('findOne', middlewareCtx);
+
+        const col = await this.getCollection(ctx);
+        const session = this.resolveSession(ctx);
+
+        const result = await col.findOne(
+          filter,
+          session ? { session } : undefined
+        );
+
+        const payload = this.toModelResult(result as WithId<T>);
+        middlewareCtx.result = payload;
+
+        await this.runAfterMiddlewares('findOne', middlewareCtx);
+
+        return middlewareCtx.result ?? payload;
+      }
+    );
+  }
+
+  /**
+   * Updates a single document in the collection.
+   * @param {Filter<T>} filter - The filter to find the document.
+   * @param {UpdateFilter<T>} update - The update operation to apply.
+   * @returns {Promise<void>} Resolves when the update is complete.
+   */
+  async updateOne(
+    filter: Filter<T>,
+    update: UpdateFilter<T>,
+    ctx?: ModelContext
+  ): Promise<void> {
+    await this.init();
+
+    return measureQuery(
+      {
+        operation: 'updateOne',
+        collectionName: this.resolveCollectionName(ctx),
+        filter,
+        update
+      },
+      async () => {
+        const middlewareCtx = this.buildMiddlewareContext('updateOne', ctx, {
+          filter,
+          update
+        });
+
+        await this.runBeforeMiddlewares('updateOne', middlewareCtx);
+
+        await this.schema.executeHooks('pre-update', {
+          filter: middlewareCtx.filter ?? filter,
+          update: middlewareCtx.update ?? update
+        });
+
+        const col = await this.getCollection(ctx);
+        const session = this.resolveSession(ctx);
+
+        const result = await col.updateOne(
+          (middlewareCtx.filter ?? filter) as Filter<T>,
+          (middlewareCtx.update ?? update) as UpdateFilter<T>,
+          session ? { session } : undefined
+        );
+
+        await this.schema.executeHooks('post-update', {
+          filter: middlewareCtx.filter ?? filter,
+          update: middlewareCtx.update ?? update
+        });
+
+        middlewareCtx.result = {
+          acknowledged: result.acknowledged,
+          matchedCount: result.matchedCount,
+          modifiedCount: result.modifiedCount,
+          upsertedCount: result.upsertedCount,
+          upsertedId: result.upsertedId
+        };
+
+        await this.runAfterMiddlewares('updateOne', middlewareCtx);
+
+        await pubsub.publish(`${DB_CHANGE_EVENT}`, JSON.stringify({
+          documentUpdated: {
+            action: 'update',
+            filter: middlewareCtx.filter ?? filter,
+            update: middlewareCtx.update ?? update
+          }
+        }));
+      }
+    );
+  }
+
+  // async updateOne(
+  //   filter: Filter<T>,
+  //   update: UpdateFilter<T>,
+  //   ctx?: ModelContext
+  // ): Promise<void> {
+  //   await this.init();
+
+  //   return measureQuery(
+  //     {
+  //       operation: 'updateOne',
+  //       collectionName: this.resolveCollectionName(ctx),
+  //       filter,
+  //       update
+  //     },
+  //     async () => {
+  //       const middlewareCtx = this.buildMiddlewareContext('updateOne', ctx, { filter, update });
+  //       await this.runBeforeMiddlewares('updateOne', middlewareCtx);
+
+  //       await this.schema.executeHooks('pre-update', { filter, update });
+
+  //       const col = await this.getCollection(ctx);
+  //       const session = this.resolveSession(ctx);
+
+  //       const result = await col.updateOne(
+  //         filter,
+  //         update,
+  //         session ? { session } : undefined
+  //       );
+
+  //       const updatedDoc = await col.findOne(
+  //         filter,
+  //         result.matchedCount > 0 && session ? { session } : undefined,
+  //         // session ? { session } : undefined
+  //       );
+
+  //       await this.schema.executeHooks('post-update', { filter, update });
+
+  //       const payload = this.toModelResult(updatedDoc as WithId<T>);
+  //       middlewareCtx.result = payload;
+
+  //       await this.runAfterMiddlewares('updateOne', middlewareCtx);
+
+  //       await pubsub.publish(`${DB_CHANGE_EVENT}`, JSON.stringify({
+  //         documentUpdated: { action: 'update', filter, update }
+  //       }));
+  //     }
+  //   );
+  // }
+
+  /**
+   * Performs a bulk insert of documents into the collection.
+   * @param {OptionalUnlessRequiredId<T>[]} docs - An array of documents to insert.
+   * @returns {Promise<void>} Resolves when the bulk insert is complete.
+   */
+  async bulkInsert(
+    docs: OptionalUnlessRequiredId<T>[],
+    ctx?: ModelContext
+  ): Promise<void> {
+    await this.init();
+
+    if (!docs || docs.length === 0) return;
+
+    return measureQuery(
+      {
+        operation: 'bulkInsert',
+        collectionName: this.resolveCollectionName(ctx),
+        documentCount: docs.length
+      },
+      async () => {
+        const middlewareCtx = this.buildMiddlewareContext('bulkInsert', ctx, {
+          docs: docs as Partial<T>[]
+        });
+
+        await this.runBeforeMiddlewares('bulkInsert', middlewareCtx);
+
+        const nextDocs = (middlewareCtx.docs ?? docs) as OptionalUnlessRequiredId<T>[];
+
+        this.validate(nextDocs[0]);
+        await this.schema.executeHooks('pre-save', nextDocs);
+
+        const col = await this.getCollection(ctx);
+        const session = this.resolveSession(ctx);
+
+        const result = await col.insertMany(nextDocs, {
+          ordered: false,
+          ...(session ? { session } : {})
+        });
+
+        const insertedIds = { ...nextDocs, _id: result?.insertedIds } as Record<number, ObjectId>;
+
+        const insertedDocs = nextDocs.map((doc, index) => ({
+          ...doc,
+          _id: insertedIds[index]
+        })) as WithId<T>[];
+
+        middlewareCtx.result = this.toModelResults(insertedDocs);
+
+        await this.runAfterMiddlewares('bulkInsert', middlewareCtx);
+
+        await pubsub.publish(`${DB_CHANGE_EVENT}`, {
+          documentInserted: {
+            action: 'bulkInsert',
+            docs: middlewareCtx.result
+          }
+        });
+      }
+    );
+  }
+
+  // async bulkInsert(
+  //   docs: OptionalUnlessRequiredId<T>[],
+  //   ctx?: ModelContext
+  // ): Promise<void> {
+  //   await this.init();
+
+  //   if (!docs || docs.length === 0) return;
+
+  //   return measureQuery(
+  //     {
+  //       operation: 'bulkInsert',
+  //       collectionName: this.resolveCollectionName(ctx),
+  //       documentCount: docs.length
+  //     },
+  //     async () => {
+  //       const middlewareCtx = this.buildMiddlewareContext('bulkInsert', ctx, {
+  //         docs: docs as Partial<T>[]
+  //       });
+
+  //       await this.runBeforeMiddlewares('bulkInsert', middlewareCtx);
+
+  //       const insertDocs = (middlewareCtx.docs ?? docs) as OptionalUnlessRequiredId<T>[];
+
+  //       this.validate(docs[0]);
+
+  //       await this.schema.executeHooks('pre-save', docs);
+
+  //       const col = await this.getCollection(ctx);
+  //       const session = this.resolveSession(ctx);
+
+  //       const result = await col.insertMany(docs, {
+  //         ordered: false,
+  //         ...(session ? { session } : {})
+  //       });
+
+  //       const insertedIds = { ...insertDocs, _id: result?.insertedIds } as Record<number, ObjectId>;
+
+  //       const createdDocs = docs.map((doc, index) => ({
+  //         ...doc,
+  //         _id: insertedIds[index]
+  //       })) as WithId<T>[];
+
+
+  //       await this.schema.executeHooks('post-save', createdDocs);
+
+  //       const payload = this.toModelResults(createdDocs);
+  //       middlewareCtx.result = payload;
+
+  //       await this.runAfterMiddlewares('bulkInsert', middlewareCtx);
+
+  //       await pubsub.publish(`${DB_CHANGE_EVENT}`, {
+  //         documentInserted: { action: 'bulkInsert', docs }
+  //       });
+  //     }
+  //   );
+  // }
+
+  /**
+   * Performs a bulk update of multiple documents in the collection.
+   * @param {Array<{ filter: Partial<T>; update: Partial<T> }>} updates - Array of update operations.
+   * @returns {Promise<void>} Resolves when the bulk update is complete.
+   */
+  async bulkUpdate(
+    updates: { filter: Partial<T>; update: Partial<T> }[],
+    ctx?: ModelContext
+  ): Promise<void> {
+    await this.init();
+
+    return measureQuery(
+      {
+        operation: 'bulkUpdate',
+        collectionName: this.resolveCollectionName(ctx),
+        documentCount: updates.length
+      },
+      async () => {
+        const middlewareCtx = this.buildMiddlewareContext('bulkUpdate', ctx, {
+          meta: { updates }
+        });
+
+        await this.runBeforeMiddlewares('bulkUpdate', middlewareCtx);
+
+        const nextUpdates =
+          (middlewareCtx.meta?.updates as typeof updates | undefined) ?? updates;
+
+        const bulkOps: AnyBulkWriteOperation<T>[] = nextUpdates.map(
+          ({ filter, update }) => ({
+            updateOne: {
+              filter: filter as Filter<T>,
+              update: { $set: update }
+            }
+          })
+        );
+
+        const col = await this.getCollection(ctx);
+        const session = this.resolveSession(ctx);
+
+        const result = await col.bulkWrite(
+          bulkOps,
+          {
+            ordered: false,
+            ...(session ? { session } : {})
+          }
+        );
+
+        middlewareCtx.result = {
+          acknowledged: result?.isOk?.() ?? true,
+          matchedCount: result?.matchedCount,
+          modifiedCount: result?.modifiedCount,
+          upsertedCount: result?.upsertedCount,
+          insertedCount: result?.insertedCount,
+          deletedCount: result?.deletedCount
+        };
+
+        await this.runAfterMiddlewares('bulkUpdate', middlewareCtx);
+
+        await pubsub.publish(`${DB_CHANGE_EVENT}`, {
+          documentInserted: { action: 'bulkUpdate', updates: nextUpdates }
+        });
+      }
+    );
+  }
+
+  // async bulkUpdate(
+  //   updates: { filter: Partial<T>; update: Partial<T> }[],
+  //   ctx?: ModelContext
+  // ): Promise<void> {
+  //   await this.init();
+
+  //   return measureQuery(
+  //     {
+  //       operation: 'bulkUpdate',
+  //       collectionName: this.resolveCollectionName(ctx),
+  //       documentCount: updates.length
+  //     },
+  //     async () => {
+  //       const middlewareCtx = this.buildMiddlewareContext('bulkUpdate', ctx, {
+  //         update: updates as Array<{ filter: Filter<T>; update: UpdateFilter<T> }>
+  //       });
+  //       await this.runBeforeMiddlewares('bulkUpdate', middlewareCtx);
+
+  //       const bulkOps: AnyBulkWriteOperation<T>[] = updates.map(
+  //         ({ filter, update }) => ({
+  //           updateOne: {
+  //             filter: filter as Filter<T>,
+  //             update: { $set: update }
+  //           }
+  //         })
+  //       );
+
+  //       const col = await this.getCollection(ctx);
+  //       const session = this.resolveSession(ctx);
+
+  //       await col.bulkWrite(
+  //         bulkOps,
+  //         {
+  //           ordered: false,
+  //           ...(session ? { session } : {})
+  //         }
+  //       );
+
+  //       const updatedDocs = await Promise.all(
+  //         updates.map(({ filter }) =>
+  //           col.findOne(
+  //             filter as Filter<T>,
+  //             session ? { session } : undefined
+  //           )
+  //         ) as Partial<Promise<WithId<T>>[]>
+  //       )
+
+  //       const payload = this.toModelResults(updatedDocs as WithId<T>[]);
+  //       middlewareCtx.result = payload;
+
+  //       await this.runAfterMiddlewares('bulkUpdate', middlewareCtx);
+
+
+  //       await pubsub.publish(`${DB_CHANGE_EVENT}`, {
+  //         documentInserted: { action: 'bulkUpdate', updates }
+  //       });
+  //     }
+  //   );
+  // }
 
   /**
    * Deletes a single document from the collection.
@@ -722,25 +1000,93 @@ export class AbimongoModel<T extends Document> {
    */
   async deleteOne(filter: Filter<T>, ctx?: ModelContext): Promise<void> {
     await this.init();
-    const col = await this.getCollection(ctx);
-    const session = this.resolveSession(ctx);
 
-    const doc = await col.findOne(
-      filter,
-      session ? { session } : undefined
-    );
-    if (doc) {
-      // Trigger pre-delete middleware
-      await this.schema.triggerMiddleware('deleteOne', doc);
-      await col.deleteOne(
-        filter,
-        {
-          session: session
+    return measureQuery(
+      {
+        operation: 'deleteOne',
+        collectionName: this.resolveCollectionName(ctx),
+        filter
+      },
+      async () => {
+        const middlewareCtx = this.buildMiddlewareContext('deleteOne', ctx, {
+          filter
+        });
+
+        await this.runBeforeMiddlewares('deleteOne', middlewareCtx);
+
+        const col = await this.getCollection(ctx);
+        const session = this.resolveSession(ctx);
+
+        const doc = await col.findOne(
+          (middlewareCtx.filter ?? filter) as Filter<T>,
+          session ? { session } : undefined
+        );
+
+        if (!doc) {
+          middlewareCtx.result = null;
+          await this.runAfterMiddlewares('deleteOne', middlewareCtx);
+          return;
         }
-      );
-      await pubsub.publish(`${DB_CHANGE_EVENT}`, { documentDeleted: { action: "delete", filter } });
-    }
-  };
+
+        await this.schema.triggerMiddleware('deleteOne', doc);
+
+        const payload = this.toModelResult(doc as WithId<T>);
+        middlewareCtx.result = payload;
+
+        await col.deleteOne(
+          (middlewareCtx.filter ?? filter) as Filter<T>,
+          session ? { session } : undefined
+        );
+
+        await this.runAfterMiddlewares('deleteOne', middlewareCtx);
+
+        await pubsub.publish(`${DB_CHANGE_EVENT}`, {
+          documentDeleted: { action: 'delete', filter: middlewareCtx.filter ?? filter }
+        });
+      }
+    );
+  }
+
+  // async deleteOne(filter: Filter<T>, ctx?: ModelContext): Promise<void> {
+  //   await this.init();
+
+  //   return measureQuery(
+  //     {
+  //       operation: 'deleteOne',
+  //       collectionName: this.resolveCollectionName(ctx),
+  //       filter
+  //     },
+  //     async () => {
+  //       const middlewareCtx = this.buildMiddlewareContext('deleteOne', ctx, { filter });
+  //       await this.runBeforeMiddlewares('deleteOne', middlewareCtx);
+
+  //       const col = await this.getCollection(ctx);
+  //       const session = this.resolveSession(ctx);
+
+  //       const doc = await col.findOne(
+  //         filter,
+  //         session ? { session } : undefined
+  //       );
+
+  //       if (doc) {
+  //         await this.schema.triggerMiddleware('deleteOne', doc);
+  //         await col.deleteOne(
+  //           filter,
+  //           session ? { session } : undefined
+  //         );
+
+  //         const payload = this.toModelResult(doc as WithId<T>);
+  //         middlewareCtx.result = payload;
+
+  //         await this.runAfterMiddlewares('deleteOne', middlewareCtx);
+
+  //         await pubsub.publish(`${DB_CHANGE_EVENT}`, {
+  //           documentDeleted: { action: 'delete', filter }
+  //         });
+  //       }
+  //     }
+  //   );
+  // }
 
   /**
    * Deletes multiple documents from the collection.
@@ -750,21 +1096,108 @@ export class AbimongoModel<T extends Document> {
   async deleteMany(filter: Filter<T>, ctx?: ModelContext): Promise<void> {
     await this.init();
 
-    const col = await this.getCollection(ctx);
-    const session = this.resolveSession(ctx);
+    return measureQuery(
+      {
+        operation: 'deleteMany',
+        collectionName: this.resolveCollectionName(ctx),
+        filter
+      },
+      async () => {
+        const middlewareCtx = this.buildMiddlewareContext('deleteMany', ctx, {
+          filter
+        });
 
-    const docs = await col.find(
-      filter,
-      session ? { session } : undefined
-    ).toArray();
+        await this.runBeforeMiddlewares('deleteMany', middlewareCtx);
 
-    if (docs.length > 0) {
-      // Trigger pre-delete middleware
-      await this.schema.triggerMiddleware('deleteMany', docs);
-      await col.deleteMany(filter, { session: ctx?.session });
-      await pubsub.publish(`${DB_CHANGE_EVENT}`, { documentDeleted: { action: "deleteMany", filter } });
-    }
+        const col = await this.getCollection(ctx);
+        const session = this.resolveSession(ctx);
+
+        const docs = await col.find(
+          (middlewareCtx.filter ?? filter) as Filter<T>,
+          session ? { session } : undefined
+        ).toArray();
+
+        if (docs.length === 0) {
+          middlewareCtx.result = {
+            deletedCount: 0,
+            docs: []
+          };
+          await this.runAfterMiddlewares('deleteMany', middlewareCtx);
+          return;
+        }
+
+        await this.schema.triggerMiddleware('deleteMany', docs);
+
+        const result = await col.deleteMany(
+          (middlewareCtx.filter ?? filter) as Filter<T>,
+          session ? { session } : undefined
+        );
+
+        middlewareCtx.result = {
+          deletedCount: result.deletedCount,
+          docs: this.toModelResults(docs as WithId<T>[])
+        };
+
+        await this.runAfterMiddlewares('deleteMany', middlewareCtx);
+
+        await pubsub.publish(`${DB_CHANGE_EVENT}`, {
+          documentDeleted: {
+            action: 'deleteMany',
+            filter: middlewareCtx.filter ?? filter
+          }
+        });
+      }
+    );
   }
+
+  // async deleteMany(filter: Filter<T>, ctx?: ModelContext): Promise<void> {
+  //   await this.init();
+
+  //   return measureQuery(
+  //     {
+  //       operation: 'deleteMany',
+  //       collectionName: this.resolveCollectionName(ctx),
+  //       filter
+  //     },
+  //     async () => {
+  //       const col = await this.getCollection(ctx);
+  //       const session = this.resolveSession(ctx);
+
+  //       const docs = await col.find(
+  //         filter,
+  //         session ? { session } : undefined
+  //       ).toArray();
+
+  //       if (!docs || docs.length === 0) return;
+
+  //       const payload = this.toModelResults(docs as WithId<T>[]);
+
+  //       const middlewareCtx = this.buildMiddlewareContext(
+  //         'deleteMany', ctx, {
+  //         filter,
+  //         result: payload
+  //       });
+
+  //       await this.runBeforeMiddlewares('deleteMany', middlewareCtx);
+
+
+  //       if (docs.length > 0) {
+  //         await this.schema.triggerMiddleware('deleteMany', docs);
+  //         await col.deleteMany(
+  //           filter,
+  //           session ? { session } : undefined
+  //         );
+
+  //         await this.runAfterMiddlewares('deleteMany', middlewareCtx);
+
+  //         await pubsub.publish(`${DB_CHANGE_EVENT}`, {
+  //           documentDeleted: { action: 'deleteMany', filter }
+  //         });
+  //       }
+  //     }
+  //   );
+  // }
+
 
   /**
    * Populates a single field in a document with data from a related model.
@@ -937,7 +1370,6 @@ export class AbimongoModel<T extends Document> {
       await this._schema.executeHooks?.("pre-update", updatedDoc);
 
       await col.updateOne(filter, update, { session });
-
       const result = await col.findOne(filter, { session });
 
       await this._schema.executeHooks?.("post-update", result);
@@ -1024,22 +1456,131 @@ export class AbimongoModel<T extends Document> {
     ctx?: ModelContext
   ): Promise<T | null> {
     await this.init();
-    const col = await this.getCollection(ctx);
-    const result = await col.findOneAndUpdate(filter, update, { returnDocument: 'after' });
-    return result as T | null;
+
+    return measureQuery(
+      {
+        operation: 'findOneAndUpdate',
+        collectionName: this.resolveCollectionName(ctx),
+        filter,
+        update
+      },
+      async () => {
+        const middlewareCtx = this.buildMiddlewareContext('findOneAndUpdate', ctx, {
+          filter,
+          update
+        });
+
+        await this.runBeforeMiddlewares('findOneAndUpdate', middlewareCtx);
+
+        const col = await this.getCollection(ctx);
+        const session = this.resolveSession(ctx);
+
+        const result = await col.findOneAndUpdate(
+          (middlewareCtx.filter ?? filter) as Filter<T>,
+          (middlewareCtx.update ?? update) as UpdateFilter<T>,
+          {
+            returnDocument: 'after',
+            ...(session ? { session } : {})
+          }
+        );
+
+        middlewareCtx.result = result as T | null;
+
+        await this.runAfterMiddlewares('findOneAndUpdate', middlewareCtx);
+
+        return (middlewareCtx.result ?? result) as T | null;
+      }
+    );
   }
+
+  // async findOneAndUpdate(
+  //   filter: Filter<T>,
+  //   update: UpdateFilter<T>,
+  //   ctx?: ModelContext
+  // ): Promise<T | null> {
+  //   await this.init();
+
+  //   return measureQuery(
+  //     {
+  //       operation: 'findOneAndUpdate',
+  //       collectionName: this.resolveCollectionName(ctx),
+  //       filter,
+  //       update
+  //     },
+  //     async () => {
+  //       const col = await this.getCollection(ctx);
+  //       const session = this.resolveSession(ctx);
+
+  //       const result = await col.findOneAndUpdate(
+  //         filter,
+  //         update,
+  //         {
+  //           returnDocument: 'after',
+  //           ...(session ? { session } : {})
+  //         }
+  //       );
+
+  //       return result as T | null;
+  //     }
+  //   );
+  // }
 
   /**
    * Finds a document and deletes it from the collection.
    * @param {Filter<T>} filter - The filter to find the document.
    * @returns {Promise<T | null>} The deleted document or `null` if not found.
    */
-  async findOneAndDelete(filter: Filter<T>, ctx: ModelContext): Promise<T | null> {
+  async findOneAndDelete(
+    filter: Filter<T>,
+    ctx?: ModelContext
+  ): Promise<T | null> {
     await this.init();
-    const col = await this.getCollection(ctx);
-    const result = await col.findOneAndDelete(filter);
-    return result as T | null;
+
+    return measureQuery(
+      {
+        operation: 'findOneAndDelete',
+        collectionName: this.resolveCollectionName(ctx),
+        filter
+      },
+      async () => {
+        const middlewareCtx = this.buildMiddlewareContext('findOneAndDelete', ctx, {
+          filter
+        });
+
+        await this.runBeforeMiddlewares('findOneAndDelete', middlewareCtx);
+
+        const col = await this.getCollection(ctx);
+        const session = this.resolveSession(ctx);
+
+        const result = await col.findOneAndDelete(
+          (middlewareCtx.filter ?? filter) as Filter<T>,
+          session ? { session } : {}
+        );
+
+        middlewareCtx.result = result as T | null;
+
+        await this.runAfterMiddlewares('findOneAndDelete', middlewareCtx);
+
+        return (middlewareCtx.result ?? result) as T | null;
+      }
+    );
   }
+
+  // async findOneAndDelete(
+  //   filter: Filter<T>,
+  //   ctx?: ModelContext
+  // ): Promise<T | null> {
+  //   await this.init();
+
+  //   const col = await this.getCollection(ctx);
+  //   const session = this.resolveSession(ctx);
+
+  //   const options = session ? { session } : {};
+
+  //   const result = await col.findOneAndDelete(filter, options);
+
+  //   return result as T | null;
+  // }
 
   /**
    * Finds a document and replaces it with a new document.
@@ -1047,12 +1588,71 @@ export class AbimongoModel<T extends Document> {
    * @param {T} replacement - The new document to replace the found document.
    * @returns {Promise<T | null>} The replaced document or `null` if not found.
    */
-  async findOneAndReplace(filter: Filter<T>, replacement: T, ctx?: ModelContext): Promise<T | null> {
+  async findOneAndReplace(
+    filter: Filter<T>,
+    replacement: T,
+    ctx?: ModelContext
+  ): Promise<T | null> {
     await this.init();
-    const col = await this.getCollection(ctx);
-    const result = await col.findOneAndReplace(filter, replacement, { returnDocument: 'after' });
-    return result as T | null;
+
+    return measureQuery(
+      {
+        operation: 'findOneAndReplace',
+        collectionName: this.resolveCollectionName(ctx),
+        filter
+      },
+      async () => {
+        const middlewareCtx = this.buildMiddlewareContext('findOneAndReplace', ctx, {
+          filter,
+          doc: replacement
+        });
+
+        await this.runBeforeMiddlewares('findOneAndReplace', middlewareCtx);
+
+        const col = await this.getCollection(ctx);
+        const session = this.resolveSession(ctx);
+
+        const nextReplacement = (middlewareCtx.doc ?? replacement) as T;
+
+        const result = await col.findOneAndReplace(
+          (middlewareCtx.filter ?? filter) as Filter<T>,
+          nextReplacement,
+          {
+            returnDocument: 'after',
+            ...(session ? { session } : {})
+          }
+        );
+
+        middlewareCtx.result = result as T | null;
+
+        await this.runAfterMiddlewares('findOneAndReplace', middlewareCtx);
+
+        return (middlewareCtx.result ?? result) as T | null;
+      }
+    );
   }
+
+  // async findOneAndReplace(
+  //   filter: Filter<T>,
+  //   replacement: T,
+  //   ctx?: ModelContext
+  // ): Promise<T | null> {
+  //   await this.init();
+
+  //   const col = await this.getCollection(ctx);
+  //   const session = this.resolveSession(ctx);
+
+  //   const result = await col.findOneAndReplace(
+  //     filter,
+  //     replacement,
+  //     {
+  //       returnDocument: 'after',
+  //       ...(session ? { session } : {})
+  //     }
+  //   );
+
+  //   return result as T | null;
+  // }
 
   /**
    * Finds a document and upserts it (inserts if not found).
@@ -1066,10 +1666,65 @@ export class AbimongoModel<T extends Document> {
     ctx?: ModelContext
   ): Promise<T | null> {
     await this.init();
-    const col = await this.getCollection(ctx);
-    const result = await col.findOneAndUpdate(filter, update, { upsert: true, returnDocument: 'after', session: ctx?.session });
-    return result as T | null;
+
+    return measureQuery(
+      {
+        operation: 'findOneAndUpsert',
+        collectionName: this.resolveCollectionName(ctx),
+        filter,
+        update
+      },
+      async () => {
+        const middlewareCtx = this.buildMiddlewareContext('findOneAndUpsert', ctx, {
+          filter,
+          update
+        });
+
+        await this.runBeforeMiddlewares('findOneAndUpsert', middlewareCtx);
+
+        const col = await this.getCollection(ctx);
+        const session = this.resolveSession(ctx);
+
+        const result = await col.findOneAndUpdate(
+          (middlewareCtx.filter ?? filter) as Filter<T>,
+          (middlewareCtx.update ?? update) as UpdateFilter<T>,
+          {
+            upsert: true,
+            returnDocument: 'after',
+            ...(session ? { session } : {})
+          }
+        );
+
+        middlewareCtx.result = result as T | null;
+
+        await this.runAfterMiddlewares('findOneAndUpsert', middlewareCtx);
+
+        return (middlewareCtx.result ?? result) as T | null;
+      }
+    );
   }
+
+  // async findOneAndUpsert(
+  //   filter: Filter<T>,
+  //   update: UpdateFilter<T>,
+  //   ctx?: ModelContext
+  // ): Promise<T | null> {
+  //   await this.init();
+
+  //   const col = await this.getCollection(ctx);
+  //   const session = this.resolveSession(ctx);
+
+  //   const result = await col.findOneAndUpdate(
+  //     filter,
+  //     update,
+  //     {
+  //       upsert: true,
+  //       returnDocument: 'after',
+  //       ...(session ? { session } : {})
+  //     }
+  //   );
+  //   return result as T | null;
+  // }
 
   /**
    * Finds a document and upserts it (inserts if not found) with a transaction.
@@ -1119,7 +1774,6 @@ export class AbimongoModel<T extends Document> {
     }, ctx);
   }
 
-
   /**
    * Deletes a document securely with user authorization.
    * @param {Filter<T>} filter - The filter to find the document.
@@ -1148,30 +1802,90 @@ export class AbimongoModel<T extends Document> {
   async aggregate<U extends Document>(
     pipeline: object[],
     options: AggregateOptions = {},
-    session?: ClientSession,
+    externalSession?: ClientSession,
     ctx?: ModelContext
   ): Promise<U[]> {
-    try {
-      await this.init();
+    await this.init();
 
-      const col = await this.getCollection(ctx);
-      const session = this.resolveSession(ctx);
+    return measureQuery(
+      {
+        operation: 'aggregate',
+        collectionName: this.resolveCollectionName(ctx),
+        pipeline
+      },
+      async () => {
+        const middlewareCtx = this.buildMiddlewareContext('aggregate', ctx, {
+          pipeline
+        });
 
-      const cursor = col.aggregate<U>(
-        pipeline, {
-        ...options,
-        session: session || session
-      });
-      this.schema.triggerMiddleware('aggregate', cursor);
-      this.eventEmitter.emit('aggregate', cursor.bufferedCount());
+        await this.runBeforeMiddlewares('aggregate', middlewareCtx);
 
-      await pubsub.publish("DB_CHANGE", { dbChange: { action: "aggregate", pipeline } });
-      return await cursor.toArray();
-    } catch (error) {
-      console.error(`Aggregation error: ${error}`);
-      throw error;
-    }
-  };
+        const col = await this.getCollection(ctx);
+        const resolvedSession = this.resolveSession(ctx) ?? externalSession;
+
+        const cursor = col.aggregate<U>(
+          (middlewareCtx.pipeline ?? pipeline) as object[],
+          {
+            ...options,
+            ...(resolvedSession ? { session: resolvedSession } : {})
+          }
+        );
+
+        this.schema.triggerMiddleware('aggregate', cursor);
+        this.eventEmitter.emit('aggregate', cursor.bufferedCount());
+
+        const result = await cursor.toArray();
+
+        middlewareCtx.result = result;
+
+        await this.runAfterMiddlewares('aggregate', middlewareCtx);
+
+        await pubsub.publish('DB_CHANGE', {
+          dbChange: {
+            action: 'aggregate',
+            pipeline: middlewareCtx.pipeline ?? pipeline
+          }
+        });
+
+        return (middlewareCtx.result ?? result) as U[];
+      }
+    );
+  }
+
+  // async aggregate<U extends Document>(
+  //   pipeline: object[],
+  //   options: AggregateOptions = {},
+  //   externalSession?: ClientSession,
+  //   ctx?: ModelContext
+  // ): Promise<U[]> {
+  //   await this.init();
+
+  //   return measureQuery(
+  //     {
+  //       operation: 'aggregate',
+  //       collectionName: this.resolveCollectionName(ctx),
+  //       pipeline
+  //     },
+  //     async () => {
+  //       const col = await this.getCollection(ctx);
+  //       const resolvedSession = this.resolveSession(ctx) ?? externalSession;
+
+  //       const cursor = col.aggregate<U>(pipeline, {
+  //         ...options,
+  //         ...(resolvedSession ? { session: resolvedSession } : {})
+  //       });
+
+  //       this.schema.triggerMiddleware('aggregate', cursor);
+  //       this.eventEmitter.emit('aggregate', cursor.bufferedCount());
+
+  //       await pubsub.publish('DB_CHANGE', {
+  //         dbChange: { action: 'aggregate', pipeline }
+  //       });
+
+  //       return await cursor.toArray();
+  //     }
+  //   );
+  // }
 
   /**
    * Aggregates documents in the collection using a pipeline with a transaction.
@@ -1212,6 +1926,49 @@ export class AbimongoModel<T extends Document> {
 
       return result as U[];
     }, ctx);
+  }
+
+  private async withTransaction<R>(
+    operation: (session: ClientSession) => Promise<R>,
+    ctx?: ModelContext
+  ): Promise<R> {
+    const baseCtx = this.mergeCtx(ctx) ?? {};
+    const existingSession = baseCtx.session;
+
+    if (existingSession) {
+      return AbimongoContext.run(
+        {
+          tenantId: baseCtx.tenantId,
+          dbName: baseCtx.dbName,
+          collectionName: baseCtx.collectionName ?? this._collectionName,
+          session: existingSession
+        },
+        async () => operation(existingSession)
+      );
+    }
+
+    if (this._provider?.startSession) {
+      const session = await this.getSession(baseCtx);
+
+      return AbimongoContext.run(
+        {
+          tenantId: baseCtx.tenantId,
+          dbName: baseCtx.dbName,
+          collectionName: baseCtx.collectionName ?? this._collectionName,
+          session
+        },
+        async () => runManualTransaction(session, operation)
+      );
+    }
+
+    return AbimongoContext.run(
+      {
+        tenantId: baseCtx.tenantId,
+        dbName: baseCtx.dbName,
+        collectionName: baseCtx.collectionName ?? this._collectionName
+      },
+      async () => AbimongoContext.withTransaction(operation)
+    );
   }
 
   async runInTransaction<T>(
@@ -1630,43 +2387,6 @@ export class AbimongoModel<T extends Document> {
     }
   }
 
-  private async withTransaction<R>(
-    operation: (session: ClientSession) => Promise<R>,
-    ctx?: ModelContext
-  ): Promise<R> {
-    const baseCtx = this.mergeCtx(ctx);
-    const existingSession = baseCtx?.session;
-
-    if (existingSession) {
-      return operation(existingSession);
-    }
-
-    const session = await this.getSession(baseCtx);
-    session.startTransaction();
-
-    try {
-      return await AbimongoContext.run(
-        {
-          ...(AbimongoContext.get() ?? {}),
-          tenantId: baseCtx?.tenantId ?? AbimongoContext.get()?.tenantId,
-          dbName: baseCtx?.dbName ?? AbimongoContext.get()?.dbName,
-          collectionName: baseCtx?.collectionName ?? AbimongoContext.get()?.collectionName,
-          session
-        },
-        async () => {
-          const result = await operation(session);
-          await session.commitTransaction();
-          return result;
-        }
-      );
-    } catch (error) {
-      await session.abortTransaction();
-      throw error;
-    } finally {
-      await session.endSession();
-    }
-  }
-
   private toModelResult(doc: WithId<T> | null): ModelResult<T> | null {
     if (!doc) return null;
 
@@ -1679,8 +2399,172 @@ export class AbimongoModel<T extends Document> {
   private toModelResults(docs: WithId<T>[]): ModelResultArray<T> {
     return docs.map((doc) => ({
       ...doc,
-      _id: doc._id?.toString(),
+      _id: doc?._id?.toString(),
     })) as ModelResultArray<T>;
+  }
+
+  // ================ Middleware Context and Execution =================//
+  private buildMiddlewareContext(
+    operation: AbimongoMiddlewareOperation,
+    ctx?: ModelContext,
+    extra: Partial<AbimongoMiddlewareContext<T>> = {}
+  ): AbimongoMiddlewareContext<T> {
+    const merged = this.mergeCtx(ctx);
+
+    return {
+      operation,
+      collectionName: this.resolveCollectionName(ctx),
+      tenantId: merged?.tenantId,
+      dbName: merged?.dbName,
+      session: merged?.session,
+      ...extra
+    };
+  }
+
+  // Middleware runners/execution methods
+  private async runBeforeMiddlewares(
+    operation: AbimongoMiddlewareOperation,
+    ctx: AbimongoMiddlewareContext<T>
+  ): Promise<void> {
+    const handlers = this.beforeMiddlewares.get(operation) ?? [];
+    for (const handler of handlers) {
+      await handler(ctx);
+    }
+  }
+
+  private async runAfterMiddlewares(
+    operation: AbimongoMiddlewareOperation,
+    ctx: AbimongoMiddlewareContext<T>
+  ): Promise<void> {
+    const handlers = this.afterMiddlewares.get(operation) ?? [];
+    for (const handler of handlers) {
+      await handler(ctx);
+    }
+  }
+
+  // Middleware registration methods
+  before(
+    operation: AbimongoMiddlewareOperation,
+    handler: AbimongoMiddlewareHandler<T>
+  ): this {
+    const existing = this.beforeMiddlewares.get(operation) ?? [];
+    existing.push(handler);
+    this.beforeMiddlewares.set(operation, existing);
+    return this;
+  }
+
+  after(
+    operation: AbimongoMiddlewareOperation,
+    handler: AbimongoMiddlewareHandler<T>
+  ): this {
+    const existing = this.afterMiddlewares.get(operation) ?? [];
+    existing.push(handler);
+    this.afterMiddlewares.set(operation, existing);
+    return this;
+  }
+
+  beforeFind(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.before('find', handler);
+  }
+
+  afterFind(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.after('find', handler);
+  }
+
+  beforeFindOne(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.before('findOne', handler);
+  }
+
+  afterFindOne(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.after('findOne', handler);
+  }
+
+  beforeSave(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.before('create', handler);
+  }
+
+  afterSave(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.after('create', handler);
+  }
+
+  beforeUpdateOne(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.before('updateOne', handler);
+  }
+
+  afterUpdateOne(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.after('updateOne', handler);
+  }
+
+  beforeDeleteOne(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.before('deleteOne', handler);
+  }
+
+  afterDeleteOne(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.after('deleteOne', handler);
+  }
+
+  beforeDeleteMany(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.before('deleteMany', handler);
+  }
+
+  afterDeleteMany(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.after('deleteMany', handler);
+  }
+
+  beforeBulkInsert(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.before('bulkInsert', handler);
+  }
+
+  afterBulkInsert(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.after('bulkInsert', handler);
+  }
+
+  beforeBulkUpdate(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.before('bulkUpdate', handler);
+  }
+
+  afterBulkUpdate(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.after('bulkUpdate', handler);
+  }
+
+  beforeAggregate(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.before('aggregate', handler);
+  }
+
+  afterAggregate(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.after('aggregate', handler);
+  }
+
+  beforeFindOneAndUpdate(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.before('findOneAndUpdate', handler);
+  }
+
+  afterFindOneAndUpdate(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.after('findOneAndUpdate', handler);
+  }
+
+  beforeFindOneAndDelete(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.before('findOneAndDelete', handler);
+  }
+
+  afterFindOneAndDelete(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.after('findOneAndDelete', handler);
+  }
+
+  beforeFindOneAndReplace(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.before('findOneAndReplace', handler);
+  }
+
+  afterFindOneAndReplace(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.after('findOneAndReplace', handler);
+  }
+
+  beforeFindOneAndUpsert(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.before('findOneAndUpsert', handler);
+  }
+
+  afterFindOneAndUpsert(handler: AbimongoMiddlewareHandler<T>): this {
+    return this.after('findOneAndUpsert', handler);
   }
 
 };

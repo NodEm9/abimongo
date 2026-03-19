@@ -82,6 +82,48 @@ describe('AbimongoModel context resolution', () => {
 		);
 	});
 
+	it('should merge nested context values', async () => {
+		await AbimongoContext.run(
+			{ tenantId: 'tenantA', requestId: 'req-1' },
+			async () => {
+				await AbimongoContext.run(
+					{ collectionName: 'users' },
+					async () => {
+						expect(AbimongoContext.getTenantId()).toBe('tenantA');
+						expect(AbimongoContext.getRequestId()).toBe('req-1');
+						expect(AbimongoContext.getCollectionName()).toBe('users');
+					}
+				);
+			}
+		);
+	});
+
+	it('should reuse existing session inside nested withTransaction', async () => {
+		const mockSession = {
+			withTransaction: jest.fn(async (cb: () => Promise<void>) => cb()),
+			endSession: jest.fn()
+		} as any;
+
+		const mockClient = {
+			startSession: jest.fn(() => mockSession)
+		} as any;
+
+		AbimongoContext.configureTransactionResolver({
+			resolveClient: () => mockClient
+		});
+
+		await AbimongoContext.run({ tenantId: 'tenantA' }, async () => {
+			await AbimongoContext.withTransaction(async (session1) => {
+				await AbimongoContext.withTransaction(async (session2) => {
+					expect(session2).toBe(session1);
+				});
+			});
+		});
+
+		expect(mockClient.startSession).toHaveBeenCalledTimes(1);
+		expect(mockSession.endSession).toHaveBeenCalledTimes(1);
+	});
+
 	it('should prioritize default ctx over runtime ctx in mergeCtx', async () => {
 		(model as any)._defaultCtx = {
 			tenantId: 'default-tenant',

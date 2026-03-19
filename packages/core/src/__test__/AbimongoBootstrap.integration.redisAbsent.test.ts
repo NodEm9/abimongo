@@ -2,8 +2,6 @@
 	 This test mocks the Redis layer to simulate an unreachable Redis server and
 	 verifies that initialize() resolves (doesn't hang or throw). */
 import { AbimongoBootstrap } from '../lib-core/bootstrap/AbimongoBootstrap';
-import { Abimongo, AbimongoClient } from '../lib-core';
-import * as AbimongoClinetModule from '../lib-core/AbimongoClient';
 import { shutdownLogger } from '@abimongo/logger';
 import { MongoClient } from 'mongodb';
 

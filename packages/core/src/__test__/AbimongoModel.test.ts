@@ -14,6 +14,9 @@ import type {
 	WithId
   // Document,
 } from "mongodb";
+import { AbimongoContext } from "../context/AbimongoContext";
+import { measureQuery } from "../instrumentation/measureQueryWithErrors";
+import { debugLog } from "../debug/debugLog";
 
 type UserDoc = Document & {
   _id?: any;
@@ -618,6 +621,7 @@ describe('AbimongoModel', () => {
 			// Arrange
 			const mockCollection = {
 				bulkWrite: jest.fn().mockResolvedValue(null),
+				findOne: jest.fn(),
 			};
 
 			const mockSchema = new AbimongoSchema({} as Record<string, any>);
@@ -633,10 +637,10 @@ describe('AbimongoModel', () => {
 			}
 
 			const mockBoostrapClient = {
-			connect: jest.fn().mockResolvedValue(undefined),
-			close: jest.fn().mockResolvedValue(undefined),
-			collection: jest.fn().mockResolvedValue(mockCollection),
-			client: jest.fn().mockResolvedValue(mockDb),
+				connect: jest.fn().mockResolvedValue(undefined),
+				close: jest.fn().mockResolvedValue(undefined),
+				collection: jest.fn().mockResolvedValue(mockCollection),
+				client: jest.fn().mockResolvedValue(mockDb),
 		};
 
 			const model = new AbimongoModel({
@@ -891,12 +895,11 @@ describe("AbimongoModel.updateWithTransaction", () => {
       modifiedCount: 1,
       upsertedCount: 0,
       upsertedId: null,
-    } as any);
-
-    // const schema = {
-    //   validate: jest.fn(),
-    //   executeHooks: jest.fn().mockResolvedValue(undefined),
-    // } as unknown as AbimongoSchema<UserDoc>;
+		} as any);
+		
+		const schema = new AbimongoSchema<UserDoc>({} as Record<string, any>);
+		schema.validate = jest.fn().mockResolvedValue(undefined);
+		schema.executeHooks = jest.fn().mockResolvedValue(undefined);
 
     const model = Model<UserDoc>({
       collectionName: "users",
@@ -990,14 +993,6 @@ describe("AbimongoModel.updateWithTransaction", () => {
 
   it("should return null and abort if document does not exist", async () => {
     mockCollection.findOne.mockResolvedValueOnce(null);
-
-    // const schema = {
-    //   validate: jest.fn(),
-		// 	executeHooks: jest.fn().mockResolvedValue(undefined),
-		// 	pre: jest.fn().mockResolvedValue(undefined),
-		// 	post: jest.fn().mockResolvedValue(undefined),
-		// } as unknown as AbimongoSchema<UserDoc>;
-		
 		schema.pre('pre-save', (doc: UserDoc) => {
 			if (doc.email === "") {
 				return Promise.resolve();
@@ -1021,8 +1016,93 @@ describe("AbimongoModel.updateWithTransaction", () => {
     expect(mockSession.abortTransaction).not.toHaveBeenCalled();
     expect(mockSession.commitTransaction).toHaveBeenCalledTimes(1);
     expect(mockSession.endSession).toHaveBeenCalledTimes(1);
-  });
+	});
+	
+	it('should log query instrumentation through context logger', async () => {
+  const info = jest.fn();
+
+  await AbimongoContext.run(
+    {
+      tenantId: 'tenantA',
+      requestId: 'req_1',
+      logger: { info }
+    },
+    async () => {
+      const result = await measureQuery(
+        { operation: 'find', collectionName: 'users' },
+        async () => ['ok']
+      );
+
+      expect(result).toEqual(['ok']);
+    }
+  );
+
+  expect(info).toHaveBeenCalledWith(
+    '[Abimongo Query]',
+    expect.objectContaining({
+      operation: 'find',
+      collectionName: 'users',
+      tenantId: 'tenantA',
+      requestId: 'req_1',
+      durationMs: expect.any(Number)
+    })
+  );
+	});
+	
+	it('should emit debug logs when debug mode is enabled', async () => {
+  const debug = jest.fn();
+
+  await AbimongoContext.run(
+    {
+      debug: true,
+      logger: { debug }
+    },
+    async () => {
+      debugLog('Resolved collection', { collectionName: 'users' });
+    }
+  );
+
+  expect(debug).toHaveBeenCalledWith(
+    'Resolved collection',
+    expect.objectContaining({
+      collectionName: 'users'
+    })
+  );
+	});
+	
+	it('should log query errors and rethrow', async () => {
+  const error = jest.fn();
+
+  await expect(
+    AbimongoContext.run(
+      {
+        tenantId: 'tenantA',
+        logger: { error }
+      },
+      async () => {
+        await measureQuery(
+          { operation: 'findOne', collectionName: 'users' },
+          async () => {
+            throw new Error('boom');
+          }
+        );
+      }
+    )
+  ).rejects.toThrow('boom');
+
+  expect(error).toHaveBeenCalledWith(
+    '[Abimongo Query Error]',
+    expect.objectContaining({
+      operation: 'findOne',
+      collectionName: 'users',
+      success: false,
+      errorMessage: 'boom'
+    })
+  );
 });
+});
+
+
 // describe('AbimongoModel.updateWithTransaction', () => {
 // 	let model: AbimongoModel<any>;
 // 	let mockSchema: AbimongoSchema<any>;

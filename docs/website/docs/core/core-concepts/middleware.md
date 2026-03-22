@@ -127,3 +127,7 @@ Middleware can use `ctx.meta` to pass flags such as:
 - Keep middleware small and focused.
 - Avoid heavy synchronous work inside middleware.
 - Use middleware for cross-cutting concerns (validation, auditing, multi-tenancy).
+
+Next Step
+
+👉 Instrumentation

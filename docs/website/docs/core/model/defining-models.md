@@ -38,21 +38,60 @@ export const UserModel = new AbimongoModel({
   schema: UserSchema
 });
 ```
+---
 
 ### Required options
 
-- `collectionName` — the MongoDB collection name (e.g. `'users'`).
-- `schema` — defines structure and validation (e.g. `UserSchema`).
+- `collectionName` 
+The MongoDB collection name:
+
+```ts
+collectionName: 'users'
+```
+
+- `schema` 
+Defines structure and validation:
+
+```ts
+schema: userSchema
+```
+
+---
 
 ### Optional options
 
-- `provider` — custom database provider (if omitted, Abimongo uses the default provider).
-- `ctx` — default context for the model, e.g. `{ tenantId: 'defaultTenant', dbName: 'app_db' }`.
-- `collection` — override the collection instance (useful for tests).
+- `provider` — custom database provider.
+
+```ts
+provider: myProvider;
+```
+
+(if omitted, Abimongo uses the default provider).
+
+- `ctx` — (default context) 
+Set default context for the model:
+
+```ts
+ctx: {
+  tenantId: 'defaultTenant',
+  dbName: 'app_db'
+}
+```
+
+- `collection`
+ override the collection instance (useful for tests).
+
+ ```ts
+ collection: mockCollection;
+ ```
+
+ ---
 
 ## Model lifecycle
 
 When a model is created the configuration is validated, the schema is initialized, middleware hooks are registered, and optional GC/index settings are applied.
+
+---
 
 ## Basic usage
 
@@ -78,9 +117,13 @@ Models can be reused or bound to a specific context:
 const tenantModel = UserModel.bind({ tenantId: 'tenantA' });
 ```
 
+---
+
 ## Best practices
 
 - Keep models focused on a single collection.
 - Separate schema and model definitions.
 - Use middleware for cross-cutting logic.
 - Avoid embedding business logic directly in models.
+
+---

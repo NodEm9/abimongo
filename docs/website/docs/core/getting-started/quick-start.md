@@ -1,10 +1,12 @@
 # Quick Start
 
+---
+
 This guide walks you through creating your first schema and model, then performing basic CRUD operations with Abimongo.
 
 ---
 
-## 1) Define a schema
+## 1. Define a schema
 
 ```ts
 import { AbimongoSchema } from '@abimongo/core';
@@ -15,7 +17,7 @@ const UserSchema = new AbimongoSchema({
 });
 ```
 
-## 2) Create a model
+## 2. Create a model
 
 ```ts
 import { AbimongoModel } from '@abimongo/core';
@@ -26,7 +28,7 @@ const UserModel = new AbimongoModel({
 });
 ```
 
-## 3) Insert data
+## 3. Insert data
 
 ```ts
 await UserModel.create({
@@ -35,14 +37,14 @@ await UserModel.create({
 });
 ```
 
-## 4) Query data
+## 4. Query data
 
 ```ts
 const users = await UserModel.find({});
 const user = await UserModel.findOne({ email: 'alice@example.com' });
 ```
 
-## 5) Update data
+## 5. Update data
 
 ```ts
 await UserModel.updateOne(
@@ -51,13 +53,13 @@ await UserModel.updateOne(
 );
 ```
 
-## 6) Delete data
+## 6. Delete data
 
 ```ts
 await UserModel.deleteOne({ email: 'alice@example.com' });
 ```
 
-## 7) Using context (optional)
+## 7. Using context (optional)
 
 You can run operations within a request-scoped context to propagate tenant/request metadata and sessions:
 

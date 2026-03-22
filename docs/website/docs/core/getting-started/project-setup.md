@@ -1,6 +1,10 @@
 # Project Setup
 
+---
+
 This guide shows how to structure a production-ready Abimongo project.
+
+---
 
 ## Recommended folder structure
 

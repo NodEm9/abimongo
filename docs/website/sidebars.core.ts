@@ -14,6 +14,67 @@ const sidebars: SidebarsConfig = {
       dirName: '.', // '.' means the root of the docs folder
     },
   ]
+
+  // core: [
+  //   {
+  //     type: 'category',
+  //     label: 'Getting Started',
+  //     items: [
+  //       'getting-started/introduction',
+  //       'getting-started/installation',
+  //       'getting-started/quick-start',
+  //       'getting-started/project-setup'
+  //     ]
+  //   },
+  //   {
+  //     type: 'category',
+  //     label: 'Core Concepts',
+  //     items: [
+  //       'core/context',
+  //       'core/transactions',
+  //       'core/middleware',
+  //       'core/instrumentation'
+  //     ]
+  //   },
+  //   {
+  //     type: 'category',
+  //     label: 'Models',
+  //     items: [
+  //       'models/defining-models',
+  //       'models/schema',
+  //       'models/context-binding'
+  //     ]
+  //   },
+  //   {
+  //     type: 'category',
+  //     label: 'CRUD',
+  //     items: [
+  //       'crud/create',
+  //       'crud/read',
+  //       'crud/update',
+  //       'crud/delete',
+  //       'crud/aggregate'
+  //     ]
+  //   },
+  //   {
+  //     type: 'category',
+  //     label: 'Features',
+  //     items: [
+  //       'features/soft-delete',
+  //       'features/caching',
+  //       'features/multi-tenancy',
+  //       'features/events'
+  //     ]
+  //   },
+  //   {
+  //     type: 'category',
+  //     label: 'Adapters',
+  //     items: [
+  //       'adapters/overview'
+  //     ]
+  //   }
+  // ]
+
 };
 
 

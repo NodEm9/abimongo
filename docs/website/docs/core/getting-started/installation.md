@@ -1,5 +1,7 @@
 # Installation
 
+---
+
 ## Requirements
 
 Before installing Abimongo, ensure your environment meets the following requirements:
@@ -61,4 +63,4 @@ node index.ts
 
 If no errors occur, you're ready to continue.
 
-Next step: 👉 Quick Start
+Next step: 👉 [Quick Start]('./quick-start.md')

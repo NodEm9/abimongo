@@ -1,5 +1,7 @@
 # Intro to Abimongo
 
+---
+
 ## What is Abimongo
 
 Abimongo is a framework-agnostic data layer for MongoDB in Node.js.
@@ -7,6 +9,8 @@ Abimongo is a framework-agnostic data layer for MongoDB in Node.js.
 It provides structured model primitives, schema validation, middleware, and request-scoped execution so you can build consistent, scalable data workflows without being tied to a specific backend framework.
 
 Abimongo sits between a traditional ODM and a full data framework — giving you flexibility without sacrificing structure.
+
+---
 
 ### Why it exists
 

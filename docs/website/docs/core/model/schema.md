@@ -62,12 +62,20 @@ tags: { type: Array }
 
 ## ObjectId handling
 
-Abimongo will automatically cast string IDs to `ObjectId` and arrays of IDs to `ObjectId[]` where appropriate.
+Abimongo will automatically casts:
+
+- string to `ObjectId`
+- arrays of IDs to `ObjectId[]` where appropriate.
 
 ## Relationships
 
-Schemas can expose relationship metadata (e.g. `schema.getRelationships()`), which can be useful for middleware and aggregation helpers.
+Schemas can define relationships:
 
+```ts
+schema.getRelationships();
+```
+
+These are used in middleware and aggregation.
 ## Lifecycle hooks
 
 Schemas support document-level hooks:
@@ -101,6 +109,4 @@ Schema hooks operate at the document level and work alongside model-level middle
 - Use hooks for data integrity and small transformations.
 - Avoid deeply nested structures unless necessary; prefer references for complex relations.
 
-Next Step
-
-👉 Context Binding
+Next Step - [context-binding]('./context-binding.md')

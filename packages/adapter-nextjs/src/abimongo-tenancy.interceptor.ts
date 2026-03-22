@@ -9,8 +9,8 @@ import { Observable } from "rxjs";
 import {
   AbimongoContext,
   createTenancyContext,
-  TenancyOptions
 } from "@abimongo/adapter-types";
+import type { TenancyOptions } from "@abimongo/adapter-types";
 import { ABIMONGO_TENANCY_OPTIONS } from "./constants";
 
 // Optional import – only used when @nestjs/graphql is installed

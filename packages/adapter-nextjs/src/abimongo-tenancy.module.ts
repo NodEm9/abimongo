@@ -4,10 +4,10 @@ import type { TenancyOptions } from "@abimongo/adapter-types";
 import { AbimongoTenancyInterceptor } from "./abimongo-tenancy.interceptor";
 
 @Module({})
-export class AbimongoTenancyModule {
+export class AbimongoNextjsTenancyModule {
   static forRoot(options: TenancyOptions = {}): DynamicModule {
     return {
-      module: AbimongoTenancyModule,
+      module: AbimongoNextjsTenancyModule,
       providers: [
         {
           provide: ABIMONGO_TENANCY_OPTIONS,

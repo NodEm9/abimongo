@@ -9,17 +9,21 @@
  * This module provides core functionalities for Abimongo in a browser environment.
  * It includes database operations, configuration, and more.
  * @module Abimongo Core Browser Module
- * @version 1.1.3
+ * @version 1.1.5
  */
 
 
-console.log('Abimongo Core Library Loaded for Browser');
+console.log('Abimongo Core Library Loaded for (Browser)');
 
 export * from './lib-core';
 export * from './lib-core/bootstrap';
 export * from './config';
 export * from './graphql';
 export * from './tanancy';
+export * from './context';
+export * from './plugins';
+export * from './debug';
+export { measureQueryForBrowser } from './instrumentation/measureQuery.browser';
 
 // This export is needed for adapter-types to avoid circular dependency issues
 // when both packages are used together. But it's optional

@@ -6,7 +6,7 @@ import { AbimongoModel } from '../AbimongoModelFactory';
 import { AbimongoSchema, Schema } from '../AbimongoSchema';
 import { AbimongoGraphQL, initializeGraphQL } from '../../graphql';
 import { redis } from '../../redis-manager/redisClient';
-import { cacheWithRedis, Model, setLogger } from '../../utils';
+import { cacheWithRedis, configureAbimongoContext, Model, setLogger } from '../../utils';
 import { invalidateTenantCache } from '../../utils/invalidateTenantCache';
 import { initMultiTenancy, InitMultiTenancyOptions } from '../../tanancy';
 import { AbimongoGC, scheduleGarbageCollector } from '../../gc';
@@ -186,6 +186,9 @@ export class AbimongoBootstrap {
       });
 
     await this.provider.connect();
+
+    configureAbimongoContext(this.provider);
+
     console.log(colorize('MongoDB connected via AbimongoClientModule', 'blue'));
   }
 
@@ -312,48 +315,49 @@ export class AbimongoBootstrap {
   }
 
 
-async registerMultiTenancy<TApp>(
-  app: TApp,
-  options: RegisterMultiTenancyOptions = {}
-): Promise<void> {
-  if (!this.config.multiTenant?.enabled) {
-    throw new Error('Multi-tenancy is not enabled in the configuration');
-  }
+  async registerMultiTenancy<TApp>(
+    app: TApp,
+    options: RegisterMultiTenancyOptions = {}
+  ): Promise<void> {
+    if (!this.config.multiTenant?.enabled) {
+      throw new Error('Multi-tenancy is not enabled in the configuration');
+    }
 
-  const resolvedTenants = this.config.multiTenant.tenants ?? options.tenants;
-  if (!resolvedTenants || Object.keys(resolvedTenants).length === 0) {
-    throw new Error('Tenants map is required for multi-tenancy');
-  }
+    const resolvedTenants = this.config.multiTenant.tenants ?? options.tenants;
+    if (!resolvedTenants || Object.keys(resolvedTenants).length === 0) {
+      throw new Error('Tenants map is required for multi-tenancy');
+    }
 
-  const resolvedAdapter = options.adapter ?? this.adapter;
-  if (!resolvedAdapter?.installTenancy) {
-    throw new Error(
-      'No tenancy adapter provided. Install @abimongo/adapter-express, @abimongo/adapter-fastify, etc.'
+    const resolvedAdapter = options.adapter ?? this.adapter;
+    if (!resolvedAdapter?.installTenancy) {
+      throw new Error(
+        'No tenancy adapter provided. Install @abimongo/adapter-express, @abimongo/adapter-fastify, etc.'
+      );
+    }
+
+    const headerKey =
+      this.config.multiTenant.headerKey ??
+      options.headerKey ??
+      'x-tenant-id';
+
+    const initOptions =
+      this.config.multiTenant.initOptions ??
+      options.initOptions ??
+      {};
+
+    await initMultiTenancy(resolvedTenants, initOptions);
+
+    await resolvedAdapter.installTenancy(app, {
+      tenants: resolvedTenants,
+      headerKey,
+      initOptions,
+    });
+
+    console.log(
+      `Multi-tenancy initialized via ${resolvedAdapter.name ?? 'adapter'} (header: ${headerKey})`
     );
   }
 
-  const headerKey =
-    this.config.multiTenant.headerKey ??
-    options.headerKey ??
-    'x-tenant-id';
-
-  const initOptions =
-    this.config.multiTenant.initOptions ??
-    options.initOptions ??
-    {};
-
-  await initMultiTenancy(resolvedTenants, initOptions);
-
-  await resolvedAdapter.installTenancy(app, {
-    tenants: resolvedTenants,
-    headerKey,
-    initOptions,
-  });
-
-  console.log(
-    `Multi-tenancy initialized via ${resolvedAdapter.name ?? 'adapter'} (header: ${headerKey})`
-  );
-}
   public async cache<T>(
     key: string,
     fetcher: () => Promise<T>,

@@ -9,14 +9,13 @@ import {
   AggregateOptions,
   ClientSession,
   AnyBulkWriteOperation,
-  MongoClient,
   ChangeStreamDocument,
   ChangeStream,
   BulkWriteOptions,
   BulkWriteResult,
   ObjectId,
 } from 'mongodb';
-import type { InsertManyResult, WithId } from 'mongodb';
+import type { FindOneAndDeleteOptions, WithId } from 'mongodb';
 import {
   User,
   Document,
@@ -39,7 +38,6 @@ import { MultiTenantManager, TenantConfig } from '../tanancy/MultiTenantManager'
 import { redis } from '../redis-manager/redisClient';
 import { getGCSettings } from '../decorators/gcSettings';
 import {
-  castId,
   DB_CHANGE_EVENT,
   AbimongoModelRegistry,
   ensureRedis
@@ -52,16 +50,6 @@ import { runManualTransaction } from '../context';
 
 
 const pubsub = new PubSub();
-
-
-interface ResolvedModelContext<T extends Document> {
-  tenantId?: string;
-  dbName?: string;
-  db?: Db;
-  session?: ClientSession;
-  collectionName: string;
-  collectionOverride?: Collection<T>;
-}
 
 
 /**
@@ -87,6 +75,11 @@ export class AbimongoModel<T extends Document> {
     AbimongoMiddlewareOperation,
     AbimongoMiddlewareHandler<T>[]
   >();
+
+  private _softDeleteConfig?: {
+    deletedAtField: string;
+    isDeletedField: string;
+  };
 
   constructor(options: AbimongoModelOptions<T>) {
     if (!options) {
@@ -314,36 +307,6 @@ export class AbimongoModel<T extends Document> {
     return clone;
   }
 
-  // async registerModel(options: AbimongoModelOptions<T>): Promise<void> {
-  //   const { ctx, collectionName, schema, collection } = options;
-
-  //   if (!collectionName) throw new Error("Collection name is required.");
-
-  //   this._collectionName = collectionName;
-
-  //   // explicit collection override (tests / advanced)
-  //   if (collection) {
-  //     this._collectionOverride = collection;
-  //   }
-
-  //   // resolveDb priority: ctx.db > tenantId > (already set / default)
-  //   if (ctx?.db) {
-  //     this._provider.db = async () => ctx.db!;
-  //   } else if (ctx?.tenantId) {
-  //     const client = await this.getResolvedTenant(ctx.tenantId);
-  //     this._provider.db = async () => client?.client?.db(ctx.dbName) as Db;
-  //   } else {
-  //     // if _provider.db is not set elsewhere, this should error
-  //     if (!this._provider.db) {
-  //       throw new Error("AbimongoModel: p_provider.db is not configured (db/client/tenantId/AbimongoClient required).");
-  //     }
-  //   }
-
-  //   this._schema = schema ?? new AbimongoSchema<T>({} as any);
-
-  //   await this.init();
-  // }
-
   async registerModel(options: AbimongoModelOptions<T>): Promise<void> {
     const { ctx, collectionName, schema, collection } = options;
 
@@ -568,7 +531,9 @@ export class AbimongoModel<T extends Document> {
         filter
       },
       async () => {
-        const middlewareCtx = this.buildMiddlewareContext('find', ctx, { filter });
+        const middlewareCtx = this.buildMiddlewareContext('find', ctx, {
+          filter
+        });
 
         await this.runBeforeMiddlewares('find', middlewareCtx);
 
@@ -587,7 +552,7 @@ export class AbimongoModel<T extends Document> {
 
         await this.runAfterMiddlewares('find', middlewareCtx);
 
-        return middlewareCtx.result ?? payload;
+        return (middlewareCtx.result ?? payload) as ModelResultArray<T>;
       }
     );
   }
@@ -598,8 +563,10 @@ export class AbimongoModel<T extends Document> {
    * @returns {Promise<T | null>} The matching document or `null` if not found.
    * @throws {Error} If the filter is not a valid object.
    */
-
-  async findOne(filter: Filter<T>, ctx?: ModelContext): Promise<T | null> {
+  async findOne(
+    filter: Filter<T>,
+    ctx?: ModelContext
+  ): Promise<ModelResult<T> | null> {
     await this.init();
 
     if (!filter || typeof filter !== 'object') {
@@ -613,23 +580,29 @@ export class AbimongoModel<T extends Document> {
         filter
       },
       async () => {
-        const middlewareCtx = this.buildMiddlewareContext('findOne', ctx, { filter });
+        const middlewareCtx = this.buildMiddlewareContext('findOne', ctx, {
+          filter
+        });
+
         await this.runBeforeMiddlewares('findOne', middlewareCtx);
 
         const col = await this.getCollection(ctx);
         const session = this.resolveSession(ctx);
 
         const result = await col.findOne(
-          filter,
+          (middlewareCtx.filter ?? filter) as Filter<T>,
           session ? { session } : undefined
         );
 
-        const payload = this.toModelResult(result as WithId<T>);
+        const payload = result
+          ? this.toModelResult(result as WithId<T>)
+          : null;
+
         middlewareCtx.result = payload;
 
         await this.runAfterMiddlewares('findOne', middlewareCtx);
 
-        return middlewareCtx.result ?? payload;
+        return (middlewareCtx.result ?? payload) as ModelResult<T> | null;
       }
     );
   }
@@ -702,55 +675,6 @@ export class AbimongoModel<T extends Document> {
     );
   }
 
-  // async updateOne(
-  //   filter: Filter<T>,
-  //   update: UpdateFilter<T>,
-  //   ctx?: ModelContext
-  // ): Promise<void> {
-  //   await this.init();
-
-  //   return measureQuery(
-  //     {
-  //       operation: 'updateOne',
-  //       collectionName: this.resolveCollectionName(ctx),
-  //       filter,
-  //       update
-  //     },
-  //     async () => {
-  //       const middlewareCtx = this.buildMiddlewareContext('updateOne', ctx, { filter, update });
-  //       await this.runBeforeMiddlewares('updateOne', middlewareCtx);
-
-  //       await this.schema.executeHooks('pre-update', { filter, update });
-
-  //       const col = await this.getCollection(ctx);
-  //       const session = this.resolveSession(ctx);
-
-  //       const result = await col.updateOne(
-  //         filter,
-  //         update,
-  //         session ? { session } : undefined
-  //       );
-
-  //       const updatedDoc = await col.findOne(
-  //         filter,
-  //         result.matchedCount > 0 && session ? { session } : undefined,
-  //         // session ? { session } : undefined
-  //       );
-
-  //       await this.schema.executeHooks('post-update', { filter, update });
-
-  //       const payload = this.toModelResult(updatedDoc as WithId<T>);
-  //       middlewareCtx.result = payload;
-
-  //       await this.runAfterMiddlewares('updateOne', middlewareCtx);
-
-  //       await pubsub.publish(`${DB_CHANGE_EVENT}`, JSON.stringify({
-  //         documentUpdated: { action: 'update', filter, update }
-  //       }));
-  //     }
-  //   );
-  // }
-
   /**
    * Performs a bulk insert of documents into the collection.
    * @param {OptionalUnlessRequiredId<T>[]} docs - An array of documents to insert.
@@ -810,63 +734,6 @@ export class AbimongoModel<T extends Document> {
       }
     );
   }
-
-  // async bulkInsert(
-  //   docs: OptionalUnlessRequiredId<T>[],
-  //   ctx?: ModelContext
-  // ): Promise<void> {
-  //   await this.init();
-
-  //   if (!docs || docs.length === 0) return;
-
-  //   return measureQuery(
-  //     {
-  //       operation: 'bulkInsert',
-  //       collectionName: this.resolveCollectionName(ctx),
-  //       documentCount: docs.length
-  //     },
-  //     async () => {
-  //       const middlewareCtx = this.buildMiddlewareContext('bulkInsert', ctx, {
-  //         docs: docs as Partial<T>[]
-  //       });
-
-  //       await this.runBeforeMiddlewares('bulkInsert', middlewareCtx);
-
-  //       const insertDocs = (middlewareCtx.docs ?? docs) as OptionalUnlessRequiredId<T>[];
-
-  //       this.validate(docs[0]);
-
-  //       await this.schema.executeHooks('pre-save', docs);
-
-  //       const col = await this.getCollection(ctx);
-  //       const session = this.resolveSession(ctx);
-
-  //       const result = await col.insertMany(docs, {
-  //         ordered: false,
-  //         ...(session ? { session } : {})
-  //       });
-
-  //       const insertedIds = { ...insertDocs, _id: result?.insertedIds } as Record<number, ObjectId>;
-
-  //       const createdDocs = docs.map((doc, index) => ({
-  //         ...doc,
-  //         _id: insertedIds[index]
-  //       })) as WithId<T>[];
-
-
-  //       await this.schema.executeHooks('post-save', createdDocs);
-
-  //       const payload = this.toModelResults(createdDocs);
-  //       middlewareCtx.result = payload;
-
-  //       await this.runAfterMiddlewares('bulkInsert', middlewareCtx);
-
-  //       await pubsub.publish(`${DB_CHANGE_EVENT}`, {
-  //         documentInserted: { action: 'bulkInsert', docs }
-  //       });
-  //     }
-  //   );
-  // }
 
   /**
    * Performs a bulk update of multiple documents in the collection.
@@ -933,71 +800,12 @@ export class AbimongoModel<T extends Document> {
     );
   }
 
-  // async bulkUpdate(
-  //   updates: { filter: Partial<T>; update: Partial<T> }[],
-  //   ctx?: ModelContext
-  // ): Promise<void> {
-  //   await this.init();
-
-  //   return measureQuery(
-  //     {
-  //       operation: 'bulkUpdate',
-  //       collectionName: this.resolveCollectionName(ctx),
-  //       documentCount: updates.length
-  //     },
-  //     async () => {
-  //       const middlewareCtx = this.buildMiddlewareContext('bulkUpdate', ctx, {
-  //         update: updates as Array<{ filter: Filter<T>; update: UpdateFilter<T> }>
-  //       });
-  //       await this.runBeforeMiddlewares('bulkUpdate', middlewareCtx);
-
-  //       const bulkOps: AnyBulkWriteOperation<T>[] = updates.map(
-  //         ({ filter, update }) => ({
-  //           updateOne: {
-  //             filter: filter as Filter<T>,
-  //             update: { $set: update }
-  //           }
-  //         })
-  //       );
-
-  //       const col = await this.getCollection(ctx);
-  //       const session = this.resolveSession(ctx);
-
-  //       await col.bulkWrite(
-  //         bulkOps,
-  //         {
-  //           ordered: false,
-  //           ...(session ? { session } : {})
-  //         }
-  //       );
-
-  //       const updatedDocs = await Promise.all(
-  //         updates.map(({ filter }) =>
-  //           col.findOne(
-  //             filter as Filter<T>,
-  //             session ? { session } : undefined
-  //           )
-  //         ) as Partial<Promise<WithId<T>>[]>
-  //       )
-
-  //       const payload = this.toModelResults(updatedDocs as WithId<T>[]);
-  //       middlewareCtx.result = payload;
-
-  //       await this.runAfterMiddlewares('bulkUpdate', middlewareCtx);
-
-
-  //       await pubsub.publish(`${DB_CHANGE_EVENT}`, {
-  //         documentInserted: { action: 'bulkUpdate', updates }
-  //       });
-  //     }
-  //   );
-  // }
-
   /**
    * Deletes a single document from the collection.
    * @param {Filter<T>} filter - The filter to find the document to delete.
    * @returns {Promise<void>} Resolves when the document is deleted.
    */
+
   async deleteOne(filter: Filter<T>, ctx?: ModelContext): Promise<void> {
     await this.init();
 
@@ -1017,8 +825,10 @@ export class AbimongoModel<T extends Document> {
         const col = await this.getCollection(ctx);
         const session = this.resolveSession(ctx);
 
+        const effectiveFilter = (middlewareCtx.filter ?? filter) as Filter<T>;
+
         const doc = await col.findOne(
-          (middlewareCtx.filter ?? filter) as Filter<T>,
+          effectiveFilter,
           session ? { session } : undefined
         );
 
@@ -1028,65 +838,35 @@ export class AbimongoModel<T extends Document> {
           return;
         }
 
-        await this.schema.triggerMiddleware('deleteOne', doc);
-
         const payload = this.toModelResult(doc as WithId<T>);
         middlewareCtx.result = payload;
 
-        await col.deleteOne(
-          (middlewareCtx.filter ?? filter) as Filter<T>,
-          session ? { session } : undefined
-        );
+        if (middlewareCtx.meta?.softDelete === true) {
+          const softDeleteUpdate = middlewareCtx.meta.softDeleteUpdate as UpdateFilter<T>;
+
+          await col.updateOne(
+            effectiveFilter,
+            softDeleteUpdate,
+            session ? { session } : undefined
+          );
+        } else {
+          await this.schema.triggerMiddleware('deleteOne', doc);
+          await col.deleteOne(
+            effectiveFilter,
+          );
+        }
 
         await this.runAfterMiddlewares('deleteOne', middlewareCtx);
 
         await pubsub.publish(`${DB_CHANGE_EVENT}`, {
-          documentDeleted: { action: 'delete', filter: middlewareCtx.filter ?? filter }
+          documentDeleted: {
+            action: middlewareCtx.meta?.softDelete ? 'softDelete' : 'delete',
+            filter: effectiveFilter
+          }
         });
       }
     );
   }
-
-  // async deleteOne(filter: Filter<T>, ctx?: ModelContext): Promise<void> {
-  //   await this.init();
-
-  //   return measureQuery(
-  //     {
-  //       operation: 'deleteOne',
-  //       collectionName: this.resolveCollectionName(ctx),
-  //       filter
-  //     },
-  //     async () => {
-  //       const middlewareCtx = this.buildMiddlewareContext('deleteOne', ctx, { filter });
-  //       await this.runBeforeMiddlewares('deleteOne', middlewareCtx);
-
-  //       const col = await this.getCollection(ctx);
-  //       const session = this.resolveSession(ctx);
-
-  //       const doc = await col.findOne(
-  //         filter,
-  //         session ? { session } : undefined
-  //       );
-
-  //       if (doc) {
-  //         await this.schema.triggerMiddleware('deleteOne', doc);
-  //         await col.deleteOne(
-  //           filter,
-  //           session ? { session } : undefined
-  //         );
-
-  //         const payload = this.toModelResult(doc as WithId<T>);
-  //         middlewareCtx.result = payload;
-
-  //         await this.runAfterMiddlewares('deleteOne', middlewareCtx);
-
-  //         await pubsub.publish(`${DB_CHANGE_EVENT}`, {
-  //           documentDeleted: { action: 'delete', filter }
-  //         });
-  //       }
-  //     }
-  //   );
-  // }
 
   /**
    * Deletes multiple documents from the collection.
@@ -1112,8 +892,10 @@ export class AbimongoModel<T extends Document> {
         const col = await this.getCollection(ctx);
         const session = this.resolveSession(ctx);
 
+        const effectiveFilter = (middlewareCtx.filter ?? filter) as Filter<T>;
+
         const docs = await col.find(
-          (middlewareCtx.filter ?? filter) as Filter<T>,
+          effectiveFilter,
           session ? { session } : undefined
         ).toArray();
 
@@ -1126,78 +908,45 @@ export class AbimongoModel<T extends Document> {
           return;
         }
 
-        await this.schema.triggerMiddleware('deleteMany', docs);
+        if (middlewareCtx.meta?.softDelete === true) {
+          const softDeleteUpdate = middlewareCtx.meta.softDeleteUpdate as UpdateFilter<T>;
 
-        const result = await col.deleteMany(
-          (middlewareCtx.filter ?? filter) as Filter<T>,
-          session ? { session } : undefined
-        );
+          const result = await col.updateMany(
+            effectiveFilter,
+            softDeleteUpdate,
+            session ? { session } : undefined
+          );
 
-        middlewareCtx.result = {
-          deletedCount: result.deletedCount,
-          docs: this.toModelResults(docs as WithId<T>[])
-        };
+          middlewareCtx.result = {
+            deletedCount: result.modifiedCount,
+            docs: this.toModelResults(docs as WithId<T>[]),
+            softDeleted: true
+          };
+        } else {
+          await this.schema.triggerMiddleware('deleteMany', docs);
+
+          const result = await col.deleteMany(
+            effectiveFilter,
+            session ? { session } : undefined
+          );
+
+          middlewareCtx.result = {
+            deletedCount: result.deletedCount,
+            docs: this.toModelResults(docs as WithId<T>[])
+          };
+        }
 
         await this.runAfterMiddlewares('deleteMany', middlewareCtx);
 
         await pubsub.publish(`${DB_CHANGE_EVENT}`, {
           documentDeleted: {
-            action: 'deleteMany',
-            filter: middlewareCtx.filter ?? filter
+            action: middlewareCtx.meta?.softDelete ? 'softDeleteMany' : 'deleteMany',
+            filter: effectiveFilter
           }
         });
       }
     );
   }
-
-  // async deleteMany(filter: Filter<T>, ctx?: ModelContext): Promise<void> {
-  //   await this.init();
-
-  //   return measureQuery(
-  //     {
-  //       operation: 'deleteMany',
-  //       collectionName: this.resolveCollectionName(ctx),
-  //       filter
-  //     },
-  //     async () => {
-  //       const col = await this.getCollection(ctx);
-  //       const session = this.resolveSession(ctx);
-
-  //       const docs = await col.find(
-  //         filter,
-  //         session ? { session } : undefined
-  //       ).toArray();
-
-  //       if (!docs || docs.length === 0) return;
-
-  //       const payload = this.toModelResults(docs as WithId<T>[]);
-
-  //       const middlewareCtx = this.buildMiddlewareContext(
-  //         'deleteMany', ctx, {
-  //         filter,
-  //         result: payload
-  //       });
-
-  //       await this.runBeforeMiddlewares('deleteMany', middlewareCtx);
-
-
-  //       if (docs.length > 0) {
-  //         await this.schema.triggerMiddleware('deleteMany', docs);
-  //         await col.deleteMany(
-  //           filter,
-  //           session ? { session } : undefined
-  //         );
-
-  //         await this.runAfterMiddlewares('deleteMany', middlewareCtx);
-
-  //         await pubsub.publish(`${DB_CHANGE_EVENT}`, {
-  //           documentDeleted: { action: 'deleteMany', filter }
-  //         });
-  //       }
-  //     }
-  //   );
-  // }
-
 
   /**
    * Populates a single field in a document with data from a related model.
@@ -1454,7 +1203,7 @@ export class AbimongoModel<T extends Document> {
     filter: Filter<T>,
     update: UpdateFilter<T>,
     ctx?: ModelContext
-  ): Promise<T | null> {
+  ): Promise<ModelResult<T> | null> {
     await this.init();
 
     return measureQuery(
@@ -1484,46 +1233,18 @@ export class AbimongoModel<T extends Document> {
           }
         );
 
-        middlewareCtx.result = result as T | null;
+        const payload = result
+          ? this.toModelResult(result as WithId<T>)
+          : null;
+
+        middlewareCtx.result = payload;
 
         await this.runAfterMiddlewares('findOneAndUpdate', middlewareCtx);
 
-        return (middlewareCtx.result ?? result) as T | null;
+        return (middlewareCtx.result ?? payload) as ModelResult<T> | null;
       }
     );
   }
-
-  // async findOneAndUpdate(
-  //   filter: Filter<T>,
-  //   update: UpdateFilter<T>,
-  //   ctx?: ModelContext
-  // ): Promise<T | null> {
-  //   await this.init();
-
-  //   return measureQuery(
-  //     {
-  //       operation: 'findOneAndUpdate',
-  //       collectionName: this.resolveCollectionName(ctx),
-  //       filter,
-  //       update
-  //     },
-  //     async () => {
-  //       const col = await this.getCollection(ctx);
-  //       const session = this.resolveSession(ctx);
-
-  //       const result = await col.findOneAndUpdate(
-  //         filter,
-  //         update,
-  //         {
-  //           returnDocument: 'after',
-  //           ...(session ? { session } : {})
-  //         }
-  //       );
-
-  //       return result as T | null;
-  //     }
-  //   );
-  // }
 
   /**
    * Finds a document and deletes it from the collection.
@@ -1533,7 +1254,7 @@ export class AbimongoModel<T extends Document> {
   async findOneAndDelete(
     filter: Filter<T>,
     ctx?: ModelContext
-  ): Promise<T | null> {
+  ): Promise<ModelResult<T> | null> {
     await this.init();
 
     return measureQuery(
@@ -1551,36 +1272,55 @@ export class AbimongoModel<T extends Document> {
 
         const col = await this.getCollection(ctx);
         const session = this.resolveSession(ctx);
+        const effectiveFilter = (middlewareCtx.filter ?? filter) as Filter<T>;
 
-        const result = await col.findOneAndDelete(
-          (middlewareCtx.filter ?? filter) as Filter<T>,
-          session ? { session } : {}
+        const existingDoc = await col.findOne(
+          effectiveFilter,
+          session ? { session } : undefined
         );
 
-        middlewareCtx.result = result as T | null;
+        if (!existingDoc) {
+          middlewareCtx.result = null;
+          await this.runAfterMiddlewares('findOneAndDelete', middlewareCtx);
+          return null;
+        }
+
+        if (middlewareCtx.meta?.softDelete === true) {
+          const softDeleteUpdate = middlewareCtx.meta.softDeleteUpdate as UpdateFilter<T>;
+
+          await col.updateOne(
+            effectiveFilter,
+            softDeleteUpdate,
+            session ? { session } : undefined
+          );
+
+          const payload = this.toModelResult(existingDoc as WithId<T>);
+          middlewareCtx.result = payload;
+
+          await this.runAfterMiddlewares('findOneAndDelete', middlewareCtx);
+
+          return (middlewareCtx.result ?? payload) as ModelResult<T> | null;
+        }
+
+        const options: FindOneAndDeleteOptions = session ? { session } : {};
+
+        const result = await col.findOneAndDelete(
+          effectiveFilter,
+          options
+        );
+
+        const payload = result
+          ? this.toModelResult(result as WithId<T>)
+          : null;
+
+        middlewareCtx.result = payload;
 
         await this.runAfterMiddlewares('findOneAndDelete', middlewareCtx);
 
-        return (middlewareCtx.result ?? result) as T | null;
+        return (middlewareCtx.result ?? payload) as ModelResult<T> | null;
       }
     );
   }
-
-  // async findOneAndDelete(
-  //   filter: Filter<T>,
-  //   ctx?: ModelContext
-  // ): Promise<T | null> {
-  //   await this.init();
-
-  //   const col = await this.getCollection(ctx);
-  //   const session = this.resolveSession(ctx);
-
-  //   const options = session ? { session } : {};
-
-  //   const result = await col.findOneAndDelete(filter, options);
-
-  //   return result as T | null;
-  // }
 
   /**
    * Finds a document and replaces it with a new document.
@@ -1592,7 +1332,7 @@ export class AbimongoModel<T extends Document> {
     filter: Filter<T>,
     replacement: T,
     ctx?: ModelContext
-  ): Promise<T | null> {
+  ): Promise<ModelResult<T> | null> {
     await this.init();
 
     return measureQuery(
@@ -1612,10 +1352,11 @@ export class AbimongoModel<T extends Document> {
         const col = await this.getCollection(ctx);
         const session = this.resolveSession(ctx);
 
+        const effectiveFilter = (middlewareCtx.filter ?? filter) as Filter<T>;
         const nextReplacement = (middlewareCtx.doc ?? replacement) as T;
 
         const result = await col.findOneAndReplace(
-          (middlewareCtx.filter ?? filter) as Filter<T>,
+          effectiveFilter,
           nextReplacement,
           {
             returnDocument: 'after',
@@ -1623,36 +1364,18 @@ export class AbimongoModel<T extends Document> {
           }
         );
 
-        middlewareCtx.result = result as T | null;
+        const payload = result
+          ? this.toModelResult(result as WithId<T>)
+          : null;
+
+        middlewareCtx.result = payload;
 
         await this.runAfterMiddlewares('findOneAndReplace', middlewareCtx);
 
-        return (middlewareCtx.result ?? result) as T | null;
+        return (middlewareCtx.result ?? payload) as ModelResult<T> | null;
       }
     );
   }
-
-  // async findOneAndReplace(
-  //   filter: Filter<T>,
-  //   replacement: T,
-  //   ctx?: ModelContext
-  // ): Promise<T | null> {
-  //   await this.init();
-
-  //   const col = await this.getCollection(ctx);
-  //   const session = this.resolveSession(ctx);
-
-  //   const result = await col.findOneAndReplace(
-  //     filter,
-  //     replacement,
-  //     {
-  //       returnDocument: 'after',
-  //       ...(session ? { session } : {})
-  //     }
-  //   );
-
-  //   return result as T | null;
-  // }
 
   /**
    * Finds a document and upserts it (inserts if not found).
@@ -1664,7 +1387,7 @@ export class AbimongoModel<T extends Document> {
     filter: Filter<T>,
     update: UpdateFilter<T>,
     ctx?: ModelContext
-  ): Promise<T | null> {
+  ): Promise<ModelResult<T> | null> {
     await this.init();
 
     return measureQuery(
@@ -1685,9 +1408,12 @@ export class AbimongoModel<T extends Document> {
         const col = await this.getCollection(ctx);
         const session = this.resolveSession(ctx);
 
+        const effectiveFilter = (middlewareCtx.filter ?? filter) as Filter<T>;
+        const effectiveUpdate = (middlewareCtx.update ?? update) as UpdateFilter<T>;
+
         const result = await col.findOneAndUpdate(
-          (middlewareCtx.filter ?? filter) as Filter<T>,
-          (middlewareCtx.update ?? update) as UpdateFilter<T>,
+          effectiveFilter,
+          effectiveUpdate,
           {
             upsert: true,
             returnDocument: 'after',
@@ -1695,36 +1421,18 @@ export class AbimongoModel<T extends Document> {
           }
         );
 
-        middlewareCtx.result = result as T | null;
+        const payload = result
+          ? this.toModelResult(result as WithId<T>)
+          : null;
+
+        middlewareCtx.result = payload;
 
         await this.runAfterMiddlewares('findOneAndUpsert', middlewareCtx);
 
-        return (middlewareCtx.result ?? result) as T | null;
+        return (middlewareCtx.result ?? payload) as ModelResult<T> | null;
       }
     );
   }
-
-  // async findOneAndUpsert(
-  //   filter: Filter<T>,
-  //   update: UpdateFilter<T>,
-  //   ctx?: ModelContext
-  // ): Promise<T | null> {
-  //   await this.init();
-
-  //   const col = await this.getCollection(ctx);
-  //   const session = this.resolveSession(ctx);
-
-  //   const result = await col.findOneAndUpdate(
-  //     filter,
-  //     update,
-  //     {
-  //       upsert: true,
-  //       returnDocument: 'after',
-  //       ...(session ? { session } : {})
-  //     }
-  //   );
-  //   return result as T | null;
-  // }
 
   /**
    * Finds a document and upserts it (inserts if not found) with a transaction.
@@ -1851,41 +1559,6 @@ export class AbimongoModel<T extends Document> {
       }
     );
   }
-
-  // async aggregate<U extends Document>(
-  //   pipeline: object[],
-  //   options: AggregateOptions = {},
-  //   externalSession?: ClientSession,
-  //   ctx?: ModelContext
-  // ): Promise<U[]> {
-  //   await this.init();
-
-  //   return measureQuery(
-  //     {
-  //       operation: 'aggregate',
-  //       collectionName: this.resolveCollectionName(ctx),
-  //       pipeline
-  //     },
-  //     async () => {
-  //       const col = await this.getCollection(ctx);
-  //       const resolvedSession = this.resolveSession(ctx) ?? externalSession;
-
-  //       const cursor = col.aggregate<U>(pipeline, {
-  //         ...options,
-  //         ...(resolvedSession ? { session: resolvedSession } : {})
-  //       });
-
-  //       this.schema.triggerMiddleware('aggregate', cursor);
-  //       this.eventEmitter.emit('aggregate', cursor.bufferedCount());
-
-  //       await pubsub.publish('DB_CHANGE', {
-  //         dbChange: { action: 'aggregate', pipeline }
-  //       });
-
-  //       return await cursor.toArray();
-  //     }
-  //   );
-  // }
 
   /**
    * Aggregates documents in the collection using a pipeline with a transaction.
@@ -2403,7 +2076,45 @@ export class AbimongoModel<T extends Document> {
     })) as ModelResultArray<T>;
   }
 
-  // ================ Middleware Context and Execution =================//
+  async restoreOne(filter: Filter<T>, ctx?: ModelContext): Promise<void> {
+    await this.init();
+
+    const col = await this.getCollection(ctx);
+    const session = this.resolveSession(ctx);
+
+    await col.updateOne(
+      filter,
+      this.buildRestoreUpdate(),
+      session ? { session } : undefined
+    );
+  }
+
+  async restoreMany(filter: Filter<T>, ctx?: ModelContext): Promise<void> {
+    await this.init();
+
+    const col = await this.getCollection(ctx);
+    const session = this.resolveSession(ctx);
+
+    await col.updateMany(
+      filter,
+      this.buildRestoreUpdate(),
+      session ? { session } : undefined
+    );
+  }
+
+  private buildRestoreUpdate(): UpdateFilter<T> {
+    const deletedAtField = this._softDeleteConfig?.deletedAtField ?? 'deletedAt';
+    const isDeletedField = this._softDeleteConfig?.isDeletedField ?? 'isDeleted';
+
+    return {
+      $set: {
+        [deletedAtField]: null,
+        [isDeletedField]: false
+      } as Partial<T>
+    } as UpdateFilter<T>;
+  }
+
+  //================ Middleware Context and Execution =================//
   private buildMiddlewareContext(
     operation: AbimongoMiddlewareOperation,
     ctx?: ModelContext,
@@ -2411,14 +2122,31 @@ export class AbimongoModel<T extends Document> {
   ): AbimongoMiddlewareContext<T> {
     const merged = this.mergeCtx(ctx);
 
+    const baseMeta = {
+      withDeleted: ctx?.withDeleted,
+      onlyDeleted: ctx?.onlyDeleted,
+      hardDelete: ctx?.hardDelete
+    };
+
     return {
       operation,
       collectionName: this.resolveCollectionName(ctx),
       tenantId: merged?.tenantId,
       dbName: merged?.dbName,
       session: merged?.session,
-      ...extra
+      ...extra,
+      meta: {
+        ...baseMeta,
+        ...(extra.meta ?? {})
+      }
     };
+  }
+
+  setSoftDeleteConfig(config: {
+    deletedAtField: string;
+    isDeletedField: string
+  }): void {
+    this._softDeleteConfig = config;
   }
 
   // Middleware runners/execution methods

@@ -9,7 +9,12 @@ import {
 	ClientSession
 } from 'mongodb';
 import 'dotenv/config'
-import { AbimongoClientConfig, AbimongoClientOptions, BootstrapClient, ModelContext } from '../types';
+import {
+	AbimongoClientConfig,
+	AbimongoClientOptions,
+	BootstrapClient,
+	ModelContext
+} from '../types';
 import {
 	ErrorType,
 	AbimongoModelRegistry,
@@ -20,12 +25,11 @@ import "dotenv/config";
 import { GetTenantModelParams, MultiTenantManager } from '../tanancy';
 import { AbimongoSchema } from './AbimongoSchema';
 import { AbimongoContext } from '../context/AbimongoContext';
+import { AsyncBatchTransporter } from '@abimongo/logger';
 
 
 
 const abimongoSymbol = Symbol.for('abimongo:default');
-const AbimongoClientModuleSymbol = Symbol.for('abimongo:client');
-const defaultCollectionName = Symbol.for('abimongo:defaultCollectionName');
 
 
 type ClusterInfo =
@@ -363,24 +367,7 @@ export class AbimongoClient implements BootstrapClient {
 	 */
 	async connect(): Promise<this> {
 		this.validateUri(this._opts.uri!);
-		// During tests avoid making a real network connection; provide a safe in-memory stub
-		// if (!this._client) {
-		// 	if (process.env.JEST_WORKER_ID) {
-		// 		// lightweight stub that provides a db().collection() shape and minimal lifecycle methods
-		// 		this._client = ({
-		// 			db: (_dbName?: string) => ({ collection: (_name: string) => ({}) }),
-		// 			// simulate async connect/close used throughout the codebase
-		// 			connect: async () => true,
-		// 			close: async () => { },
-		// 		} as unknown) as MongoClient;
-		// 		this._db = ({} as unknown) as Db;
-		// 		return this;
-		// 	}
-
-		// 	this._client = new MongoClient(this._opts.uri, { monitorCommands: true });
-		// 	this._db = this._client.db(this._opts.options?.dbName);
-		// 	await this._client.connect();
-		// }
+	
 		if (!this._client) {
 			this._client = new MongoClient(this._opts.uri);
 		}
@@ -391,12 +378,6 @@ export class AbimongoClient implements BootstrapClient {
 		}
 		return this
 	}
-
-
-	// get client(): MongoClient {
-	// 	if (!this._client) throw new Error("Client not connected.");
-	// 	return this._client;
-	// }
 
 	async client(ctx?: ModelContext): Promise<MongoClient> {
 		if (ctx?.tenantId) {
@@ -430,9 +411,6 @@ export class AbimongoClient implements BootstrapClient {
 		if (!this._client) {
 			throw new Error('Client not initialized. Call `connect()` first.');
 		}
-
-		// const dbName = this._opts.options?.dbName;
-
 
 		const dbName = this.resolveDbName();
 		if (!dbName) {
@@ -479,59 +457,6 @@ export class AbimongoClient implements BootstrapClient {
 	 * Retrieves information about the MongoDB cluster type (e.g., standalone, replica set, sharded).
 	 * @returns {Promise<{ type: string; setName?: string }>} A promise that resolves to an object containing the cluster type and set name (if applicable).
 	 */
-
-	// async getClusterInfo(): Promise<{ type: string; setName?: string }> {
-	// 	try {
-	// 		if (!this._client) {
-	// 			throw new Error("Client not initialized. Call connect() first.");
-	// 		}
-
-	// 		const adminDb = this._client.db().admin();
-	// 		const result = await adminDb.command({ hello: 1 });
-
-	// 		if (result?.msg === "isdbgrid") {
-	// 			console.log("MongoDB is running in a sharded cluster.");
-	// 			return { type: "sharded" };
-	// 		}
-
-	// 		if (result?.setName) {
-	// 			console.log(`MongoDB is running in a replica set: ${result.setName}`);
-	// 			return { type: "replicaSet", setName: result.setName };
-	// 		}
-
-	// 		console.log("MongoDB is running as a standalone instance.");
-	// 		return { type: "standalone" };
-	// 	} catch (error) {
-	// 		console.error("Error determining MongoDB cluster type:", error);
-	// 		throw error;
-	// 	}
-	// };
-
-
-	// async getClusterInfo(): Promise<{ type: string; setName?: string }> {
-	// 	try {
-	// 		if (!this._client) {
-	// 			throw new Error("Client not initialized. Call connect() first.");
-	// 		}
-	// 		const adminDb = this._client.db(this._opts.options?.dbName).admin();
-	// 		const result = await adminDb.command({ isMaster: 1 });
-
-	// 		if (result?.msg === 'isdbgrid') {
-	// 			console.log('MongoDB is running in a sharded cluster.');
-	// 			return { type: 'sharded' };
-	// 		} else if (result?.setName) {
-	// 			console.log(`MongoDB is running in a replica set: ${result.setName}`);
-	// 			return { type: 'replicaSet', setName: result.setName };
-	// 		} else {
-	// 			console.log('MongoDB is running as a standalone instance.');
-	// 			return { type: 'standalone' };
-	// 		}
-	// 	} catch (error) {
-	// 		console.error('Error determining MongoDB cluster type:', error);
-	// 		throw error;
-	// 	}
-	// }
-
 	async getClusterInfo(): Promise<ClusterInfo> {
 		if (!this._client) {
 			throw new Error('Client not initialized. Call `connect()` first.');
@@ -612,7 +537,6 @@ export class AbimongoClient implements BootstrapClient {
 		};
 	}
 
-	// inside AbimongoClient.ts
 	private resolveDbName(overrideDbName?: string): string {
 		const ctx = AbimongoContext.get();
 
@@ -771,27 +695,6 @@ export class AbimongoClient implements BootstrapClient {
 		this._overrideDbName = undefined;
 	}
 
-	/**
-	 * Switches to a different collection at runtime.
-	 * @param {string} collectionName - The name of the collection to switch to.
-	 * @returns {Promise<Collection<any>>} A promise that resolves to the new collection instance.
-	 * @throws {Error} If the client is not initialized or the collection name is not provided.
-	 */
-
-	// async useCollection(collectionName: string): Promise<Collection<any>> {
-	// 	if (!collectionName) {
-	// 		const message = 'Collection name is required.';
-	// 		throw new Error(message).stack;
-	// 	}
-
-	// 	if (!this._client) {
-	// 		throw new Error("Client not initialized. Call `connect()` first.");
-	// 	}
-
-	// 	this.collectionName = this._client.db(this._opts.options?.dbName).collection(collectionName);
-	// 	return this.collectionName;
-	// };
-
 	async startSession(ctx?: ModelContext): Promise<ClientSession> {
 		const client = await this.client(ctx);
 		return client.startSession();
@@ -902,29 +805,29 @@ export class AbimongoClient implements BootstrapClient {
 		}
 	}
 
-	// static async handleLogBatch(
-	// 	batch: (TopologyOpeningEvent | TopologyClosedEvent)[],
-	// 	transporter?: AsyncBatchTransporter
-	// ): Promise<void> {
-	// 	if (!Array.isArray(batch) || batch.length === 0) {
-	// 		console.warn(`[warning]: Received an empty log batch or invalid format: ${batch}`);
-	// 		return;
-	// 	}
+	static async handleLogBatch(
+		batch: (TopologyOpeningEvent | TopologyClosedEvent)[],
+		transporter?: AsyncBatchTransporter
+	): Promise<void> {
+		if (!Array.isArray(batch) || batch.length === 0) {
+			console.warn(`[warning]: Received an empty log batch or invalid format: ${batch}`);
+			return;
+		}
 
-	// 	// Always handle the first event explicitly
-	// 	this.handleTopologyEvent(batch[0]);
+		// Always handle the first event explicitly
+		this.handleTopologyEvent(batch[0]);
 
-	// 	const remaining = batch.slice(1);
-	// 	if (remaining.length > 0) {
-	// 		if (transporter) {
-	// 			for (const event of remaining) {
-	// 				transporter.log('info', 'Topology event (batch)', [event]);
-	// 			}
-	// 		} else {
-	// 			console.warn(`[warning]: No transporter provided; remaining batch will not be processed: ${remaining}`);
-	// 		}
-	// 	}
-	// }
+		const remaining = batch.slice(1);
+		if (remaining.length > 0) {
+			if (transporter) {
+				for (const event of remaining) {
+					transporter.log('info', 'Topology event (batch)', [event]);
+				}
+			} else {
+				console.warn(`[warning]: No transporter provided; remaining batch will not be processed: ${remaining}`);
+			}
+		}
+	}
 
 }
 

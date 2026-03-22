@@ -39,13 +39,13 @@ export function resolveRuntimeConfig(
 		]),
 		dbName: resolveAbimongoOption([
 			input.methodDbName,
-			ctx?.overrideDbName,
+			ctx?.dbName, 
 			input.modelDbName,
 			input.clientDbName
 		]),
 		collectionName: resolveAbimongoOption([
 			input.methodCollectionName,
-			ctx?.overrideCollectionName,
+			ctx?.collectionName,
 			input.modelCollectionName
 		]),
 		session: resolveAbimongoOption([

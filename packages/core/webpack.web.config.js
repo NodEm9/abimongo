@@ -93,7 +93,8 @@ module.exports = {
 		extensions: ['.ts', '.js'],
 		plugins: [new TsconfigPathsPlugin()],
 		alias: {
-			'@gcCron': path.resolve(__dirname, 'src/gc/gcCron.browser.ts')
+			'@gcCron': path.resolve(__dirname, 'src/gc/gcCron.browser.ts'),
+			'@measureQuery': path.resolve(__dirname, 'src/instrumentation/measureQuery.browser.ts')
 		},
 		fallback: {
 			buffer: false,
@@ -114,6 +115,9 @@ module.exports = {
 			"zlib": false,
 			"string_decoder": false,
 			"async_hooks": false,
+			"node:async_hooks": false,
+			"perf_hooks": false,
+			"node:perf_hooks": false,
 			"URI": false,
 			"constants": false,
 			"timers": false,
@@ -134,6 +138,18 @@ module.exports = {
 		}),
 		new webpack.IgnorePlugin({
 			resourceRegExp: /node-cron/, // avoid bundling node-cron for browser
+			contextRegExp: /node_modules/,
+		}),
+		new webpack.IgnorePlugin({
+			resourceRegExp: /^redis(|\/.*)$/, // avoid bundling redis for browser
+			contextRegExp: /node_modules/,
+			// NOTE: node-cron has a dynamic require for 'redis' which causes webpack to try bundling it.
+			// This plugin ignores any require/import for 'redis' in node-cron and its submodules.
+			// The `contextRegExp` ensures we only ignore 'redis' when it's required from node_modules,
+			// preventing accidental ignoring of any local 'redis' imports in our source code if they exist.
+		}),
+		new webpack.IgnorePlugin({
+			resourceRegExp: /^node:perf_hooks$/,
 			contextRegExp: /node_modules/,
 		}),
 		new webpack.IgnorePlugin({ resourceRegExp: /^redis(|\/.*)$/ }),

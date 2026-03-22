@@ -2,12 +2,15 @@ import { ClientSession, Db, MongoClient } from "mongodb";
 import { AbimongoConfig } from "./AbimongoConfig";
 
 export type ModelContext = {
-	tenantId?: string;
-	dbName?: string;
-	db?: Db;
-	collectionName?: string;
-	config?: AbimongoConfig;
-	session?: ClientSession
+  tenantId?: string;
+  dbName?: string;
+  db?: Db;
+  collectionName?: string;
+  config?: AbimongoConfig;
+  session?: ClientSession;
+  withDeleted?: boolean;
+  onlyDeleted?: boolean;
+  hardDelete?: boolean;
 };
 
 

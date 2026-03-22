@@ -50,13 +50,18 @@ export async function main() {
 	// const tenantId = 'tenantId123'; // Replace with your actual tenant ID
 	await applyMTenant(); // Initialize multi-tenancy
 
-	const userCollection = db.getCollection<UserDocument>('users');
-	const orderCollection = db.getCollection<OrderDocument>('posts');
-	// const commentCollection = db.getCollection<CommentDocument>('comments');
+	const userCollection = await db.getCollection<UserDocument>('users');
+	const orderCollection = await db.getCollection<OrderDocument>('posts');
+	// const commentCollection = await db.getCollection<CommentDocument>('comments');
 
 	const ctx: ModelContext = {}; // Use the tenant ID from config
 
-	const { db: tenantDB, client: tenantClient } = await AbimongoClient.getDatabase({ tenantId: ctx.tenantId }, process.env.MONGO_URI!);
+	const { db: tenantDB, client: tenantClient } = await AbimongoClient.getDatabase({
+		tenantId: ctx.tenantId
+	},
+		// process.env.MONGO_URI!
+		'mongodb://localhost:27017'
+	);
 
 
 	// Add relationship to the post schema
@@ -64,18 +69,17 @@ export async function main() {
 
 	// Initialize models
 	const userModel = Model<UserDocument>({
-		name: `${userCollection.collectionName}`, // Use the tenant-specific collection name
+		collectionName: `${userCollection.collectionName}`, // Use the tenant-specific collection name
 		schema: userSchema,
-		db: tenantDB,
-		tenantId: ctx.tenantId,
+		provider: db,
+		ctx: { tenantId: ctx.tenantId }, // Use the tenant ID from config
 	});
 
 	const orderModel = new AbimongoModel<OrderDocument>({
 		collectionName: `${orderCollection.collectionName}`, // Use the tenant-specific collection name
 		schema: orderSchema,
 		ctx: { tenantId: ctx.tenantId }, // Use the tenant ID from config
-		resolveDb: db,
-		client: tenantClient,
+		provider: db,
 	});
 
 
@@ -85,7 +89,7 @@ export async function main() {
 		throw new Error("User ID is undefined");
 	}
 
-	const userId = castId(user._id!);
+	const userId = user._id as ObjectId; // Cast to ObjectId if necessary
 	const order = await orderModel.create({ product: 'Laptop', amount: 750, userId: userId });
 	const order2 = await orderModel.create({ product: 'Phone', amount: 1500, userId: userId });
 

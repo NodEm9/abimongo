@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2022",
     "lib": [
       "ES2020", 
       "ES2022.Error",
@@ -9,7 +9,7 @@
       "DOM.Iterable", 
       "DOM"
       ],  
-    "moduleDetection": "force",
+    "moduleDetection": "auto",
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "types": ["node", "jest"],
@@ -17,28 +17,28 @@
     "declarationMap": true,
     "esModuleInterop": true,
     "isolatedModules": true, 
+    "allowJs": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "importHelpers": true,
     "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
     "noEmitOnError": true,
-    "newLine": "lf",
     "resolvePackageJsonExports": true,
     "resolveJsonModule": true, 
     "inlineSourceMap": false,                                                                                                                                    
-    "noImplicitAny": false,
-    "noImplicitOverride": true,                            
+    "noImplicitAny": false,                            
     "strict": true,                                                                  
     "skipLibCheck": true, 
     "jsx": "react-jsx"                              
   },
-  // "ts-node": {
-  //   "transpileOnly": true,
-  //   "compiler": "typescript-cached-transpile"
-  // },
-  "include": [
-    "packages/**/src/**/*", 
-    "docs/*", 
-    ],
-  "exclude": ["node_modules", "packages/core/examples", "packages/*/src/__test__/**"]
+  // "include": [
+  //   "packages/**/src/**/*", 
+  //   "docs/*", 
+  //   ],
+  // "exclude": [
+  //  "node_modules", 
+  //  "**/node_modules/*", 
+  //  "dist",
+  //  "packages/core/examples", 
+  //  "packages/*/src/__test__/**"]
 }

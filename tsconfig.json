@@ -5,6 +5,7 @@
     { "path": "packages/core" },
     { "path": "packages/create" },
     { "path": "packages/cli" },
+    { "path":  "packages/adapter-runtime"},
     { "path": "packages/adapter-types" },
     { "path": "packages/adapter-express"},
     { "path": "packages/adapter-fastify" },

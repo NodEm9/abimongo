@@ -1,7 +1,7 @@
 import * as cron from 'node-cron';
-import { runGarbageCollectorOnAllModels } from './gcManager';
-import { AbimongoModelRegistry } from '../utils';
-import { colorize } from '../utils/color-palatte';
+import { runGarbageCollectorOnAllModels } from './gcManager.js';
+import { AbimongoModelRegistry } from '../utils/ModelRegistry.js';
+import { colorize } from '../utils/color-palatte.js';
 
 
 /**

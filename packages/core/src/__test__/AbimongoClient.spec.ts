@@ -1,8 +1,8 @@
 import { shutdownLogger } from "@abimongo/logger";
 
-import { ErrorType } from "../utils/error/errorTypes";
-import { AbimongoClient } from "../lib-core";
-import { AbiMongoError } from "../utils/error/abimongoError-handler";
+import { ErrorType } from "../utils/error/errorTypes.js";
+import { AbimongoClient } from "../lib-core/index.js";
+import { AbiMongoError } from "../utils/error/abimongoError-handler.js";
 import { Collection, MongoClient } from "mongodb";
 
 

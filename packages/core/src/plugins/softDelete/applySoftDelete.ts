@@ -1,6 +1,6 @@
 import type { Document, Filter, UpdateFilter } from 'mongodb';
-import type { AbimongoModel } from '../../lib-core/AbimongoModelFactory';
-import type { SoftDeleteOptions } from './types';
+import type { AbimongoModel } from '../../lib-core/AbimongoModelFactory.js';
+import type { SoftDeleteOptions } from './types.js';
 
 const DEFAULTS: Required<SoftDeleteOptions> = {
 	field: 'deletedAt',

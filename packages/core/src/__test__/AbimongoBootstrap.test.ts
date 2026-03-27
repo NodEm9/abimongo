@@ -1,17 +1,16 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AbimongoModel, AbimongoBootstrap, AbimongoSchema, initAbimongo } from '../lib-core';
-import { bufferedTransporter } from '../utils'
-import { redis } from '../redis-manager';
+import { AbimongoModel, AbimongoBootstrap, AbimongoSchema, initAbimongo } from '../lib-core/index.js';
+import { redis } from '../redis-manager/index.js';
 
 
-import { AbimongoGC } from '../gc/AbimongoGC';
-import * as configLoader from '../config/loadAbimongoConfig';
-import * as graphqlModule from '../graphql/initializeGraphQL';
-import * as tenancyModule from '../tanancy';
+import { AbimongoGC } from '../gc/AbimongoGC.js';
+import * as configLoader from '../config/loadAbimongoConfig.js';
+import * as graphqlModule from '../graphql/initializeGraphQL.js';
+import * as tenancyModule from '../tanancy/index.js';
 import * as loggerModule from '@abimongo/logger';
 import type { Collection } from 'mongodb';
-import { scheduleGarbageCollector } from '../gc';
+import { scheduleGarbageCollector } from '../gc/index.js';
 
 
 // jest.mock('../config/loadAbimongoConfig', () => ({

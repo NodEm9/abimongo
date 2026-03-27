@@ -1,5 +1,5 @@
 import figlet from 'figlet'; 
-import { colorize } from './color-palatte';
+import { colorize } from './color-palatte.js';
 
 export function showBanner() {
   try {

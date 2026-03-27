@@ -1,4 +1,4 @@
-export * from './setupLogger'
-export * from './loadAbimongoConfig'
+export * from './setupLogger.js'
+export * from './loadAbimongoConfig.js'
 
 

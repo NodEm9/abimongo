@@ -1,9 +1,9 @@
-import { AbimongoModel, AbimongoSchema, AbimongoClient } from "../lib-core";
+import { AbimongoModel, AbimongoSchema, AbimongoClient } from "../lib-core/index.js";
 import {  MongoClient, ObjectId } from "mongodb";
-import { bufferedTransporter, Model } from "../utils";
+import { bufferedTransporter, Model } from "../utils/index.js";
 import { shutdownLogger } from '@abimongo/logger';
-import { DbProvider, BootstrapClient } from "../types";
-import { Document } from "../types";
+import { DbProvider, Document } from "../types/index.js";
+
 
 import type {
   ClientSession,
@@ -14,9 +14,9 @@ import type {
 	WithId
   // Document,
 } from "mongodb";
-import { AbimongoContext } from "../context/AbimongoContext";
-import { measureQuery } from "../instrumentation/measureQueryWithErrors";
-import { debugLog } from "../debug/debugLog";
+import { AbimongoContext } from "../context/AbimongoContext.js";
+import { measureQuery } from "../instrumentation/measureQueryWithErrors.js";
+import { debugLog } from "../debug/debugLog.js";
 
 type UserDoc = Document & {
   _id?: any;

@@ -1,5 +1,5 @@
-import { AbimongoSchema } from "../../lib-core";
-import { Document, SchemaDefinition } from "../../types";
+import { AbimongoSchema } from "../../lib-core/index.js";
+import { Document, SchemaDefinition } from "../../types/index.js";
 
 /**
  * Creates a new AbimongoSchema instance with the provided schema definition.

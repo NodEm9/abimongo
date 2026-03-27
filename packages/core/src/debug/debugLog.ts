@@ -1,4 +1,4 @@
-import { AbimongoContext } from '../context/AbimongoContext';
+import { AbimongoContext } from '../context/AbimongoContext.js';
 
 export function debugLog(
   message: string,

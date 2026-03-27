@@ -1,2 +1,2 @@
-export * from './softDelete/applySoftDelete';
-export * from './softDelete/types';
+export * from './softDelete/applySoftDelete.js';
+export * from './softDelete/types.js';

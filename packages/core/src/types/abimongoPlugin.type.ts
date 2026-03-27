@@ -1,4 +1,4 @@
-import { AbimongoSchema } from "../lib-core";
+// import { AbimongoSchema } from "../lib-core";
 
 /**
  * Represents a plugin for extending Abimongo functionality.

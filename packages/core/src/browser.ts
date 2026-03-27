@@ -15,26 +15,26 @@
 
 console.log('Abimongo Core Library Loaded for (Browser)');
 
-export * from './lib-core';
-export * from './lib-core/bootstrap';
-export * from './config';
-export * from './graphql';
-export * from './tanancy';
-export * from './context';
-export * from './plugins';
-export * from './debug';
-export { measureQueryForBrowser } from './instrumentation/measureQuery.browser';
+export * from './lib-core/index.js';
+export * from './lib-core/bootstrap/index.js';
+export * from './config/index.js';
+export * from './graphql/index.js';
+export * from './tanancy/index.js';
+export * from './context/index.js';
+export * from './plugins/index.js';
+export * from './debug/index.js';
+export { measureQueryForBrowser } from './instrumentation/measureQuery.browser.js';
 
 // This export is needed for adapter-types to avoid circular dependency issues
 // when both packages are used together. But it's optional
-export { createTenancyContext, resolveTenant } from "@abimongo/adapter-types";
+// export { runWithAdapterContext, resolveTenant } from "@abimongo/adapter-types";
 
-export * from './utils/builders';
-export * from './utils';
-export * from './gc/AbimongoGC';
-export { GCSettings } from './decorators/gcSettings';
-export * from './redis-manager';
-export * from './types';
-export type { SchemaType } from './types/schema.type';
-export type { Document } from './types/document';
-export type { ErrorType } from './utils/error/errorTypes';
+export * from './utils/builders/index.js';
+export * from './utils/index.js';
+export * from './gc/AbimongoGC.js';
+export { GCSettings } from './decorators/gcSettings.js';
+export * from './redis-manager/index.js';
+export * from './types/index.js';
+export type { SchemaType } from './types/schema.type.js';
+export type { Document } from './types/document.js';
+export type { ErrorType } from './utils/error/errorTypes.js';

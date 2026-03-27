@@ -1,7 +1,7 @@
 /* Integration test: ensure AbimongoBootstrap.initialize completes when Redis is absent.
 	 This test mocks the Redis layer to simulate an unreachable Redis server and
 	 verifies that initialize() resolves (doesn't hang or throw). */
-import { AbimongoBootstrap } from '../lib-core/bootstrap/AbimongoBootstrap';
+import { AbimongoBootstrap } from '../lib-core/bootstrap/AbimongoBootstrap.js';
 import { shutdownLogger } from '@abimongo/logger';
 import { MongoClient } from 'mongodb';
 

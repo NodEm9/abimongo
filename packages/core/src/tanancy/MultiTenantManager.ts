@@ -1,6 +1,6 @@
 // import { NoOpLogger, ILogger} from '@abimongo/logger';
 import { MongoClient } from 'mongodb';
-import { NoOpLogger, ILogger } from '../types';
+import { NoOpLogger, ILogger } from '../types/index.js';
 
 
 export interface TenantConfig {

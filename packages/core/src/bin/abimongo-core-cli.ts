@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
-import { generateProject } from '../init-cli/generate.project';
+import { generateProject } from '../init-cli/generate.project.js';
 
 export default function runBootstrapCLI() {
 	const program = new Command();

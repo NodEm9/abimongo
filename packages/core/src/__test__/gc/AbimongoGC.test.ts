@@ -1,7 +1,7 @@
-import { AbimongoSchema } from '../../lib-core';
-import { AbimongoGC } from '../../gc/AbimongoGC';
-import { Document } from '../../types';
-import { bufferedTransporter } from '../../utils';
+import { AbimongoSchema } from '../../lib-core/index.js';
+import { AbimongoGC } from '../../gc/AbimongoGC.js';
+import { Document } from '../../types/index.js';
+import { bufferedTransporter } from '../../utils/index.js';
 import { shutdownLogger } from '@abimongo/logger';
 
 /**

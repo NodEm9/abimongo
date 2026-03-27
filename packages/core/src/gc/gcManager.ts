@@ -1,8 +1,8 @@
-import { AbimongoModel } from '../lib-core';
-import { Model, getModelFilesFromPath } from '../utils';
+import { AbimongoModel } from '../lib-core/AbimongoModelFactory.js';
+import { Model, getModelFilesFromPath } from '../utils/index.js';
 import path from 'path';
-import { AbimongoConfig, Document } from '../types';
-import { colorize } from '../utils/color-palatte';
+import { AbimongoConfig, Document } from '../types/index.js';
+import { colorize } from '../utils/color-palatte.js';
 
 
 let config: AbimongoConfig | undefined; 

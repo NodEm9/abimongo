@@ -1,5 +1,5 @@
 
-import { objectIdSymbol } from "./symbols";
+import { objectIdSymbol } from "./symbols.js";
 import { ObjectId } from 'mongodb'
 
 

@@ -1,5 +1,5 @@
-import { AbimongoGraphQL } from './index';
-import { AbimongoConfig } from '../types';
+import { AbimongoGraphQL } from './index.js';
+import { AbimongoConfig } from '../types/AbimongoConfig.js';
 
 /**
  * Initializes GraphQL with optional custom type definitions and resolvers.

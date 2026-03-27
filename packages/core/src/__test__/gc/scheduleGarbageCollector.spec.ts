@@ -1,6 +1,6 @@
 import cron from 'node-cron';
-import { scheduleGarbageCollector, runGarbageCollectorOnAllModels  } from '../../gc';
-import { AbimongoModelRegistry } from '../../utils';
+import { scheduleGarbageCollector, runGarbageCollectorOnAllModels  } from '../../gc/index.js';
+import { AbimongoModelRegistry } from '../../utils/index.js';
 
 
 jest.mock('node-cron', () => ({

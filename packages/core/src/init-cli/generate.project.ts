@@ -7,10 +7,10 @@ import {
   generateGCManager,
   generateGCRunner,
   generateAppStructure,
-} from '../templates';
-import { foldersAndFiles } from '../utils';
-import { AbimongoConfig, ProjectOptions } from '../types';
-import { colorize } from '../utils/color-palatte';
+} from '../templates/index.js';
+import { foldersAndFiles } from '../utils/index.js';
+import { AbimongoConfig, ProjectOptions } from '../types/index.js';
+import { colorize } from '../utils/color-palatte.js';
 
 
 export async function generateProject(options: AbimongoConfig) {

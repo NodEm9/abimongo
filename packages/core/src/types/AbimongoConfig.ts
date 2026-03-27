@@ -1,11 +1,9 @@
 import { LoggerConfig } from '@abimongo/logger';
-import { InitMultiTenancyOptions } from '../tanancy/init/initMultiTenancy';
-import { AbimongoModelOptions } from './abimongo.mode.type';
-import { SchemaDefinition } from './schema.type';
-import { Document } from './document';
-import { DbProvider } from './db.provider';
-import { AbimongoClient } from '../lib-core';
-import { BootstrapClient } from './bootstrapClient.type';
+import { InitMultiTenancyOptions } from '../tanancy/init/initMultiTenancy.js';
+import { AbimongoModelOptions } from './abimongo.mode.type.js';
+import { SchemaDefinition } from './schema.type.js';
+import { Document } from './document.js';
+import { BootstrapClient } from './bootstrapClient.type.js';
 
 
 export interface AbimongoLoggerSettings extends LoggerConfig {

@@ -1,6 +1,6 @@
 import type { Collection, Db, Document } from 'mongodb';
-import { AbimongoModel, AbimongoSchema } from '../lib-core';
-import { applySoftDelete } from '../plugins/softDelete/applySoftDelete';
+import { AbimongoModel, AbimongoSchema } from '../lib-core/index.js';
+import { applySoftDelete } from '../plugins/softDelete/applySoftDelete.js';
 
 type UserDoc = Document & {
 	_id?: any;

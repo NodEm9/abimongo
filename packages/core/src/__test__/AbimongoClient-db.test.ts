@@ -1,5 +1,5 @@
 import type { Db } from "mongodb";
-import { AbimongoClient } from "../lib-core";
+import { AbimongoClient } from "../lib-core/index.js";
 import { shutdownLogger } from "@abimongo/logger";
 
 describe("AbimongoClient.db()", () => {

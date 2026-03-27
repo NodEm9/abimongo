@@ -1,5 +1,4 @@
-import { MultiTenantManager } from '../../tanancy/MultiTenantManager';
-import { MongoClient } from 'mongodb';
+import { MultiTenantManager } from '../../tanancy/MultiTenantManager.js';
 import { shutdownLogger } from '@abimongo/logger';
 
 

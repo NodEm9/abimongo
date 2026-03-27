@@ -1,2 +1,2 @@
-export * from './measureQueryWithErrors';
-export * from './measureQuery.browser';
+export * from './measureQueryWithErrors.js';
+export * from './measureQuery.browser.js';

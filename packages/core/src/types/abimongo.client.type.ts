@@ -1,7 +1,7 @@
 import { Collection, Db, MongoClient } from "mongodb";
-import { AbimongoConfig } from "./AbimongoConfig";
+import { AbimongoConfig } from "./AbimongoConfig.js";
 // import { logger } from "../config";
-import { Document } from "./document";
+import { Document } from "./document.js";
 
 /**
  * Configuration options for the AbimongoClient.

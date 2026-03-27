@@ -1,2 +1,2 @@
-export * from './AbimongoBootstrap';
-export * from './AbimongoBootstrapFactory';
+export * from './AbimongoBootstrap.js';
+export * from './AbimongoBootstrapFactory.js';

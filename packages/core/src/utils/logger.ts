@@ -1,5 +1,5 @@
 import { Logger } from '@abimongo/logger';
-import { AbimongoConfig } from '../types';
+import type { AbimongoConfig } from '../types/index.js';
 
 /**
  * Initialize and return the project logger.

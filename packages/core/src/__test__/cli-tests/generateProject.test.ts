@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { bufferedTransporter } from '../../utils';
+import { bufferedTransporter } from '../../utils/index.js';
 import { shutdownLogger } from '@abimongo/logger';
 
 

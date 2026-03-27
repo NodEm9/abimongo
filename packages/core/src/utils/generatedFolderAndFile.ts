@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { colorize } from './color-palatte';
+import { colorize } from './color-palatte.js';
 
 type GeneratedFile = {
   name: string;

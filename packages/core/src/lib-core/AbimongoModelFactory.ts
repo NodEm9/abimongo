@@ -14,9 +14,10 @@ import {
   BulkWriteOptions,
   BulkWriteResult,
   ObjectId,
+  FindOneAndDeleteOptions,
+  WithId
 } from 'mongodb';
-import type { FindOneAndDeleteOptions, WithId } from 'mongodb';
-import {
+import type {
   User,
   Document,
   AbimongoModelOptions,
@@ -27,26 +28,25 @@ import {
   AbimongoMiddlewareOperation,
   AbimongoMiddlewareHandler,
   AbimongoMiddlewareContext,
-} from '../types';
-import { AbimongoSchema } from './AbimongoSchema';
-import { AbiMongoError } from '../utils/error/abimongoError-handler';
-import { ErrorType } from '../utils/error/errorTypes';
-import { Abimongo } from './AbimongoClient'
+} from '../types/index.js';
+import { AbimongoSchema, Abimongo } from './index.js';
+import { AbiMongoError } from '../utils/error/abimongoError-handler.js';
+import { ErrorType } from '../utils/error/errorTypes.js';
 import EventEmitter from 'events';
 import { PubSub } from "graphql-subscriptions";
-import { MultiTenantManager, TenantConfig } from '../tanancy/MultiTenantManager';
-import { redis } from '../redis-manager/redisClient';
-import { getGCSettings } from '../decorators/gcSettings';
+import { MultiTenantManager, TenantConfig } from '../tanancy/MultiTenantManager.js';
+import { redis } from '../redis-manager/redisClient.js';
+import { getGCSettings } from '../decorators/gcSettings.js';
 import {
   DB_CHANGE_EVENT,
   AbimongoModelRegistry,
   ensureRedis
-} from '../utils';
-import { ModelContext } from '../types';
-import { AbimongoContext } from '../context/AbimongoContext';
-import { measureQuery } from '../instrumentation/measureQueryWithErrors';
-import { debugLog } from '../debug/debugLog';
-import { runManualTransaction } from '../context';
+} from '../utils/index.js';
+import { ModelContext } from '../types/index.js';
+import { AbimongoContext } from '../context/AbimongoContext.js';
+import { measureQuery } from '../instrumentation/measureQueryWithErrors.js';
+import { debugLog } from '../debug/debugLog.js';
+import { runManualTransaction } from '../context/index.js';
 
 
 const pubsub = new PubSub();

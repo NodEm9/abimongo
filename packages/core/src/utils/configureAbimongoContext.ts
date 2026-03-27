@@ -1,6 +1,6 @@
-import { AbimongoContext } from '../context/AbimongoContext';
-import { MultiTenantManager } from '../tanancy';
-import type { ModelContext, BootstrapClient } from '../types';
+import { AbimongoContext } from '../context/AbimongoContext.js';
+import { MultiTenantManager } from '../tanancy/index.js';
+import type { ModelContext, BootstrapClient } from '../types/index.js';
 
 export function configureAbimongoContext(provider: BootstrapClient): void {
   AbimongoContext.configureTransactionResolver({

@@ -1,5 +1,5 @@
-import { TenantContext } from "../../tanancy/TenantContext";
-import { bufferedTransporter } from "../../utils";
+import { TenantContext } from "../../tanancy/TenantContext.js";
+import { bufferedTransporter } from "../../utils/index.js";
 import { shutdownLogger } from '@abimongo/logger';
 
 describe("TenantContext", () => {

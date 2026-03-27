@@ -1,8 +1,12 @@
 import fs from 'fs-extra';
 import path from 'path';
-import Ajv, { ValidateFunction } from 'ajv';
-import { AbimongoConfig } from '../types';
-import configSchema from './abimongo.config.schema.json';
+// import { Ajv } from 'ajv';
+import type { ValidateFunction } from 'ajv';
+import type { AbimongoConfig } from '../types/AbimongoConfig.js';
+import configSchema from './abimongo.config.schema.json' with { type: 'json' };
+import AjvLib from 'ajv';
+// @ts-ignore
+const Ajv = AjvLib.default || AjvLib;
 
 
 const ajv = new Ajv({
@@ -125,9 +129,9 @@ export async function loadAbimongoConfig(configPath?: string): Promise<AbimongoC
       validate = ajv.compile(configSchema);
     }
 
-    const isValid = validate(parsed);
+    const isValid = validate!(parsed);
 
-    if (!isValid && validate.errors) {
+    if (!isValid && validate?.errors) {
       console.error('[Abimongo] Invalid configuration:');
       console.error(validate.errors);
       process.exit(1);

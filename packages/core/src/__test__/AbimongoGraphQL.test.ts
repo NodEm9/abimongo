@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AbimongoGraphQL } from '../graphql/AbimongoGraphQL';
-import { invalidateTenantCache } from '../middleware/rbac/rbacMiddleware';
-import { connectRedis } from '../redis-manager';
-import { bufferedTransporter } from '../utils';
+import { AbimongoGraphQL } from '../graphql/AbimongoGraphQL.js';
+import { invalidateTenantCache } from '../middleware/rbac/rbacMiddleware.js';
+import { connectRedis } from '../redis-manager/index.js';
+import { bufferedTransporter } from '../utils/index.js';
 import { shutdownLogger } from '@abimongo/logger';
 
 

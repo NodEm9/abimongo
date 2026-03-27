@@ -1,12 +1,12 @@
-import { getTenantModel } from '../../tanancy/TenantModelResolver';
-import { MultiTenantManager } from '../../tanancy/MultiTenantManager';
-import { TenantContext } from '../../tanancy/TenantContext';
-import { Model } from '../../utils/builders/createModel';
-import { ensureModelNameSafe } from '../../utils/ensureModelNameSafe';
-import { AbimongoSchema } from '../../lib-core';
-import { bufferedTransporter } from '../../utils';
+import { getTenantModel } from '../../tanancy/TenantModelResolver.js';
+import { MultiTenantManager } from '../../tanancy/MultiTenantManager.js';
+import { TenantContext } from '../../tanancy/TenantContext.js';
+import { Model } from '../../utils/builders/createModel.js';
+import { ensureModelNameSafe } from '../../utils/ensureModelNameSafe.js';
+import { AbimongoSchema } from '../../lib-core/index.js';
+import { bufferedTransporter } from '../../utils/index.js';
 import { shutdownLogger } from '@abimongo/logger';
-import { DbProvider } from '../../types';
+import { DbProvider } from '../../types/index.js';
 
 jest.mock('../../tanancy/MultiTenantManager');
 jest.mock('../../tanancy/TenantContext');

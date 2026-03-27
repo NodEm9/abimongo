@@ -1,4 +1,4 @@
-import { ErrorType } from "./errorTypes";
+import { ErrorType } from "./errorTypes.js";
 // import { logger } from "../../config";
 
 

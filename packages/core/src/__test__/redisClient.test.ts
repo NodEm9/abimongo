@@ -15,7 +15,7 @@ jest.mock('redis', () => ({
 	})),
 }));
 
-import { redis } from '../redis-manager/redisClient';
+import { redis } from '../redis-manager/redisClient.js';
 // debug info when tests run in CI/local
 console.log('DEBUG: redis export keys:', typeof redis, Object.keys(redis || {}));
 

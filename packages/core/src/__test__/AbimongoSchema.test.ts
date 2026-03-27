@@ -1,7 +1,7 @@
 import { Collection } from "mongodb";
-import { AbimongoSchema } from "../lib-core";
-import { Document, Relationship, SchemaDefinition } from "../types";
-import { bufferedTransporter } from "../utils";
+import { AbimongoSchema } from "../lib-core/index.js";
+import { Document, Relationship, SchemaDefinition } from "../types/index.js";
+import { bufferedTransporter } from "../utils/index.js";
 import { shutdownLogger } from '@abimongo/logger';
 
 

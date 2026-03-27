@@ -1,7 +1,7 @@
-import { AbimongoClient, AbimongoSchema } from '../lib-core';
+import { AbimongoClient, AbimongoSchema } from '../lib-core/index.js';
 import { Collection, Filter } from 'mongodb';
-import { GCConfig, Document } from '../types';
-import { colorize } from '../utils/color-palatte';
+import { GCConfig, Document } from '../types/index.js';
+import { colorize } from '../utils/color-palatte.js';
 // import { logger } from '../config';
 import * as cron from 'node-cron';
 

@@ -1,5 +1,5 @@
-export * from './AbimongoClient';
-export * from './AbimongoModelFactory';
-export * from './AbimongoSchema';
-export * from './bootstrap';
+export * from './AbimongoClient.js';
+export * from './AbimongoModelFactory.js';
+export * from './AbimongoSchema.js';
+export * from './bootstrap/index.js';
 

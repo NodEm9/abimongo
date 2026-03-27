@@ -1,18 +1,26 @@
-import { loadAbimongoConfig } from '../../config';
-import { AbimongoConfig } from '../../types/AbimongoConfig';
+import { loadAbimongoConfig } from '../../config/index.js';
 import { setupLogger, logger, Logger } from '@abimongo/logger';
-import { AbimongoClient, createAbimongoClientModule } from '../AbimongoClient';
-import { AbimongoModel } from '../AbimongoModelFactory';
-import { AbimongoSchema, Schema } from '../AbimongoSchema';
-import { AbimongoGraphQL, initializeGraphQL } from '../../graphql';
-import { redis } from '../../redis-manager/redisClient';
-import { cacheWithRedis, configureAbimongoContext, Model, setLogger } from '../../utils';
-import { invalidateTenantCache } from '../../utils/invalidateTenantCache';
-import { initMultiTenancy, InitMultiTenancyOptions } from '../../tanancy';
-import { AbimongoGC, scheduleGarbageCollector } from '../../gc';
-import { colorize } from '../../utils/color-palatte';
+import {
+  AbimongoClient,
+  createAbimongoClientModule,
+  AbimongoModel,
+  AbimongoSchema,
+  Schema
+} from '../index.js';
+import { AbimongoGraphQL, initializeGraphQL } from '../../graphql/index.js';
+import { redis } from '../../redis-manager/redisClient.js';
+import {
+  cacheWithRedis,
+  configureAbimongoContext,
+  Model,
+  setLogger
+} from '../../utils/index.js';
+import { invalidateTenantCache } from '../../utils/invalidateTenantCache.js';
+import { initMultiTenancy, InitMultiTenancyOptions } from '../../tanancy/index.js';
+import { AbimongoGC, scheduleGarbageCollector } from '../../gc/index.js';
+import { colorize } from '../../utils/color-palatte.js';
 import { AbimongoAdapter } from '@abimongo/adapter-types';
-import { BootstrapClient, Document } from '../../types';
+import type { AbimongoConfig, BootstrapClient, Document } from '../../types/index.js';
 import { Collection } from 'mongodb';
 
 
@@ -239,15 +247,22 @@ export class AbimongoBootstrap {
 
     await initMultiTenancy(tenants, initOptions);
 
-    if (!this.adapter?.installTenancy) {
+    if (!this.adapter?.install) {
       console.warn(
         'Multi-tenancy is enabled, but no adapter with installTenancy() was provided. Skipping runtime middleware wiring.'
       );
     } else {
-      await this.adapter.installTenancy({}, {
-        tenants,
-        headerKey: this.config.multiTenant.headerKey || 'x-tenant-id',
-        initOptions,
+      await this.adapter.install({}, {
+        tenancy: {
+          header: this.config.multiTenant.headerKey || 'x-tenant-id',
+          ...this.config.multiTenant.initOptions,
+          resolver: async (req) => {
+            const headerKey = this.config?.multiTenant?.headerKey || 'x-tenant-id';
+            const tenantId = req.headers?.[headerKey] || (typeof req.get === 'function' ? req.get(headerKey) : undefined);
+            if (tenantId) return tenantId as string;
+          }
+        },
+
       });
     }
 
@@ -329,7 +344,7 @@ export class AbimongoBootstrap {
     }
 
     const resolvedAdapter = options.adapter ?? this.adapter;
-    if (!resolvedAdapter?.installTenancy) {
+    if (!resolvedAdapter?.install) {
       throw new Error(
         'No tenancy adapter provided. Install @abimongo/adapter-express, @abimongo/adapter-fastify, etc.'
       );
@@ -347,10 +362,16 @@ export class AbimongoBootstrap {
 
     await initMultiTenancy(resolvedTenants, initOptions);
 
-    await resolvedAdapter.installTenancy(app, {
-      tenants: resolvedTenants,
-      headerKey,
-      initOptions,
+    await resolvedAdapter.install(app, {
+      tenancy: {
+        header: headerKey,
+        ...initOptions,
+        resolver: async (req) => {
+          const tenantId = req.headers?.[headerKey] || (typeof req.get === 'function' ? req.get(headerKey) : undefined);
+          if (tenantId) return tenantId as string;
+          return await resolvedTenants[tenantId as string] ? tenantId as string : undefined;
+        }
+      },
     });
 
     console.log(

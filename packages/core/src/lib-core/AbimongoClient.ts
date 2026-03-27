@@ -9,22 +9,22 @@ import {
 	ClientSession
 } from 'mongodb';
 import 'dotenv/config'
-import {
+import type {
 	AbimongoClientConfig,
 	AbimongoClientOptions,
 	BootstrapClient,
 	ModelContext
-} from '../types';
+} from '../types/index.js';
 import {
 	ErrorType,
 	AbimongoModelRegistry,
 	AbiMongoError
-} from '../utils';
-import { colorize } from '../utils/color-palatte';
+} from '../utils/index.js';
+import { colorize } from '../utils/color-palatte.js';
 import "dotenv/config";
-import { GetTenantModelParams, MultiTenantManager } from '../tanancy';
-import { AbimongoSchema } from './AbimongoSchema';
-import { AbimongoContext } from '../context/AbimongoContext';
+import { GetTenantModelParams, MultiTenantManager } from '../tanancy/index.js';
+import { AbimongoSchema } from './AbimongoSchema.js';
+import { AbimongoContext } from '../context/AbimongoContext.js';
 import { AsyncBatchTransporter } from '@abimongo/logger';
 
 

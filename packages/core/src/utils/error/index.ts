@@ -1,2 +1,2 @@
-export * from './abimongoError-handler';
-export * from './errorTypes';
+export * from './abimongoError-handler.js';
+export * from './errorTypes.js';

@@ -4,7 +4,7 @@ import { consoleTransport, Logger } from '@abimongo/logger';
 import {
   bufferedTransporter,
   elasticTransport,
-} from '../utils';
+} from '../utils/logHelpers.js';
 
 Logger.initialize({
   formatOptions: {

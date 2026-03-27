@@ -1,4 +1,4 @@
-import { QueryInstrumentationMeta } from "./measureQueryWithErrors";
+import { QueryInstrumentationMeta } from "./measureQueryWithErrors.js";
 
 export async function measureQueryForBrowser<T>(
   _meta: QueryInstrumentationMeta,

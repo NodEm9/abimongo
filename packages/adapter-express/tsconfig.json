@@ -6,12 +6,14 @@
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": false,
-    "module": "ES2020",
+    // "module": "ES2020",
     "target": "ES2020",
-    "moduleResolution": "Bundler",
+    // "moduleResolution": "Bundler",
     "composite": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "tsBuildInfoFile": "./dist/tsbuildinfo"
   },
   "references": [{ "path": "../adapter-types" }],
   "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

@@ -1,11 +1,10 @@
 {
   "name": "@abimongo/adapter-types",
   "version": "1.0.0",
-  "description": "Abimongo multi-tenatcy adapter types",
-  "type": "module",
+  "description": "Abimongo multi-tenacy adapter types",
   "main": "./dist/index.js",
-  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "type": "module",
   "sideEffects": false,
   "files": [
     "dist"
@@ -14,7 +13,7 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.js"
+      "default": "./dist/index.js"
     }
   },
   "scripts": {

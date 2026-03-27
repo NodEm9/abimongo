@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "sideEffects": false,
   "files": [
     "dist"
@@ -18,7 +18,8 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "pnpm run build:script",
+    "build:script": "tsc -p tsconfig.json",
     "changeset": "pnpm run changeset",
     "release": "pnpm changeset version",
     "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks"
@@ -28,11 +29,13 @@
   "license": "ISC",
   "packageManager": "pnpm@10.20.0",
   "devDependencies": {
-    "fastify": "^5.6.2",
     "typescript": "^5.9.3"
   },
+  "peerDependencies": {
+    "fastify": "^5.6.2"
+  },
   "dependencies": {
-    "@abimongo/adapter-types": "workspace:*",
-    "@abimongo/core": "workspace:*"
+    "@abimongo/adapter-runtime": "workspace:*",
+    "@abimongo/adapter-types": "workspace:*"
   }
 }

@@ -5,25 +5,30 @@
     "access": "public"
   },
   "description": "Enterprise-grade MongoDB ORM built on the official MongoDB driver.",
-  "main": "./dist/abimongo-core.js",
-  "module": "./dist/abimongo-core.js",
-  "browser": "./dist/abimongo-core-browser.js",
-  "types": "./dist/index.d.ts",
+  "type": "module",
+  "main": "dist/abimongo-core.js",
+  "module": "dist/abimongo-core.js",
+  "browser": "dist/abimongo-core-browser.js",
+  "types": "dist/index.d.ts",
   "bin": {
-    "abimongo": "./dist/abimongo-core-cli.js"
+    "abimongo": "dist/abimongo-core-cli.js"
   },
   "exports": {
     ".": {
       "import": "./dist/abimongo-core.js",
-      "require": "./dist/abimongo-core.js",
+      "default": "./dist/abimongo-core.js",
       "types": "./dist/index.d.ts"
     },
     "./browser": {
       "import": "./dist/abimongo-core-browser.js",
-      "require": "./dist/abimongo-core-browser.js",
+      "default": "./dist/abimongo-core-browser.js",
       "types": "./dist/browser.d.ts"
     },
-    "./package.json": "./package.json"
+    "./bin": {
+      "import": "./dist/abimongo-core-cli.js",
+      "default": "./dist/abimongo-core-cli.js",
+      "types": "./dist/cli.d.ts"
+    }
   },
   "sideEffects": false,
   "files": [
@@ -35,11 +40,12 @@
     "!dist/scripts"
   ],
   "scripts": {
-    "build:node": "webpack --config webpack.node.config.js",
-    "build:cli": "webpack --config webpack.cli.config.js",
-    "build:web": "webpack --config webpack.web.config.js",
+    "build:node": "webpack --config webpack.node.config.cjs",
+    "build:cli": "webpack --config webpack.cli.config.cjs",
+    "build:web": "webpack --config webpack.web.config.cjs",
+    "build:types": "tsc -p tsconfig.json --excludeDirectories **/node_modules",
     "clean": "rimraf dist",
-    "build": "pnpm run build:node && pnpm run build:cli && pnpm run build:web",
+    "build": "pnpm run build:types && pnpm run build:node && pnpm run build:cli && pnpm run build:web",
     "lint": "eslint src",
     "clean:all": "rimraf dist && rimraf docs",
     "typedoc": "typedoc --options typedoc.json",
@@ -78,7 +84,7 @@
     "url": "https://github.com/NodEm9/abimongo"
   },
   "dependencies": {
-    "@abimongo/adapter-types": "file:../adapter-types",
+    "@abimongo/adapter-types": "workspace:*",
     "@abimongo/logger": "file:../logger",
     "@babel/runtime": "7.28.4",
     "commander": "14.0.2",
@@ -143,7 +149,7 @@
     "axios": "^1.13.2",
     "babel-loader": "^10.0.0",
     "clean-webpack-plugin": "^4.0.0",
-    "conventional-changelog-cli": "^4.1.0",
+    "conventional-changelog": "^7.2.0",
     "crypto-browserify": "^3.12.1",
     "eslint": "^9.39.2",
     "eslint-webpack-plugin": "^5.0.2",

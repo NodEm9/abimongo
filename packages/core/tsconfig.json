@@ -1,11 +1,16 @@
 {
   "extends": "../../tsconfig.base.json", // Inherit common settings
   "compilerOptions": {                                                                                   
-    "rootDir": "./src",
-    "outDir": "./dist",                                                                                                                                                                     
+    "rootDir": "src",
+    "outDir": "dist",                                                                                                                                                                     
     "composite": true,
-    "declaration": true,  
-    "resolveJsonModule": true,                           
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+    "resolveJsonModule": true,   
+    "paths": {
+      "ajv": ["../../node_modules/ajv"] 
+  }                        
   },
   "include": [
     "src",
@@ -14,10 +19,14 @@
   ],
   "references": [
     { "path": "../logger" }, // Reference to other local packages
+    {"path": "../adapter-types"}
   ],
   "exclude": [
-    "./node_modules",
-    "./examples",
-    "**/__tests__/**"
+   "**/node_modules",
+    "../../node_modules",
+    "node_modules", 
+   "dist",
+   "./examples",
+  //  "**/__tests__/**"
   ],
 }

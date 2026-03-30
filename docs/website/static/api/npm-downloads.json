@@ -1,25 +1,25 @@
 [
   {
     "package": "@abimongo/core",
-    "week": 2,
+    "week": 1,
     "month": 20,
     "year": 204
   },
   {
     "package": "@abimongo/cli",
-    "week": 4,
+    "week": 3,
     "month": 21,
     "year": 504
   },
   {
     "package": "@abimongo/logger",
-    "week": 3,
+    "week": 2,
     "month": 24,
     "year": 239
   },
   {
     "package": "@abimongo/create",
-    "week": 3,
+    "week": 2,
     "month": 24,
     "year": 764
   }

@@ -5,17 +5,10 @@ import type {
   AdapterContextOptions
 } from '@abimongo/adapter-types';
 
-function readRequestId(
-  req: AbimongoRequestLike,
-  headerName: string
-): string | undefined {
-  const value = req.headers?.[headerName.toLowerCase()];
-  return Array.isArray(value) ? value[0] : value;
-}
 
 export async function runWithAdapterContext<T>(
   req: AbimongoRequestLike,
-  handler: () => Promise<T>,
+  handler: () => T | Promise<T>,
   options: AdapterContextOptions = {}
 ): Promise<T> {
   const {
@@ -37,7 +30,8 @@ export async function runWithAdapterContext<T>(
     }
   }
 
-  const requestId = readRequestId(req, requestIdHeader);
+  const rawRequestId = req.headers?.[requestIdHeader.toLowerCase()];
+  const requestId = Array.isArray(rawRequestId) ? rawRequestId[0] : rawRequestId;
 
   const ctx = {
     tenantId,
@@ -46,9 +40,9 @@ export async function runWithAdapterContext<T>(
 
   if (enableTransactions) {
     return AbimongoContext.run(ctx, () =>
-      AbimongoContext.withTransaction(async () => handler())
+      AbimongoContext.withTransaction(async () => await handler())
     );
   }
 
-  return AbimongoContext.run(ctx, handler);
-}
+  return AbimongoContext.run(ctx, async () => await handler());
+};

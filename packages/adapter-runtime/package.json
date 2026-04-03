@@ -2,10 +2,10 @@
   "name": "@abimongo/adapter-runtime",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "type": "module",
   "sideEffects": false,
   "files": [
     "dist"
@@ -14,12 +14,16 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "default": "./dist/index.js"
+      "require": "./dist/index.cjs"
     }
   },
   "scripts": {
-    "build": "pnpm run build:rtime",
-    "build:rtime": "tsc -p tsconfig.json"
+    "build": "pnpm -r run build:rtime",
+    "build:rtime": "tsc -p tsconfig.json",
+    "test": "jest --detectOpenHandles --coverage",
+    "changeset": "pnpm run changeset",
+    "release": "pnpm changeset version",
+    "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks"
   },
   "keywords": [],
   "author": "",

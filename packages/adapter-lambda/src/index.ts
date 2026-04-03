@@ -1,148 +1,153 @@
-import type {
-	AbimongoRequestLike,
-	AbimongoContext,
-	TenancyOptions
-} from "@abimongo/adapter-types";
-// ^ adjust import path to wherever you export these in core (or copy the types locally)
-// If you don't export them from core yet, do it — adapters should depend on the shared contract types.
-
-import { createTenancyContext } from "@abimongo/adapter-types";
-
-import {
-	normalizeHeaders,
-	readHeader,
-	parseCookieHeader,
-	parseCookieArray,
-	toQueryString,
-	buildUrl,
-	mapQueryToParams
-} from "./helper/headers.fnc";
+export * from './lambda-adapter.js';
+export * from './lambda-request.js';
+export * from './types.js';
 
 
-export type LambdaEvent = any;
-export type LambdaContext = any;
+// import type {
+// 	AbimongoRequestLike,
+// 	AbimongoContext,
+// 	TenancyOptions
+// } from "@abimongo/adapter-types";
+// // ^ adjust import path to wherever you export these in core (or copy the types locally)
+// // If you don't export them from core yet, do it — adapters should depend on the shared contract types.
 
-export interface LambdaAdapterInput {
-	event: LambdaEvent;
-	context?: LambdaContext;
-}
+// import { createTenancyContext } from "@abimongo/adapter-types";
 
-export interface LambdaAdapterOptions {
-	tenancy?: TenancyOptions;
+// import {
+// 	normalizeHeaders,
+// 	readHeader,
+// 	parseCookieHeader,
+// 	parseCookieArray,
+// 	toQueryString,
+// 	buildUrl,
+// 	mapQueryToParams
+// } from "./helper/headers.fnc";
 
-	/**
-	 * If you want to derive cookies from a specific header other than "cookie"
-	 * (rare, but ALB can differ).
-	 */
-	cookieHeaderName?: string;
 
-	/**
-	 * If you want to map a query parameter into req.params (router-style),
-	 * you can provide a mapping: { tenantId: "tenantId" } etc.
-	 *
-	 * By default, we do NOT map query params into params (params are "route params").
-	 */
-	mapQueryToParams?: Record<string, string>;
+// export type LambdaEvent = any;
+// export type LambdaContext = any;
 
-	/**
-	 * Build a URL if your event doesn't provide enough info.
-	 * If omitted, we attempt best-effort.
-	 */
-	baseUrl?: string; 
-}
+// export interface LambdaAdapterInput {
+// 	event: LambdaEvent;
+// 	context?: LambdaContext;
+// }
 
-export interface AbimongoLambdaAdapter {
-	name: "@abimongo/adapter-lambda";
-	kind: "lambda";
-	toRequest(input: LambdaAdapterInput): AbimongoRequestLike;
-	createContext(input: LambdaAdapterInput): Promise<AbimongoContext>;
-	resolveTenantId(input: LambdaAdapterInput): Promise<string>;
-}
+// export interface LambdaAdapterOptions {
+// 	tenancy?: TenancyOptions;
 
-/**
- * Main adapter factory.
- * Converts Lambda event -> AbimongoRequestLike and delegates tenant logic to core.
- */
-export function createLambdaAdapter(options: LambdaAdapterOptions = {}): AbimongoLambdaAdapter {
-	const tenancy = options.tenancy ?? {};
-	const cookieHeaderName = (options.cookieHeaderName ?? "cookie").toLowerCase();
+// 	/**
+// 	 * If you want to derive cookies from a specific header other than "cookie"
+// 	 * (rare, but ALB can differ).
+// 	 */
+// 	cookieHeaderName?: string;
 
-	function toRequest({ event }: LambdaAdapterInput): AbimongoRequestLike {
-		const headers = normalizeHeaders(event?.headers);
+// 	/**
+// 	 * If you want to map a query parameter into req.params (router-style),
+// 	 * you can provide a mapping: { tenantId: "tenantId" } etc.
+// 	 *
+// 	 * By default, we do NOT map query params into params (params are "route params").
+// 	 */
+// 	mapQueryToParams?: Record<string, string>;
 
-		// Cookies
-		const cookies =
-			// APIGW v2 often has `cookies: string[]`
-			Array.isArray(event?.cookies) ? parseCookieArray(event.cookies)
-				// otherwise parse standard Cookie header
-				: parseCookieHeader(readHeader(headers, cookieHeaderName));
+// 	/**
+// 	 * Build a URL if your event doesn't provide enough info.
+// 	 * If omitted, we attempt best-effort.
+// 	 */
+// 	baseUrl?: string; 
+// }
 
-		// Method + URL best-effort
-		const method =
-			event?.requestContext?.http?.method ??
-			event?.httpMethod ??
-			event?.requestContext?.httpMethod;
+// export interface AbimongoLambdaAdapter {
+// 	name: "@abimongo/adapter-lambda";
+// 	kind: "lambda";
+// 	toRequest(input: LambdaAdapterInput): AbimongoRequestLike;
+// 	createContext(input: LambdaAdapterInput): Promise<AbimongoContext>;
+// 	resolveTenantId(input: LambdaAdapterInput): Promise<string>;
+// }
 
-		const rawPath =
-			event?.rawPath ??
-			event?.path ??
-			event?.requestContext?.http?.path ??
-			event?.requestContext?.path;
+// /**
+//  * Main adapter factory.
+//  * Converts Lambda event -> AbimongoRequestLike and delegates tenant logic to core.
+//  */
+// export function createLambdaAdapter(options: LambdaAdapterOptions = {}): AbimongoLambdaAdapter {
+// 	const tenancy = options.tenancy ?? {};
+// 	const cookieHeaderName = (options.cookieHeaderName ?? "cookie").toLowerCase();
 
-		const rawQuery =
-			// v2 has rawQueryString
-			(typeof event?.rawQueryString === "string" ? event.rawQueryString : undefined) ??
-			// v1 has queryStringParameters
-			(event?.queryStringParameters ? toQueryString(event.queryStringParameters) : undefined);
+// 	function toRequest({ event }: LambdaAdapterInput): AbimongoRequestLike {
+// 		const headers = normalizeHeaders(event?.headers);
 
-		const url = buildUrl(options.baseUrl, rawPath, rawQuery);
+// 		// Cookies
+// 		const cookies =
+// 			// APIGW v2 often has `cookies: string[]`
+// 			Array.isArray(event?.cookies) ? parseCookieArray(event.cookies)
+// 				// otherwise parse standard Cookie header
+// 				: parseCookieHeader(readHeader(headers, cookieHeaderName));
 
-		// Params (router params) - Lambda doesn't have route params unless you set them
-		// We can optionally map query params into params if you want a "param" tenancy strategy.
-		const params: Record<string, string> | undefined =
-			options.mapQueryToParams && event?.queryStringParameters
-				? mapQueryToParams(event.queryStringParameters, options.mapQueryToParams)
-				: undefined;
+// 		// Method + URL best-effort
+// 		const method =
+// 			event?.requestContext?.http?.method ??
+// 			event?.httpMethod ??
+// 			event?.requestContext?.httpMethod;
 
-		const req: AbimongoRequestLike = {
-			headers,
-			method,
-			url,
-			params,
-			cookies,
-			get(name: string) {
-				return readHeader(headers, name);
-			},
-		};
+// 		const rawPath =
+// 			event?.rawPath ??
+// 			event?.path ??
+// 			event?.requestContext?.http?.path ??
+// 			event?.requestContext?.path;
 
-		return req;
-	}
+// 		const rawQuery =
+// 			// v2 has rawQueryString
+// 			(typeof event?.rawQueryString === "string" ? event.rawQueryString : undefined) ??
+// 			// v1 has queryStringParameters
+// 			(event?.queryStringParameters ? toQueryString(event.queryStringParameters) : undefined);
 
-	async function createContext(input: LambdaAdapterInput): Promise<AbimongoContext> {
-		const req = toRequest(input);
-		const ctx: AbimongoContext = await createTenancyContext(
-			{
-			headers: req.headers as Record<string, string | string[] | undefined>,
-			url: req.url,
-			method: req.method,
-			params: (req.params ?? {}) as Record<string, string>,
-			cookies: req.cookies
-		}, tenancy	
-		);
-		return ctx;
-	}
+// 		const url = buildUrl(options.baseUrl, rawPath, rawQuery);
 
-	async function resolveTenantId(input: LambdaAdapterInput): Promise<string> {
-		const ctx = await createContext(input);
-		return ctx.tenantId;
-	}
+// 		// Params (router params) - Lambda doesn't have route params unless you set them
+// 		// We can optionally map query params into params if you want a "param" tenancy strategy.
+// 		const params: Record<string, string> | undefined =
+// 			options.mapQueryToParams && event?.queryStringParameters
+// 				? mapQueryToParams(event.queryStringParameters, options.mapQueryToParams)
+// 				: undefined;
 
-	return {
-		name: "@abimongo/adapter-lambda",
-		kind: "lambda",
-		toRequest,
-		createContext,
-		resolveTenantId,
-	};
-}
+// 		const req: AbimongoRequestLike = {
+// 			headers,
+// 			method,
+// 			url,
+// 			params,
+// 			cookies,
+// 			get(name: string) {
+// 				return readHeader(headers, name);
+// 			},
+// 		};
+
+// 		return req;
+// 	}
+
+// 	async function createContext(input: LambdaAdapterInput): Promise<AbimongoContext> {
+// 		const req = toRequest(input);
+// 		const ctx: AbimongoContext = await createTenancyContext(
+// 			{
+// 			headers: req.headers as Record<string, string | string[] | undefined>,
+// 			url: req.url,
+// 			method: req.method,
+// 			params: (req.params ?? {}) as Record<string, string>,
+// 			cookies: req.cookies
+// 		}, tenancy	
+// 		);
+// 		return ctx;
+// 	}
+
+// 	async function resolveTenantId(input: LambdaAdapterInput): Promise<string> {
+// 		const ctx = await createContext(input);
+// 		return ctx.tenantId;
+// 	}
+
+// 	return {
+// 		name: "@abimongo/adapter-lambda",
+// 		kind: "lambda",
+// 		toRequest,
+// 		createContext,
+// 		resolveTenantId,
+// 	};
+// }
 

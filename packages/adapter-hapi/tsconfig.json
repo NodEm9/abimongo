@@ -1,16 +1,18 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
+    "outDir": "./dist",
+    "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": false,
-    "module": "ES2020",
+    // "module": "nodenext",
     "target": "ES2020",
-    "moduleResolution": "Bundler",
+    // "moduleResolution": "nodenext",
     "composite": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
   },
-    "include": ["src/**/*.ts"],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

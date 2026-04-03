@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "sideEffects": false,
   "files": [
     "dist"
@@ -18,7 +18,8 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "pnpm -r run build:koa",
+    "build:koa": "tsc -p tsconfig.json",
     "changeset": "pnpm run changeset",
     "release": "pnpm changeset version",
     "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks"

@@ -17,8 +17,9 @@
     }
   },
   "scripts": {
-    "build": "pnpm run build:script",
+    "build": "pnpm -r run build:script",
     "build:script": "tsc -p tsconfig.json",
+    "test": "jest --detectOpenHandles --coverage",
     "changeset": "pnpm run changeset",
     "release": "pnpm changeset version",
     "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks"

@@ -2,10 +2,10 @@
   "name": "@abimongo/adapter-graphql",
   "version": "1.0.0",
   "description": "Abimongo adapter for GraphQL",
-  "type": "module",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+   "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "sideEffects": false,
   "files": [
     "dist"
@@ -18,7 +18,9 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "pnpm -r run build:gql",
+    "build:gql": "tsc -p tsconfig.json",
+    "test": "jest --detectOpenHandles --coverage",
     "changeset": "pnpm run changeset",
     "release": "pnpm changeset version",
     "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks"
@@ -31,7 +33,10 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@abimongo/adapter-types": "workspace:*",
-    "@abimongo/core": "workspace:*"
+    "@abimongo/adapter-runtime": "workspace:*",
+    "@abimongo/adapter-types": "workspace:*"
+  },
+  "peerDependencies": {
+    "graphql": "^16.0.0"
   }
 }

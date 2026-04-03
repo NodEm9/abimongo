@@ -1,7 +1,7 @@
 import { AdvancedRollingFileTransporter } from './AdvancedRollingFileTransporter';
 import path from 'path';
 import { clearAllTimers, registerInterval } from '../utils';
-import { BufferedTransporter } from './buffered.transporter';
+import { BufferedTransporter } from './buffered-transporter';
 
 export interface RotatingFileTransporterOptions {
   filename: string;

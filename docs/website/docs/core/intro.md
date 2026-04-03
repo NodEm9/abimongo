@@ -41,7 +41,8 @@ Note: see the Getting Started and AbimongoModel pages for more complete examples
 
 ## Where to go next
 
-- Getting started: [Getting started](./getting-started/gettting-started.md) (installation and quickstart)
+- Getting started: [Getting started](./getting-started/quick-start.md)
+(installation and quickstart)
 - Core concepts: [AbimongoClient](./core-concepts/AbimongoClient.md), [AbimongoModel](./core-concepts/AbimongoModel.md), [MultiTenancy](./core-concepts/MultiTenancy.md)
 - Features & patterns: ./features/Caching.md, ./features/AbimongoGraphQL.md, ./features/rbac.md
 - FAQ and troubleshooting: ./faq.md

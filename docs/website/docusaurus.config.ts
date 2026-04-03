@@ -18,6 +18,7 @@ const config: Config = {
 	projectName: 'abimongo',
 	clientModules: [require.resolve('./src/css/custom.css'), require.resolve('./src/client/comingSoon.tsx')],
 	onBrokenAnchors: 'ignore',
+	// onBrokenLinks: 'ignore',
 	trailingSlash: false,
 	headTags: [
 		// Prefer a small thumbnail card for social shares so platforms
@@ -84,6 +85,18 @@ const config: Config = {
 				sidebarPath: require.resolve('./sidebars.core.ts'),
 			},
 		],
+		// Content docs: Adapters
+		// [
+		// 	'@docusaurus/plugin-content-docs',
+		// 	{
+		// 		id: 'adapters',
+		// 		path: path.resolve(__dirname, './docs/adapters'),
+		// 		routeBasePath: 'adapters',
+		// 		showLastUpdateAuthor: true,
+		// 		showLastUpdateTime: true,
+		// 		sidebarPath: require.resolve('./sidebars.adapters.ts'),
+		// 	},
+		// ],
 		// Content docs: Logger
 		[
 			'@docusaurus/plugin-content-docs',
@@ -132,6 +145,21 @@ const config: Config = {
 				readme: 'none',
 			},
 		],
+		// TypeDoc API: Adapters
+		// [
+		// 	'docusaurus-plugin-typedoc',
+		// 	{
+		// 		id: 'api-adapters',
+		// 		entryPoints: [
+		// 			'packages/adapters-express/src/index.ts',
+		// 			'packages/adapters-fastify/src/index.ts'
+		// 		],
+		// 		tsconfig: 'packages/adapters/tsconfig.json',
+		// 		out: 'adapters/api/adapters',
+		// 		sidebar: { autoConfiguration: 'API (Adapters)' },
+		// 		readme: 'none',
+		// 	},
+		// ],
 		// TypeDoc API: Logger
 		[
 			'docusaurus-plugin-typedoc',
@@ -170,7 +198,7 @@ const config: Config = {
 		},
 		navbar: {
 			title: 'Abimongo',
-			logo: {
+			logo: { 
 				alt: 'Abimongo Logo',
 				src: 'img/abimongo-logo_light.svg',
 				srcDark: 'img/abimongo-logo_dark.svg',
@@ -179,6 +207,7 @@ const config: Config = {
 			},
 			items: [
 				{ to: '/core/intro', label: 'Core', position: 'left' },
+				{ to: '/adapter/overview', label: 'Adapters', position: 'left' },
 				{ to: '/logger/intro', label: 'Logger', position: 'left' },
 				{ to: '/create/intro', label: 'Cli', position: 'left' },
 				{ to: '/blog', label: 'Blog', position: 'left' },

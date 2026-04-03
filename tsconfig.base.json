@@ -9,7 +9,7 @@
       "DOM.Iterable", 
       "DOM"
       ],  
-    "moduleDetection": "auto",
+    "moduleDetection": "force",
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "types": ["node", "jest"],
@@ -31,14 +31,14 @@
     "skipLibCheck": true, 
     "jsx": "react-jsx"                              
   },
-  // "include": [
-  //   "packages/**/src/**/*", 
-  //   "docs/*", 
-  //   ],
-  // "exclude": [
-  //  "node_modules", 
-  //  "**/node_modules/*", 
-  //  "dist",
-  //  "packages/core/examples", 
-  //  "packages/*/src/__test__/**"]
+  "include": [
+    "packages/**/src/**/*", 
+    "docs/*", 
+    ],
+  "exclude": [
+   "node_modules", 
+   "**/node_modules/*", 
+   "dist",
+   "packages/core/examples", 
+   "packages/*/src/__test__/**"]
 }

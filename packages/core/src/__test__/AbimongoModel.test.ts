@@ -1,8 +1,8 @@
-import { AbimongoModel, AbimongoSchema, AbimongoClient } from "../lib-core/index.js";
+import { AbimongoModel, AbimongoSchema, AbimongoClient } from "../lib-core";
 import {  MongoClient, ObjectId } from "mongodb";
-import { bufferedTransporter, Model } from "../utils/index.js";
+import { Model } from "../utils";
 import { shutdownLogger } from '@abimongo/logger';
-import { DbProvider, Document } from "../types/index.js";
+import { DbProvider, Document } from "../types";
 
 
 import type {
@@ -14,9 +14,9 @@ import type {
 	WithId
   // Document,
 } from "mongodb";
-import { AbimongoContext } from "../context/AbimongoContext.js";
-import { measureQuery } from "../instrumentation/measureQueryWithErrors.js";
-import { debugLog } from "../debug/debugLog.js";
+import { AbimongoContext } from "../context";
+import { measureQuery } from "../instrumentation";
+import { debugLog } from "../debug";
 
 type UserDoc = Document & {
   _id?: any;
@@ -833,7 +833,7 @@ describe('AbimongoModel', () => {
 	})
 
 	afterAll(async () => {
-		await bufferedTransporter.stop();
+		// await bufferedTransporter.stop();
 		await shutdownLogger();
 	});
 

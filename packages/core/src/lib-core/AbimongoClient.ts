@@ -14,17 +14,17 @@ import type {
 	AbimongoClientOptions,
 	BootstrapClient,
 	ModelContext
-} from '../types/index.js';
+} from '../types';
 import {
 	ErrorType,
 	AbimongoModelRegistry,
-	AbiMongoError
-} from '../utils/index.js';
-import { colorize } from '../utils/color-palatte.js';
+	AbiMongoError,
+	colorize
+} from '../utils';
 import "dotenv/config";
-import { GetTenantModelParams, MultiTenantManager } from '../tanancy/index.js';
+import { GetTenantModelParams, MultiTenantManager } from '../tanancy';
 import { AbimongoSchema } from './AbimongoSchema.js';
-import { AbimongoContext } from '../context/AbimongoContext.js';
+import { AbimongoContext } from '../context';
 import { AsyncBatchTransporter } from '@abimongo/logger';
 
 

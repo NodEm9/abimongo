@@ -1,5 +1,5 @@
-import { MultiTenantManager } from '../MultiTenantManager.js';
-import { AbimongoConfig } from '../../types/index.js';
+import { MultiTenantManager } from '../MultiTenantManager';
+import { AbimongoConfig } from '../../types/index';
 import { MongoClient } from 'mongodb';
 
 export interface InitMultiTenancyOptions {

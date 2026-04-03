@@ -1,7 +1,6 @@
-import { Db, MongoClient } from 'mongodb';
-import { AbimongoModel, AbimongoSchema } from '../lib-core/index.js';
-import { AbimongoContext } from '../context/AbimongoContext.js';
-import { MultiTenantManager } from '../tanancy/index.js';
+import { AbimongoModel, AbimongoSchema } from '../lib-core';
+import { AbimongoContext } from '../context';
+import { MultiTenantManager } from '../tanancy';
 
 type TestDoc = {
 	_id?: any;

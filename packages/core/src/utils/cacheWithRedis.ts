@@ -1,4 +1,4 @@
-import { redis } from '../redis-manager/redisClient.js';
+import { redis } from '../redis-manager';
 
 /**
  * Options for caching behavior.

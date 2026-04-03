@@ -1,3 +1,3 @@
-export * from './rbac/rbacMiddleware.js';
-export * from './rbac/rbacTypes.js';
-export * from './authorization/auth.js'
+export * from './rbac/rbacMiddleware';
+export * from './rbac/rbacTypes';
+export * from './authorization/auth'

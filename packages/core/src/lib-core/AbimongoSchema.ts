@@ -6,7 +6,7 @@ import type {
 	Relationship,
 	EventType,
 	GCConfig
-} from "../types/index.js";
+} from "../types";
 
 
 /**

@@ -1,5 +1,5 @@
 import { ClientSession, Db, MongoClient } from "mongodb";
-import { AbimongoConfig } from "./AbimongoConfig.js";
+import { AbimongoConfig } from "./AbimongoConfig";
 
 export type ModelContext = {
   tenantId?: string;

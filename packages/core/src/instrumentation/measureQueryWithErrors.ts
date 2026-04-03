@@ -1,5 +1,5 @@
 import { performance } from 'perf_hooks';
-import { AbimongoContext } from '../context/AbimongoContext.js';
+import { AbimongoContext } from '../context/AbimongoContext';
 
 export interface QueryInstrumentationMeta {
 	operation: string;

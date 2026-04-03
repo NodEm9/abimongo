@@ -1,5 +1,5 @@
-import { Abimongo, AbimongoModel } from "../../lib-core/index.js"
-import { AbimongoModelOptions, Document } from "../../types/index.js"; // Ensure the correct path to the document module
+import { Abimongo, AbimongoModel } from "../../lib-core"
+import { AbimongoModelOptions, Document } from "../../types"; // Ensure the correct path to the document module
 
 
 /**

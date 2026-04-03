@@ -5,8 +5,8 @@ import type {
   MongoClient,
   ClientSession,
 } from "mongodb";
-import { Document } from "./document.js";
-import { DbProvider, ModelContext } from "./db.provider.js";
+import { Document } from "./document";
+import { DbProvider, ModelContext } from "./db.provider";
 
 export interface BootstrapClient extends DbProvider {
   connect(): Promise<this>;

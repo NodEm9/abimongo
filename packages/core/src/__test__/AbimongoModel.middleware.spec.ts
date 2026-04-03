@@ -5,9 +5,9 @@ import type {
 	Filter,
 	UpdateFilter
 } from 'mongodb';
-import { AbimongoModel, AbimongoSchema } from '../lib-core/index.js';
-import type { DbProvider, ModelContext } from '../types/index.js';
-import { MultiTenantManager } from '../tanancy/index.js';
+import { AbimongoModel, AbimongoSchema } from '../lib-core';
+import type { DbProvider, ModelContext } from '../types';
+import { MultiTenantManager } from '../tanancy';
 
 type UserDoc = Document & {
 	_id?: any;

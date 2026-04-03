@@ -1,5 +1,5 @@
 import type { ClientSession } from 'mongodb';
-import { hasManualTransactionMethods } from './transactionSession.js';
+import { hasManualTransactionMethods } from './transactionSession';
 
 export async function runManualTransaction<T>(
   session: ClientSession,

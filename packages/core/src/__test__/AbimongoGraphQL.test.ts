@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AbimongoGraphQL } from '../graphql/AbimongoGraphQL.js';
-import { invalidateTenantCache } from '../middleware/rbac/rbacMiddleware.js';
-import { connectRedis } from '../redis-manager/index.js';
-import { bufferedTransporter } from '../utils/index.js';
+import { AbimongoGraphQL } from '../graphql';
+import { invalidateTenantCache } from '../middleware';
+import { connectRedis } from '../redis-manager';
+// import { bufferedTransporter } from '../utils';
 import { shutdownLogger } from '@abimongo/logger';
 
 
@@ -278,7 +278,7 @@ describe('AbimongoGraphQL', () => {
 	afterAll(async () => {
 		await mockRedisClient.disconnect();
 		abimongo = null as any;
-		await bufferedTransporter.stop();
+		// await bufferedTransporter.stop();
 		await shutdownLogger();
 	});
 

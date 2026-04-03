@@ -1,6 +1,6 @@
 // import { logger } from "@abimongo/logger";
 import { AbimongoLogger, LogLevel } from "@abimongo/logger";
-import { EventType } from "../types/index.js";
+import { EventType } from "../types";
 import { ILogger } from "../types/index.js";
 
 /**

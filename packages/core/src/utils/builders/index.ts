@@ -1,6 +1,6 @@
-export * from './createModel.js';
-export * from './schema.js';
-export * from './getTenantDb.js';
-export * from './getTenantClientOrThrow.js';
+export * from './createModel';
+export * from './schema';
+export * from './getTenantDb';
+export * from './getTenantClientOrThrow';
 
 

@@ -1,1 +1,1 @@
-export * from './redisClient.js';
+export * from './redisClient';

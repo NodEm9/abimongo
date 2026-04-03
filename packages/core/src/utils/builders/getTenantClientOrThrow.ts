@@ -1,4 +1,4 @@
-import { MultiTenantManager, TenantContext } from "../../tanancy/index.js";
+import { MultiTenantManager, TenantContext } from "../../tanancy";
 
 export async function getTenantClientOrThrow() {
   const tenantId = TenantContext.getTenantId();

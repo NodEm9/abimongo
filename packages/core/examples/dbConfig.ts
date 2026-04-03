@@ -1,5 +1,8 @@
-import { Abimongo, abimongo, AbimongoClient } from "../src/lib-core";
+import { Abimongo, abimongo, AbimongoClient, createAbimongoClientModule } from "../src/lib-core";
 import "dotenv/config";
+import { MultiTenantManager } from "../src/tanancy";
+import { DbProvider } from "../src/types";
+import { MongoClient } from "mongodb";
 // import { logger } from "./example-1/router";
 // import { logger } from "../src/config";
 
@@ -30,6 +33,20 @@ export async function dbDriver() {
 		const clientDB = AbimongoClient.init({
 			uri: dbConfig.uri,
 			options: { dbName: dbConfig.dbName },
+		});
+
+
+		createAbimongoClientModule({
+			uri: dbConfig.uri,
+			options: { dbName: dbConfig.dbName },
+			tenantResolver: {
+				getClient: async (tenantId: string) => {
+					let tenantUri = dbConfig.tenantUri["tenant-a"];
+					tenantId = tenantUri || "tenant-a";
+					console.log(`Resolving tenant: ${tenantId}, URI: ${tenantUri}`);
+					return await abimongo.client()
+				}
+			}
 		});
 
 		//  const dbName = await abimongo.useDatabase(dbConfig.dbName);

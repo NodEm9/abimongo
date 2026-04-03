@@ -1,6 +1,6 @@
 import { RedisClientType } from "redis";
 // import { logger } from "../config";
-import { redis } from "../redis-manager/index.js";
+import { redis } from "../redis-manager";
 
 /**
  * Invalidates the cache for a specific tenant by deleting all keys that match the tenant ID.

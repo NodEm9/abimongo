@@ -5,7 +5,6 @@
     "access": "public"
   },
   "description": "Enterprise-grade MongoDB ORM built on the official MongoDB driver.",
-  "type": "module",
   "main": "dist/abimongo-core.js",
   "module": "dist/abimongo-core.js",
   "browser": "dist/abimongo-core-browser.js",
@@ -16,19 +15,20 @@
   "exports": {
     ".": {
       "import": "./dist/abimongo-core.js",
-      "default": "./dist/abimongo-core.js",
+      "require": "./dist/abimongo-core.js",
       "types": "./dist/index.d.ts"
     },
     "./browser": {
       "import": "./dist/abimongo-core-browser.js",
-      "default": "./dist/abimongo-core-browser.js",
+      "require": "./dist/abimongo-core-browser.js",
       "types": "./dist/browser.d.ts"
     },
     "./bin": {
       "import": "./dist/abimongo-core-cli.js",
-      "default": "./dist/abimongo-core-cli.js",
+      "require": "./dist/abimongo-core-cli.js",
       "types": "./dist/cli.d.ts"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "sideEffects": false,
   "files": [
@@ -40,9 +40,9 @@
     "!dist/scripts"
   ],
   "scripts": {
-    "build:node": "webpack --config webpack.node.config.cjs",
-    "build:cli": "webpack --config webpack.cli.config.cjs",
-    "build:web": "webpack --config webpack.web.config.cjs",
+    "build:node": "webpack --config webpack.node.config.js",
+    "build:cli": "webpack --config webpack.cli.config.js",
+    "build:web": "webpack --config webpack.web.config.js",
     "build:types": "tsc -p tsconfig.json --excludeDirectories **/node_modules",
     "clean": "rimraf dist",
     "build": "pnpm run build:types && pnpm run build:node && pnpm run build:cli && pnpm run build:web",
@@ -85,7 +85,7 @@
   },
   "dependencies": {
     "@abimongo/adapter-types": "workspace:*",
-    "@abimongo/logger": "file:../logger",
+    "@abimongo/logger": "workspace:*",
     "@babel/runtime": "7.28.4",
     "commander": "14.0.2",
     "fs-extra": "11.3.3",

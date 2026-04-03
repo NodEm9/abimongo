@@ -1,9 +1,9 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { AbimongoConfig } from '../../types/index.js';
+import { AbimongoConfig } from '../../types';
 import { execSync } from 'child_process';
-import { colorize } from '../../utils/color-palatte.js';
-import { MAIN_TS_CONTENT } from '../core/main.js';
+import { colorize } from '../../utils';
+import { MAIN_TS_CONTENT } from '../main';
 
 
 export async function generateAppStructure(projectRoot: string, options: AbimongoConfig) {

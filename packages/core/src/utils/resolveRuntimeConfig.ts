@@ -1,6 +1,6 @@
 import type { ClientSession } from 'mongodb';
-import { AbimongoContext } from '../context/AbimongoContext.js';
-import { resolveAbimongoOption } from './resolveAbimongoOption.js';
+import { AbimongoContext } from '../context';
+import { resolveAbimongoOption } from './resolveAbimongoOption';
 
 // typed resolver for db/collection/tenant/session.
 export interface RuntimeResolutionInput {

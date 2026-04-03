@@ -1,5 +1,5 @@
 //src/gc/gcCron.browser.ts
-import { colorize } from "../utils/color-palatte.js";
+import { colorize } from "../utils";
 
 export const startGarbageCollector = () => {
   // No-op for browsers

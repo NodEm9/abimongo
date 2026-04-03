@@ -1,6 +1,6 @@
 import type { AbimongoAdapter } from '@abimongo/adapter-types';
-import { AbimongoConfig } from "../../types/AbimongoConfig.js";
-import { AbimongoBootstrap } from "./AbimongoBootstrap.js";
+import { AbimongoConfig } from "../../types";
+import { AbimongoBootstrap } from "./AbimongoBootstrap";
 
 
 export interface AbimongoBootstrapFactoryOptions {

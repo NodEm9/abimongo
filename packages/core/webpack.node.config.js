@@ -47,12 +47,6 @@ module.exports = {
 				amd: 'express',
 				root: 'express',
 			},
-			'express-serve-static-core': {
-				commonjs: 'express-serve-static-core',
-				commonjs2: 'express-serve-static-core',
-				amd: 'express-serve-static-core',
-				root: 'express-serve-static-core',
-			},
 			// Prevent bundling node_modules
 			buffer: 'commonjs buffer',
 			fs: 'commonjs fs',
@@ -80,7 +74,7 @@ module.exports = {
 				use: {
 					loader: 'babel-loader',
 					options: {
-						presets: [['@babel/preset-env', { targets: { node: 'nodenext' } }]],
+						presets: [['@babel/preset-env', { targets: { node: '16' } }]],
 					}
 				}
 			},
@@ -89,62 +83,23 @@ module.exports = {
 				use: {
 					loader: 'ts-loader',
 					options: {
-						// When resolving local package source via webpack aliases we may
-						// include TS files from sibling packages (e.g. ../logger/src).
-						// Override rootDir so TypeScript accepts those files as part of the
-						// program during webpack builds.
 						compilerOptions: {
 							rootDir: path.resolve(__dirname, '..')
 						},
-						// Only transpile here to avoid the TS project-file-list errors
-						// that occur when sibling-package sources are pulled into the
-						// compilation by webpack aliases. Type-checking can be run
-						// separately (e.g. via `pnpm -w -r tsc -b`) in CI if desired.
 						transpileOnly: true,
 						onlyCompileBundledFiles: true,
 					}
 				},
-				exclude: /^node_modules/,
-				include: path.resolve(__dirname, 'src'),
-				// test: /\.tsx?$/,
-				// use: [
-				// 	{
-				// 		loader: 'ts-loader',
-				// 		options: {
-				// 			// This is the magic flag for your situation:
-				// 			// It prevents ts-loader from trying to type-check files in node_modules
-				// 			transpileOnly: true,
-				// 			onlyCompileBundledFiles: true,
-				// 			// happyPackMode: true
-							
-				// 		},
-				// 	},
-				// ],
-				// // Use an absolute path to be 100% sure
+				exclude: [ /^node_modules/, /^examples\//i ],
 				// include: path.resolve(__dirname, 'src'),
-				// exclude:[ /^node_modules/, /^examples\//i],
 			},
 		]
 	},
 	resolve: {
 		alias: {
 			'@gcCron': path.resolve(__dirname, 'src/gc/gcCron.node.ts'),
-			'ajv': path.resolve(__dirname, '../../node_modules/ajv/dist/ajv.bundle.js')
-			// NOTE: intentionally not aliasing @abimongo/logger to the local
-			// source here. Building logger first (workspace-aware build order)
-			// produces its `dist` artifacts and avoids pulling sibling package
-			// TS sources into this compilation which causes ts-loader/tsc
-			// project-listing issues. If you prefer source-first local
-			// development, set an env var and adjust this alias in dev only.
+			// 'ajv': path.resolve(__dirname, '../../node_modules/ajv/dist/ajv.bundle.js')
 		},
-		// alias: {
-		//  	'node:crypto': 'crypto-browserify',
-		//  	'node:stream': 'stream-browserify',
-		//  	'node:buffer': 'buffer',
-		//  	'node:path': 'path-browserify',
-		//  	'node:util': 'util',
-		//  	'node:fs': false, // if your lib doesn't need fs at runtime
-		// },
 		extensions: ['.ts', '.tsx', '.js'],
 		extensionAlias: {
 			'.js': ['.ts', '.js'],
@@ -171,9 +126,6 @@ module.exports = {
 		},
 		plugins: [new TsconfigPathsPlugin()]
 	},
-	// Build-time plugins. Allow disabling ESLint plugin via DISABLE_ESLINT_PLUGIN
-	// env var to avoid dependency resolution issues in CI/local where devDeps
-	// may not be installed for every package.
 	plugins: (() => {
 		const p = [
 			new webpack.DefinePlugin({
@@ -200,5 +152,5 @@ module.exports = {
 		errorDetails: true
 	},
 	// This helps suppress dynamic require warnings
-	// context: __dirname,
+	context: __dirname,
 };

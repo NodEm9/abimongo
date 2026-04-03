@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { AbimongoConfig } from "../types/index.js";
+import { AbimongoConfig } from "../types";
 
 export interface LoggerFormatOptions {
   timestamp?: boolean | (() => string); // true = ISO, function = custom

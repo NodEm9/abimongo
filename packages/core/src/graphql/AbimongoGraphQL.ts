@@ -1,18 +1,18 @@
 import 'dotenv/config';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { gql } from "graphql-tag"
-import { GraphQLSchema } from 'graphql/type/schema.js';
+import { GraphQLSchema } from 'graphql/type/schema';
 import { ObjectId, Db } from 'mongodb';
 import {
   checkPermission,
   enforceRBAC,
   invalidateTenantCache,
-} from "../middleware/rbac/rbacMiddleware.js";
-import { AbimongoGraphQLOptions } from '../types/graphql.type.js';
-import { redis } from '../redis-manager/redisClient.js';
-import { Role } from '../middleware/index.js';
-import { getTenantDB } from '../utils/builders/getTenantDb.js';
-import { DB_CHANGE_EVENT } from '../utils/events.js';
+} from "../middleware";
+import { AbimongoGraphQLOptions } from '../types';
+import { redis } from '../redis-manager';
+import { Role } from '../middleware';
+import { getTenantDB } from '../utils/builders';
+import { DB_CHANGE_EVENT } from '../utils';
 
 
 

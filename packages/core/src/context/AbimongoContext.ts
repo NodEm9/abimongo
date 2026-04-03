@@ -4,8 +4,8 @@ import {
 	AbimongoContextState,
 	AbimongoLoggerLike,
 	AbimongoQueryObserver
-} from '../types/db.provider.js';
-import { runManualTransaction } from './helpers/runManualTransaction.js';
+} from '../types';
+import { runManualTransaction } from './helpers/runManualTransaction';
 
 
 

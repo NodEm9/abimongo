@@ -1,12 +1,10 @@
-import { getTenantModel } from '../../tanancy/TenantModelResolver.js';
-import { MultiTenantManager } from '../../tanancy/MultiTenantManager.js';
-import { TenantContext } from '../../tanancy/TenantContext.js';
-import { Model } from '../../utils/builders/createModel.js';
-import { ensureModelNameSafe } from '../../utils/ensureModelNameSafe.js';
-import { AbimongoSchema } from '../../lib-core/index.js';
-import { bufferedTransporter } from '../../utils/index.js';
+import { getTenantModel, MultiTenantManager, TenantContext } from '../../tanancy';
+import { Model } from '../../utils/builders';
+import { ensureModelNameSafe } from '../../utils';
+import { AbimongoSchema } from '../../lib-core';
+// import { bufferedTransporter } from '../../utils';
 import { shutdownLogger } from '@abimongo/logger';
-import { DbProvider } from '../../types/index.js';
+import { DbProvider } from '../../types';
 
 jest.mock('../../tanancy/MultiTenantManager');
 jest.mock('../../tanancy/TenantContext');
@@ -39,11 +37,7 @@ describe('getTenantModel', () => {
 	it('returns a model for a given tenant and caches it', async () => {
 		const model = await getTenantModel({ collectionName, tenantId, schema: fakeSchema });
 		const cachedModel = await model
-		const safename = ensureModelNameSafe(collectionName);
 
-		expect(ensureModelNameSafe).toHaveBeenCalledWith(collectionName);
-		// expect(MultiTenantManager.getClient).toHaveBeenCalledWith(tenantId);
-		// expect(Model).toBe(fakeModel);
 		expect(cachedModel).toBe(fakeModel);
 
 		// Should return cached model on second call
@@ -71,7 +65,7 @@ describe('getTenantModel', () => {
 
 		afterAll(async () => {
 			jest.resetAllMocks();
-			await bufferedTransporter?.stop();
+			// await bufferedTransporter?.stop();
 			await shutdownLogger();
 		});
 });

@@ -1,7 +1,7 @@
 import { Collection, Db } from "mongodb";
-import { AbimongoClient, AbimongoSchema } from "../lib-core/index.js";
-import { Document } from "./document.js";
-import { DbProvider } from "./db.provider.js";
+import { AbimongoClient, AbimongoSchema } from "../lib-core";
+import { Document } from "./document";
+import { DbProvider } from "./db.provider";
 
 /**
  * Options for configuring an Abimongo model.

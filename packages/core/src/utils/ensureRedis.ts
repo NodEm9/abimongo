@@ -1,4 +1,4 @@
-import { redis } from '../redis-manager/index.js'
+import { redis } from '../redis-manager';
 
 export async function ensureRedis(this: any) {
 	let self = this;

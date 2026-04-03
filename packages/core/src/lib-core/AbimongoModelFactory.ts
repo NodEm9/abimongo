@@ -29,24 +29,24 @@ import type {
   AbimongoMiddlewareHandler,
   AbimongoMiddlewareContext,
 } from '../types/index.js';
-import { AbimongoSchema, Abimongo } from './index.js';
-import { AbiMongoError } from '../utils/error/abimongoError-handler.js';
-import { ErrorType } from '../utils/error/errorTypes.js';
+import { Abimongo } from './AbimongoClient';
+import { AbimongoSchema } from './AbimongoSchema';
 import EventEmitter from 'events';
 import { PubSub } from "graphql-subscriptions";
-import { MultiTenantManager, TenantConfig } from '../tanancy/MultiTenantManager.js';
-import { redis } from '../redis-manager/redisClient.js';
-import { getGCSettings } from '../decorators/gcSettings.js';
+import { MultiTenantManager, TenantConfig } from '../tanancy';
+import { redis } from '../redis-manager/redisClient';
+import { getGCSettings } from '../decorators/gcSettings';
 import {
   DB_CHANGE_EVENT,
   AbimongoModelRegistry,
-  ensureRedis
-} from '../utils/index.js';
-import { ModelContext } from '../types/index.js';
-import { AbimongoContext } from '../context/AbimongoContext.js';
-import { measureQuery } from '../instrumentation/measureQueryWithErrors.js';
-import { debugLog } from '../debug/debugLog.js';
-import { runManualTransaction } from '../context/index.js';
+  ensureRedis,
+  AbiMongoError,
+  ErrorType
+} from '../utils';
+import { ModelContext } from '../types';
+import { AbimongoContext, runManualTransaction } from '../context';
+import { measureQuery } from '../instrumentation';
+import { debugLog } from '../debug';
 
 
 const pubsub = new PubSub();

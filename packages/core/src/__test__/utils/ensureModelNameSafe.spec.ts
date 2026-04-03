@@ -1,4 +1,4 @@
-import { ensureModelNameSafe } from "../../utils/ensureModelNameSafe.js";
+import { ensureModelNameSafe } from "../../utils";
 
 
 describe('ensureModelNameSafe', () => {

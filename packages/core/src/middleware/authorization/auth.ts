@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express-serve-static-core";
-import { AuthService } from "../../utils/AuthUtils.js";
+import { AuthService } from "../../utils/AuthUtils";
 
 
 declare module "express-serve-static-core" {

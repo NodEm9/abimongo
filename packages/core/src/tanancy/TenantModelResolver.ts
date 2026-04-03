@@ -1,10 +1,10 @@
 import type { Db, Document } from "mongodb";
-import { Model } from '../utils/builders/createModel.js';
-import { MultiTenantManager } from "./MultiTenantManager.js";
-import type { AbimongoSchema } from "../lib-core/index.js";
-import type { DbProvider, ModelContext } from "../types/index.js";
-import { TenantContext } from "./TenantContext.js";
-import { ensureModelNameSafe } from "../utils/index.js";
+import { Model } from '../utils/builders';
+import { MultiTenantManager } from "./MultiTenantManager";
+import type { AbimongoSchema } from "../lib-core";
+import type { DbProvider, ModelContext } from "../types";
+import { TenantContext } from "./TenantContext";
+// import { ensureModelNameSafe } from "../utils";
 
 
 export type GetTenantModelParams<T extends Document> = {

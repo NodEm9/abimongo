@@ -8,7 +8,7 @@
  * @example
  * const safeModelName = ensureModelNameSafe('MyModel123');
  */
-export const ensureModelNameSafe = (collectionName: string): string => {
+export function ensureModelNameSafe(collectionName: string): string {
   if (!collectionName || typeof collectionName !== 'string') {
     throw new Error('Model name must be a non-empty string');
   }

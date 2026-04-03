@@ -1,5 +1,5 @@
 import { Db } from 'mongodb';
-import { abimongo } from '../../lib-core/index.js';
+import { abimongo } from '../../lib-core';
 
 const dbCache: Map<string, Db> = new Map();
 

@@ -1,5 +1,5 @@
-import { AbimongoModel } from "../lib-core/index.js";
-import { AbimongoModelOptions } from "../types/index.js";
+import { AbimongoModel } from "../lib-core";
+import { AbimongoModelOptions } from "../types";
 
 
 const modelRegistry = new Set<AbimongoModel<AbimongoModelOptions>>();

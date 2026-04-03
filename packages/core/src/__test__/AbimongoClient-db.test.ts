@@ -1,5 +1,5 @@
 import type { Db } from "mongodb";
-import { AbimongoClient } from "../lib-core/index.js";
+import { AbimongoClient } from "../lib-core";
 import { shutdownLogger } from "@abimongo/logger";
 
 describe("AbimongoClient.db()", () => {
@@ -256,7 +256,6 @@ describe("AbimongoClient.db()", () => {
 		});
 		await driver.connect();
 		await driver.dropDatabase();
-		// await bufferedTransporter.stop();
 		await driver.disconnect();
 		await driver.close();
 		// Clean up any resources if necessary

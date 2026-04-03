@@ -1,3 +1,3 @@
-export * from './AbimongoContext.js';
-export * from './helpers/transactionSession.js';
-export * from './helpers/runManualTransaction.js';
+export * from './AbimongoContext';
+export * from './helpers/transactionSession';
+export * from './helpers/runManualTransaction';

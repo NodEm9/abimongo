@@ -1,5 +1,5 @@
-import { redis } from '../../redis-manager/index.js';
-import { Role, Permission, rolePermissions } from './rbacTypes.js';
+import { redis } from '../../redis-manager';
+import { Role, Permission, rolePermissions } from './rbacTypes';
 
 function buildCacheKey(role: string | string[] | { tenantId: string } | any, key: string) {
 	if (Array.isArray(role)) {

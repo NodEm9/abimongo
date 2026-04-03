@@ -1,5 +1,5 @@
-import { TenantContext } from "../../tanancy/TenantContext.js";
-import { bufferedTransporter } from "../../utils/index.js";
+import { TenantContext } from "../../tanancy";
+// import { bufferedTransporter } from "../../utils";
 import { shutdownLogger } from '@abimongo/logger';
 
 describe("TenantContext", () => {
@@ -60,7 +60,7 @@ describe("TenantContext", () => {
 
 	afterAll(async () => {
 		jest.resetAllMocks();
-		await bufferedTransporter.stop();
+		// await bufferedTransporter.stop();
 		await shutdownLogger();
 	});
 });

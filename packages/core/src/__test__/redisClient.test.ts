@@ -1,6 +1,7 @@
 /* Unit tests for the redis client wrapper. We mock the underlying 'redis' package
 	 to avoid network I/O and validate that our wrapper returns a safe object when
 	 the real client cannot connect. */
+import { redis } from '../redis-manager/redisClient';
 
 jest.setTimeout(10000);
 
@@ -15,7 +16,7 @@ jest.mock('redis', () => ({
 	})),
 }));
 
-import { redis } from '../redis-manager/redisClient.js';
+
 // debug info when tests run in CI/local
 console.log('DEBUG: redis export keys:', typeof redis, Object.keys(redis || {}));
 

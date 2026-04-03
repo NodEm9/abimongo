@@ -1,12 +1,12 @@
 import fs from 'fs-extra';
 import path from 'path';
-// import { Ajv } from 'ajv';
+import { Ajv } from 'ajv';
 import type { ValidateFunction } from 'ajv';
-import type { AbimongoConfig } from '../types/AbimongoConfig.js';
-import configSchema from './abimongo.config.schema.json' with { type: 'json' };
-import AjvLib from 'ajv';
-// @ts-ignore
-const Ajv = AjvLib.default || AjvLib;
+import type { AbimongoConfig } from '../types/AbimongoConfig';
+import configSchema from './abimongo.config.schema.json';
+// import AjvLib from 'ajv';
+// // @ts-ignore
+// const Ajv = AjvLib.default || AjvLib;
 
 
 const ajv = new Ajv({

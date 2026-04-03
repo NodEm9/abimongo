@@ -1,10 +1,10 @@
 import { consoleTransport, Logger } from '@abimongo/logger';
-
-
 import {
   bufferedTransporter,
   elasticTransport,
-} from '../utils/logHelpers.js';
+} from '../utils';
+
+
 
 Logger.initialize({
   formatOptions: {

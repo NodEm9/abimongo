@@ -13,7 +13,6 @@ import { execute, subscribe } from 'graphql';
 import { SubscribePayload, ExecutionResult } from 'graphql-ws';
 // import { ExpressContextFunctionArgument, expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import { installTenancyExpress } from '../../adapter-express/src/applyMultiTenancy'
 import { getTenantModel } from '../src/tanancy/TenantModelResolver';
 import { createExpressAdapter } from '../../adapter-express/src/index';
 import { consoleTransport, MetricsTracker } from '@abimongo/logger';
@@ -70,14 +69,17 @@ const tenants = dbConfig.tenantUri;
 // const tenants = JSON.parse(JSON.stringify(initOps.tenants.tenant));
 export const applyMTenant = async () => {
 
-	const adapter = await createExpressAdapter(app)
+	const adapter = await createExpressAdapter();
+	
 	adapter.name = 'express';
-	adapter.installTenancy(app, {
-		tenants,
-		headerKey: 'x-tenant-id',
-		initOptions: {
-			lazy: true,  // Lazy initialization of tenants
-		}
+	adapter.install(app, 
+		{
+			tenancy: {
+				header: 'x-tenant-id',
+				fallback: 'tenant-a',
+			},
+			requestIdHeader: 'x-request-id',
+			enableTransactions: true,
 	});
 
 	return adapter;
@@ -147,9 +149,9 @@ export const applyMTenant = async () => {
 
 
 applyMTenant().then(() => {
-	logger.info(`Registerd tenants successfully! Tenants: ${Object.keys(dbConfig.tenantUri).join(', ')} `,);
+	console.info(`Registerd tenants successfully! Tenants: ${Object.keys(dbConfig.tenantUri).join(', ')} `,);
 }).catch((err: any) => {
-	logger.error('Failed to register Tenants', err);
+	console.error('Failed to register Tenants', err);
 	process.exit(1)
 })
 
@@ -157,14 +159,14 @@ const registerTenants = async () => {
 	// Register tenants
 	for (const [tenantId, uri] of Object.entries(dbConfig.tenantUri)) {
 		await MultiTenantManager.registerTenant(tenantId, uri);
-		logger.info(`Registered tenant: ${tenantId} with URI: ${uri}`);
+		console.info(`Registered tenant: ${tenantId} with URI: ${uri}`);
 	}
 };
 
 registerTenants().then(() => {
-	logger.info('All tenants registered successfully.');
+	console.info('All tenants registered successfully.');
 }).catch((err) => {
-	logger.error('Error registering tenants:', err);
+	console.error('Error registering tenants:', err);
 });
 
 const newTenant = Object.keys(dbConfig.tenantUri)[0];
@@ -278,10 +280,10 @@ app.delete('/user/:id', async (req, res) => {
 
 	const deletedUser = await deleteUser(userId);
 	if (deletedUser.deletedCount === 0) {
-		logger.error('User not found or already deleted');
+		console.error('User not found or already deleted');
 		res.status(404).json({ error: 'User not found or already deleted' });
 	} else {
-		logger.info('User deleted successfully');
+		console.info('User deleted successfully');
 		res.json({ message: 'User deleted successfully' });
 	}
 

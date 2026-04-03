@@ -4,13 +4,11 @@
     "rootDir": "src",
     "outDir": "dist",                                                                                                                                                                     
     "composite": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "tsBuildInfoFile": "./dist/.tsbuildinfo",
-    "resolveJsonModule": true,   
-    "paths": {
-      "ajv": ["../../node_modules/ajv"] 
-  }                        
+    "declaration": true,  
+    "resolveJsonModule": true,  
+    "types": ["node", "jest"],
+    "emitDeclarationOnly": false,  
+    // "tsBuildInfoFile": "./dist/.tsbuildinfo",                       
   },
   "include": [
     "src",
@@ -22,11 +20,41 @@
     {"path": "../adapter-types"}
   ],
   "exclude": [
-   "**/node_modules",
-    "../../node_modules",
-    "node_modules", 
-   "dist",
-   "./examples",
-  //  "**/__tests__/**"
+    "node_modules",
+    "examples",
+    "**/__tests__/**"
   ],
 }
+
+
+// {
+//   "extends": "../../tsconfig.base.json", // Inherit common settings
+//   "compilerOptions": {                                                                                   
+//     "rootDir": "src",
+//     "outDir": "dist",                                                                                                                                                                     
+//     "composite": true,
+//     "declaration": true,
+//     "types": ["node", "jest"],
+//     "emitDeclarationOnly": false,
+//     // "tsBuildInfoFile": "./dist/.tsbuildinfo",
+//     "resolveJsonModule": true,   
+//   //   "paths": {
+//   //     "ajv": ["../../node_modules/ajv"] 
+//   // }                        
+//   },
+//   "include": [
+//     "src/**/*",
+//     "src/**/*.json",
+//     "package.json",
+//   ],
+//   "references": [
+//     { "path": "../logger" }, // Reference to other local packages
+//     {"path": "../adapter-types"}
+//   ],
+//   "exclude": [
+//     "node_modules", 
+//     "dist",
+//     "./examples",
+//     "**/__tests__/*"
+//   ],
+// }

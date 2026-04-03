@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { AbimongoModelOptions } from '../types/abimongo.mode.type.js';
+import { AbimongoModelOptions } from '../types';
 
 export const GC_SETTINGS_KEY = Symbol('gc:settings');
 

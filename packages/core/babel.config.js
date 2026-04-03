@@ -13,5 +13,3 @@ module.exports = api => {
 		].filter(Boolean),
 	}
 };
-
-

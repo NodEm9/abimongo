@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import figlet from 'figlet';
-import { colorize } from '../../../core/src/utils/color-palatte';
+import { colorize } from '@abimongo/core';
 
 const SPLASH_PATH = path.resolve(__dirname, '..', '..', '..', '..', 'abimongo-brand', 'extras', 'cli_splash.txt');
 const LOGO_DARK_PATH = path.resolve(__dirname, '..', '..', '..', '..', 'abimongo-brand', 'logo_dark.png');

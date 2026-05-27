@@ -8,7 +8,7 @@
   {
     "id": "snapshot_ts",
     "label": "Snapshot Timestamp",
-    "value": "2026-05-26T03:10:13.305Z"
+    "value": "2026-05-27T03:11:05.545Z"
   },
   {
     "id": "npm:@abimongo/core:week",
@@ -48,7 +48,7 @@
   {
     "id": "npm:@abimongo/logger:month",
     "label": "@abimongo/logger - last month",
-    "value": 54
+    "value": 53
   },
   {
     "id": "npm:@abimongo/logger:year",

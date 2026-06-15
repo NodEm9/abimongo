@@ -2,13 +2,13 @@
   {
     "id": "requests_total",
     "label": "Total Requests (weekly downloads)",
-    "value": 64,
+    "value": 58,
     "unit": "downloads"
   },
   {
     "id": "snapshot_ts",
     "label": "Snapshot Timestamp",
-    "value": "2026-06-14T03:12:14.399Z"
+    "value": "2026-06-15T03:13:06.671Z"
   },
   {
     "id": "npm:@abimongo/core:week",
@@ -28,7 +28,7 @@
   {
     "id": "npm:@abimongo/cli:week",
     "label": "@abimongo/cli - last week",
-    "value": 14
+    "value": 12
   },
   {
     "id": "npm:@abimongo/cli:month",
@@ -43,7 +43,7 @@
   {
     "id": "npm:@abimongo/logger:week",
     "label": "@abimongo/logger - last week",
-    "value": 16
+    "value": 14
   },
   {
     "id": "npm:@abimongo/logger:month",
@@ -58,7 +58,7 @@
   {
     "id": "npm:@abimongo/create:week",
     "label": "@abimongo/create - last week",
-    "value": 23
+    "value": 21
   },
   {
     "id": "npm:@abimongo/create:month",

@@ -2,72 +2,72 @@
   {
     "id": "requests_total",
     "label": "Total Requests (weekly downloads)",
-    "value": 32,
+    "value": 60,
     "unit": "downloads"
   },
   {
     "id": "snapshot_ts",
     "label": "Snapshot Timestamp",
-    "value": "2026-07-03T05:51:22.787Z"
+    "value": "2026-07-04T05:43:25.282Z"
   },
   {
     "id": "npm:@abimongo/core:week",
     "label": "@abimongo/core - last week",
-    "value": 8
+    "value": 12
   },
   {
     "id": "npm:@abimongo/core:month",
     "label": "@abimongo/core - last month",
-    "value": 49
+    "value": 47
   },
   {
     "id": "npm:@abimongo/core:year",
     "label": "@abimongo/core - last year",
-    "value": 333
+    "value": 342
   },
   {
     "id": "npm:@abimongo/cli:week",
     "label": "@abimongo/cli - last week",
-    "value": 3
+    "value": 10
   },
   {
     "id": "npm:@abimongo/cli:month",
     "label": "@abimongo/cli - last month",
-    "value": 44
+    "value": 40
   },
   {
     "id": "npm:@abimongo/cli:year",
     "label": "@abimongo/cli - last year",
-    "value": 631
+    "value": 638
   },
   {
     "id": "npm:@abimongo/logger:week",
     "label": "@abimongo/logger - last week",
-    "value": 3
+    "value": 16
   },
   {
     "id": "npm:@abimongo/logger:month",
     "label": "@abimongo/logger - last month",
-    "value": 44
+    "value": 43
   },
   {
     "id": "npm:@abimongo/logger:year",
     "label": "@abimongo/logger - last year",
-    "value": 364
+    "value": 377
   },
   {
     "id": "npm:@abimongo/create:week",
     "label": "@abimongo/create - last week",
-    "value": 18
+    "value": 22
   },
   {
     "id": "npm:@abimongo/create:month",
     "label": "@abimongo/create - last month",
-    "value": 73
+    "value": 77
   },
   {
     "id": "npm:@abimongo/create:year",
     "label": "@abimongo/create - last year",
-    "value": 955
+    "value": 971
   }
 ]

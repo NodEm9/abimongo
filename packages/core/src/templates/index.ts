@@ -1,4 +1,4 @@
-export * from './core/main';
+export * from './main';
 export * from './defaultConfig';
 export * from './generateMainTs';
 export * from './scaffold/structureGenerator';

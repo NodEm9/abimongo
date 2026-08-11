@@ -31,7 +31,7 @@ export default function runBootstrapCLI() {
 					garbageCollector: options.withGarbageCollector,
 					autoInstall: Boolean(options.install),
 				},
-				mongoUri: options.uri,
+				mongoClient: options.uri, 
 			});
 		});
 

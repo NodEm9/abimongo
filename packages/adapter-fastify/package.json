@@ -1,0 +1,45 @@
+{
+  "name": "@abimongo/adapter-fastify",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "pnpm -r run build:script",
+    "build:script": "tsc -p tsconfig.json",
+    "test": "jest --detectOpenHandles --coverage",
+    "changeset": "pnpm run changeset",
+    "release": "pnpm changeset version",
+    "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.20.0",
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.4.6",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "fastify": "^5.6.2"
+  },
+  "dependencies": {
+    "@abimongo/adapter-runtime": "workspace:*",
+    "@abimongo/adapter-types": "workspace:*"
+  }
+}

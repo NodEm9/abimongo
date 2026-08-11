@@ -32,7 +32,7 @@ describe('AsyncBatchTransporter', () => {
 
 	// Mock the setInterval and clearInterval functions
 	jest.useFakeTimers();
-	jest.spyOn(global, 'setInterval');
+	jest.spyOn(globalThis, 'setInterval');
 
 	it('should log entries and send them in batches', async () => {
 		transporter.log(
@@ -124,7 +124,7 @@ describe('AsyncBatchTransporter', () => {
 	});
 
 	it('should clear the interval when stopped', () => {
-		const clearInterval = jest.spyOn(global, 'clearInterval');
+		const clearInterval = jest.spyOn(globalThis, 'clearInterval');
 		transporter.stop();
 		expect(clearInterval).toHaveBeenCalled();
 	});

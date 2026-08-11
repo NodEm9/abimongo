@@ -1,10 +1,9 @@
 import 'reflect-metadata';
+import { AbimongoModelOptions } from '../types';
 
 export const GC_SETTINGS_KEY = Symbol('gc:settings');
 
-export interface GCConfig {
-  ttl: number; // in seconds
-}
+export interface GCConfig extends AbimongoModelOptions<any> {}
 
 /**
  * 

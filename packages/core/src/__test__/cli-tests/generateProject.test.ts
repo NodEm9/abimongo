@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { bufferedTransporter } from '../../utils';
+// import { bufferedTransporter } from '../../utils';
 import { shutdownLogger } from '@abimongo/logger';
 
 
@@ -77,7 +77,7 @@ describe('generateProject', () => {
 
   afterAll(async () => {
     jest.resetAllMocks();
-    await bufferedTransporter.stop();
+    // await bufferedTransporter.stop();
     await shutdownLogger();
   });
 });

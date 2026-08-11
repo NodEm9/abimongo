@@ -5,7 +5,7 @@ export * from './ModelRegistry';
 export * from './castId';
 export * from './symbols';
 export * from './error/abimongoError-handler';
-export * from './error/errorTypes';
+export * from './error';
 export * from './AuthUtils'
 export * from './events';
 export * from './logHelpers';
@@ -15,3 +15,8 @@ export * from './eventOptions';
 export * from './time';
 export * from './modelLoader';
 export * from './generatedFolderAndFile';
+export * from './ensureRedis';
+export * from './resolveAbimongoOption';
+export * from './resolveRuntimeConfig';
+export * from './configureAbimongoContext';
+export * from './color-palatte'

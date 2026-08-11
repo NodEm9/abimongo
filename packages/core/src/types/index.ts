@@ -4,8 +4,11 @@ export * from './abimongo.mode.type';
 export * from './user.type';
 export * from './abimongo.client.type'
 export * from './document';
-export * from './abimongoPlugin.type';
 export * from './event.type';
 export * from './graphql.type'
 export * from './GCConfig';
 export * from './logger.types';
+export * from './db.provider';
+export * from './result.utils.types';
+export * from './bootstrapClient.type';
+export * from './middleware/types';

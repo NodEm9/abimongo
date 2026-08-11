@@ -1,7 +1,7 @@
 import { AbimongoClient, AbimongoSchema } from '../lib-core';
 import { Collection, Filter } from 'mongodb';
 import { GCConfig, Document } from '../types';
-import { colorize } from '../utils/color-palatte';
+import { colorize } from '../utils';
 // import { logger } from '../config';
 import * as cron from 'node-cron';
 
@@ -82,7 +82,7 @@ export class AbimongoGC {
 		console.log(colorize('[AbimongoGC] Garbage Collector is running.', 'blue'));
 	}
 
-	register(collection: Collection<any>, schema: AbimongoSchema<Document>) {
+	async register(collection: Collection<any>, schema: AbimongoSchema<Document>) {
 		this.collections.push({ collection, schema });
 	}
 
@@ -101,15 +101,21 @@ export class AbimongoGC {
 	async runOnce() {
 		const dbs = await AbimongoClient.getAllTenantDBs();
 		for (const db of dbs) {
-			const collections = await db.listCollections().toArray();
+			const dbName = (await db.db()).databaseName;
+			console.log(colorize(`[GC]: Running cleanup for tenant DB: ${dbName}`, 'blue'));
+			const collections = await (await db.db()).listCollections().toArray();
 			for (const { name } of collections) {
-				const model = AbimongoClient.getRegisteredModel(db.databaseName, name);
+				const model = AbimongoClient.getRegisteredModel(
+					dbName,
+					name,
+					{} as any, // Pass an empty schema since we only need GC config
+				);
 				if (!model?.schema) continue;
 
 				const gcConfig = model.schema.getGCConfig?.();
 				if (!gcConfig) continue;
 
-				await this.cleanup(model.db.collection(name), gcConfig);
+				await this.cleanup((await model.db.db()).collection(name), gcConfig);
 			}
 		}
 	}

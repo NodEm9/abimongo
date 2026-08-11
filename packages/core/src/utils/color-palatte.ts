@@ -1,4 +1,3 @@
-
 type Platform = 'blue' | 'cyan' | 'green' | 'magenta' | 'red' | 'yellow';;
 
 

@@ -1,5 +1,12 @@
+import type { AbimongoAdapter } from '@abimongo/adapter-types';
 import { AbimongoConfig } from "../../types";
 import { AbimongoBootstrap } from "./AbimongoBootstrap";
+
+
+export interface AbimongoBootstrapFactoryOptions {
+  config?: string | AbimongoConfig;
+  adapter?: AbimongoAdapter; 
+}
 
 /**
  * Factory class to create an instance of AbimongoBootstrap.
@@ -21,10 +28,13 @@ import { AbimongoBootstrap } from "./AbimongoBootstrap";
  * @param {AbimongoConfig} [config] - Optional configuration object for Abimongo.
  * @returns {Promise<AbimongoBootstrap>} - A promise that resolves to an instance of AbimongoBootstrap.
  */
-class AbimongoBootstrapFactory {
-  static async create(config?: AbimongoConfig): Promise<AbimongoBootstrap> {
-    const bootstrap = new AbimongoBootstrap();
-    await bootstrap.initialize(config as string | undefined);
+
+export class AbimongoBootstrapFactory {
+  static async create(
+    options: AbimongoBootstrapFactoryOptions = {}
+  ): Promise<AbimongoBootstrap> {
+    const bootstrap = new AbimongoBootstrap(options.adapter);
+    await bootstrap.initialize(options.config);
     return bootstrap;
   }
 }

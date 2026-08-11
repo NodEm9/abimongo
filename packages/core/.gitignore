@@ -31,7 +31,7 @@ archives
 logs
 
 # Bundler
-webpack.web.config.js
+# webpack.web.config.js
 
 # Records
 records.json

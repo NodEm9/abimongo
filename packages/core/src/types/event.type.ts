@@ -23,6 +23,15 @@ export type EventType =
 	| 'updateMany'
 	| 'deleteOne'
 	| 'deleteMany'
+	| 'pre-bulkWrite'
+	| 'post-bulkWrite'
+	| 'pre-insertMany'
+	| 'post-insertMany'
+	| 'pre-updateMany'
+	| 'post-updateMany'
+	| 'pre-deleteMany'
+	| 'post-deleteMany'
+	| 'transaction'
 
 export const eventTypes: EventType[] = [
 	'pre-save',

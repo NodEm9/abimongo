@@ -29,15 +29,12 @@ module.exports = {
         use: {
           loader: 'ts-loader',
           options: {
-            // Always point ts-loader at this package tsconfig to avoid
-            // implicit cross-package program composition.
             configFile: path.resolve(__dirname, 'tsconfig.json'),
-            // Only transpile for bundling; run full type-check in a
-            // separate root-level `typecheck` step (added to package.json).
             transpileOnly: true,
             onlyCompileBundledFiles: true,
           }
         },
+        include: path.resolve(__dirname, 'src'),  
         exclude: /node_modules/
       }
     ]
@@ -70,4 +67,7 @@ module.exports = {
       },
     },
   ],
+  stats: {
+		errorDetails: true
+	},
 };

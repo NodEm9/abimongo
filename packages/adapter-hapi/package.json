@@ -1,0 +1,41 @@
+{
+  "name": "@abimongo/adapter-hapi",
+  "version": "1.0.0",
+  "description": "Abimongo adapter for Hapi",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "pnpm -r run build:hapi",
+    "build:hapi": "tsc -p tsconfig.json",
+    "changeset": "pnpm run changeset",
+    "release": "pnpm changeset version",
+    "publish": "pnpm --recursive publish --access public --tag latest --no-git-checks"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.20.0",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@abimongo/adapter-types": "workspace:*",
+    "@abimongo/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "@hapi/hapi": ">=20.0.0"
+  }
+}

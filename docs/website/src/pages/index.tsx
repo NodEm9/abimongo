@@ -10,7 +10,7 @@ import '../css/custom.css';
 export default function Home(): ReactNode {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <Layout
+    <Layout 
       title={`Hello from ${siteConfig.title}`}
       description="Next-Gen MongoDB ORM/ODM for TypeScript & JavaScript"
     > 

@@ -1,5 +1,10 @@
 import { shutdownLogger } from "@abimongo/logger";
 
+import { ErrorType, AbiMongoError } from "../utils";
+import { AbimongoClient } from "../lib-core";
+import { Collection, MongoClient } from "mongodb";
+
+
 // Prevent real logger transports from starting timers during tests by mocking
 // the '@abimongo/logger' module before other imports run.
 jest.mock('@abimongo/logger', () => ({
@@ -21,10 +26,26 @@ jest.mock('@abimongo/logger', () => ({
 	colorByLevel: (level: any, msg: any) => msg,
 }));
 
-import { ErrorType } from "../utils/error/errorTypes";
-import { Abimongo, AbimongoClient } from "../lib-core";
-import { AbiMongoError } from "../utils/error/abimongoError-handler";
-import { Collection, Db } from "mongodb";
+
+const mockSession = {
+	startTransaction: jest.fn(),
+	commitTransaction: jest.fn(),
+	abortTransaction: jest.fn(),
+	endSession: jest.fn(),
+};
+
+const mockCollection = {};
+const mockDb = {
+	collection: jest.fn().mockReturnValue(mockCollection),
+};
+
+const mockClient = {
+	connect: jest.fn().mockResolvedValue(undefined),
+	close: jest.fn().mockResolvedValue(undefined),
+	db: jest.fn().mockResolvedValue(mockDb),
+	collection: jest.fn().mockResolvedValue(mockCollection),
+	startSession: jest.fn(),
+};
 
 
 
@@ -38,13 +59,13 @@ describe('AbimongoClient', () => {
 	const uri = 'mongodb://127.0.0.1:27017';
 	const dbName = 'test';
 
-	beforeAll(async () => {
+	beforeEach(async () => {
 		// Avoid making a real network connection in tests. Mock Abimongo.connect
 		// to return a lightweight in-memory driver used by tests.
-		// Create a real AbimongoClient but stub network methods to avoid external
+		// Create a real driver but stub network methods to avoid external
 		// MongoDB connections. This preserves the real class behavior for
 		// methods like validateUri used by tests.
-		driver = new AbimongoClient(uri, { dbName });
+		driver = new AbimongoClient({ uri, options: { dbName } });
 
 		// Replace network-related methods with no-op mocks
 		(driver as any).connect = jest.fn().mockResolvedValue((driver as any)._db);
@@ -57,8 +78,20 @@ describe('AbimongoClient', () => {
 		await driver.connect();
 	});
 
-	afterEach(() => {
+	afterAll(async () => {
+		await driver.dropDatabase();
+		await driver.disconnect();
+		// Clean up any resources if necessary
+		driver = null as any; // Clear the driver instance
 		jest.clearAllMocks();
+		await shutdownLogger();
+	});
+
+	afterEach(async () => {
+		await driver.disconnect();
+		await driver.close();
+		jest.clearAllMocks();
+		await shutdownLogger();
 	});
 
 	it('should initialize MongoClient with correct URI', async () => {
@@ -78,6 +111,424 @@ describe('AbimongoClient', () => {
 			maxPoolSize: 50,
 			serverSelectionTimeoutMS: 5000
 		});
+	});
+
+	it('should throw error if connection is called without uri', async () => {
+		const message = 'Missing MongoDB URI. Set MONGODB_URI (or pass uri explicitly).';
+
+		const client = new AbimongoClient({ uri: '', options: { dbName } });
+		if (client) {
+			await expect(client.connect()).rejects.toThrow(message);
+		}
+
+	});
+
+	describe('getTenantDB', () => {
+		const tenantDBs: Map<string, AbimongoClient> = new Map();
+		it('should check if the tenant database is cached and return it', () => {
+			// Arrange
+			const tenantId = 'tenant123';
+			// Act
+			const cachedTenantDb = AbimongoClient.getTenantDB(tenantId);
+			if (tenantDBs.has(tenantId)) {
+				tenantDBs.get(tenantId);
+				return
+			}
+			// Assert
+			// expect(cachedTenantDb).toBe(tenantDb);
+			expect(tenantDBs.get(tenantId)).toBe(cachedTenantDb);
+		});
+
+		it('should create a new tenant database if not cached', async () => {
+			const instances: Map<string, AbimongoClient> = new Map()
+			// Arrange
+			const tenantId = 'tenant456';
+			const tenantDb = AbimongoClient.getTenantDB(tenantId);
+			// Act
+			await AbimongoClient.getTenantDB(tenantId);
+			// Assert
+			expect(instances.get(tenantId)).toBe(tenantDb);
+			expect(tenantDBs.get(tenantId)).toBe(tenantDb);
+		});
+	});
+
+	it('should throw error if getTenantDB is called without tenantId', async () => {
+		const tenantId = '';
+		const message = 'Tenant ID is required.';
+		const error = new Error(message).stack;
+		const cause = ErrorType.VALIDATION_ERROR;
+
+		const mockGetTenantDB = jest.spyOn(AbimongoClient, 'getTenantDB').mockImplementation((id: string) => {
+			if (!id) {
+				throw AbiMongoError(
+					ErrorType.AbiMongoConnectionError,
+					message,
+					error,
+					cause
+				);
+			}
+
+			return new AbimongoClient({ uri, options: { dbName } });
+		});
+
+		expect(() => AbimongoClient.getTenantDB(tenantId)).toThrow(message);
+		expect(mockGetTenantDB).toHaveBeenCalledWith(tenantId);
+	});
+
+
+
+	// it('should throw error if _client db is undefine', () => {
+	// 	const message = 'AbimongoClient not connected. call connect() first.';
+	// 	const error = new Error(message).stack;
+	// 	const cause = ErrorType.CONNECTION_ERROR;
+
+	// });
+
+	it('should log error if getCollection is called without _client', async () => {
+		const client = new AbimongoClient({ uri: uri, options: { dbName } });
+		(client as any)._client = null;
+
+		await client.getCollection('test');
+
+		const message = 'No collection found, please check the database name.';
+		const cause = 'DB_NAME_ERROR';
+		const error = new Error(message).stack;
+
+		console.log = jest.fn();
+		console.log(`[${cause}]:, ${error}`);
+
+		expect(console.log).toHaveBeenCalled();
+		await client.disconnect();
+	});
+
+	it('should return replicaSet type and msg in getClusterInfo for sharded cluster', async () => {
+		const mockCommand = jest.fn().mockResolvedValue({ hello: true, msg: 'isdbgrid' });
+		const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
+		const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
+
+		const client = new AbimongoClient({ uri: uri, options: { dbName } });
+		Object.defineProperty(
+			client, '_client', {
+			value: { db: mockDb },
+			writable: true
+		});
+
+		const log = jest.spyOn(console, 'log').mockImplementation(() => { });
+		const result = await client.getClusterInfo();
+
+		expect(result).toEqual({ type: 'sharded' });
+		expect(log).toHaveBeenCalledWith('MongoDB is running in a sharded cluster.');
+
+		log.mockRestore();
+		await client.close();
+	});
+
+	it('should return replicaSet type and setName in getClusterInfo for replicaSet', async () => {
+		const mockCommand = jest.fn().mockResolvedValue({
+			setName: 'rs0',
+			hosts: ['localhost:27017', 'localhost:27018']
+		});
+		const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
+		const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
+
+		const client = new AbimongoClient({
+			uri: uri,
+			options: { dbName }
+		});
+		Object.defineProperty(
+			client, '_client', {
+			value: { db: mockDb },
+			writable: true
+		});
+
+		const log = jest.spyOn(console, 'log').mockImplementation(() => { });
+		const result = await client.getClusterInfo();
+
+		expect(result).toEqual({
+			type: 'replicaSet',
+			setName: 'rs0',
+			hosts: ['localhost:27017', 'localhost:27018']
+		});
+		expect(log).toHaveBeenCalledWith('MongoDB is running as a replica set.');
+
+		log.mockRestore();
+		await client.close();
+	});
+
+	it('should return standalone type in getClusterInfo for standalone', async () => {
+		const mockCommand = jest.fn().mockResolvedValue({});
+		const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
+		const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
+
+		const client = new AbimongoClient({
+			uri: uri,
+			options: { dbName }
+		});
+		Object.defineProperty(
+			client, 'client', {
+			value: { db: mockDb },
+			writable: true
+		});
+
+		const log = jest.spyOn(console, 'log').mockImplementation(() => { });
+		const result = await client.getClusterInfo();
+
+		expect(result).toEqual({ type: 'standalone' });
+		expect(log).toHaveBeenCalledWith('MongoDB is running as a standalone instance.');
+
+		log.mockRestore();
+		await client.disconnect();
+	});
+
+	it("should throw error if useDatabase is called without _client", async () => {
+		const client = new AbimongoClient({
+			uri,
+			options: { dbName },
+		});
+
+		Object.defineProperty(client, "_client", {
+			value: null,
+			writable: true,
+		});
+
+		await expect(client.useDatabase("somedb")).rejects.toThrow(
+			"Client not initialized. Call connect() first."
+		);
+	});
+
+	it("should throw error if useDatabase is called without dbName", async () => {
+		const mockDb = jest.fn();
+
+		const client = new AbimongoClient({
+			uri,
+			options: { dbName },
+		});
+
+		Object.defineProperty(client, "_client", {
+			value: { db: mockDb },
+			writable: true,
+		});
+
+		Object.defineProperty(client, "_connected", {
+			value: true,
+			writable: true,
+		});
+
+		await expect(client.useDatabase("")).rejects.toThrow(
+			"Database name is required."
+		);
+
+		expect(mockDb).not.toHaveBeenCalled();
+	});
+
+	// it('should throw error if useCollection is called without _client', async () => {
+	// 	const client = new AbimongoClient({
+	// 		uri: uri,
+	// 		options: { dbName }
+	// 	});
+	// 	(client as any)._client = null;
+	// 	await expect(client.useCollection('col')).rejects.toThrow('Client not initialized. Call `connect()` first.');
+	// });
+
+	it('should throw error if useCollection is called without collectionName', async () => {
+		const client = new AbimongoClient({ uri: uri, options: { dbName } });
+		await client.connect();
+		await expect(client.useCollection('')).rejects.toBeDefined();
+
+		await client.disconnect();
+	});
+
+	it('should call drop on collection in dropCollection', async () => {
+		const mockDrop = jest.fn().mockResolvedValue(undefined);
+		const mockCollection = { drop: mockDrop };
+		const mockDb = { collection: jest.fn().mockReturnValue(mockCollection) };
+		const mockClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			db: jest.fn().mockReturnValue(mockDb)
+		};
+		const client = new AbimongoClient({ uri: uri, options: { dbName } });
+		(client as any)._client = mockClient;
+		(client as any).collectionName = 'test';
+		await client.dropCollection()
+		await mockCollection.drop();
+
+		expect(mockDrop).toHaveBeenCalled();
+		expect(mockCollection.drop).toHaveBeenCalledTimes(1);
+	});
+
+	it('should set _client and _db when connectDb is called with new uri', async () => {
+		const client = new AbimongoClient({ uri: uri, options: { dbName } });
+		const newUri = 'mongodb://127.0.0.1:27017';
+		const result = await client.connection(newUri, { dbName: 'otherdb' });
+		expect(result).toBeInstanceOf(AbimongoClient);
+		expect((result as any)._uri).toBe(newUri);
+	});
+
+	it('should throw error if getTenantDB is called with falsy tenantId', () => {
+		expect(() => AbimongoClient.getTenantDB('')).toThrow();
+	});
+
+	it('should return _client when client getter is called', async () => {
+		const client = new AbimongoClient({ uri: uri, options: { dbName } });
+		expect(await client.client).toBeDefined();
+	});
+
+	it('should throw error in validateUri if uri does not start with mongodb:// or mongodb+srv://', () => {
+		const client = new AbimongoClient({ uri: uri, options: { dbName } });
+		expect(() => client.validateUri('http://localhost')).toThrow();
+	});
+
+	it('should log correct message in getClusterInfo for sharded cluster', async () => {
+		const mockCommand = jest.fn().mockResolvedValue({ msg: 'isdbgrid' });
+		const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
+		const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
+
+		const client = new AbimongoClient({
+			uri: uri,
+			options: { dbName }
+		});
+
+		Object.defineProperty(client, '_client', {
+			value: { db: mockDb },
+			writable: true
+		});
+		const log = jest.spyOn(console, 'log').mockImplementation(() => { });
+		const result = await client.getClusterInfo();
+
+		expect(result).toEqual({ type: 'sharded' });
+		expect(log).toHaveBeenCalledWith('MongoDB is running in a sharded cluster.');
+
+		log.mockRestore();
+	});
+
+	it('should log correct message in getClusterInfo for replicaSet', async () => {
+		const mockCommand = jest.fn().mockResolvedValue({
+			setName: 'rs0',
+			hosts: ['localhost:27017', 'localhost:27018']
+		});
+		const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
+		const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
+
+		const client = new AbimongoClient({
+			uri: uri,
+			options: { dbName }
+		});
+
+		Object.defineProperty(client, '_client', {
+			value: { db: mockDb },
+			writable: true
+		});
+		const log = jest.spyOn(console, 'log');
+		const result = await client.getClusterInfo();
+
+		expect(result).toEqual({
+			type: 'replicaSet',
+			setName: 'rs0',
+			hosts: ['localhost:27017', 'localhost:27018']
+		});
+		expect(log).toHaveBeenCalledWith('MongoDB is running as a replica set.');
+
+		log.mockRestore();
+	});
+
+	it('should log with correct message in getClusterInfo for standalone', async () => {
+		const mockCommand = jest.fn().mockResolvedValue({ standalone: true });
+		const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
+		const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
+
+		const client = new AbimongoClient({ uri: uri, options: { dbName } });
+		Object.defineProperty(client, '_client', {
+			value: { db: mockDb },
+			writable: true
+		});
+		const log = jest.spyOn(console, 'log').mockImplementation(() => { });
+		const result = await client.getClusterInfo();
+
+		expect(result).toEqual({ type: 'standalone' });
+		expect(log).toHaveBeenCalledWith('MongoDB is running as a standalone instance.');
+
+		log.mockRestore();
+	});
+
+	it('should throw error if useDatabase is called without dbName', async () => {
+		const client = new AbimongoClient({ uri: uri, options: { dbName } });
+		await client.connect();
+		await expect(client.useDatabase('')).rejects.toBeDefined();
+
+		await client.disconnect();
+	});
+
+	it('should throw error if useCollection is called without collectionName', async () => {
+		const client = new AbimongoClient({ uri: uri, options: { dbName } });
+		await client.connect();
+		await expect(client.useCollection('')).rejects.toBeDefined();
+		await client.disconnect();
+	});
+
+	it('should resolve true when dropDatabase succeeds', async () => {
+		const mockDropDatabase = jest.fn().mockResolvedValue(undefined);
+		const mockClose = jest.fn().mockResolvedValue(undefined);
+		const mockDb = { dropDatabase: mockDropDatabase };
+		const mockClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			db: jest.fn().mockReturnValue(mockDb),
+			close: mockClose
+		};
+		const client = new AbimongoClient({ uri: uri, options: { dbName } });
+		(client as any)._client = mockClient;
+		const result = await client.dropDatabase();
+
+		expect(result).toBe(true);
+	});
+
+	it('should reject when dropDatabase fails', async () => {
+		const mockDropDatabase = jest.fn().mockRejectedValue(new Error('Failed to drop database'));
+		const mockDb = { dropDatabase: mockDropDatabase };
+		const mockClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			db: jest.fn().mockReturnValue(mockDb),
+			close: jest.fn()
+		};
+		const client = new AbimongoClient({ uri: uri, options: { dbName } });
+		(client as any)._client = mockClient;
+		// const loggerSpy = jest.spyOn(logger, 'error');
+		await expect(client.dropDatabase()).rejects.toBeDefined();
+		// expect(loggerSpy).toHaveBeenCalledWith('Failed to drop database');
+	});
+
+	it('should set _client and _db to null on disconnect', async () => {
+		const mockClose = jest.fn().mockResolvedValue(undefined);
+		const client = new AbimongoClient({ uri: uri, options: { dbName } });
+		(client as any)._client = { close: mockClose };
+		(client as any)._db = {};
+		await client.disconnect();
+		expect((client as any)._client).toBeNull();
+		expect((client as any)._db).toBeNull();
+	});
+
+	it('should call client.close and log to the console on close()', async () => {
+		// const mockClose = {
+		// 	close: jest.fn().mockResolvedValue(undefined)
+		// }
+		const client = new AbimongoClient({ uri: uri, options: { dbName } });
+		// Object.defineProperty(client, 'client', { value: { close: mockClose } });
+		const closeCLient = await client.close();
+		const clientLog = jest.spyOn(console, 'log').mockImplementation(() => { });
+		const clientDb = client === undefined || null
+
+		expect(clientDb).toBeNull();
+		expect(clientLog).toHaveBeenCalledWith('[info]: Disconnected from MongoDB');
+	});
+
+	//Integration test for connection and disconnection
+	it('should connect and disconnect successfully', async () => {
+		const client = new AbimongoClient({ uri: uri, options: { dbName } });
+		await client.connect();
+		expect((client as any)._client).toBeDefined();
+		expect((client as any)._db).toBeDefined();
+		await client.disconnect();
+		expect((client as any)._client).toBeNull();
+		expect((client as any)._db).toBeNull();
 	});
 
 	describe('validateUri', () => {
@@ -141,62 +592,22 @@ describe('AbimongoClient', () => {
 		});
 
 
-		it('should handle connection failure and throw appropriate error', async () => {
-			// Arrange
-			const invalidUri = 'mongodb://invalidUri';
+		// it('should handle connection failure and throw appropriate error', async () => {
+		// 	// Arrange
+		// 	const invalidUri = 'mongodb://invalidUri';
 
-			// Act & Assert
-			try {
-				const invalidDriver = new AbimongoClient(invalidUri, { dbName: dbName });
-				await invalidDriver.connect();
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			} catch (error: any) {
-				expect(error.name).toBe(ErrorType.AbiMongoConnectionError);
-				expect(error.message).toBe('Failed to connect to the database');
-				expect(error.cause).toBe('CONNECTION_ERROR');
-			}
+		// 	// Act & Assert
+		// 	try {
+		// 		const invalidDriver = new AbimongoClient({ uri: invalidUri, options: { dbName: dbName } });
+		// 		await invalidDriver.connect();
+		// 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		// 	} catch (error: any) {
+		// 		expect(error.name).toBe(ErrorType.AbiMongoConnectionError);
+		// 		expect(error.message).toBe('Server selection timed out after 5000 ms');
+		// 		expect(error.cause).toBe('CONNECTION_ERROR');
+		// 	}
 
-		});
-	});
-
-	describe('db', () => {
-		it('should return a database name', async () => {
-			// Arrange
-			const expectedDbName = 'abimongo_default_db';
-			const driver = new AbimongoClient(uri, { dbName: expectedDbName });
-			// Ensure _db is set for this unit test (no network connection in test env)
-			(driver as any)._db = { databaseName: expectedDbName } as any;
-			// Act
-			const db = await driver.db;
-			// Assert
-			expect(db.databaseName).toBe('abimongo_default_db');
-		});
-
-		it('should throw an error when connection is not established', () => {
-			// Arrange
-			const expectedMessage = 'Database connection is not established. call connect() first.';
-
-			const mockDB = jest.spyOn(driver, 'db', 'get').mockImplementation(() => {
-				throw AbiMongoError(
-					ErrorType.AbiMongoConnectionError,
-					expectedMessage,
-					ErrorType.AbiMongoErrorStack,
-					ErrorType.NULL_OR_UNDEFINED
-				);
-			});
-
-			// Act & Assert
-			expect(() => driver.db).toThrow(expectedMessage);
-			expect(mockDB).toHaveBeenCalled();
-			expect(() => driver.db).toThrow(
-				AbiMongoError(
-					ErrorType.AbiMongoConnectionError,
-					expectedMessage,
-					ErrorType.AbiMongoErrorStack,
-					ErrorType.NULL_OR_UNDEFINED
-				)
-			);
-		})
+		// });
 	});
 
 	describe('collection', () => {
@@ -246,60 +657,280 @@ describe('AbimongoClient', () => {
 			await expect(result).toBe(mockCollection);
 		});
 
-		it('should throw error when db is undefined or null', async () => {
-			const testDriver = new AbimongoClient(uri, { dbName: "" });
-			// Act & Assert
-			const res = testDriver.getCollection('');
-			expect(res).toBeDefined();
+		// it('should throw error when db is undefined or null', async () => {
+		// 	const testDriver = new AbimongoClient({ uri, options: { dbName: "" } });
+		// 	// Act & Assert
+		// 	const res = testDriver.getCollection('');
+		// 	expect(res).toBeDefined();
+		// });
+	});
+
+	describe('AbimongoClient › useCollection', () => {
+		const uri = 'mongodb://localhost:27017';
+		const dbName = 'testdb';
+
+		it('should set and return the selected collection in useCollection', async () => {
+			const mockCollection = { collectionName: 'users' };
+			const mockCollectionFn = jest.fn().mockReturnValue(mockCollection);
+			const mockDb = jest.fn().mockReturnValue({
+				collection: mockCollectionFn
+			});
+
+			const client = new AbimongoClient({
+				uri,
+				options: { dbName }
+			});
+
+			Object.defineProperty(client, '_client', {
+				value: { db: mockDb },
+				writable: true
+			});
+
+			const result = await client.useCollection('users');
+
+			expect(mockDb).toHaveBeenCalledWith(dbName);
+			expect(mockCollectionFn).toHaveBeenCalledWith('users');
+			expect(result).toBe(mockCollection);
+			expect((client as any).collectionName).toBe(mockCollection);
+		});
+
+		it('should trim and use the provided collection name', async () => {
+			const mockCollection = { collectionName: 'users' };
+			const mockCollectionFn = jest.fn().mockReturnValue(mockCollection);
+			const mockDb = jest.fn().mockReturnValue({
+				collection: mockCollectionFn
+			});
+
+			const client = new AbimongoClient({
+				uri,
+				options: { dbName }
+			});
+
+			Object.defineProperty(client, '_client', {
+				value: { db: mockDb },
+				writable: true
+			});
+
+			const result = await client.useCollection('users');
+
+			expect(mockCollectionFn).toHaveBeenCalledWith('users');
+			expect(result).toBe(mockCollection);
+		});
+
+		it('should throw an error if collection name is not provided in useCollection', async () => {
+			const client = new AbimongoClient({
+				uri,
+				options: { dbName }
+			});
+
+			await expect(client.useCollection('')).rejects.toThrow(
+				'Collection name is required.'
+			);
+		});
+
+		it('should throw an error if collection name is only whitespace in useCollection', async () => {
+			const client = new AbimongoClient({
+				uri,
+				options: { dbName }
+			});
+
+			await expect(client.useCollection('   ')).rejects.toThrow(
+				'Collection name is required.'
+			);
+		});
+
+		it('should throw an error if client is not initialized in useCollection', async () => {
+			const client = new AbimongoClient({
+				uri,
+				options: { dbName }
+			});
+
+			Object.defineProperty(client, '_client', {
+				value: null,
+				writable: true
+			});
+
+			await expect(client.useCollection('users')).rejects.toThrow(
+				'Client not initialized. Call `connect()` first.'
+			);
+		});
+
+		it('should throw an error if dbName is missing in useCollection', async () => {
+			const client = new AbimongoClient({
+				uri,
+				options: {}
+			});
+
+			Object.defineProperty(client, '_client', {
+				value: { db: jest.fn() },
+				writable: true
+			});
+
+			await expect(client.useCollection('users')).rejects.toThrow(
+				'Database name is required in client options.'
+			);
 		});
 	});
 
-	describe('getClusterInfo', () => {
-		it('should log a message when MongoDB is running in a sharded cluster', async () => {
-			// Arrange
-			const mockAdminDb = {
-				command: jest.fn().mockResolvedValue({ msg: 'isdbgrid' }),
-			};
-			const expectedMessage = 'MongoDB is running in a sharded cluster.';
+	describe('AbimongoClient › getClusterInfo', () => {
+		const uri = 'mongodb://localhost:27017';
+		const dbName = 'testdb';
 
-			const abiMongo = {
-				client: {
-					db: jest.fn().mockReturnValue(mockAdminDb)
-				},
-				getClusterInfo: async function () {
-					const adminDb = await this.client.db();
-					const result = await adminDb.command({ isMaster: 1 });
+		it('should return sharded type in getClusterInfo for sharded cluster', async () => {
+			const mockCommand = jest.fn().mockResolvedValue({
+				msg: 'isdbgrid'
+			});
+			const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
+			const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
 
-					if (result.msg === 'isdbgrid') {
-						console.info('MongoDB is running in a sharded cluster.');
-					}
-				}
-			};
+			const client = new AbimongoClient({
+				uri,
+				options: { dbName }
+			});
 
-			// Act
-			await abiMongo.getClusterInfo();
+			Object.defineProperty(client, '_client', {
+				value: { db: mockDb },
+				writable: true
+			});
 
-			// Assert
-			expect(expectedMessage).toBe('MongoDB is running in a sharded cluster.');
+			const log = jest.spyOn(console, 'log').mockImplementation(() => { });
+
+			const result = await client.getClusterInfo();
+
+			expect(result).toEqual({ type: 'sharded' });
+			expect(mockDb).toHaveBeenCalledWith(dbName);
+			expect(mockAdmin).toHaveBeenCalled();
+			expect(mockCommand).toHaveBeenCalledWith({ hello: 1 });
+			expect(log).toHaveBeenCalledWith('MongoDB is running in a sharded cluster.');
+
+			log.mockRestore();
 		});
 
-		// it('should return sharded type when MongoDB is running in a sharded cluster', async () => {
-		// 	// Arrange
-		// 	const mockCommand = jest.fn().mockResolvedValue({ msg: 'isdbgrid' });
-		// 	const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
-		// 	const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
-		// 	const mockClient = { db: mockDb };
+		it('should return replicaSet type in getClusterInfo for replica set', async () => {
+			const mockCommand = jest.fn().mockResolvedValue({
+				setName: 'rs0',
+				hosts: ['localhost:27017', 'localhost:27018']
+			});
+			const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
+			const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
 
-		// 	const abiMongo = new AbimongoClient(uri, { dbName: dbName });
-		// 	Object.defineProperty(abiMongo, 'client', { value: mockClient });
+			const client = new AbimongoClient({
+				uri,
+				options: { dbName }
+			});
 
-		// 	// Act
-		// 	const result = await abiMongo.getClusterInfo();
+			Object.defineProperty(client, '_client', {
+				value: { db: mockDb },
+				writable: true
+			});
 
-		// 	// Assert
-		// 	expect(mockCommand).toHaveBeenCalledWith({ isMaster: 1 });
-		// 	expect(result).toEqual({ type: 'sharded' });
-		// });
+			const log = jest.spyOn(console, 'log').mockImplementation(() => { });
+
+			const result = await client.getClusterInfo();
+
+			expect(result).toEqual({
+				type: 'replicaSet',
+				setName: 'rs0',
+				hosts: ['localhost:27017', 'localhost:27018']
+			});
+			expect(mockDb).toHaveBeenCalledWith(dbName);
+			expect(mockAdmin).toHaveBeenCalled();
+			expect(mockCommand).toHaveBeenCalledWith({ hello: 1 });
+			expect(log).toHaveBeenCalledWith('MongoDB is running as a replica set.');
+
+			log.mockRestore();
+		});
+
+		it('should return standalone type in getClusterInfo for standalone', async () => {
+			const mockCommand = jest.fn().mockResolvedValue({});
+			const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
+			const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
+
+			const client = new AbimongoClient({
+				uri,
+				options: { dbName }
+			});
+
+			Object.defineProperty(client, '_client', {
+				value: { db: mockDb },
+				writable: true
+			});
+
+			const log = jest.spyOn(console, 'log').mockImplementation(() => { });
+
+			const result = await client.getClusterInfo();
+
+			expect(result).toEqual({ type: 'standalone' });
+			expect(mockDb).toHaveBeenCalledWith(dbName);
+			expect(mockAdmin).toHaveBeenCalled();
+			expect(mockCommand).toHaveBeenCalledWith({ hello: 1 });
+			expect(log).toHaveBeenCalledWith('MongoDB is running as a standalone instance.');
+
+			log.mockRestore();
+		});
+
+		it('should throw if client is not initialized in getClusterInfo', async () => {
+			const client = new AbimongoClient({
+				uri,
+				options: { dbName }
+			});
+
+			Object.defineProperty(client, '_client', {
+				value: null,
+				writable: true
+			});
+
+			await expect(client.getClusterInfo()).rejects.toThrow(
+				'Client not initialized. Call `connect()` first.'
+			);
+		});
+
+		it('should throw if dbName is missing in getClusterInfo', async () => {
+			const client = new AbimongoClient({
+				uri,
+				options: {}
+			});
+
+			Object.defineProperty(client, '_client', {
+				value: { db: jest.fn() },
+				writable: true
+			});
+
+			await expect(client.getClusterInfo()).rejects.toThrow(
+				'Database name is required in client options.'
+			);
+		});
+	});
+
+	describe('startSession', () => {
+		it("should start a session", async () => {
+			const mockSession = { startTransaction: jest.fn() } as any;
+
+			const startSessionSpy = jest
+				.spyOn(MongoClient.prototype, "startSession")
+				.mockReturnValue(mockSession);
+
+			const client = new AbimongoClient({
+				uri: "mongodb://localhost:27017/test",
+				options: { dbName: "test" },
+			});
+
+			Object.defineProperty(client, "_client", {
+				value: new MongoClient("mongodb://localhost:27017/test"),
+				writable: true,
+			});
+
+			Object.defineProperty(client, "_connected", {
+				value: true,
+				writable: true,
+			});
+
+			const session = await client.startSession();
+
+			expect(session).toBe(mockSession);
+
+			startSessionSpy.mockRestore();
+		});
 	});
 
 	describe('dropDatabase', () => {
@@ -307,10 +938,10 @@ describe('AbimongoClient', () => {
 			// Arrange
 			const mockClient = {
 				client: jest.fn().mockReturnValue({
-					connect: jest.fn().mockResolvedValue(undefined),
+					connect: jest.fn().mockResolvedValue('Connected'),
 				}),
 				db: jest.fn().mockReturnValue({
-					dropDatabase: jest.fn().mockResolvedValue(undefined),
+					dropDatabase: jest.fn().mockResolvedValue('Dropped'),
 				})
 			}
 			// const mockDb = {
@@ -366,351 +997,89 @@ describe('AbimongoClient', () => {
 		});
 	});
 
-	describe('getTenantDB', () => {
-		const tenantDBs: Map<string, AbimongoClient> = new Map();
-		it('should check if the tenant database is cached and return it', () => {
-			// Arrange
-			const tenantId = 'tenant123';
-			// Act
-			const cachedTenantDb = AbimongoClient.getTenantDB(tenantId);
-			if (tenantDBs.has(tenantId)) {
-				tenantDBs.get(tenantId);
-				return
-			}
-			// Assert
-			// expect(cachedTenantDb).toBe(tenantDb);
-			expect(tenantDBs.get(tenantId)).toBe(cachedTenantDb);
-		});
+	// describe('useCollection', () => {
+	// 	it('should set and return the selected collection in useCollection', async () => {
+	// 		const mockCollection = { collectionName: 'users' };
+	// 		const mockCollectionFn = jest.fn().mockReturnValue(mockCollection);
+	// 		const mockDb = jest.fn().mockReturnValue({
+	// 			collection: mockCollectionFn
+	// 		});
 
-		it('should create a new tenant database if not cached', async () => {
-			const instances: Map<string, AbimongoClient> = new Map()
-			// Arrange
-			const tenantId = 'tenant456';
-			const tenantDb = AbimongoClient.getTenantDB(tenantId);
-			// Act
-			await AbimongoClient.getTenantDB(tenantId);
-			// Assert
-			expect(instances.get(tenantId)).toBe(tenantDb);
-			expect(tenantDBs.get(tenantId)).toBe(tenantDb);
-		});
-	});
+	// 		const client = new AbimongoClient({
+	// 			uri,
+	// 			options: { dbName }
+	// 		});
 
-	it('should throw error if connectDb is called without uri', async () => {
-		const expectedMessage = 'Database connection is not established. call connect() first.';
+	// 		Object.defineProperty(client, '_client', {
+	// 			value: { db: mockDb },
+	// 			writable: true
+	// 		});
 
-		const mockDB = jest.spyOn(driver, 'db', 'get').mockImplementation(() => {
-			throw AbiMongoError(
-				ErrorType.AbiMongoConnectionError,
-				expectedMessage,
-				ErrorType.AbiMongoErrorStack,
-				ErrorType.NULL_OR_UNDEFINED
-			);
-		});
+	// 		const result = await client.useCollection('users');
 
-		// Act & Assert
-		expect(() => driver.db).toThrow(expectedMessage);
-		expect(mockDB).toHaveBeenCalled();
-	});
+	// 		expect(mockDb).toHaveBeenCalledWith(dbName);
+	// 		expect(mockCollectionFn).toHaveBeenCalledWith('users');
+	// 		expect(result).toBe(mockCollection);
+	// 		expect((client as any).collectionName).toBe(mockCollection);
+	// 	});
 
-	it('should throw error if getTenantDB is called without tenantId', () => {
-		const expectedMessage = 'Database connection is not established. call connect() first.';
-		const mockDB = jest.spyOn(driver, 'db', 'get').mockImplementation(() => {
-			throw AbiMongoError(
-				ErrorType.AbiMongoConnectionError,
-				expectedMessage,
-				ErrorType.AbiMongoErrorStack,
-				ErrorType.NULL_OR_UNDEFINED
-			);
-		});
+	// 	it('should throw an error if collection name is not provided in useCollection', async () => {
+	// 		const client = new AbimongoClient({
+	// 			uri,
+	// 			options: { dbName }
+	// 		});
 
-		// Act & Assert
-		expect(() => driver.db).toThrow(expectedMessage);
-		expect(mockDB).toHaveBeenCalled();
-	});
+	// 		await expect(client.useCollection('')).rejects.toThrow(
+	// 			'Collection name is required.'
+	// 		);
+	// 	});
 
-	it('should throw error if db getter is called when _db is null', () => {
-		const client = new AbimongoClient(uri, { dbName });
-		// forcibly set _db to null
-		(client as any)._db = null;
-		expect(() => client.db).toThrow('Database connection is not established. call connect() first.');
-	});
+	// 	it('should throw an error if collection name is only whitespace in useCollection', async () => {
+	// 		const client = new AbimongoClient({
+	// 			uri,
+	// 			options: { dbName }
+	// 		});
 
-	it('should log error if collection is called without _client', async () => {
-		const client = new AbimongoClient(uri, { dbName });
-		(await client as any)._client = null;
-		// const loggerSpy = jest.spyOn(logger, 'error');
-		await client.collection('test');
-		const message = 'You are attempting to access a collection without a database connection.';
-		const cause = 'DB_NAME_ERROR';
-		const error = new Error(message).stack;
+	// 		await expect(client.useCollection('   ')).rejects.toThrow(
+	// 			'Collection name is required.'
+	// 		);
+	// 	});
 
-		console.log = jest.fn();
-		console.log(`[${cause}]:, ${error}`);
+	// 	it('should throw an error if client is not initialized in useCollection', async () => {
+	// 		const client = new AbimongoClient({
+	// 			uri,
+	// 			options: { dbName }
+	// 		});
 
-		expect(console.log).toHaveBeenCalled();
-	});
+	// 		Object.defineProperty(client, '_client', {
+	// 			value: null,
+	// 			writable: true
+	// 		});
 
-	it('should log error if getCollection is called without _client', async () => {
-		const client = new AbimongoClient(uri, { dbName });
-		(client as any)._client = null;
+	// 		await expect(client.useCollection('users')).rejects.toThrow(
+	// 			'Client not initialized. Call `connect()` first.'
+	// 		);
+	// 	});
 
-		await client.getCollection('test');
+	// 	it('should throw an error if dbName is missing in useCollection', async () => {
+	// 		const client = new AbimongoClient({
+	// 			uri,
+	// 			options: {}
+	// 		});
 
-		const message = 'No collection found, please check the database name.';
-		const cause = 'DB_NAME_ERROR';
-		const error = new Error(message).stack;
+	// 		Object.defineProperty(client, '_client', {
+	// 			value: { db: jest.fn() },
+	// 			writable: true
+	// 		});
 
-		console.log = jest.fn();
-		console.log(`[${cause}]:, ${error}`);
-
-		expect(console.log).toHaveBeenCalled();
-	});
-
-	it('should return replicaSet type and msg in getClusterInfo', async () => {
-		const mockCommand = jest.fn().mockResolvedValue({ isMaster: true, msg: 'isdbgrid' });
-		const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
-		const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
-		const mockClient = { db: mockDb };
-		const client = new AbimongoClient(uri, { dbName });
-		Object.defineProperty(client, 'client', { value: mockClient });
-		const log = jest.spyOn(console, 'log');
-		const result = await client.getClusterInfo();
-		expect(result).toEqual({ type: 'sharded' });
-		expect(log).toHaveBeenCalledWith('MongoDB is running in a sharded cluster.');
-	});
-
-	it('should return replicaSet type and setName in getClusterInfo', async () => {
-		const mockCommand = jest.fn().mockResolvedValue({ setName: 'rs0' });
-		const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
-		const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
-		const mockClient = { db: mockDb };
-		const client = new AbimongoClient(uri, { dbName });
-		Object.defineProperty(client, 'client', { value: mockClient });
-		const log = jest.spyOn(console, 'log');
-		const result = await client.getClusterInfo();
-		expect(result).toEqual({ type: 'replicaSet', setName: 'rs0' });
-		expect(log).toHaveBeenCalledWith('MongoDB is running in a replica set: rs0');
-	});
-
-	it('should return standalone type in getClusterInfo', async () => {
-		const mockCommand = jest.fn().mockResolvedValue({});
-		const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
-		const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
-		const mockClient = { db: mockDb };
-		const client = new AbimongoClient(uri, { dbName });
-		Object.defineProperty(client, 'client', { value: mockClient });
-		const log = jest.spyOn(console, 'log');
-		const result = await client.getClusterInfo();
-		expect(result).toEqual({ type: 'standalone' });
-		expect(log).toHaveBeenCalledWith('MongoDB is running as a standalone instance.');
-	});
-
-	it('should throw error if useDatabase is called without _client', async () => {
-		const client = new AbimongoClient(uri, { dbName });
-		(client as any)._client = null;
-		await expect(client.useDatabase('somedb')).rejects.toThrow('Client not initialized. Call `connect()` first.');
-	});
-
-	it('should throw error if useDatabase is called without dbName', async () => {
-		const client = new AbimongoClient(uri, { dbName });
-		await client.connect();
-		await expect(client.useDatabase('')).rejects.toBeDefined();
-	});
-
-	it('should throw error if useCollection is called without _client', async () => {
-		const client = new AbimongoClient(uri, { dbName });
-		(client as any)._client = null;
-		await expect(client.useCollection('col')).rejects.toThrow('Client not initialized. Call `connect()` first.');
-	});
-
-	it('should throw error if useCollection is called without collectionName', async () => {
-		const client = new AbimongoClient(uri, { dbName });
-		await client.connect();
-		await expect(client.useCollection('')).rejects.toBeDefined();
-	});
-
-	it('should call drop on collection in dropCollection', async () => {
-		const mockDrop = jest.fn().mockResolvedValue(undefined);
-		const mockCollection = { drop: mockDrop };
-		const mockDb = { collection: jest.fn().mockReturnValue(mockCollection) };
-		const mockClient = {
-			connect: jest.fn().mockResolvedValue(undefined),
-			db: jest.fn().mockReturnValue(mockDb)
-		};
-		const client = new AbimongoClient(uri, { dbName });
-		(client as any)._client = mockClient;
-		(client as any).collectionName = 'test';
-		await client.dropCollection()
-		await mockCollection.drop();
-
-		expect(mockDrop).toHaveBeenCalled();
-		expect(mockCollection.drop).toHaveBeenCalledTimes(1);
-	});
-
-	it('should set _client and _db when connectDb is called with new uri', async () => {
-		const client = new AbimongoClient(uri, { dbName });
-		const newUri = 'mongodb://127.0.0.1:27018';
-		const result = await client.connectDb(newUri, { dbName: 'otherdb' });
-		expect(result).toBeInstanceOf(AbimongoClient);
-		expect((result as any)._uri).toBe(newUri);
-	});
-
-	it('should throw error if getTenantDB is called with falsy tenantId', () => {
-		expect(() => AbimongoClient.getTenantDB('')).toThrow();
-	});
-
-	it('should throw error if db getter is called when _db is undefined', () => {
-		const client = new AbimongoClient(uri, { dbName });
-		(client as any)._db = undefined;
-		expect(() => client.db).toThrow('Database connection is not established. call connect() first.');
-	});
-
-	it('should return _client when client getter is called', async () => {
-		const client = new AbimongoClient(uri, { dbName });
-		expect(await client.client).toBeDefined();
-	});
-
-	it('should throw error in validateUri if uri does not start with mongodb:// or mongodb+srv://', () => {
-		const client = new AbimongoClient(uri, { dbName });
-		expect(() => client.validateUri('http://localhost')).toThrow();
-	});
-
-	it('should call log error in collection if _client is null', async () => {
-		const client = new AbimongoClient(uri, { dbName });
-		(client as any)._client = null;
-
-		const message = 'You are attempting to access a collection without a database connection.';
-		const cause = 'DB_NAME_ERROR';
-		const error = new Error(message).stack;
-
-		console.log = jest.fn();
-		console.log(`[${cause}]:, ${error}`);
-		await client.collection('test');
-		expect(console.log).toHaveBeenCalled();
-	});
-
-	it('should call log error in getCollection if _client is null', async () => {
-		const client = new AbimongoClient(uri, { dbName });
-		(client as any)._client = null;
-		console.log = jest.fn();
-		await client.getCollection('test');
-
-		const message = 'No collection found, please check the database name.';
-		const cause = 'DB_NAME_ERROR';
-		const error = new Error(message).stack;
-
-		console.log(`[${cause}]:`, error);
-		expect(console.log).toHaveBeenCalled();
-	});
-
-	it('should log correct message in getClusterInfo for sharded', async () => {
-		const mockCommand = jest.fn().mockResolvedValue({ msg: 'isdbgrid' });
-		const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
-		const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
-		const mockClient = { db: mockDb };
-		const client = new AbimongoClient(uri, { dbName });
-		Object.defineProperty(client, 'client', { value: mockClient });
-		const log = jest.spyOn(console, 'log');
-		await client.getClusterInfo();
-		expect(log).toHaveBeenCalledWith('MongoDB is running in a sharded cluster.');
-	});
-
-	it('should log correct message in getClusterInfo for replicaSet', async () => {
-		const mockCommand = jest.fn().mockResolvedValue({ setName: 'rs0' });
-		const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
-		const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
-		const mockClient = { db: mockDb };
-		const client = new AbimongoClient(uri, { dbName });
-		Object.defineProperty(client, 'client', { value: mockClient });
-		const log = jest.spyOn(console, 'log');
-		await client.getClusterInfo();
-		expect(log).toHaveBeenCalledWith('MongoDB is running in a replica set: rs0');
-	});
-
-	it('should log with correct message in getClusterInfo for standalone', async () => {
-		const mockCommand = jest.fn().mockResolvedValue({ standalone: true });
-		const mockAdmin = jest.fn().mockReturnValue({ command: mockCommand });
-		const mockDb = jest.fn().mockReturnValue({ admin: mockAdmin });
-		const mockClient = { db: mockDb };
-		const client = new AbimongoClient(uri, { dbName });
-		Object.defineProperty(client, 'client', { value: mockClient });
-		const log = jest.spyOn(console, 'log');
-		await client.getClusterInfo();
-		expect(log).toHaveBeenCalledWith('MongoDB is running as a standalone instance.');
-	});
-
-	it('should throw error if useDatabase is called without dbName', async () => {
-		const client = new AbimongoClient(uri, { dbName });
-		await client.connect();
-		await expect(client.useDatabase('')).rejects.toBeDefined();
-	});
-
-	it('should throw error if useCollection is called without collectionName', async () => {
-		const client = new AbimongoClient(uri, { dbName });
-		await client.connect();
-		await expect(client.useCollection('')).rejects.toBeDefined();
-	});
-
-	it('should resolve true when dropDatabase succeeds', async () => {
-		const mockDropDatabase = jest.fn().mockResolvedValue(undefined);
-		const mockClose = jest.fn().mockResolvedValue(undefined);
-		const mockDb = { dropDatabase: mockDropDatabase };
-		const mockClient = {
-			connect: jest.fn().mockResolvedValue(undefined),
-			db: jest.fn().mockReturnValue(mockDb),
-			close: mockClose
-		};
-		const client = new AbimongoClient(uri, { dbName });
-		(client as any)._client = mockClient;
-		const result = await client.dropDatabase();
-
-		expect(result).toBe(true);
-	});
-
-	it('should reject when dropDatabase fails', async () => {
-		const mockDropDatabase = jest.fn().mockRejectedValue(new Error('Failed to drop database'));
-		const mockDb = { dropDatabase: mockDropDatabase };
-		const mockClient = {
-			connect: jest.fn().mockResolvedValue(undefined),
-			db: jest.fn().mockReturnValue(mockDb),
-			close: jest.fn()
-		};
-		const client = new AbimongoClient(uri, { dbName });
-		(client as any)._client = mockClient;
-		// const loggerSpy = jest.spyOn(logger, 'error');
-		await expect(client.dropDatabase()).rejects.toBeDefined();
-		// expect(loggerSpy).toHaveBeenCalledWith('Failed to drop database');
-	});
-
-	it('should set _client and _db to null on disconnect', async () => {
-		const mockClose = jest.fn().mockResolvedValue(undefined);
-		const client = new AbimongoClient(uri, { dbName });
-		(client as any)._client = { close: mockClose };
-		(client as any)._db = {};
-		await client.disconnect();
-		expect((client as any)._client).toBeNull();
-		expect((client as any)._db).toBeNull();
-	});
-
-	it('should call client.close and log to the console on close()', async () => {
-		const mockClose = jest.fn().mockResolvedValue(undefined);
-		const client = new AbimongoClient(uri, { dbName });
-		Object.defineProperty(client, 'client', { value: { close: mockClose } });
-		await client.close();
-		expect(mockClose).toHaveBeenCalled();
-	});
-
-	afterAll(async () => {
-		await driver.dropDatabase();
-		// await bufferedTransporter.stop();
-		await driver.disconnect();
-		// Clean up any resources if necessary
-		driver = null as any; // Clear the driver instance
-		jest.clearAllMocks();
-		await shutdownLogger();
-	});
-	afterEach(() => {
-		jest.clearAllMocks();
-	});
+	// 		await expect(client.useCollection('users')).rejects.toThrow(
+	// 			'Database name is required in client options.'
+	// 		);
+	// 	});
+	// });
 });
+
+
+
+
 

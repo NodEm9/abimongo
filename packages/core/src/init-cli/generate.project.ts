@@ -48,7 +48,8 @@ export async function generateProject(options: AbimongoConfig) {
 export async function generateProjectWithConfig(config: AbimongoConfig) {
   const options: ProjectOptions = {
     projectName: config.projectName || 'abimongo-app',
-    mongoUri: config.mongoUri,
+    provider: config.provider,
+    mongoClient: config.mongoClient,
     graphql: config.graphql,
     features: config.features,
     multiTenant: config.multiTenant,

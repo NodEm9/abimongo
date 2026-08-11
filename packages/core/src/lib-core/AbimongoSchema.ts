@@ -3,7 +3,8 @@ import {
 	HookFunction,
 	SchemaDefinition,
 	Document,
-	Relationship
+	Relationship,
+	EventType
 } from "../types";
 import { GCConfig } from "../types";
 
@@ -153,6 +154,8 @@ export class AbimongoSchema<T extends Document> {
 		if (!this.hooks[action]) {
 			this.hooks[action] = [];
 		}
+		const eventAction = `${action}` as EventType;
+		this.addHook(eventAction, fn);
 		this.hooks[action].push(fn);
 	}
 
@@ -174,6 +177,8 @@ export class AbimongoSchema<T extends Document> {
 		if (!this.hooks[action]) {
 			this.hooks[action] = [];
 		}
+		const eventAction = `${action}` as EventType;
+		this.addHook(eventAction, fn);
 		this.hooks[action].push(fn);
 	}
 

@@ -1,3 +1,4 @@
+import { AbimongoAdapter } from "@abimongo/adapter-types";
 import { AbimongoConfig } from "../../types";
 import { AbimongoBootstrap } from "./AbimongoBootstrap";
 
@@ -22,8 +23,8 @@ import { AbimongoBootstrap } from "./AbimongoBootstrap";
  * @returns {Promise<AbimongoBootstrap>} - A promise that resolves to an instance of AbimongoBootstrap.
  */
 class AbimongoBootstrapFactory {
-  static async create(config?: AbimongoConfig): Promise<AbimongoBootstrap> {
-    const bootstrap = new AbimongoBootstrap();
+  static async create(config?: AbimongoConfig, adapter?: AbimongoAdapter): Promise<AbimongoBootstrap> {
+    const bootstrap = new AbimongoBootstrap(adapter);
     await bootstrap.initialize(config as string | undefined);
     return bootstrap;
   }

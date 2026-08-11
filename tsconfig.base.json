@@ -1,34 +1,33 @@
 {
   "compilerOptions": {
-    "target": "ES2021",
+    "target": "ES2020",
     "lib": [
-      "ES2021", 
+      "ES2020", 
       "ES2022.Error",
       "ES2022.Object",
       "esnext.disposable",
       "DOM.Iterable", 
       "DOM"
       ],  
-    "moduleDetection": "auto",
+    "moduleDetection": "force",
     "module": "nodenext",
     "moduleResolution": "nodenext",
+    "types": ["node", "jest"],
     "declaration": true,
-    // No top-level `paths` mappings here to avoid pulling sibling package
-    // TypeScript sources into other packages' compilation units. Local
-    // development that prefers package source should use per-package
-    // webpack aliases (DEV-only) instead. Keeping this file plain avoids
-    // ts-loader/TypeScript program-listing issues in monorepo builds.
     "declarationMap": true,
     "esModuleInterop": true,
     "isolatedModules": true, 
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "importHelpers": true,
     "forceConsistentCasingInFileNames": true,
     "noEmitOnError": true,
+    "newLine": "lf",
     "resolvePackageJsonExports": true,
     "resolveJsonModule": true, 
     "inlineSourceMap": false,                                                                                                                                    
-    "noImplicitAny": false,                            
+    "noImplicitAny": false,
+    "noImplicitOverride": true,                            
     "strict": true,                                                                  
     "skipLibCheck": true, 
     "jsx": "react-jsx"                              

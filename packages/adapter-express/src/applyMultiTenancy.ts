@@ -1,6 +1,15 @@
-import { Application } from 'express';
-import { initMultiTenancy, InitMultiTenancyOptions } from './init/initMultiTenancy';
-import { TenantContext } from './TenantContext';
+import  { Application, RequestHandler } from 'express';
+import {
+	initMultiTenancy,
+	InitMultiTenancyOptions,
+	TenantContext,
+} from '@abimongo/core';
+
+import {
+	AbimongoContext,
+	createTenancyContext,
+	type TenancyOptions
+} from "@abimongo/adapter-types";
 
 
 /**
@@ -65,31 +74,70 @@ import { TenantContext } from './TenantContext';
  * @see {@link initMultiTenancy} for initializing tenants with their MongoDB URIs.
 	*
  */
-export const applyMultiTenancy = async (
+
+// export const applyMultiTenancy = async (
+// 	app: Application,
+// 	tenants: Record<string, string>,
+// 	options?: {
+// 		headerKey?: string;
+// 		initOptions?: InitMultiTenancyOptions;
+// 	}
+// ): Promise<void> => {
+// 	const headerKey = options?.headerKey || 'x-tenant-id';
+
+// 	// Initialize tenants
+// 	await initMultiTenancy(tenants, options?.initOptions);
+
+// 	// Set tenant context from header
+// 	app.use(
+// 		(req: any, _res: any, next: any) => {
+// 			// Read DEFAULT_TENANT_ID at request-time so tests that set process.env dynamically work as expected
+// 			const DEFAULT_TENANT_ID = process.env.DEFAULT_TENANT_ID;
+// 			const tenantId = (req.headers[headerKey.toLowerCase()] as string) || DEFAULT_TENANT_ID;
+
+// 			if (!tenantId) {
+// 				return next(new Error('Missing tenant ID. Please include header "x-tenant-id" with a valid tenant ID.'));
+// 			}
+
+// 			TenantContext.run(tenantId, () => next());
+// 			createTenancyContext(req, { header: headerKey }).catch(next);
+// 		}
+// 	);
+// };
+
+
+
+
+export async function installTenancyExpress(
 	app: Application,
 	tenants: Record<string, string>,
-	options?: {
-		headerKey?: string;
+	opts: {
+		tenancy?: TenancyOptions;
 		initOptions?: InitMultiTenancyOptions;
-	}
-): Promise<void> => {
-	const headerKey = options?.headerKey || 'x-tenant-id';
+	} = {}
+) {
+	await initMultiTenancy(tenants, opts.initOptions);
 
-	// Initialize tenants
-	await initMultiTenancy(tenants, options?.initOptions);
+	const tenantMiddleware: RequestHandler = async (req, res, next) => {
+		try {
+			const ctx: AbimongoContext = await createTenancyContext(
+				{
+					headers: req.headers as any,
+					url: req.url,
+					method: req.method,
+					params: req.params as any,
+					cookies: (req as any).cookies,
+					get: (name: string) => req.get(name) ?? undefined,
+				},
+				opts.tenancy
+			);
+		 	TenantContext.run(ctx.tenantId, () => next());
 
-	// Set tenant context from header
-	app.use(
-		(req: any, _res: any, next: any) => {
-			// Read DEFAULT_TENANT_ID at request-time so tests that set process.env dynamically work as expected
-			const DEFAULT_TENANT_ID = process.env.DEFAULT_TENANT_ID;
-			const tenantId = (req.headers[headerKey.toLowerCase()] as string) || DEFAULT_TENANT_ID;
-
-			if (!tenantId) {
-				return next(new Error('Missing tenant ID. Please include header "x-tenant-id" with a valid tenant ID.'));
-			}
-
-			TenantContext.run(tenantId, () => next());
+		 }
+		catch (e) {
+			return next(e);
 		}
-	);
+	};
+	app.use(tenantMiddleware as any);
 }
+

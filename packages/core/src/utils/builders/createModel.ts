@@ -1,19 +1,13 @@
 import { Db, MongoClient } from "mongodb";
-import { AbimongoModel, AbimongoSchema } from "../../lib-core"
-import { Document } from "../../types"; // Ensure the correct path to the document module
+import { Abimongo, AbimongoModel, AbimongoSchema } from "../../lib-core"
+import { AbimongoModelOptions, DbProvider, Document, ModelContext } from "../../types"; // Ensure the correct path to the document module
 
 
 /**
  * Parameters for creating a new model.
  * @template T - The type of the document in the collection.
  */
-interface CreateModelParams<T extends Document = any> {
-  name: string;
-  schema?: AbimongoSchema<T>;
-  tenantId?: string;
-  db?: Db;
-  client?: MongoClient;
-}
+type CreateModelParams<T extends Document = any> = AbimongoModelOptions<T>;
 
 /**
  * Creates a new model for a MongoDB collection.
@@ -32,22 +26,21 @@ interface CreateModelParams<T extends Document = any> {
  *   email: { type: String, required: true },
  * });
  *
- * const userModel = createModel({
+ * const userModel = Model({
  *   name: 'users',
  *   schema: userSchema,
- *   tenantId: 'tenant1', // Optional tenant ID for multi-tenancy
- *   db: dbInstance, // Your MongoDB Db instance
- *   client: mongoClient, // Your MongoDB Client instance
+ *   provider: (client/db - whichever you naming is)/new MyCustomDbProvider(), // Your custom database provider instance
+ *   ctx: {
+ *     tenantId: 'tenant-a', // Optional: specify tenant ID if using multi-tenancy
+ *     dbName: 'myDatabase', // Optional: specify database name if needed
+ * } read docs for more details on what context options you can provide
  * });
  */
-export const createModel = <T extends Document = any>(
-  params: CreateModelParams<T>
+export const Model = <T extends Document = any>(
+  options: CreateModelParams<T>
 ): AbimongoModel<T> => {
   return new AbimongoModel<T>({
-    collectionName: params.name,
-    schema: params.schema,
-    tenantId: params.tenantId,
-    db: params.db,
-    client: params.client,
+    ...options,
+    provider: options.provider ?? Abimongo.init()
   });
 }

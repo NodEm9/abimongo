@@ -11,7 +11,7 @@
   ],
   "include": [ 
     "src/**/*.ts",
-    "bin/**/*.ts"
+    "./bin/abimongo_create.ts"
   ],
   "exclude": [
     "node_modules"

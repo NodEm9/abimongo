@@ -65,7 +65,18 @@ export const redis: any = {
   }),
   set: async (key: string, value: any, options?: any) => Promise.resolve(),
   exists: async (key: string) => Promise.resolve(0),
-
+  multi: () => ({
+    commands: [] as Array<[string, ...any[]]>,
+    incr(command: string) {
+      this.commands.push(['incr', command]);
+      return this;
+    },
+    expire(command: string, seconds: number) {
+      this.commands.push(['expire', command, seconds]);
+      return this;
+    },
+    exec: async () => Promise.resolve([]),
+  }),
 };
 
 export class RedisService {

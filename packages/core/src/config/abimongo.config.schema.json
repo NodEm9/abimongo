@@ -7,9 +7,36 @@
       "type": "string",
       "description": "The name of the user's project."
     },
-    "mongoUri": {
+    "provider": {
       "type": "string",
-      "description": "Default MongoDB connection URI used by AbimongoClient."
+      "description": "The database provider to use. Currently only 'mongodb' is supported.",
+      "enum": ["mongodb"]
+    },
+    "mongoClient": {
+      "type": "object",
+      "description": "An instance of AbimongoClient to use for database connections. If provided, this will override the 'mongoUri' option.",
+      "properties": {
+        "connection": {
+          "type": "object",
+          "description": "The MongoDB connection object returned by AbimongoClient.init()."
+        }
+      },
+      "required": ["connection"]
+    },
+    "connection": {
+      "type": "object",
+      "description": "MongoDB connection configuration. If 'mongoClient' is not provided, this will be used to create an AbimongoClient instance.",
+      "properties": {
+        "uri": {
+          "type": "string",
+          "description": "MongoDB connection URI."
+        },
+        "options": {
+          "type": "object",
+          "description": "Additional options for MongoDB connection."
+        }
+      },
+      "required": ["uri"]
     },
     "abimongoClient": {
       "type": "object",

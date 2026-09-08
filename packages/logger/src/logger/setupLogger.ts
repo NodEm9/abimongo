@@ -10,12 +10,12 @@ import { createLogger } from './loggerFactory';
 export function setupLogger(
   config: LoggerConfig,
 ): ILogger {
-  if (config.logger) return config.logger;
-  if (config?.circuitBreaker?.enabled) {
-    console.warn('Circuit breaker is enabled, consider configuring logger accordingly.');
-  } else {
-    console.log('Circuit breaker is disabled.');
-  }
+  // if (config.logger) return config.logger;
+  // if (config?.circuitBreaker?.enabled) {
+  //   console.warn('Circuit breaker is enabled, consider configuring logger accordingly.');
+  // } else {
+  //   console.log('Circuit breaker is disabled.');
+  // }
   return createLogger({ ...config });
 }
 

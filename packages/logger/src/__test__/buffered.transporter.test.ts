@@ -18,7 +18,7 @@ describe("BufferedTransporter", () => {
 
 	// Mock the setInterval and clearInterval functions
 	jest.useFakeTimers();
-	jest.spyOn(global, "setInterval");
+	jest.spyOn(globalThis, "setInterval");
 
 	it("should log entries and send them in batches", () => {
 		transporter.write("info", "Test message 1", []);

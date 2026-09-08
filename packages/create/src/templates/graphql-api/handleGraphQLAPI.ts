@@ -93,7 +93,7 @@ module.exports = { createConnection };
   // Step 3: Init & install dependencies
   execSync(`npm init -y`, { cwd: rootDir, stdio: 'inherit' });
 
-  const coreDeps = `express cors dotenv express-graphql graphql${options.useAbimongo ?
+  const coreDeps = `dotenv@16.4.7 express-graphql graphql${options.useAbimongo ?
     ' @abimongo/core' : ''}${options.includeLogger ? ' @abimongo/create' : ''}`;
   execSync(`npm install ${coreDeps}`, { cwd: rootDir, stdio: 'inherit' });
   console.log(colorize('\n Installing dependencies...', 'green'));
@@ -106,14 +106,21 @@ module.exports = { createConnection };
 
     fs.writeFileSync(path.join(rootDir, 'tsconfig.json'), JSON.stringify({
       compilerOptions: {
-        target: 'ES2020',
-        module: 'commonjs',
-        rootDir: './',
-        outDir: './dist',
-        esModuleInterop: true,
-        forceConsistentCasingInFileNames: true,
-        strict: true,
-        skipLibCheck: true
+        "target": "ES2020",
+        "lib": [
+          "dom",
+          "dom.iterable",
+          "esnext"
+        ],
+        "module": "commonjs",
+        "rootDir": "./",
+        "outDir": "./dist",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "noEmit": true
       }
     }, null, 2));
   };

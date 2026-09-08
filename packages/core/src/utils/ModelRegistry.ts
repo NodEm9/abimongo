@@ -1,5 +1,6 @@
 import { AbimongoModel } from "../lib-core";
 
+
 const modelRegistry = new Set<AbimongoModel<any>>();
 
 /**

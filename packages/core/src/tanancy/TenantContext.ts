@@ -13,6 +13,9 @@ export class TenantContext {
    * @param {() => void} callback - The callback function to execute within the tenant context.
    */
   static run(tenantId: string, callback: () => void): void {
+    if (!tenantId) {
+      throw new Error('tenantId is required to run tenant context');
+    }
     tenantStorage.run({ tenantId: tenantId }, callback);
   }
 

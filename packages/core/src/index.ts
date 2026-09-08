@@ -1,14 +1,14 @@
 /**
  * @author Emmanuel Nodolomwanyi - Abimongo Team
  * @package - @abimongo/core
- * @version 1.1.3
+ * @version 1.1.5
  */
 
 /**
  * Abimongo Core Library
  * This library provides core functionalities for Abimongo, ORM/ODM solution
  * for MongoDB in Node.js and Browser environments.
- * @module AbimongoCore
+ * @module Abimongo Core Library
  * @version 1.1.3
  */
 
@@ -31,7 +31,7 @@ export const initializeRedis = async (
 
 declare global {
 	interface Window {
-		abimongoClient: typeof AbimongoClient;
+		abimongoClient: typeof 	AbimongoClient;
 	}
 }
 
@@ -46,7 +46,11 @@ export * from './lib-core/bootstrap';
 export * from './config';
 export * from './redis-manager/redisClient';
 export * from './tanancy';
-export { applyMultiTenancy } from './tanancy/applyMultiTenancy';
+
+// This export is needed for adapter-types to avoid circular dependency issues
+// when both packages are used together. But it's optional
+export { createTenancyContext, resolveTenant } from "@abimongo/adapter-types";
+
 export * from './init-cli/generate.project';
 export * from './middleware'
 export * from './graphql';

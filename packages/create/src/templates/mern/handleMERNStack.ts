@@ -107,14 +107,21 @@ module.exports = { createConnection };
       JSON.stringify(
         {
           compilerOptions: {
-            target: 'ES2020',
-            module: 'commonjs',
-            rootDir: './',
-            outDir: './dist',
-            esModuleInterop: true,
-            forceConsistentCasingInFileNames: true,
-            strict: true,
-            skipLibCheck: true
+            "target": "ES2020",
+            "lib": [
+              "dom",
+              "dom.iterable",
+              "esnext"
+            ],
+            "module": "commonjs",
+            "rootDir": "./",
+            "outDir": "./dist",
+            "esModuleInterop": true,
+            "forceConsistentCasingInFileNames": true,
+            "strict": true,
+            "skipLibCheck": true,
+            "resolveJsonModule": true,
+            "noEmit": true
           }
         },
         null,

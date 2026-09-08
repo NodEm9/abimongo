@@ -137,8 +137,14 @@ export async function loadAbimongoConfig(configPath?: string): Promise<AbimongoC
   }
 
   // Basic validation
-  if (!parsed.projectName || !parsed.mongoUri) {
+  if (!parsed.projectName || !parsed.connection?.uri) {
     throw new Error('Invalid config: "projectName" and "mongoUri" are required.');
+  }
+
+  if(parsed.provider && parsed.mongoClient) {
+    throw new Error('Invalid config: "provider" and "mongoClient" cannot both be provided. Please choose one.');
+  } else if (!parsed.provider && !parsed.mongoClient) {
+    throw new Error('Invalid config: Either "provider" or "mongoClient" must be provided.');
   }
 
   // Provide sensible defaults

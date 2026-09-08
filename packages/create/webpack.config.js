@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 // webpack.cli.js
 
 const path = require('path');
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.ts',
+  entry: './bin/abimongo_create.ts',
   target: 'node',
   output: {
     path: path.resolve(__dirname, 'dist'),

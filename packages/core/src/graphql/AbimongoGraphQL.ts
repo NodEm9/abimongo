@@ -11,7 +11,7 @@ import {
 import { AbimongoGraphQLOptions } from '../types';
 import { redis } from '../redis-manager/redisClient';
 import { Role } from '../middleware';
-import { getTenantDB } from '../utils/builders/getTanantDb';
+import { getTenantDB } from '../utils/builders/getTenantDb';
 import { DB_CHANGE_EVENT } from '../utils';
 
 
@@ -124,7 +124,7 @@ export class AbimongoGraphQL {
       } else if (client && typeof client.publish === 'function') {
         await client.publish(channel, JSON.stringify(payload));
       } else {
-        console.warn('[ABIMONGO] No Redis publisher available to publish event');
+        console.log('[ABIMONGO] No Redis publisher available to publish event');
       }
 
       console.log(`[ABIMONGO] ✅ Published to Redis channel "${channel}"`, 'info', { "tenantId": context.user.tenantId });

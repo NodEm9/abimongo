@@ -3,6 +3,9 @@ import { InitMultiTenancyOptions } from '../tanancy/init/initMultiTenancy';
 import { AbimongoModelOptions } from './abimongo.mode.type';
 import { SchemaDefinition } from './schema.type';
 import { Document } from './document';
+import { DbProvider } from './db.provider';
+import { AbimongoClient } from '../lib-core';
+import { BootstrapClient } from './bootstrapClient.type';
 
 
 export interface AbimongoLoggerSettings extends LoggerConfig {
@@ -26,15 +29,19 @@ export interface AbimongoLoggerSettings extends LoggerConfig {
 
 export interface AbimongoConfig {
   projectName?: string;
-  mongoUri?: string;
+  provider?: BootstrapClient;
+  mongoClient?: BootstrapClient;
+  connection?: {
+    uri: string;
+    options?: any;
+  };
   model?: AbimongoModelOptions;
   schema?: SchemaDefinition<Document>
   multiTenant?: {
     enabled?: boolean,
     headerKey?: "x-tenant-id",
     tenants?: {
-      "tenant-a": "mongodb://localhost:27017/tenant-a",
-      "tenant-b": "mongodb://localhost:27017/tenant-b"
+      "example@abimongo.com": "mongodb://localhost:27017/abimongo",
     },
     initOptions?: InitMultiTenancyOptions
   };
@@ -45,7 +52,7 @@ export interface AbimongoConfig {
     playground?: boolean;
     schemaOutputPath?: string;
   };
-  features?: { 
+  features?: {
     models?: string;
     schemas?: string;
     typeDefs?: string;
@@ -80,15 +87,19 @@ export interface AbimongoConfigFile {
 
 export interface ProjectOptions {
   projectName?: string;
-  mongoUri?: string;
+  provider?: BootstrapClient;
+  mongoClient?: BootstrapClient;
+  connection?: {
+    uri: string;
+    options?: any;
+  };
   model?: AbimongoModelOptions;
   schema?: SchemaDefinition<Document>;
   multiTenant?: {
     enabled?: boolean,
     headerKey?: "x-tenant-id",
     tenants?: {
-      "tenant-a": "mongodb://localhost:27017/tenant-a",
-      "tenant-b": "mongodb://localhost:27017/tenant-b"
+      "example@abimongo.com": "mongodb://localhost:27017/abimongo",
     },
     initOptions?: InitMultiTenancyOptions
   };

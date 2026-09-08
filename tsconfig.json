@@ -4,6 +4,14 @@
     { "path": "packages/logger" },
     { "path": "packages/core" },
     { "path": "packages/create" },
-    { "path": "packages/cli" }
+    { "path": "packages/cli" },
+    { "path": "packages/adapter-types" },
+    { "path": "packages/adapter-express"},
+    { "path": "packages/adapter-fastify" },
+    { "path": "packages/adapter-nextjs" },
+    { "path": "packages/adapter-graphql" },
+    { "path": "packages/adapter-hapi" },
+    { "path": "packages/adapter-koa" },
+    { "path": "packages/adapter-lambda" }
   ]
 }

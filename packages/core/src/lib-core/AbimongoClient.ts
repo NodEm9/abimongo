@@ -5,24 +5,33 @@ import {
 	Document,
 	Collection,
 	TopologyClosedEvent,
-	TopologyOpeningEvent
+	TopologyOpeningEvent,
+	ClientSession
 } from 'mongodb';
 import 'dotenv/config'
-import { AbimongoClientConfig, AbimongoClientOptions } from '../types';
-// import { AsyncBatchTransporter } from '@abimongo/logger';
-import { GetTanantModelParams } from '../tanancy';
-import { AbimongoSchema } from '.';
+import { AbimongoClientConfig, AbimongoClientOptions, BootstrapClient, ModelContext } from '../types';
 import {
 	ErrorType,
 	AbimongoModelRegistry,
 	AbiMongoError
 } from '../utils';
 import { colorize } from '../utils/color-palatte';
-	
+import "dotenv/config";
+import { GetTenantModelParams, MultiTenantManager } from '../tanancy';
+import { AbimongoSchema } from './AbimongoSchema';
+import { AbimongoContext } from '../context/AbimongoContext';
+
+
 
 const abimongoSymbol = Symbol.for('abimongo:default');
-const abimongoClientSymbol = Symbol.for('abimongo:client');
+const AbimongoClientModuleSymbol = Symbol.for('abimongo:client');
 const defaultCollectionName = Symbol.for('abimongo:defaultCollectionName');
+
+
+type ClusterInfo =
+	| { type: 'sharded' }
+	| { type: 'replicaSet'; setName?: string; hosts?: string[] }
+	| { type: 'standalone' };
 
 
 /**
@@ -37,50 +46,54 @@ const defaultCollectionName = Symbol.for('abimongo:defaultCollectionName');
  * @param options.logger - An optional logger instance for logging messages.
  * @class AbimongoClient
  */
-export class AbimongoClient implements AbimongoClientConfig {
-	private _uri: string;
-	private _client: MongoClient | null;
-	private _db?: Db | null = null;
+export class AbimongoClient implements BootstrapClient {
+	private _uri!: string | undefined;
+	private _client?: MongoClient | null;
+	private _db?: Db | null;
 	private collectionName?: Collection<any>;
-	private _dbName?: string;
+	private _connected: boolean = false;
 
-	private static tenantDBs: Map<string, Db> = new Map();
+	private readonly _defaultDbName: string;
+	private _overrideDbName?: string;
 
-	private static instances: Map<string, Db> = new Map();
+	private static tenantDBs: Map<string, BootstrapClient> = new Map();
+
+	private static instances: Map<string, BootstrapClient> = new Map();
 	private static defaultUri: string = `mongodb://127.0.0.1:27017`;
 
 	constructor(
-		public uri: string = AbimongoClient.defaultUri,
-		public _options?: AbimongoClientOptions,
+		private readonly _opts: AbimongoClientConfig,
 	) {
-		this._uri = this.uri = AbimongoClient.defaultUri;
-		this._dbName = this._options?.dbName ? this._db?.databaseName : this._dbName || process.env.DB_NAME || 'abimongo_default_db';
-		this._options = _options || {};
+		this._uri = _opts.uri || process.env.MONGO_URI || AbimongoClient.defaultUri;
+		this._defaultDbName = _opts?.options?.dbName || process.env.DB_NAME || 'abimongo_default_db';
 
-		// const MongoClient = (await import('mongodb')).MongoClient;
-		this.validateUri(this._uri);
-		this._client = this._options?.client || new MongoClient(this._uri, {
+		this._client = new MongoClient(this._uri!, {
 			directConnection: true,
 			minPoolSize: 5,
 			maxPoolSize: 50,
 			serverSelectionTimeoutMS: 5000,
 		})
 
-		this._db = this._client?.db(this._dbName);
-		this._client?.db(this._dbName).collection(this._options?.collectionName || [defaultCollectionName] as unknown as string);
-
+		this._db = this._client?.db(_opts.options?.dbName);
 		// Ensure MongoDB dependency is available
 		this.ensureMongoDependency();
 
 	};
 
-	static init() {
-		if (this.instances.has(String(abimongoSymbol))) {
-			return this.instances.get(String(abimongoSymbol))!;
-		}
-		const client = new AbimongoClient(this.defaultUri);
-		this.instances.set(String(abimongoSymbol), client.db);
-		return client._uri;
+	static init(opts?: Partial<AbimongoClientConfig>): AbimongoClient {
+		const key = String(abimongoSymbol);
+
+		const existing = this.instances.get(key);
+		if (existing) return existing as unknown as AbimongoClient;
+
+		const client = createAbimongoClientModule({
+			uri: opts?.uri ?? this.defaultUri ?? process.env.MONGO_URI,
+			options: { dbName: opts?.options?.dbName },
+			tenantResolver: opts?.tenantResolver
+		});
+
+		this.instances.set(key, client);
+		return client;
 	}
 
 	private ensureMongoDependency() {
@@ -101,22 +114,28 @@ export class AbimongoClient implements AbimongoClientConfig {
 	/**
 	 * Connects to the MongoDB database using the provided URI and options.
 	 * @param {string} uri - The MongoDB connection URI.
-	 * @param {AbimongoClientOptions} [options] - Optional configuration options for the client.
-	 * @returns {Promise<AbimongoClient>} A promise that resolves to the connected AbimongoClient instance.
+	 * @param {AbimongoClientModuleOptions} [options] - Optional configuration options for the client.
+	 * @returns {Promise<AbimongoClient>} A promise that resolves to the connected AbimongoClientModule instance.
 	 * @throws {Error} If the URI is not provided.
 	 */
-	async connectDb(uri: string, options?: AbimongoClientOptions): Promise<AbimongoClient> {
+	async connection(uri: string, options?: AbimongoClientOptions): Promise<AbimongoClient> {
 		const _abimongo = this instanceof AbimongoClient ? this : abimongo;
+		this.validateUri(uri)
 		if (!uri) {
 			const message = 'MongoDB URI is required.';
 			throw new Error(message).stack;
 		}
 
-		if (!_abimongo._client || _abimongo._uri !== uri) {
-			_abimongo._uri = uri;
-			_abimongo._options = options || _abimongo._options;
-			_abimongo._client = _abimongo._options?.client || new MongoClient(_abimongo.uri) as MongoClient;
-			_abimongo._db = _abimongo._client?.db(_abimongo._options?.dbName);
+		if (!_abimongo._client || _abimongo._opts.uri !== uri) {
+			_abimongo._opts.uri = uri;
+			_abimongo._opts.options = { ..._abimongo._opts.options, ...options };
+			_abimongo._client = new MongoClient(_abimongo._opts.uri, {
+				directConnection: true,
+				minPoolSize: 5,
+				maxPoolSize: 50,
+				serverSelectionTimeoutMS: 5000,
+			}) as MongoClient;
+			_abimongo._db = _abimongo._client?.db(_abimongo._opts.options?.dbName);
 		}
 
 		return _abimongo
@@ -129,17 +148,18 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 * @returns {Promise<Db>} A promise that resolves to the connected database instance.
 	 * @throws {Error} If the MongoClient instance is undefined.
 	*/
-	static async getDatabase(tenantId: string, uri: string): Promise<{ db: Db; client: MongoClient }> {
+	static async getDatabase(ctx: ModelContext, uri: string): Promise<{ db: BootstrapClient; client: MongoClient }> {
 		const _abimongo = this instanceof AbimongoClient ? this : abimongo;
+		const tenantId = ctx.tenantId!;
 
 		// Check if the tenant database is already cached
 		if (!this.tenantDBs.has(tenantId)) {
-			const clientWrapper = await _abimongo.connectDb(uri, { dbName: tenantId });
+			const clientWrapper = await _abimongo.connection(uri, { dbName: tenantId });
 			await clientWrapper._client?.connect();
 
 			// If not, create a new database connection for the tenant
 			if (clientWrapper._client) {
-				const dbInstance = clientWrapper._client.db(tenantId);
+				const dbInstance = clientWrapper._client.db(tenantId) as unknown as BootstrapClient;
 				this.instances.set(tenantId, dbInstance);
 				this.tenantDBs.set(tenantId, dbInstance);
 			} else {
@@ -148,9 +168,6 @@ export class AbimongoClient implements AbimongoClientConfig {
 		}
 
 		const db = this.instances.get(tenantId)!;
-		// Try to fetch the client that created this DB; prefer cached instance if present
-		// We stored the client when creating the DB above as part of the connect flow.
-		// If not available, fall back to retrieving from the db object where possible.
 		let client: MongoClient | undefined;
 		const possibleClient = (db as any).client ?? (db as any).s?.client;
 		if (possibleClient) client = possibleClient as MongoClient;
@@ -159,7 +176,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 		if (!client) {
 			// try to find any client that points to this db by comparing databaseName
 			for (const [id, instDb] of this.instances.entries()) {
-				if (instDb && instDb.databaseName === db.databaseName) {
+				if (instDb && (await instDb.db()).databaseName === (await db.db()).databaseName) {
 					const maybeClient = (instDb as any).client ?? (instDb as any).s?.client;
 					if (maybeClient) {
 						client = maybeClient as MongoClient;
@@ -183,7 +200,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 * @returns {Db} The connected database instance.
 	 * @throws {Error} If the MongoClient instance is undefined.
 	 */
-	static getTenantDB(tenantId: string): Db {
+	static getTenantDB(tenantId: string): BootstrapClient {
 		if (!tenantId) {
 			const message = 'Tenant ID is required.';
 			const error = new Error(message).stack
@@ -204,30 +221,34 @@ export class AbimongoClient implements AbimongoClientConfig {
 	};
 
 
-	static async getAllTenantDBs(): Promise<Db[]> {
+	static async getAllTenantDBs(): Promise<BootstrapClient[]> {
 		const tenantIds = this.tenantDBs.size > 0 ? [...this.tenantDBs.keys()] : [];
+		const ctx: ModelContext = { tenantId: tenantIds[0] }; // Use the first tenant ID for context
+
 		// Ensure the first tenant DB is initialized
-		await this.getDatabase(tenantIds[0], this.defaultUri).catch((error) => {
+		await this.getDatabase(ctx, this.defaultUri).catch((error) => {
 			console.log(colorize('[error]: Error retrieving tenant databases:', 'red'), error);
 		});
 		const foundInstances = this.instances.size > 0 ? [...this.instances.values()] : [];
-		console.log(`[info]: Found ${foundInstances.length} tenant DB instances: ${foundInstances.map(db => db.databaseName).join(', ')}`);
+		console.log(`[info]: Found ${foundInstances.length} tenant DB instances: ${foundInstances.map(async db => (await db.db()).databaseName).join(', ')}`);
 		return foundInstances;
 	}
 
 	static getRegisteredModel(
-		modelName: string,
+		collectionName: string,
 		tenantId: string,
-		schema?: AbimongoSchema<any>,
-	): GetTanantModelParams<Db> & { db: Db, } {
-		if (!modelName || !tenantId) throw new Error('The function requires at least modelName and tenantId.');
+		schema: AbimongoSchema<any>,
+		dbName?: string
+	): GetTenantModelParams<BootstrapClient> & { db: BootstrapClient, } {
+		if (!collectionName || !tenantId) throw new Error('The function requires at least collectionName and tenantId.');
 		const db = this.instances.get(tenantId)!;
 
 		return {
-			modelName,
-			tenantId,
+			collectionName,
 			schema,
-			db,
+			tenantId,
+			dbName,
+			db
 		};
 	};
 
@@ -241,28 +262,69 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 * Gets the current database instance.
 	 * @returns {Db} The connected database instance.
 	 * @throws {AbiMongoError} If the database connection is not established.
+	 * Resolution order for db():
+	 * 1) explicit override via ctx.db (e.g., useDatabase() or withDatabase())
+	 * 2) tenant resolver if ctx.tenantId is provided (e.g., multi-tenancy)
 	 */
-	get db(): Db {
-		if (this._db === null || this._db === undefined) {
-			const message = 'Database connection is not established. call connect() first.';
+	async db(ctx?: ModelContext): Promise<Db> {
+		// 1) explicit dbName override uses base client
+		if (ctx?.dbName) {
+			if (!this._client || !this._connected) {
+				const message = "AbimongoClient not connected. call connect() first.";
+				const error = new Error(message).stack;
+				const cause = ErrorType.CONNECTION_ERROR;
+				throw AbiMongoError(
+					ErrorType.AbiMongoConnectionError,
+					message,
+					error,
+					cause
+				);
+			}
+
+			return this._client.db(ctx.dbName);
+		}
+
+		// 2) tenant path should NOT depend on base client connection
+		if (ctx?.tenantId) {
+			const resolver = this._opts.tenantResolver;
+			if (!resolver) {
+				throw new Error(
+					"Multi-tenancy not enabled. Provide tenantResolver to AbimongoClient or avoid passing tenantId."
+				);
+			}
+
+			const tenantClient = await resolver.getClient(ctx.tenantId);
+			if (!tenantClient) {
+				throw new Error(`Tenant "${ctx.tenantId}" is not registered.`);
+			}
+
+			return tenantClient.db();
+		}
+
+		// 3) from here on, base client is required
+		if (!this._client || !this._connected) {
+			const message = "AbimongoClient not connected. call connect() first.";
 			const error = new Error(message).stack;
-			const cause = ErrorType.NULL_OR_UNDEFINED;
+			const cause = ErrorType.CONNECTION_ERROR;
 			throw AbiMongoError(
 				ErrorType.AbiMongoConnectionError,
 				message,
 				error,
-				cause,
+				cause
 			);
 		}
-		return this._db;
+
+		// 4) runtime override
+		if (this._overrideDbName) {
+			return this._client.db(this._overrideDbName);
+		}
+
+		// 5) default db
+		return this._client.db(this._defaultDbName);
 	}
 
-	/**
-	 * Gets the current MongoClient instance.
-	 * @returns {MongoClient} The connected MongoClient instance.
-	 */
-	get client(): MongoClient {
-		return this._client!;
+	static async db(ctx?: ModelContext): Promise<Db> {
+		return this.init().db(ctx);
 	}
 
 	/**
@@ -270,9 +332,20 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 * @param {string} uri - The MongoDB connection URI.
 	 * @throws {AbiMongoError} If the URI is invalid.
 	 */
-	public validateUri(uri: string): void {
-		if (!uri.startsWith('mongodb://') && !uri.startsWith('mongodb+srv://')) {
-			const message = 'Invalid MongoDB URI. It must start with "mongodb://" or "mongodb+srv://".';
+	validateUri(uri: string) {
+		if (!uri || typeof uri !== "string") {
+			const message = `Missing MongoDB URI. Set MONGODB_URI (or pass uri explicitly).`;
+			const error = new Error(message).stack;
+			const cause = ErrorType.VALIDATION_ERROR;
+			throw AbiMongoError(
+				ErrorType.AbiMongoConnectionError,
+				message,
+				error,
+				cause,
+			);
+		}
+		if (!/^mongodb(\+srv)?:\/\//.test(uri)) {
+			const message = `Invalid MongoDB URI "${uri}". It must start with "mongodb://" or "mongodb+srv://".`
 			const error = new Error(message).stack;
 			const cause = ErrorType.VALIDATION_ERROR;
 			throw AbiMongoError(
@@ -288,42 +361,99 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 * Establishes a connection to the MongoDB database.
 	 * @returns {Promise<Db>} A promise that resolves to the connected database instance.
 	 */
-	async connect(): Promise<Db> {
+	async connect(): Promise<this> {
+		this.validateUri(this._opts.uri!);
 		// During tests avoid making a real network connection; provide a safe in-memory stub
+		// if (!this._client) {
+		// 	if (process.env.JEST_WORKER_ID) {
+		// 		// lightweight stub that provides a db().collection() shape and minimal lifecycle methods
+		// 		this._client = ({
+		// 			db: (_dbName?: string) => ({ collection: (_name: string) => ({}) }),
+		// 			// simulate async connect/close used throughout the codebase
+		// 			connect: async () => true,
+		// 			close: async () => { },
+		// 		} as unknown) as MongoClient;
+		// 		this._db = ({} as unknown) as Db;
+		// 		return this;
+		// 	}
+
+		// 	this._client = new MongoClient(this._opts.uri, { monitorCommands: true });
+		// 	this._db = this._client.db(this._opts.options?.dbName);
+		// 	await this._client.connect();
+		// }
 		if (!this._client) {
-			if (process.env.JEST_WORKER_ID) {
-				// lightweight stub that provides a db().collection() shape and minimal lifecycle methods
-				this._client = ({
-					db: (_dbName?: string) => ({ collection: (_name: string) => ({}) }),
-					// simulate async connect/close used throughout the codebase
-					connect: async () => true,
-					close: async () => { },
-				} as unknown) as MongoClient;
-				this._db = ({} as unknown) as Db;
-				return this._db!;
-			}
-			this._client = new MongoClient(this.uri, { monitorCommands: true });
-			await this.client.connect();
-			this._db = this.client.db(this._options?.dbName);
+			this._client = new MongoClient(this._opts.uri);
 		}
-		return this._db!;
+
+		if (!this._connected) {
+			await this._client.connect();
+			this._connected = true;
+		}
+		return this
 	}
 
-	/**
-	 * Retrieves a MongoDB collection by name.
-	 * @template T
-	 * @param {string} name - The name of the collection to retrieve.
-	 * @returns {Collection<T>} The MongoDB collection instance.
-	 * @throws {Error} If the database connection is not established.
-	 */
-	collection<T extends Document>(name: string): Collection<T> {
-		if (!this._client || typeof (this._client as any)?.db !== 'function') {
-			// Return a minimal stub collection to keep tests and initialization safe when no real DB is present
-			return ({
-				toString: () => name,
-			} as unknown) as Collection<T>;
+
+	// get client(): MongoClient {
+	// 	if (!this._client) throw new Error("Client not connected.");
+	// 	return this._client;
+	// }
+
+	async client(ctx?: ModelContext): Promise<MongoClient> {
+		if (ctx?.tenantId) {
+			const resolver = this._opts.tenantResolver;
+			if (!resolver) {
+				throw new Error(
+					"Multi-tenancy not enabled. Provide tenantResolver to AbimongoClient or avoid passing tenantId."
+				);
+			}
+
+			const tenantClient = await resolver.getClient(ctx.tenantId);
+			if (!tenantClient) {
+				throw new Error(`Tenant "${ctx.tenantId}" is not registered.`);
+			}
+
+			return tenantClient;
 		}
-		return this._client.db(this._options?.dbName).collection<T>(name) as Collection<T>;
+
+		if (!this._client || !this._connected) {
+			throw new Error("AbimongoClient not connected. Call connect() first.");
+		}
+
+		return this._client;
+	}
+
+	async useCollection(collectionName: string): Promise<Collection<any>> {
+		if (!collectionName || typeof collectionName !== 'string' || !collectionName.trim()) {
+			throw new Error('Collection name is required.');
+		}
+
+		if (!this._client) {
+			throw new Error('Client not initialized. Call `connect()` first.');
+		}
+
+		// const dbName = this._opts.options?.dbName;
+
+
+		const dbName = this.resolveDbName();
+		if (!dbName) {
+			throw new Error('Database name is required in client options.');
+		};
+
+		const resolvedCollectionName = this.resolveCollectionName(collectionName);
+		const collection = this._client
+			.db(dbName)
+			.collection(resolvedCollectionName);
+
+		this.collectionName = collection;
+		return collection;
+	}
+
+	async collection<T extends Document = Document>(
+		collectionName: string,
+		ctx?: ModelContext
+	): Promise<Collection<T>> {
+		const db = await this.db(ctx);
+		return db.collection<T>(collectionName);
 	}
 
 	/**
@@ -333,33 +463,106 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 * @returns {Collection<T>} The MongoDB collection instance.
 	 * @throws {Error} If the database connection is not established.
 	 */
-	getCollection<T extends Document>(name: string): Collection<T> {
+	async getCollection<T extends Document>(
+		collectionName: string,
+		ctx?: ModelContext
+	): Promise<Collection<T>> {
 		if (!this._client || typeof (this._client as any)?.db !== 'function') {
 			return ({
-				toString: () => name,
+				toString: () => collectionName,
 			} as unknown) as Collection<T>;
 		}
-		return this._client.db(this._options?.dbName).collection<T>(name) as Collection<T>;
+		return await this.collection(collectionName, ctx)
 	}
 
 	/**
 	 * Retrieves information about the MongoDB cluster type (e.g., standalone, replica set, sharded).
 	 * @returns {Promise<{ type: string; setName?: string }>} A promise that resolves to an object containing the cluster type and set name (if applicable).
 	 */
-	async getClusterInfo(): Promise<{ type: string; setName?: string }> {
-		const adminDb = this.client.db(this?._options?.dbName).admin();
-		const result = await adminDb.command({ isMaster: 1 });
 
-		if (result.msg === 'isdbgrid') {
+	// async getClusterInfo(): Promise<{ type: string; setName?: string }> {
+	// 	try {
+	// 		if (!this._client) {
+	// 			throw new Error("Client not initialized. Call connect() first.");
+	// 		}
+
+	// 		const adminDb = this._client.db().admin();
+	// 		const result = await adminDb.command({ hello: 1 });
+
+	// 		if (result?.msg === "isdbgrid") {
+	// 			console.log("MongoDB is running in a sharded cluster.");
+	// 			return { type: "sharded" };
+	// 		}
+
+	// 		if (result?.setName) {
+	// 			console.log(`MongoDB is running in a replica set: ${result.setName}`);
+	// 			return { type: "replicaSet", setName: result.setName };
+	// 		}
+
+	// 		console.log("MongoDB is running as a standalone instance.");
+	// 		return { type: "standalone" };
+	// 	} catch (error) {
+	// 		console.error("Error determining MongoDB cluster type:", error);
+	// 		throw error;
+	// 	}
+	// };
+
+
+	// async getClusterInfo(): Promise<{ type: string; setName?: string }> {
+	// 	try {
+	// 		if (!this._client) {
+	// 			throw new Error("Client not initialized. Call connect() first.");
+	// 		}
+	// 		const adminDb = this._client.db(this._opts.options?.dbName).admin();
+	// 		const result = await adminDb.command({ isMaster: 1 });
+
+	// 		if (result?.msg === 'isdbgrid') {
+	// 			console.log('MongoDB is running in a sharded cluster.');
+	// 			return { type: 'sharded' };
+	// 		} else if (result?.setName) {
+	// 			console.log(`MongoDB is running in a replica set: ${result.setName}`);
+	// 			return { type: 'replicaSet', setName: result.setName };
+	// 		} else {
+	// 			console.log('MongoDB is running as a standalone instance.');
+	// 			return { type: 'standalone' };
+	// 		}
+	// 	} catch (error) {
+	// 		console.error('Error determining MongoDB cluster type:', error);
+	// 		throw error;
+	// 	}
+	// }
+
+	async getClusterInfo(): Promise<ClusterInfo> {
+		if (!this._client) {
+			throw new Error('Client not initialized. Call `connect()` first.');
+		}
+
+		const dbName = this._opts?.options?.dbName;
+		if (!dbName) {
+			throw new Error('Database name is required in client options.');
+		}
+
+		const helloResult = await this._client
+			.db(dbName)
+			.admin()
+			.command({ hello: 1 });
+
+		if (helloResult?.msg === 'isdbgrid') {
 			console.log('MongoDB is running in a sharded cluster.');
 			return { type: 'sharded' };
-		} else if (result.setName) {
-			console.log(`MongoDB is running in a replica set: ${result.setName}`);
-			return { type: 'replicaSet', setName: result.setName };
-		} else {
-			console.log('MongoDB is running as a standalone instance.');
-			return { type: 'standalone' };
 		}
+
+		if (helloResult?.setName || helloResult?.hosts) {
+			console.log('MongoDB is running as a replica set.');
+			return {
+				type: 'replicaSet',
+				setName: helloResult.setName,
+				hosts: helloResult.hosts
+			};
+		}
+
+		console.log('MongoDB is running as a standalone instance.');
+		return { type: 'standalone' };
 	}
 
 	/**
@@ -369,17 +572,203 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 * @throws {Error} If the client is not initialized or the database name is not provided.
 	 */
 	async useDatabase(dbName: string): Promise<{ db: Db; client: MongoClient }> {
-		if (!this._client) {
-			throw new Error("Client not initialized. Call `connect()` first.");
-		}
+		if (!this._client) throw new Error("Client not initialized. Call connect() first.");
+		if (!dbName) throw new Error("Database name is required.");
+
+		this._overrideDbName = dbName;
+
+		return {
+			db: this._client.db(dbName),
+			client: this._client,
+		};
+	};
+
+	/**
+		* Immutable scoped provider: locks dbName unless ctx.dbName is explicitly provided.
+	 * Safe for request handling (no shared mutation).
+	 */
+	withDatabase(dbName: string): BootstrapClient {
+		return {
+			db: async (ctx?: ModelContext) => {
+				// keep the same resolution rules, but enforce a fallback dbName
+				const merged: ModelContext = { ...ctx, dbName: ctx?.dbName ?? dbName };
+				return this.db(merged);
+			},
+			connect: async () => {
+				await this.connect();
+				return this;
+			},
+			client: async (ctx?: ModelContext) => {
+				const merged: ModelContext = { ...ctx, dbName: ctx?.dbName ?? dbName };
+				return this.client(merged);
+			},
+			collection: async (collectionName: string, ctx?: ModelContext) => {
+				const merged: ModelContext = { ...ctx, dbName: ctx?.dbName ?? dbName };
+				return this.collection(collectionName, merged);
+			},
+			close: async () => {
+				await this.close();
+			}
+		};
+	}
+
+	// inside AbimongoClient.ts
+	private resolveDbName(overrideDbName?: string): string {
+		const ctx = AbimongoContext.get();
+
+		const dbName =
+			overrideDbName ??
+			ctx?.overrideDbName ??
+			this._opts?.options?.dbName;
+
 		if (!dbName) {
-			const message = 'Database name is required.';
-			throw new Error(message).stack;
+			throw new Error('Database name is required in client options.');
 		}
 
-		this._db = this._client ? this._client.db(dbName) : dbName as unknown as Db;
-		this.collectionName = this.client.db(this._options?.dbName).collection(this._options?.collectionName as string);
-		return { db: this._db, client: this._client };
+		return dbName;
+	}
+
+	private resolveCollectionName(collectionName?: string): string {
+		const ctx = AbimongoContext.get();
+
+		const resolvedCollectionName =
+			collectionName ??
+			ctx?.overrideCollectionName;
+
+		if (!resolvedCollectionName?.trim()) {
+			throw new Error('Collection name is required.');
+		}
+
+		return resolvedCollectionName.trim();
+	}
+
+	private resolveTenantDbName(tenantId?: string): string {
+		const resolvedTenantId = tenantId ?? AbimongoContext.get()?.tenantId;
+
+		if (!resolvedTenantId) {
+			return this.resolveDbName();
+		}
+
+		const tenant = MultiTenantManager.getTenant?.(resolvedTenantId);
+		if (!tenant?.dbName) {
+		  this.logWithContext('warn', `Tenant "${resolvedTenantId}" does not have a configured dbName. Falling back to default database.`);
+		  	throw new Error(
+				`No database configuration found for tenant "${resolvedTenantId}".`
+			);
+		}
+
+		return tenant.dbName;
+	}
+
+	
+	async withContext<T>(
+		context: {
+			tenantId?: string;
+			requestId?: string;
+			dbName?: string;
+			collectionName?: string;
+			session?: any;
+		},
+		callback: () => Promise<T>
+	): Promise<T> {
+		return AbimongoContext.run(
+			{
+				tenantId: context.tenantId,
+				requestId: context.requestId,
+				overrideDbName: context.dbName,
+				overrideCollectionName: context.collectionName,
+				session: context.session
+			},
+			callback
+		);
+	}
+
+	private logWithContext(level: 'info' | 'warn' | 'error', message: string, meta: Record<string, any> = {}) {
+		const ctx = AbimongoContext.get();
+
+		const enrichedMeta = {
+			requestId: ctx?.requestId,
+			tenantId: ctx?.tenantId,
+			...ctx?.loggerMeta,
+			...meta
+		};
+
+		this._opts.options?.config?.logger?.[level]?.(message, enrichedMeta);
+
+	}
+
+	/**
+	 * Immutable scoped provider: locks tenantId unless ctx.tenantId is explicitly provided.
+	 * Safe for request handling.
+	 */
+	withTenant(tenantId: string): BootstrapClient {
+		return {
+			db: async (ctx?: ModelContext) => {
+				const merged: ModelContext = { ...ctx, tenantId: ctx?.tenantId ?? tenantId };
+				return this.db(merged);
+			},
+			connect: async () => {
+				await this.connect();
+				return this;
+			},
+			client: async (ctx?: ModelContext) => {
+				const merged: ModelContext = { ...ctx, tenantId: ctx?.tenantId ?? tenantId };
+				return this.client(merged);
+			},
+			collection: async (collectionName: string, ctx?: ModelContext) => {
+				const merged: ModelContext = { ...ctx, tenantId: ctx?.tenantId ?? tenantId };
+				return this.collection(collectionName, merged);
+			},
+			close: async () => {
+				await this.close();
+			}
+		};
+	}
+
+	/**
+	 * Convenience: lock both tenantId and dbName.
+	 */
+	withScope(scope: { tenantId?: string; dbName?: string }): BootstrapClient {
+		return {
+			db: async (ctx?: ModelContext) => {
+				const merged: ModelContext = {
+					...ctx,
+					tenantId: ctx?.tenantId ?? scope.tenantId,
+					dbName: ctx?.dbName ?? scope.dbName,
+				};
+				return this.db(merged);
+			},
+			connect: async () => {
+				await this.connect();
+				return this;
+			},
+			client: async (ctx?: ModelContext) => {
+				const merged: ModelContext = {
+					...ctx,
+					tenantId: ctx?.tenantId ?? scope.tenantId,
+					dbName: ctx?.dbName ?? scope.dbName,
+				};
+				return this.client(merged);
+			},
+			collection: async (collectionName: string, ctx?: ModelContext) => {
+				const merged: ModelContext = {
+					...ctx,
+					tenantId: ctx?.tenantId ?? scope.tenantId,
+					dbName: ctx?.dbName ?? scope.dbName,
+				};
+				return this.collection(collectionName, merged);
+			},
+			close: async () => {
+				await this.close();
+			}
+		};
+	}
+
+	/**
+	 * Optional helper to reset override
+	 */
+	resetDatabase(): void {
+		this._overrideDbName = undefined;
 	}
 
 	/**
@@ -388,17 +777,28 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 * @returns {Promise<Collection<any>>} A promise that resolves to the new collection instance.
 	 * @throws {Error} If the client is not initialized or the collection name is not provided.
 	 */
-	async useCollection(collectionName: string): Promise<Collection<any>> {
-		if (!this._client) {
-			throw new Error("Client not initialized. Call `connect()` first.");
-		}
-		if (!collectionName) {
-			const message = 'Collection name is required.';
-			throw new Error(message).stack;
-		}
 
-		this.collectionName = this.client.db(this._options?.dbName).collection(collectionName);
-		return this.collectionName;
+	// async useCollection(collectionName: string): Promise<Collection<any>> {
+	// 	if (!collectionName) {
+	// 		const message = 'Collection name is required.';
+	// 		throw new Error(message).stack;
+	// 	}
+
+	// 	if (!this._client) {
+	// 		throw new Error("Client not initialized. Call `connect()` first.");
+	// 	}
+
+	// 	this.collectionName = this._client.db(this._opts.options?.dbName).collection(collectionName);
+	// 	return this.collectionName;
+	// };
+
+	async startSession(ctx?: ModelContext): Promise<ClientSession> {
+		const client = await this.client(ctx);
+		return client.startSession();
+	}
+
+	private resolveSession(session?: any) {
+		return session ?? AbimongoContext.get()?.session;
 	}
 
 	/**
@@ -407,7 +807,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 */
 	async dropCollection(): Promise<void> {
 		if (await this._client?.connect()) {
-			await this._client?.db(this._options?.dbName).collection(JSON.stringify(this.collectionName)).drop();
+			await this._client?.db(this._opts.options?.dbName).collection(JSON.stringify(this.collectionName)).drop();
 		}
 	}
 
@@ -419,13 +819,13 @@ export class AbimongoClient implements AbimongoClientConfig {
 		return new Promise((resolve, reject) => {
 			this._client?.connect()
 				.then(() => {
-					this._client?.db(this._options?.dbName).dropDatabase()
+					this._client?.db(this._opts.options?.dbName).dropDatabase()
 						.then(() => {
-							console.log(`Dropped database: ${this._options?.dbName}`);
+							console.log(`Dropped database: ${this._opts.options?.dbName}`);
 							this._client?.close()
 							// Remove the database from the instances map
-							AbimongoClient.instances.delete(this._dbName as string);
-							AbimongoClient.tenantDBs.delete(this._dbName as string);
+							AbimongoClient.instances.delete(this._opts.options?.dbName as string);
+							AbimongoClient.tenantDBs.delete(this._opts.options?.dbName as string);
 							resolve(true);
 						})
 						.catch((error) => {
@@ -442,7 +842,7 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 */
 	async disconnect(): Promise<void> {
 		if (this._client) {
-			await this.client.close();
+			await this._client?.close();
 			this._client = null;
 			this._db = null;
 		}
@@ -453,9 +853,14 @@ export class AbimongoClient implements AbimongoClientConfig {
 	 * @returns {Promise<void>} A promise that resolves when the client is closed.
 	 */
 	async close(): Promise<void> {
-		await this.client.close();
+		if (this._client && this._connected) {
+			await this._client?.close();
+			this._client = undefined;
+			this._connected = false;
+		}
 		console.log('[info]: Disconnected from MongoDB');
 	}
+
 	/**
 	 * Checks if the MongoDB client is connected.
 	 * @returns {boolean} `true` if the client is connected, `false` otherwise.
@@ -524,32 +929,32 @@ export class AbimongoClient implements AbimongoClientConfig {
 }
 
 /**
- * Abimongo inherits from AbimongoClient and provides a simplified interface for connecting to MongoDB databases.
+ * Abimongo inherits from AbimongoClientModule and provides a simplified interface for connecting to MongoDB databases.
  * It allows you to create an instance of Abimongo with a MongoDB URI and optional configuration options.
  */
 export class Abimongo extends AbimongoClient {
 	/**
 	 * Creates an instance of Abimongo.
 	 * @param {string} uri - The MongoDB connection URI.
-	 * @param {AbimongoClientConfig} [options] - Optional configuration options for the client.
+	 * @param {AbimongoClientModuleConfig} [options] - Optional configuration options for the client.
 	 * @throws {Error} If the URI is not provided.
 	 */
-	constructor(uri: string, options?: AbimongoClientOptions) {
-		if (uri === undefined) {
-			throw new Error('MongoDB URI is required.');
-		}
-		super(uri, { dbName: options?.dbName || '' });
+	constructor({ uri, options }: AbimongoClientConfig) {
+		super({ uri, options });
+		// if (uri === undefined) {
+		// 	throw new Error('MongoDB URI is required.');
+		// }
 	}
 
 	/**
 	 * Connects to the MongoDB database using the provided URI and options.
 	 * @param {string} uri - The MongoDB connection URI.
-	 * @param {AbimongoClientOptions} [options] - Optional configuration options for the client.
-	 * @returns {Promise<AbimongoClient>} A promise that resolves to the connected AbimongoClient instance.
+	 * @param {AbimongoClientModuleOptions} [options] - Optional configuration options for the client.
+	 * @returns {Promise<AbimongoClientModule>} A promise that resolves to the connected AbimongoClientModule instance.
 	 */
-	static async connect(uri: string, options?: AbimongoClientOptions): Promise<AbimongoClient> {
-		return await abimongo.connectDb(uri, options);
-	}
+	// static async connect({ uri, options }: AbimongoClientModuleConfig): Promise<AbimongoClientModule> {
+	// 	return await abimongo.connection(uri, options);
+	// }
 
 	/**
 	 * Retrieves the current Abimongo instance.
@@ -564,8 +969,13 @@ export class Abimongo extends AbimongoClient {
 	}
 }
 
+export function createAbimongoClientModule(opts: AbimongoClientConfig) {
+	return new AbimongoClient(opts);
+}
+
 export const abimongo = new Abimongo(`${{
 	[abimongoSymbol]: true
-}}`);
+}}` as unknown as AbimongoClientConfig);
+
 
 

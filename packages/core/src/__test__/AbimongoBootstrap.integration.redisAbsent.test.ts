@@ -1,7 +1,12 @@
 /* Integration test: ensure AbimongoBootstrap.initialize completes when Redis is absent.
 	 This test mocks the Redis layer to simulate an unreachable Redis server and
 	 verifies that initialize() resolves (doesn't hang or throw). */
+import { AbimongoBootstrap } from '../lib-core/bootstrap/AbimongoBootstrap';
+import { Abimongo, AbimongoClient } from '../lib-core';
+import * as AbimongoClinetModule from '../lib-core/AbimongoClient';
 import { shutdownLogger } from '@abimongo/logger';
+import { MongoClient } from 'mongodb';
+
 
 jest.setTimeout(20000);
 
@@ -23,7 +28,29 @@ jest.mock('../redis-manager/redisClient', () => ({
 jest.mock('../config/loadAbimongoConfig', () => ({
 	loadAbimongoConfig: jest.fn().mockResolvedValue({
 		projectName: 'test-app',
-		mongoUri: 'mongodb://localhost:27017/abimongo_test',
+		mongoClient: {
+			connect: jest.fn().mockResolvedValue(undefined),
+			close: jest.fn().mockResolvedValue(undefined),
+			client: jest.fn().mockResolvedValue({
+				collectionName: jest.fn(),
+				dbName: jest.fn()
+			}),
+			collection: jest.fn()
+		},
+		provider: {
+			connect: jest.fn().mockResolvedValue(undefined),
+			close: jest.fn().mockResolvedValue(undefined),
+			client: jest.fn().mockResolvedValue({
+				collectionName: jest.fn(),
+				dbName: jest.fn()
+			}),
+			collection: jest.fn()
+		},
+		connection: {
+			uri: 'mongodb://localhost:27017/abimongo_test',
+			options: { dbName: 'abimongo_test' },
+		},
+		// mongoUri: 'mongodb://localhost:27017/abimongo_test',
 		features: {
 			useRedisCache: true,
 			redisUri: 'redis://127.0.0.1:9999'
@@ -59,11 +86,38 @@ jest.mock('../lib-core/AbimongoClient', () => ({
 	}
 }));
 
-import { AbimongoBootstrap } from '../lib-core/bootstrap/AbimongoBootstrap';
-
 describe('AbimongoBootstrap (integration) - redis absent', () => {
+	let bootstrap: AbimongoBootstrap;
+
+	beforeEach(() => {
+		bootstrap = new AbimongoBootstrap();
+		// client = new AbimongoClient('mongodb://localhost:27017/abimongo_test');
+	});
 	it('initializes cleanly when Redis cannot be reached', async () => {
-		const bootstrap = new AbimongoBootstrap();
+		const mockCollection = {
+			findOne: jest.fn(),
+			updateOne: jest.fn(),
+			deleteOne: jest.fn(),
+			insertOne: jest.fn(),
+		};
+
+		const mockDb = {
+			db: jest.fn().mockReturnValue({
+				collection: jest.fn().mockReturnValue(mockCollection)
+			}),
+		} as unknown as jest.Mocked<MongoClient>;
+
+		const mockClient = {
+			connect: jest.fn().mockResolvedValue(undefined),
+			close: jest.fn().mockResolvedValue(undefined),
+			db: jest.fn().mockResolvedValue(mockDb),
+			collection: jest.fn().mockResolvedValue(mockCollection),
+			startSession: jest.fn(),
+		};
+
+		bootstrap['provider'] = mockClient as any;
+
+		// const bootstrap = new AbimongoBootstrap();
 		await expect(bootstrap.initialize()).resolves.not.toThrow();
 		// shutdown should be safe even if redis was not connected
 		await expect(bootstrap.shutdown()).resolves.not.toThrow();

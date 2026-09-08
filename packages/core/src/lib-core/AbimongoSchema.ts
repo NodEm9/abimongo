@@ -1,11 +1,12 @@
-import { Collection, OptionalUnlessRequiredId } from "mongodb";
-import {
+import type { Collection, OptionalUnlessRequiredId } from "mongodb";
+import type {
 	HookFunction,
 	SchemaDefinition,
 	Document,
-	Relationship
+	Relationship,
+	EventType,
+	GCConfig
 } from "../types";
-import { GCConfig } from "../types";
 
 
 /**
@@ -53,6 +54,15 @@ export class AbimongoSchema<T extends Document> {
 	 * @throws {Error} If validation fails for any field.
 	 */
 	validate(doc: OptionalUnlessRequiredId<T>): void {
+		for (const [field, validate] of Object.entries(this.validators)) {
+			if (!validate(doc[field])) {
+				console.log(`[error]: Validation failed for field: ${field}`);
+				throw new Error(`Validation failed for field: ${field}`);
+			}
+		}
+	}
+
+	async validateAsync(doc: OptionalUnlessRequiredId<T>): Promise<void> {
 		for (const [field, validate] of Object.entries(this.validators)) {
 			if (!validate(doc[field])) {
 				console.log(`[error]: Validation failed for field: ${field}`);
@@ -153,6 +163,8 @@ export class AbimongoSchema<T extends Document> {
 		if (!this.hooks[action]) {
 			this.hooks[action] = [];
 		}
+		const eventAction = `${action}` as EventType;
+		this.addHook(eventAction, fn);
 		this.hooks[action].push(fn);
 	}
 
@@ -174,6 +186,8 @@ export class AbimongoSchema<T extends Document> {
 		if (!this.hooks[action]) {
 			this.hooks[action] = [];
 		}
+		const eventAction = `${action}` as EventType;
+		this.addHook(eventAction, fn);
 		this.hooks[action].push(fn);
 	}
 
@@ -219,7 +233,7 @@ export class Schema extends AbimongoSchema<Document> {
 		this.registerSchema(schemaDefinition);
 	}
 
-	// You can add additional methods or overrides specific to your application needs
+	// This is useful testing purposes and to demonstrate how hooks and validation work together
 	async create(data: OptionalUnlessRequiredId<Document>): Promise<Document> {
 		this.validate(data);
 		return this.executeHooks('pre', data)
@@ -239,6 +253,5 @@ export class Schema extends AbimongoSchema<Document> {
 		return new Schema(schemaDefinition);
 	}
 }
-
 
 

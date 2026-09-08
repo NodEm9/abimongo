@@ -42,7 +42,7 @@ app.use(cors());
 app.use(express.json());
 
 ${options.useAbimongo ? `
-const client = new AbimongoClient({ uri: process.env.MONGO_URI });
+const client = new AbimongoClient(process.env.MONGO_URI);
 await client.connect();
 ` : ''}
 
@@ -51,9 +51,8 @@ await client.connect();
 // import a direct logger instance like below:
 // import { logger } from '@abimongo/logger'; and start using it logger.log(). This
 // takes three parameters: the log level, the message, and an optional context object.
-${options.includeLogger ? `await abLogger.log('Started', 'info', { tenantId: 'tenant-a' });` : ''}
-${options.includeLogger ? ` Logger.initialise('Implementation here.'); \n const logger = Logger.instance
- logger.info('Hello Abimongo!.')` : ''}
+${options.includeLogger ? `// await abLogger.log('Started', 'info', { tenantId: 'tenant-a' });` : ''}
+${options.includeLogger ? `const logger = Logger.initialise('Implementation here.'); \n logger.info('Hello Abimongo!.')` : ''}
 
 app.get('/', (_, res) => {
   res.send('Abimongo for REST APIs...');
@@ -75,7 +74,7 @@ app.listen(PORT, () => console.log(\`Server running on port \${PORT}\`));
   execSync(`npm init -y`, { cwd: rootDir, stdio: 'inherit' });
 
   execSync(
-    `npm install express cors dotenv ${options.useAbimongo ?
+    `npm install express@5.1.0 cors dotenv@16.4.7 ${options.useAbimongo ?
       '@abimongo/core' : ''}${options.includeLogger ? ' @abimongo/logger' : ''}`,
     { cwd: rootDir, stdio: 'inherit' }
   );
@@ -103,8 +102,7 @@ PORT=5000
 \`\`\`
 
 ## License
-
-This project is licensed under the Apache-2.0 License.
+This project is licensed under the MIT License - see the LICENSE file for details.
 `;
   fs.writeFileSync(README_FILE, readmeContent.trimStart());
 
@@ -114,21 +112,28 @@ This project is licensed under the Apache-2.0 License.
 
     fs.writeFileSync(path.join(srcDir, 'tsconfig.json'), JSON.stringify({
       compilerOptions: {
-        target: 'ES2020',
-        module: 'commonjs',
-        rootDir: './',
-        outDir: './dist',
-        esModuleInterop: true,
-        forceConsistentCasingInFileNames: true,
-        strict: true,
-        skipLibCheck: true
+        "target": "es5",
+        "lib": [
+          "dom",
+          "dom.iterable",
+          "esnext"
+        ],
+        "module": "esnext",
+        "moduleResolution": "node",
+        "rootDir": "src",
+        // "outDir": '',
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "noEmit": true
       }
     }, null, 2));
   }
 
   console.log(colorize('\n✔ REST API project setup complete!', 'green'));
   console.log(colorize(`✔ REST API project "${projectName}" created successfully.`, 'green'));
-  console.log('=====','Packages installed:','=====');
+  console.log('=====', 'Packages installed:', '=====');
   console.log(colorize(`- Abimongo Core (if selected)`, 'lightBlue'));
   console.log(colorize(`- Abimongo Logger (if selected)`, 'lightBlue'));
   console.log(colorize(`- express`, 'lightBlue'));

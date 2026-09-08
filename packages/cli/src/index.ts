@@ -1,4 +1,7 @@
+// import { showSplash } from './utils/splash';
 export { AbimongoBootstrap, initAbimongo } from '@abimongo/core';
-export { default as runCLI } from './cli';
-export { default } from './cli';
- 
+export { runCLI } from './cli';
+// export { default } from './cli';
+export * from './utils/splash';
+
+// showSplash();

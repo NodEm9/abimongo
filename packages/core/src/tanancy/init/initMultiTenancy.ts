@@ -1,5 +1,5 @@
 import { MultiTenantManager } from '../MultiTenantManager';
-import { AbimongoConfig } from '../../types';
+import { AbimongoConfig } from '../../types/index';
 import { MongoClient } from 'mongodb';
 
 export interface InitMultiTenancyOptions {
@@ -39,21 +39,34 @@ export const initMultiTenancy = async (
       throw new Error(`Invalid MongoDB URI for tenant "${tenantId}": ${uri}`);
     }
 
-    const alreadyRegistered = MultiTenantManager.hasTenant(tenantId);
-    if (alreadyRegistered) {
+    if (MultiTenantManager.hasTenant(tenantId)) {
       config?.logger?.warn?.(`Tenant "${tenantId}" is already registered. Skipping.`);
       continue;
     }
 
     if (lazy) {
-      // MultiTenantManager.registerLazyTenant(tenantId, uri, config?.enabled ? config.logger : undefined);
+      // Ensure logger implements all required methods for core/src/types/logger.types.ts
+      let loggerToUse: any = undefined;
+      if (config?.enabled && config.logger) {
+        const logger = config.logger as any;
+        loggerToUse = impl_Logger(logger);
+      }
+      MultiTenantManager.registerLazyTenant(tenantId, uri);
+      continue;
     } else {
-      const client = new MongoClient(uri);
-      await client.connect();
-
-      await MultiTenantManager.registerTenant(tenantId, `${client}`);
+      // Eagerly connect
+      await MultiTenantManager.registerTenant(tenantId, uri);
     }
-
-    // config?.logger?.info?.(`Tenant "${tenantId}" registered successfully.`);
   }
 };
+
+function impl_Logger(logger: any) {
+  const { info, warn, error, fatal, debug } = logger;
+  return {
+    info: info?.bind(logger) ?? (() => {}),
+    warn: warn?.bind(logger) ?? (() => {}),
+    error: error?.bind(logger) ?? (() => {}),
+    fatal: fatal?.bind(logger) ?? (() => {}),
+    debug: debug?.bind(logger) ?? (() => {}),
+  };
+}

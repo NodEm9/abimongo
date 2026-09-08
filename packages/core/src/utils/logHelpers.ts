@@ -1,10 +1,29 @@
 import {
-	BufferedTransporter,
 	createElasticTransport,
+	BufferedTransporter,
 	createLokiTransport,
 	createResilientTransporter,
-	createRotatingFileTransporter,  
-} from '@abimongo/logger';  
+	createRotatingFileTransporter,
+} from '@abimongo/logger';
+
+// import * as loggerPkg from '@abimongo/logger';
+
+// const rotatingTransporter =
+//   (loggerPkg as any).rotatingTransporter ??
+//   (loggerPkg as any).default?.rotatingTransporter;
+
+// const BufferedTransporterCtor =
+//   (loggerPkg as any).BufferedTransporter ??
+//   (loggerPkg as any).default?.BufferedTransporter;
+
+// if (!BufferedTransporterCtor) {
+//   throw new Error('BufferedTransporter export not found in @abimongo/logger');
+// }
+
+// export const bufferedTransporter = new BufferedTransporterCtor(rotatingTransporter, {
+//   flushInterval: 5000,
+//   flushSize: 10,
+// });  
 
 
 /**
@@ -19,7 +38,6 @@ import {
  * Creates a rotating file transporter for logging.
  * The logs will be stored in the 'logs' directory with a daily rotation.
  * The maximum size of each log file is set to 10 MB, and up to 5 backups will be kept.
- * @returns {BufferedTransporter} - A buffered transporter that handles log rotation and buffering.
  * @example
  * const logger = createLogger({
  * 	transports: [rotatingTransporter],
@@ -44,7 +62,7 @@ const rotatingTransporter = createRotatingFileTransporter({
  * const resilientLogger = createResilientTransporter(rotatingTransporter);
  * 
  */
-export const bufferedTransporter = new BufferedTransporter(rotatingTransporter, {
+ const bufferedTransporter = new BufferedTransporter(rotatingTransporter, {
 	flushInterval: 5000,
 	flushSize: 10,
 });
@@ -58,7 +76,7 @@ export const bufferedTransporter = new BufferedTransporter(rotatingTransporter, 
  * const elasticTransport = createElasticTransport('http://localhost:9200', 'abimongo-logs');
  * 
  */
-export const elasticTransport = createResilientTransporter(
+const elasticTransport = createResilientTransporter(
 	createElasticTransport('http://localhost:9200', 'logs/abimongo-logs.log')
 );
 
@@ -73,9 +91,16 @@ export const elasticTransport = createResilientTransporter(
  * 	instance: 'abimongo-instance',
  * });
  */
-export const lokiTransport = createResilientTransporter(
+ const lokiTransport = createResilientTransporter(
 	createLokiTransport('http://localhost:3100/loki/api/v1/push', {
 		job: 'abimongo',
 		// instance: 'abimongo-instance',
 	})
 );
+
+export {
+	rotatingTransporter,
+	bufferedTransporter,
+	elasticTransport,
+	lokiTransport,
+};

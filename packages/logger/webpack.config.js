@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-require-imports */
 const webpack = require('webpack');
 const path = require('path');
@@ -14,7 +15,7 @@ module.exports = {
 		filename: 'abimongo-logger.js',
 		path: path.resolve(__dirname, 'dist'),
 		library: {
-			name: 'abimongo-logger', 
+			name: 'abimongo-logger',
 			type: 'umd',
 		},
 		globalObject: 'this',
@@ -28,8 +29,14 @@ module.exports = {
 			},
 			{
 				test: /\.ts$/,
-				use: 'ts-loader',
-				exclude: /^node_modules/
+				use: {
+					loader: 'ts-loader',
+					options: {
+						transpileOnly: true,
+						onlyCompileBundledFiles: true,
+					},
+				},
+					exclude: /^node_modules/
 			},
 		],
 	},
@@ -78,4 +85,5 @@ module.exports = {
 			window: path.resolve(__dirname, 'shim/window.js')
 		})
 	],
+	context: __dirname,
 }

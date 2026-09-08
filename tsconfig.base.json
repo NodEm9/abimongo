@@ -1,29 +1,27 @@
 {
   "compilerOptions": {
-    "target": "ES2021",
+    "target": "ES2022",
     "lib": [
-      "ES2021", 
+      "ES2020", 
       "ES2022.Error",
       "ES2022.Object",
       "esnext.disposable",
       "DOM.Iterable", 
       "DOM"
       ],  
-    "moduleDetection": "auto",
+    "moduleDetection": "force",
     "module": "nodenext",
     "moduleResolution": "nodenext",
+    "types": ["node", "jest"],
     "declaration": true,
-    // No top-level `paths` mappings here to avoid pulling sibling package
-    // TypeScript sources into other packages' compilation units. Local
-    // development that prefers package source should use per-package
-    // webpack aliases (DEV-only) instead. Keeping this file plain avoids
-    // ts-loader/TypeScript program-listing issues in monorepo builds.
     "declarationMap": true,
     "esModuleInterop": true,
     "isolatedModules": true, 
+    "allowJs": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
     "noEmitOnError": true,
     "resolvePackageJsonExports": true,
     "resolveJsonModule": true, 
@@ -33,13 +31,14 @@
     "skipLibCheck": true, 
     "jsx": "react-jsx"                              
   },
-  // "ts-node": {
-  //   "transpileOnly": true,
-  //   "compiler": "typescript-cached-transpile"
-  // },
   "include": [
     "packages/**/src/**/*", 
     "docs/*", 
     ],
-  "exclude": ["node_modules", "packages/core/examples", "packages/*/src/__test__/**"]
+  "exclude": [
+   "node_modules", 
+   "**/node_modules/*", 
+   "dist",
+   "packages/core/examples", 
+   "packages/*/src/__test__/**"]
 }

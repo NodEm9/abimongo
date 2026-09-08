@@ -24,7 +24,7 @@ describe("FileTransporter", () => {
 
 	// Mock the setInterval and clearInterval functions
 	jest.useFakeTimers();
-	jest.spyOn(global, "setInterval");
+	jest.spyOn(globalThis, "setInterval");
 
 	it.only("should write log messages to the file", () => {
 		const level = "info";

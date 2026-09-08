@@ -12,7 +12,7 @@ const sidebars: SidebarsConfig = {
 				'core_tutotrials/abimongo-express', 
 				'core_tutotrials/abimongo-graphql',
 			],
-		}
+		} 
 	]
 };
 

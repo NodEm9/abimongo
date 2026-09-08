@@ -19,7 +19,7 @@ module.exports = {
 			// umdNamedDefine: true, // Use named UMD definition
 		},
 		globalObject: 'this',
-		clean: true
+		clean: false
 	},
 	externals: [
 		nodeExternals(),
@@ -46,12 +46,6 @@ module.exports = {
 				commonjs2: 'express',
 				amd: 'express',
 				root: 'express',
-			},
-			'express-serve-static-core': {
-				commonjs: 'express-serve-static-core',
-				commonjs2: 'express-serve-static-core',
-				amd: 'express-serve-static-core',
-				root: 'express-serve-static-core',
 			},
 			// Prevent bundling node_modules
 			buffer: 'commonjs buffer',
@@ -89,47 +83,29 @@ module.exports = {
 				use: {
 					loader: 'ts-loader',
 					options: {
-						// When resolving local package source via webpack aliases we may
-						// include TS files from sibling packages (e.g. ../logger/src).
-						// Override rootDir so TypeScript accepts those files as part of the
-						// program during webpack builds.
 						compilerOptions: {
 							rootDir: path.resolve(__dirname, '..')
 						},
-						// Only transpile here to avoid the TS project-file-list errors
-						// that occur when sibling-package sources are pulled into the
-						// compilation by webpack aliases. Type-checking can be run
-						// separately (e.g. via `pnpm -w -r tsc -b`) in CI if desired.
 						transpileOnly: true,
 						onlyCompileBundledFiles: true,
 					}
 				},
-				exclude: [
-					/^node_modules/,
-					/^examples\//i,
-				],
+				exclude: [ /^node_modules/, /^examples\//i ],
+				// include: path.resolve(__dirname, 'src'),
 			},
 		]
 	},
 	resolve: {
 		alias: {
 			'@gcCron': path.resolve(__dirname, 'src/gc/gcCron.node.ts'),
-			// NOTE: intentionally not aliasing @abimongo/logger to the local
-			// source here. Building logger first (workspace-aware build order)
-			// produces its `dist` artifacts and avoids pulling sibling package
-			// TS sources into this compilation which causes ts-loader/tsc
-			// project-listing issues. If you prefer source-first local
-			// development, set an env var and adjust this alias in dev only.
+			// 'ajv': path.resolve(__dirname, '../../node_modules/ajv/dist/ajv.bundle.js')
 		},
-		// alias: {
-		//  	'node:crypto': 'crypto-browserify',
-		//  	'node:stream': 'stream-browserify',
-		//  	'node:buffer': 'buffer',
-		//  	'node:path': 'path-browserify',
-		//  	'node:util': 'util',
-		//  	'node:fs': false, // if your lib doesn't need fs at runtime
-		// },
-		extensions: ['.ts', '.js'],
+		extensions: ['.ts', '.tsx', '.js'],
+		extensionAlias: {
+			'.js': ['.ts', '.js'],
+			'.mjs': ['.mts', '.mjs'],
+			'.cjs': ['.cts', '.cjs'],
+		},
 		byDependency: {
 			esm: {
 				mainFields: ['browser', 'module', 'main'],
@@ -139,7 +115,7 @@ module.exports = {
 			},
 		},
 		fallback: {
-			buffer: require.resolve('buffer/'),
+			buffer: require.resolve('buffer'),
 			console: require.resolve('console-browserify'),
 			crypto: require.resolve("crypto-browserify"),
 			path: require.resolve('path-browserify'),
@@ -150,9 +126,6 @@ module.exports = {
 		},
 		plugins: [new TsconfigPathsPlugin()]
 	},
-	// Build-time plugins. Allow disabling ESLint plugin via DISABLE_ESLINT_PLUGIN
-	// env var to avoid dependency resolution issues in CI/local where devDeps
-	// may not be installed for every package.
 	plugins: (() => {
 		const p = [
 			new webpack.DefinePlugin({

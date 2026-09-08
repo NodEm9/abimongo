@@ -15,7 +15,7 @@ export async function handleNextApp(projectName: string, options: TemplateOption
   const ext = useTypeScript ? 'ts' : 'js';
   const rootDir = path.resolve(process.cwd(), projectName);
 
-  console.log(colorize(`\n⚙️ Creating Next.js app in ${rootDir}...\n`, 'cyan'));
+  console.log(colorize(`\n Creating Next.js app in ${rootDir}...\n`, 'cyan'));
 
   // 1. Create Next.js app
   const createCommand = `npx create-next-app@latest ${projectName} ${useTypeScript ? '--typescript' : ''} --no-tailwind --eslint`;

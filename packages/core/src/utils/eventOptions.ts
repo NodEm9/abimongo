@@ -1,6 +1,7 @@
 // import { logger } from "@abimongo/logger";
+import { AbimongoLogger, LogLevel } from "@abimongo/logger";
 import { EventType } from "../types";
-import { ILogger } from "../types";
+import { ILogger } from "../types/index.js";
 
 /**
  * Mapping from event type to option key.
@@ -27,6 +28,15 @@ const eventOptionMap: Record<EventType, string> = {
 	"updateMany": "updateMany",
 	"deleteOne": "deleteOne",
 	"deleteMany": "deleteMany",
+	"pre-bulkWrite": "bulkWrite",
+	"post-bulkWrite": "bulkWrite",
+	"pre-insertMany": "insertMany",
+	"post-insertMany": "insertMany",
+	"pre-updateMany": "updateMany",
+	"post-updateMany": "updateMany",
+	"pre-deleteMany": "deleteMany",
+	"post-deleteMany": "deleteMany",
+	"transaction": "transaction"
 };
 
 /**
@@ -99,10 +109,10 @@ export function describeEvent(eventType: EventType): string {
  * @param context - Optional context or payload to log.
  */
 export function logEvent(
-	logger,
+	logger: AbimongoLogger,
 	eventType: EventType,
 	message?: string,
-	level: string = 'info',
+	level: LogLevel = 'info',
 	context?: any
 ) {
 	const eventDesc = describeEvent(eventType);
@@ -114,35 +124,48 @@ export function logEvent(
 
 // This is a simple console logger implementation
 // It's Temporary and should be replaced with a proper logging solution
-const logger: ILogger = {
-	info: (message: string) => {
-		console.info(message);
-	},
-	warn: (message: string) => {
-		console.warn(message);
-	},
-	error: (message: string) => {
-		console.error(message);
-	},
-	fatal: (message: string) => {
-		console.error(`FATAL: ${message}`);
-	},
-	debug: (message: string) => {
-		console.debug(message);
+const logger = {
+	log: async (message: string, level?: LogLevel, meta?: any) => {
+		const metaKeys = meta && typeof meta === "object" ? Object.keys(meta) : [];
+		const metaStr = metaKeys.length ? JSON.stringify(meta) : "";
+		const logEntry = `[${(level || "info").toUpperCase()}] ${message} ${metaStr}`;
+
+		// const logEntry = `[${level?.toUpperCase()}] ${message} ${Object.keys(meta).length ? JSON.stringify(meta) : ''
+		// 	}`;
+		switch (level) {
+			case 'debug':
+				console.debug(logEntry);
+				break;
+			case 'info':
+				console.info(logEntry);
+				break;
+			case 'warn':
+				console.warn(logEntry);
+				break;
+			case 'error':
+			case 'fatal':
+				console.error(logEntry);
+				break;
+			case 'trace':
+				console.trace(logEntry);
+				break;
+			default:
+				console.log(logEntry);
+		}
 	}
-};
+} as AbimongoLogger;
 
 /**
  * Logs an event with a default logger.
  * @param eventType - The type of the event.
  * @param message - Optional custom message.
- * @param level - Log level (default: 'info').
  * @param context - Optional context or payload to log.
+ * @param level - Log level (default: 'info').
  */
 export function logDefaultEvent(
 	eventType: EventType,
 	message?: string,
-	level: string = 'info',
+	level?: LogLevel,
 	context?: any
 ) {
 	logEvent(logger, eventType, message, level, context);

@@ -8,9 +8,8 @@ import {
   generateGCRunner,
   generateAppStructure,
 } from '../templates';
-import { foldersAndFiles } from '../utils';
+import { foldersAndFiles, colorize } from '../utils';
 import { AbimongoConfig, ProjectOptions } from '../types';
-import { colorize } from '../utils/color-palatte';
 
 
 export async function generateProject(options: AbimongoConfig) {
@@ -48,7 +47,8 @@ export async function generateProject(options: AbimongoConfig) {
 export async function generateProjectWithConfig(config: AbimongoConfig) {
   const options: ProjectOptions = {
     projectName: config.projectName || 'abimongo-app',
-    mongoUri: config.mongoUri,
+    provider: config.provider,
+    mongoClient: config.mongoClient,
     graphql: config.graphql,
     features: config.features,
     multiTenant: config.multiTenant,

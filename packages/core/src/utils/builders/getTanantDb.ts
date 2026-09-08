@@ -12,7 +12,7 @@ const dbCache: Map<string, Db> = new Map();
  * @returns {Promise<Db>} A promise that resolves to the MongoDB database instance for the tenant.
  * @throws {Error} If the database for the specified tenant is not found.
  */
-export const getTenantDB = async (tenantId: string): Promise<Db> => {
+ const getTenantDB = async (tenantId: string): Promise<Db> => {
   if (dbCache.has(tenantId)) {
     return dbCache.get(tenantId)!;
   }

@@ -5,12 +5,12 @@
     "provenance": false
   },
   "description": "Enterprise-grade MongoDB ORM built on the official MongoDB driver.",
-  "main": "./dist/abimongo-core.js",
-  "module": "./dist/abimongo-core.js",
-  "browser": "./dist/abimongo-core-browser.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/abimongo-core.js",
+  "module": "dist/abimongo-core.js",
+  "browser": "dist/abimongo-core-browser.js",
+  "types": "dist/index.d.ts",
   "bin": {
-    "abimongo": "./dist/abimongo-core-cli.js"
+    "abimongo": "dist/abimongo-core-cli.js"
   },
   "exports": {
     ".": {
@@ -22,6 +22,11 @@
       "import": "./dist/abimongo-core-browser.js",
       "require": "./dist/abimongo-core-browser.js",
       "types": "./dist/browser.d.ts"
+    },
+    "./bin": {
+      "import": "./dist/abimongo-core-cli.js",
+      "require": "./dist/abimongo-core-cli.js",
+      "types": "./dist/cli.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -38,8 +43,9 @@
     "build:node": "webpack --config webpack.node.config.js",
     "build:cli": "webpack --config webpack.cli.config.js",
     "build:web": "webpack --config webpack.web.config.js",
+    "build:types": "tsc -p tsconfig.json --excludeDirectories **/node_modules",
     "clean": "rimraf dist",
-    "build": "pnpm run build:node && pnpm run build:cli && pnpm run build:web",
+    "build": "pnpm run build:types && pnpm run build:node && pnpm run build:cli && pnpm run build:web",
     "lint": "eslint src",
     "clean:all": "rimraf dist && rimraf docs",
     "typedoc": "typedoc --options typedoc.json",
@@ -78,10 +84,11 @@
     "url": "https://github.com/NodEm9/abimongo"
   },
   "dependencies": {
+    "@abimongo/adapter-types": "workspace:*",
     "@abimongo/logger": "workspace:*",
-    "@babel/runtime": "^7.28.4",
-    "commander": "^14.0.2",
-    "fs-extra": "^11.3.3",
+    "@babel/runtime": "7.28.4",
+    "commander": "14.0.2",
+    "fs-extra": "11.3.3",
     "node-cron": "4.2.0",
     "reflect-metadata": "0.2.2"
   },
@@ -92,15 +99,15 @@
     "ajv-formats": "3.0.1",
     "buffer": "6.0.3",
     "console-browserify": "^1.2.0",
-    "dotenv": "^16.4.7",
-    "express": "^5.1.0",
+    "dotenv": "16.4.7",
+    "express": "5.1.0",
     "graphql": "16.11.0",
     "graphql-http": "1.22.4",
     "graphql-redis-subscriptions": "2.7.0",
     "graphql-subscriptions": "3.0.0",
     "graphql-tag": "2.12.6",
     "graphql-ws": "5.16.2",
-    "jsonwebtoken": "^9.0.2",
+    "jsonwebtoken": "9.0.2",
     "mongodb": "^5 || ^6",
     "redis": "4.7.1",
     "ws": "8.18.3"
@@ -142,7 +149,7 @@
     "axios": "^1.13.2",
     "babel-loader": "^10.0.0",
     "clean-webpack-plugin": "^4.0.0",
-    "conventional-changelog-cli": "^4.1.0",
+    "conventional-changelog": "^7.2.0",
     "crypto-browserify": "^3.12.1",
     "eslint": "^9.39.2",
     "eslint-webpack-plugin": "^5.0.2",
@@ -158,19 +165,19 @@
     "stream-browserify": "^3.0.0",
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.6",
-    "ts-loader": "^9.5.4",
+    "ts-loader": "9.5.4",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "tsconfig-paths-webpack-plugin": "^4.2.0",
-    "tslib": "^2.8.1",
+    "tslib": "2.8.1",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
+    "typescript": "5.9.3",
     "typescript-eslint": "8.30.1",
-    "webpack": "5.98.0",
+    "webpack": "5.104.1",
     "webpack-cli": "6.0.1",
-    "webpack-node-externals": "^3.0.0",
-    "webpack-remove-debug": "^0.1.0",
-    "webpack-shebang-plugin": "^1.1.8"
+    "webpack-node-externals": "3.0.0",
+    "webpack-remove-debug": "0.1.0",
+    "webpack-shebang-plugin": "1.1.8"
   },
   "engines": {
     "node": ">=20.11.0",

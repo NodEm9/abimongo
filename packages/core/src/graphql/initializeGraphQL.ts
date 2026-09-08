@@ -59,7 +59,7 @@ export async function initializeGraphQL(customTypeDefs: string = "", customResol
   } catch (err: any) {
     // If dynamic import fails or the compatibility check throws, warn and continue.
     // We still return the schema so downstream callers can decide, but surface the warning.
-    console.warn('[Abimongo] Could not validate graphql constructor compatibility:', err && err.message ? err.message : err);
+    console.log('[Abimongo] Could not validate graphql constructor compatibility:', err && err.message ? err.message : err);
   }
 
   return schema;

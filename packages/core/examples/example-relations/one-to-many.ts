@@ -1,4 +1,4 @@
-import { AbimongoClient, AbimongoSchema, AbimongoModel } from "../../src/lib-core";
+import { AbimongoClientModule, AbimongoSchema, AbimongoModel } from "../../src/lib-core";
 import { castId } from "../../src/utils";
 import { dbDriver } from "../dbConfig";
 import { SchemaType, Document } from "../../src/types";
@@ -40,23 +40,19 @@ export async function createOrder() {
 	const userCollection = db.getCollection<User>('users');
 
 	const tenantId = 'tenantId';
-	const { db: tenantDB, client: tenantClient } = await AbimongoClient.getDatabase(tenantId, process.env.MONGO_URI!);
+	const { db: tenantDB, client: tenantClient } = await AbimongoClientModule.getDatabase(process.env.MONGO_URI!,);
 
 
 	const OrderModel = new AbimongoModel<Order>({
-		db: tenantDB,
 		collectionName: `${orderCollection.collectionName}`, // Use the tenant-specific collection name
 		schema: orderSchema,
-		tenantId: tenantId,
-		client: tenantClient
+		provider: tenantDB,
 	});
 
 	const UserModel = new AbimongoModel<User>({
-		db: tenantDB,
 		collectionName: `${orderCollection.collectionName}`, // Use the tenant-specific collection name
 		schema: userSchema,
-		tenantId: tenantId,
-		client: tenantClient
+		provider: tenantDB,
 	});
 
 	// Create User

@@ -1,4 +1,3 @@
-// import webpack from 'webpack';
 const webpack = require('webpack');
 const path = require('path');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
@@ -51,3 +50,82 @@ module.exports = {
 		__filename: false,
 	},
 };
+
+
+
+// // import webpack from 'webpack';
+// const webpack = require('webpack');
+// const path = require('path');
+// const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
+// const nodeExternals = require('webpack-node-externals');
+
+// module.exports = {
+// 	mode: 'production',
+// 	target: 'node',
+// 	entry: './src/bin/abimongo-core-cli.ts',
+// 	output: {
+// 		path: path.resolve(__dirname, 'dist'),
+// 		filename: 'abimongo-core-cli.js',
+// 	},
+// 	devtool: 'source-map', // Generate source maps for debugging
+// 	externalsType: 'umd',
+// 	externals: [nodeExternals()],
+// 	resolve: {
+// 		extensions: ['.ts', '.tsx', '.js'],
+// 		extensionAlias: {
+// 			'.js': ['.ts', '.js'],
+// 			'.mjs': ['.mts', '.mjs'],
+// 			'.cjs': ['.cts', '.cjs'],
+// 		},
+// 		byDependency: {
+// 			esm: {
+// 				mainFields: ['browser', 'module', 'main'],
+// 			},
+// 			commonjs2: {
+// 				aliasFields: ['browser', 'module'],
+// 			},
+// 		},
+// 		plugins: [
+// 			new TsconfigPathsPlugin({
+// 				configFile: path.resolve(__dirname, 'tsconfig.json'),
+// 			}),
+// 		],
+// 	},
+// 	module: {
+// 		rules: [
+// 			// { test: /\.ts$/, use: 'ts-loader', exclude: /node_modules/ },
+// 			{
+// 				test: /\.tsx?$/,
+//         use: [
+//           {
+//             loader: 'ts-loader',
+//             options: {
+//               // This is the magic flag for your situation:
+//               // It prevents ts-loader from trying to type-check files in node_modules
+// 							transpileOnly: true, 
+// 							onlyCompileBundledFiles: true,
+//               // happyPackMode: true
+//             },
+//           },
+//         ],
+//         // Use an absolute path to be 100% sure
+//         include: path.resolve(__dirname, 'src'), 
+//         exclude: /^node_modules/,
+// 			},
+// 		],
+// 	},
+// 	stats: {
+// 		errorDetails: true
+// 	},
+// 	plugins: [
+// 		// Adds the shebang line for Node.js CLI
+// 		new webpack.BannerPlugin({
+// 			banner: '#!/usr/bin/env node',
+// 			raw: true,
+// 		}),
+// 	],
+// 	node: {
+// 		__dirname: false,
+// 		__filename: false,
+// 	},
+// };

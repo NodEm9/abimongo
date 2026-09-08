@@ -1,8 +1,7 @@
 import { AbimongoModel } from '../lib-core';
-import { createModel, getModelFilesFromPath } from '../utils';
+import { Model, getModelFilesFromPath, colorize } from '../utils';
 import path from 'path';
 import { AbimongoConfig, Document } from '../types';
-import { colorize } from '../utils/color-palatte';
 
 
 let config: AbimongoConfig | undefined; 
@@ -32,11 +31,11 @@ export async function runGarbageCollectorOnAllModels() {
 	}
 }
 
-export async function runGarbageCollector(Model: typeof createModel<Document>) {
+export async function runGarbageCollector(abimongoModel: typeof Model<Document>) {
 	const expirationDays = 7; // or fetch from config
 	const cutoffDate = new Date(Date.now() - expirationDays * 24 * 60 * 60 * 1000);
 
-	const deletedDocs = await Model.prototype.deleteMany({
+	const deletedDocs = await abimongoModel.prototype.deleteMany({
 		deletedAt: { $lt: cutoffDate },
 	});
 

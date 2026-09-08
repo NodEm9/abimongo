@@ -3,8 +3,8 @@ import { Command } from 'commander';
 import { spawn, spawnSync } from 'child_process';
 import path from 'path';
 import fs from 'fs-extra';
-import { AbimongoBootstrap } from '@abimongo/core';
-import { colorize } from '../../core/src/utils/color-palatte';
+import { AbimongoBootstrap, colorize } from '@abimongo/core';
+// import { colorize } from '../../core/src/utils/color-palatte';
 
 // Instead of requiring the create package (which may execute its CLI
 // on import), spawn the create CLI as a child process when delegating
@@ -20,7 +20,7 @@ const createBin = path.resolve(createBinRelative);
  * Run the Abimongo CLI
  * This function is responsible for executing the Abimongo command-line interface.
  */
-export default function runCLI() {
+export function runCLI() {
   // lightweight banner; defer to create CLI for full UX
   try {
     // Show a friendly splash banner (ASCII or figlet). Use dynamic import to satisfy ESLint
@@ -269,8 +269,8 @@ export default function runCLI() {
           console.log(success('✅ Abimongo initialized successfully (connections established where possible).'));
           try {
             const client = abimongo.getMongoClient();
-            if (client && typeof client.disconnect === 'function') {
-              await client.disconnect();
+            if (client && typeof (await client.client()).close === 'function') {
+              await (await client.client()).close();
             }
           } catch {
             // ignore cleanup errors

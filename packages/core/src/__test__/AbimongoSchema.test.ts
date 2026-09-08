@@ -1,7 +1,7 @@
 import { Collection } from "mongodb";
 import { AbimongoSchema } from "../lib-core";
 import { Document, Relationship, SchemaDefinition } from "../types";
-import { bufferedTransporter } from "../utils";
+// import { bufferedTransporter } from "../utils";
 import { shutdownLogger } from '@abimongo/logger';
 
 
@@ -290,7 +290,7 @@ describe('schema', () => {
 
 	afterAll(async () => {
 		schema = null as any;
-		await bufferedTransporter.stop();
+		// await bufferedTransporter.stop();
 		await shutdownLogger();
 	});
 

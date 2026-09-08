@@ -13,5 +13,7 @@ module.exports = {
     // Map workspace packages to local source folders so tests can require package imports
     '^@abimongo/(.*)$': '<rootDir>/../$1/src',
   },
+  testPathIgnorePatterns: ['/node_modules/', '/dist/'],
+  // modulePathIgnorePatterns: ['<rootDir>/dist/'],
   testTimeout: 30000,
 };

@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 // import cors from 'cors';
 // import { main, Profile, User } from './example-relations/one-to-one';
-import { main, getUsers, userSchema, postSchema } from './example-1';
+import { main, getUsers, deleteUser, userSchema, postSchema, setup } from './example-1';
 import { dbDriver, dbConfig } from './dbConfig';
 import jwt from 'jsonwebtoken';
 import { ApolloServer } from '@apollo/server';
@@ -13,8 +13,8 @@ import { execute, subscribe } from 'graphql';
 import { SubscribePayload, ExecutionResult } from 'graphql-ws';
 // import { ExpressContextFunctionArgument, expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import { applyMultiTenancy } from '../src/tanancy/applyMultiTenancy'
 import { getTenantModel } from '../src/tanancy/TenantModelResolver';
+import { createExpressAdapter } from '../../adapter-express/src/index';
 import { consoleTransport, MetricsTracker } from '@abimongo/logger';
 // import { logger } from './example-1/router';
 import { logger } from '../src/config';
@@ -23,7 +23,7 @@ import { AbimongoGC } from '../src/gc/AbimongoGC';
 import { bufferedTransporter, lokiTransport } from '../src';
 // import {createLogger} from '../src/loggers/createLogger';
 import { MultiTenantManager } from '../src';
-import { elasticTransport } from '../dist';
+// import { elasticTransport } from '../dist';
 dbDriver()
 
 // const logger = setupLogger(abimongoConfig['./logs/debug.log']);
@@ -64,59 +64,94 @@ trackerMetric.start(60000); // Track metrics every 60 seconds
 //handle Multi-tenancy registration and initialization
 const tenants = dbConfig.tenantUri;
 
+
+
 // const tenants = JSON.parse(JSON.stringify(initOps.tenants.tenant));
 export const applyMTenant = async () => {
 
+	const adapter = await createExpressAdapter();
+	
+	adapter.name = 'express';
+	adapter.install(app, 
+		{
+			tenancy: {
+				header: 'x-tenant-id',
+				fallback: 'tenant-a',
+			},
+			requestIdHeader: 'x-request-id',
+			enableTransactions: true,
+	});
+
+	return adapter;
+	// return await abimongoExpress({
+	// 	header: 'x-tenant-id',
+	// 	cookie: 'tenant',
+	// 	param: 'tenantId',
+	// 	subdomain: false,
+	// 	jwtClaim: 'tenantId',
+	// 	fallback: 'tenant-a',
+	// })
+
+	// Install tenancy middleware
+	// return await installTenancyExpress(app, tenants, {
+	// 	tenancy: {
+	// 		header: 'x-tenant-id',
+	// 		fallback: 'tenant-a',
+	// 	},
+	// 	initOptions: {
+	// 		lazy: true,  // Lazy initialization of tenants
+	// 	},
+	// });
+
 	// Use the applyMultiTenancy function to set up multi-tenancy
 	// with the specified options and the app instance.
-	return await applyMultiTenancy(app, tenants, {
-		headerKey: 'x-tenant-id',
-		initOptions: {
-			lazy: true,  // Lazy initialization of tenants
-			config: {
-				enabled: true,
-				logLevel: 'info', // Set the log level
-				useColor: true, // Enable colored logs
-				transports: [
-					{
-						write: async (message: string, level?: any, meta?: any[]): Promise<void> => {
-							console.log(message); // Log to console
-							return Promise.resolve();
-						},
-					},
-					consoleTransport(true),
-				], // Use console transport for logging
-				json: false, // Disable JSON format for logs,
-				formatOptions: {
-					// Customize the log format if needed
-					timestamp: true, // Include timestamp in logs
-					prefix: '[ABIMONGO]', // Prefix for log messages
-					source: 'abimongo', // Source of the logs
-					colorize: true, // Enable colors in logs
-					json: true
-				},
-				hooks: {
-					onLog: (entry) => {
-						if (entry.level === 'info') {
-							console.log(`[ALERT] ${entry.message}`);
-						}
-					},
-					onError: (error, context) => {
-						console.error('Logging error occurred:', error, context);
-					},
-				}
-				// Place valid AbimongoLoggerSettings properties here if needed
-			}
-		},
-	})
+	// return await applyMultiTenancy(app, tenants, {
+	// 	headerKey: 'x-tenant-id',
+	// 	initOptions: {
+	// 		lazy: true,  // Lazy initialization of tenants
+	// 		config: {
+	// 			enabled: true,
+	// 			logLevel: 'info', // Set the log level
+	// 			useColor: true, // Enable colored logs
+	// 			transports: [
+	// 				{
+	// 					write: async (message: string, level?: any, meta?: any[]): Promise<void> => {
+	// 						console.log(message); // Log to console
+	// 						return Promise.resolve();
+	// 					},
+	// 				},
+	// 				consoleTransport(true),
+	// 			], // Use console transport for logging
+	// 			json: false, // Disable JSON format for logs,
+	// 			formatOptions: {
+	// 				// Customize the log format if needed
+	// 				timestamp: true, // Include timestamp in logs
+	// 				prefix: '[ABIMONGO]', // Prefix for log messages
+	// 				source: 'abimongo', // Source of the logs
+	// 				colorize: true, // Enable colors in logs
+	// 				json: true
+	// 			},
+	// 			hooks: {
+	// 				onLog: (entry) => {
+	// 					if (entry.level === 'info') {
+	// 						console.log(`[ALERT] ${entry.message}`);
+	// 					}
+	// 				},
+	// 				onError: (error, context) => {
+	// 					console.error('Logging error occurred:', error, context);
+	// 				},
+	// 			}
+	// 			// Place valid AbimongoLoggerSettings properties here if needed
+	// 		}
+	// 	},
+	// })
 }
 
 
-applyMTenant().then((tenants) => {
-	console.info(`Multi-tenancy applied successfully! Tenants: ${Object.keys(dbConfig.tenantUri).join(', ')} `,);
-	return tenants;
+applyMTenant().then(() => {
+	console.info(`Registerd tenants successfully! Tenants: ${Object.keys(dbConfig.tenantUri).join(', ')} `,);
 }).catch((err: any) => {
-	console.log('Failed to register Tenants', err);
+	console.error('Failed to register Tenants', err);
 	process.exit(1)
 })
 
@@ -124,17 +159,17 @@ const registerTenants = async () => {
 	// Register tenants
 	for (const [tenantId, uri] of Object.entries(dbConfig.tenantUri)) {
 		await MultiTenantManager.registerTenant(tenantId, uri);
-		logger.info(`Registered tenant: ${tenantId} with URI: ${uri}`);
+		console.info(`Registered tenant: ${tenantId} with URI: ${uri}`);
 	}
 };
 
 registerTenants().then(() => {
-	logger.info('All tenants registered successfully.');
+	console.info('All tenants registered successfully.');
 }).catch((err) => {
-	logger.error('Error registering tenants:', err);
+	console.error('Error registering tenants:', err);
 });
 
-
+const newTenant = Object.keys(dbConfig.tenantUri)[0];
 
 app.get('/user', async (req, res) => {
 	const users = await getUsers() as { users: UserType[] };
@@ -153,45 +188,54 @@ app.get('/user', async (req, res) => {
 	res.json(users);
 });
 
+
 app.post('/user', async (req, res) => {
-	const tenantId = req.headers['x-tenant-id'] || 'tenant-a';
+	const tenantId = req.headers['x-tenant-id'] || newTenant;
 	const data: UserType = req.body;
 
-	const users = await dbDriver();
-	const userCollection = users.getCollection<UserType>('users');
+	const clientDb = await dbDriver();
+	const UserModel = await setup()
+	// const userCollection = clientDb.getCollection<UserType>('users');
 	// // const profileData: Profile = req.body;
-	const tenantModel = await getTenantModel({
-		modelName: userCollection.collectionName,
-		schema: userSchema,
-		tenantId: dbConfig.tenantId['tenant-a']!,
-	});
-	if (tenantId.length) {
-		logger.info(`Creating user for tenant: ${tenantId.toLowerCase()}`);
-	}
-	console.log('Tenant model:', tenantModel.name);
-	console.log('Data: ', { ...data });
-	if (!tenantModel) {
-		console.error('Tenant model not found');
-		res.status(500).json({ error: 'Tenant model not found' });
+	// const tenantModel = await getTenantModel({
+	// 	collectionName: userCollection.collectionName || 'users',
+	// 	schema: userSchema,
+	// 	tenantId: tenantId,
+	// });
+	// if (tenantId.length) {
+	// 	logger.info(`Creating user for tenant: ${tenantId.toLowerCase()}`);
+	// }
+	// console.log('Tenant model:', tenantModel.name);
+	// console.log('Data: ', { ...data });
+	// if (!tenantModel) {
+	// 	console.error('Tenant model not found');
+	// 	res.status(500).json({ error: 'Tenant model not found' });
+	// }
+
+	try {
+		// const newData = await main({ ...data, tenantId: tenantId.toString() });
+
+		const newData = await UserModel.create({ ...data, tenantId: tenantId });
+		res.json({ data: newData });
+	} catch (error) {
+		console.error(error);
+		res.status(500).send({ error: "Failed to create data" });
+	} finally {
+		await clientDb.close().catch((e) => console.error("close failed:", e));
 	}
 
-	const user = await main(data);
-	if (!user) {
-		console.log('User not created: Check your data');
-		res.status(500).json({ error: 'User not created: Check your inputs' });
-	} else {
-		console.log('User created:', user);
-	}
-	res.json(user);
+	// const user = await main({ ...data } as UserType);
+
+	// res.json(user);
 });
 
 app.post('/post', async (req, res) => {
 	const tenanaId = req.headers['x-tenant-id'] as string;
 	const data = req.body;
 	const tenantModel = await getTenantModel({
-		modelName: 'posts',
+		collectionName: 'posts',
 		schema: postSchema,
-		tenantId: dbConfig.tenantId['tenant-a']!,
+		tenantId: tenanaId,
 	});
 	console.info('Tenant model:', tenantModel.name);
 	if (!tenantModel) {
@@ -207,6 +251,42 @@ app.post('/post', async (req, res) => {
 		console.info('Post created:', post);
 	}
 	res.json(post);
+});
+
+app.delete('/user/:id', async (req, res) => {
+	const tenanaId = req.headers['x-tenant-id'] as string;
+	const userId = req.params.id;
+	// const postId = req.params.id;
+	// const tenantModel = await getTenantModel({
+	// 	collectionName: 'posts',
+	// 	schema: postSchema,
+	// 	tenantId: tenanaId,
+	// });
+	// console.info('Tenant model:', tenantModel.name);
+
+	// if (!tenantModel) {
+	// 	console.error('Tenant model not found');
+	// 	res.status(500).json({ error: 'Tenant model not found' });
+	// }
+
+	// const deletedPost = await tenantModel.deleteOne({ _id: postId });
+	// if (deletedPost.deletedCount === 0) {
+	// 	console.error('Post not found or already deleted');
+	// 	res.status(404).json({ error: 'Post not found or already deleted' });
+	// } else {
+	// 	console.info('Post deleted successfully');
+	// 	res.json({ message: 'Post deleted successfully' });
+	// }
+
+	const deletedUser = await deleteUser(userId);
+	if (deletedUser.deletedCount === 0) {
+		console.error('User not found or already deleted');
+		res.status(404).json({ error: 'User not found or already deleted' });
+	} else {
+		console.info('User deleted successfully');
+		res.json({ message: 'User deleted successfully' });
+	}
+
 });
 
 app.listen(PORT, () => {

@@ -1,7 +1,7 @@
 import { AbimongoSchema } from '../../lib-core';
-import { AbimongoGC } from '../../gc/AbimongoGC';
+import { AbimongoGC } from '../../gc';
 import { Document } from '../../types';
-import { bufferedTransporter } from '../../utils';
+// import { bufferedTransporter } from '../../utils';
 import { shutdownLogger } from '@abimongo/logger';
 
 /**
@@ -77,7 +77,7 @@ describe('AbimongoGC (mocked DB)', () => {
   });
 
   afterAll(async () => {
-    await bufferedTransporter.stop();
+    // await bufferedTransporter.stop();
     await shutdownLogger();
   });
 });

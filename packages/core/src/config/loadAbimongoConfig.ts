@@ -1,8 +1,12 @@
 import fs from 'fs-extra';
 import path from 'path';
-import Ajv, { ValidateFunction } from 'ajv';
-import { AbimongoConfig } from '../types';
+import { Ajv } from 'ajv';
+import type { ValidateFunction } from 'ajv';
+import type { AbimongoConfig } from '../types/AbimongoConfig';
 import configSchema from './abimongo.config.schema.json';
+// import AjvLib from 'ajv';
+// // @ts-ignore
+// const Ajv = AjvLib.default || AjvLib;
 
 
 const ajv = new Ajv({
@@ -125,9 +129,9 @@ export async function loadAbimongoConfig(configPath?: string): Promise<AbimongoC
       validate = ajv.compile(configSchema);
     }
 
-    const isValid = validate(parsed);
+    const isValid = validate!(parsed);
 
-    if (!isValid && validate.errors) {
+    if (!isValid && validate?.errors) {
       console.error('[Abimongo] Invalid configuration:');
       console.error(validate.errors);
       process.exit(1);
@@ -137,8 +141,14 @@ export async function loadAbimongoConfig(configPath?: string): Promise<AbimongoC
   }
 
   // Basic validation
-  if (!parsed.projectName || !parsed.mongoUri) {
+  if (!parsed.projectName || !parsed.connection?.uri) {
     throw new Error('Invalid config: "projectName" and "mongoUri" are required.');
+  }
+
+  if(parsed.provider && parsed.mongoClient) {
+    throw new Error('Invalid config: "provider" and "mongoClient" cannot both be provided. Please choose one.');
+  } else if (!parsed.provider && !parsed.mongoClient) {
+    throw new Error('Invalid config: Either "provider" or "mongoClient" must be provided.');
   }
 
   // Provide sensible defaults

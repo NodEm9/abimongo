@@ -3,19 +3,19 @@
     "package": "@abimongo/core",
     "week": 6,
     "month": 15,
-    "year": 537
+    "year": 538
   },
   {
     "package": "@abimongo/cli",
     "week": 6,
     "month": 11,
-    "year": 818
+    "year": 819
   },
   {
     "package": "@abimongo/logger",
     "week": 5,
     "month": 14,
-    "year": 594
+    "year": 595
   },
   {
     "package": "@abimongo/create",

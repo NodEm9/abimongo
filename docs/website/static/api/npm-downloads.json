@@ -9,7 +9,7 @@
     "package": "@abimongo/cli",
     "week": 6,
     "month": 15,
-    "year": 661
+    "year": 654
   },
   {
     "package": "@abimongo/logger",
@@ -20,7 +20,7 @@
   {
     "package": "@abimongo/create",
     "week": 7,
-    "month": 20,
-    "year": 955
+    "month": 19,
+    "year": 939
   }
 ]
